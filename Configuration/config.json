@@ -1,0 +1,54 @@
+{
+  "browserDriverPaths": {
+    "browser": "Chrome",
+    "chromeExecutablePath": ".\\drivers\\chromedriver.exe",
+    "edgeExecutablePath": ".\\drivers\\msedgedriver.exe",
+    "firefoxExecutablePath": "IE_EXECUTABLE_PATH="
+  },
+  "logData": {
+    "logoFileName": "Resources\\xvs_mvp_logo.png",
+    "logDirectoryPath": "log",
+    "logFileName": "[RR-Automation]_Log.txt",
+    "reportsDirectoryPath": "AutomationReports",
+    "reportFileName": "AutomationReport.html",
+    "screenshotsDirectoryPath": "Screenshots",
+    "outputDirectoryPath": "Output",
+    "databaseDirectoryPath": "Database",
+    "backupDirectoryPath": "Backup"
+  },
+  "inputFile": {
+    "inputFileName": ".\\TestData\\Input_file.xlsx"
+  },
+ "x4aStageCredentials": {
+    "x4aBaseUrl": "https://stage.ingrammicro.com/x4a/app/Orders/Sales/OrderManagement",
+    "username": "Svc-CRMTest_QA30Global@ingrammicro.com",
+    "enc_password": "6/SM2aH7cXFJFbKL9fbrHQ=="
+  },
+  "x4aBetaCredentials": {
+    "x4aBaseUrl": "https://beta.ingrammicro.com/x4a/app/Orders/Sales/OrderManagement",
+    "username": "Svc-CRMTest_QA30Global@ingrammicro.com",
+    "enc_password": "6/SM2aH7cXFJFbKL9fbrHQ=="
+  },
+  "dbLocation": {
+    "db_file_path": "D:\\Database\\xvs_lite_automation_db.sqlite3",
+    "db_script_file_path": "db\\DbScript.sql"
+  },
+  "retryParams": {
+    "max_wait_period": "1500",
+    "wait_frequency": "300"
+  },
+  "testType": {
+    "test_type": "Regression"
+  },
+  "dateFormat": {
+    "connectParamsId": "delayshipdate",
+    "IM360DateFormat": "%m/%d/%Y",
+    "connectDateFormat": "%Y-%m-%d"
+  },
+  "executionType": {
+    "execution_type": "Full"
+  },
+  "environment": {
+    "environment_type": "Stage"
+  }
+}
