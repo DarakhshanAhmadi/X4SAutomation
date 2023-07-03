@@ -18,7 +18,7 @@ class X4AAgedOrdersPage(BasePage):
         try:
             self.do_click_by_locator(self.ORDER_MENU)
             self.do_click_by_locator(self.AGED_ORDER_OPTION)
-            self.logger.info("Clicked on Aged orders in the menu")
+            self.logger.info("Clicked on Aged orders in the menu.")
         except Exception as e:
             self.logger.error('Exception occured while clicking on Aged orders ' + str(e))
             raise e
