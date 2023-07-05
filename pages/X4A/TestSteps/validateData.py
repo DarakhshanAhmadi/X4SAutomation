@@ -66,9 +66,9 @@ class CreateOrder:
             return False
 
     def click_on_aged_order(self, feature_file_name, screen_shot):
-        x4a_sales_order = X4AAgedOrdersPage(self.driver)
+        x4a_aged_order = X4AAgedOrdersPage(self.driver)
         try:
-            x4a_sales_order.go_to_aged_orders()
+            x4a_aged_order.go_to_aged_orders()
             self.logger.info("Successfully clicked on aged orders")
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                                         + "aged_orders_clicked_successfully.png")
@@ -83,7 +83,6 @@ class CreateOrder:
             return False
 
     """ This method filters order by feature file name and returns order data """
-
     def filtered_orders_by_feature_file(self, test_data_order, feature_file_name):
         filtered_order_data = test_data_order.loc[(test_data_order.FeatureFileName == feature_file_name)]
         return filtered_order_data
