@@ -19,6 +19,9 @@ db_file_path = ReadConfig.get_db_file_path()
 def test_login_the_x4a_portal():
     pass
 
+@scenario("features/hardware/aged_orders.feature", "Search order by BCN from Aged Order")
+def test_aged_orders():
+    pass
 
 @given(parsers.parse('launch chrome browser and open the X4A url'))
 def launch_browser(init_driver):
@@ -67,7 +70,6 @@ def click_on_aged_orders(init_driver):
     try:
         if not create_order_steps.click_on_aged_order(feature_file_name, screen_shot):
             raise Exception("Failed to click on aged orders")
-        init_driver.refresh()
     except Exception as e:
         logger.error("Error while clicking on aged orders %s", e)
         raise e

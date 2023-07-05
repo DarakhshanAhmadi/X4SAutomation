@@ -22,6 +22,9 @@ class BasePage:
     SEARCH_BOX = (By.CSS_SELECTOR, "input[placeholder='Filter by keyword']")
     SEARCH_BUTTON = (By.CSS_SELECTOR, "button[title='Start search']")
     CREDIT_HOLD_TITLE = (By.XPATH, "//*[text()='Credit Hold']")
+    PAGINATION_PAGES = (By.XPATH, "//div[contains(@data-testid,'-page')]")
+    PAGINATION_NEXT_PAGE_ARROW = (By.XPATH, "//div[@class='MuiListItemButton-root MuiListItemButton-gutters MuiButtonBase-root css-1cl35i1-MuiButtonBase-root-MuiListItemButton-root']/*[@data-testid='NavigateNextIcon']")
+
     """constructor of the Base page class"""
 
     def __init__(self, driver):
@@ -251,4 +254,29 @@ class BasePage:
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
         self.logger.info("Scrolled horizontally")
 
-
+    def go_to_page(self, page_number):
+        try:
+            pages = self.get_all_elements(self.PAGINATION_PAGES)
+            first_page_number = int(pages[0].text)
+            last_page_number = int(pages[-1].text)
+            self.logger.info(first_page_number)
+            self.logger.info(last_page_number)
+            if page_number < first_page_number or page_number > last_page_number:
+                raise Exception("The page number provided does not exist.")
+            if page_number == last_page_number:
+                self.logger.info("Clicked on last page " + str(last_page_number))
+                pages[-1].click()
+            else:
+                for page in range(first_page_number, last_page_number + 1):
+                    page_xpath = (By.XPATH, "//div[@data-testid = '" + str(page) + "-page']")
+                    ui_page_number = self.get_element_text(page_xpath)
+                    if str(page_number) in ui_page_number:
+                        self.logger.info("Clicked on page " + str(page_number))
+                        break
+                    else:
+                        self.logger.info("Page number did not match, checking with next page.")
+                        self.do_click_by_locator(self.PAGINATION_NEXT_PAGE_ARROW)
+                        time.sleep(1)
+        except Exception as e:
+            self.logger.error("Exception occurred while switching to page tab " + str(e))
+            raise e
