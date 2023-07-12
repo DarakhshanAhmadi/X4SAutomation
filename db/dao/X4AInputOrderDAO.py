@@ -43,8 +43,7 @@ class X4AInputOrderDAO(BaseTest):
                 reseller_bcn = record[0]
         except Error as e:
             self.logger.error(
-                "Exception occurred while trying to fetch reseller bcn from IM360_input_order table by test "
-                "case ID"
+                "Exception occurred while trying to fetch reseller bcn from x4a_input_order table by feature file name"
                 + str(e))
             raise e
         finally:
@@ -67,8 +66,7 @@ class X4AInputOrderDAO(BaseTest):
                 im_order_no = record[0]
         except Error as e:
             self.logger.error(
-                "Exception occurred while trying to fetch IM Order Number from IM360_input_order table by test "
-                "case ID"
+                "Exception occurred while trying to fetch IM Order Number from x4a_input_order table by feature file name"
                 + str(e))
             raise e
         finally:
@@ -91,8 +89,7 @@ class X4AInputOrderDAO(BaseTest):
                 order_type = record[0]
         except Error as e:
             self.logger.error(
-                "Exception occurred while trying to fetch Order Type from IM360_input_order table by test "
-                "case ID"
+                "Exception occurred while trying to fetch Order Type from x4a_input_order table by feature file name"
                 + str(e))
             raise e
         finally:
@@ -115,8 +112,7 @@ class X4AInputOrderDAO(BaseTest):
                 vendor_name = record[0]
         except Error as e:
             self.logger.error(
-                "Exception occurred while trying to fetch Vendor Name from IM360_input_order table by test "
-                "case ID"
+                "Exception occurred while trying to fetch Vendor Name from x4a_input_order table by feature file name"
                 + str(e))
             raise e
         finally:
@@ -139,8 +135,7 @@ class X4AInputOrderDAO(BaseTest):
                 reseller_po = record[0]
         except Error as e:
             self.logger.error(
-                "Exception occurred while trying to fetch Reseller PO from IM360_input_order table by test "
-                "case ID"
+                "Exception occurred while trying to fetch Reseller PO from x4a_input_order table by feature file name"
                 + str(e))
             raise e
         finally:
@@ -163,8 +158,7 @@ class X4AInputOrderDAO(BaseTest):
                 order_status = record[0]
         except Error as e:
             self.logger.error(
-                "Exception occurred while trying to fetch Vendor Name from IM360_input_order table by test "
-                "case ID"
+                "Exception occurred while trying to fetch Vendor Name from x4a_input_order table by feature file name"
                 + str(e))
             raise e
         finally:

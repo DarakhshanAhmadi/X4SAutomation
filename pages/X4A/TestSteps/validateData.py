@@ -108,45 +108,16 @@ class CreateOrder:
     def is_all_column_visible(self, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            if x4a_sales_order.is_im_order_clum_visible():
-                if x4a_sales_order.is_type_clum_visible():
-                    if x4a_sales_order.is_bcn_clum_visible():
-                        if x4a_sales_order.is_reseller_po_clum_visible():
-                            if x4a_sales_order.is_reseller_nm_clum_visible():
-                                if x4a_sales_order.is_vendor_nm_clum_visible():
-                                    if x4a_sales_order.is_end_user_nm_clum_visible():
-                                        if x4a_sales_order.is_end_user_po_clum_visible():
-                                            if x4a_sales_order.is_order_value_clum_visible():
-                                                if x4a_sales_order.is_order_status_clum_visible():
-                                                    if x4a_sales_order.is_created_on_clum_visible():
-                                                        self.logger.info(
-                                                            "Successfully verified Im order, Type, BCN, Reseller PO, Reseller name, Vendor name, End User name, End User po, Order value, Order status, Created on coulmns on Sales Orders Listing page")
-                                                        self.driver.save_screenshot(
-                                                            self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
-                                                            + "_all_column_on_sales_orders_listing_page_visible_successfully.png")
-                                                        return True
-                                                    else:
-                                                        return False
-                                                else:
-                                                    return False
-                                            else:
-                                                return False
-                                        else:
-                                            return False
-                                    else:
-                                        return False
-                                else:
-                                    return False
-                            else:
-                                return False
-                        else:
-                            return False
-                    else:
-                        return False
-                else:
-                    return False
-            else:
-                return False
+            if (x4a_sales_order.is_im_order_clum_visible() & x4a_sales_order.is_type_clum_visible() & x4a_sales_order.is_bcn_clum_visible() &
+                    x4a_sales_order.is_reseller_po_clum_visible() & x4a_sales_order.is_reseller_nm_clum_visible() & x4a_sales_order.is_vendor_nm_clum_visible()
+                    & x4a_sales_order.is_end_user_nm_clum_visible() & x4a_sales_order.is_end_user_po_clum_visible() & x4a_sales_order.is_end_user_po_clum_visible() &
+                    x4a_sales_order.is_order_value_clum_visible() & x4a_sales_order.is_order_status_clum_visible() & x4a_sales_order.is_created_on_clum_visible()):
+                self.logger.info(
+                    "Successfully verified Im order, Type, BCN, Reseller PO, Reseller name, Vendor name, End User name, End User po, Order value, Order status, Created on coulmns on Sales Orders Listing page")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_all_column_on_sales_orders_listing_page_visible_successfully.png")
+                return True
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
                                         "_all_column_on_sales_orders_listing_page_visible_error.png")
@@ -419,19 +390,20 @@ class CreateOrder:
             self.logger.exception(e)
             return False
 
-    def logout_x4a_url(self, feature_file_name, screen_shot):
+    def logout_x4a_url(self, feature_file_name):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            x4a_sales_order.logot_x4a()
-            self.logger.info("Successfully Logout X4A url")
-            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
-                                        + "_logout_x4a_successfully.png")
-            return True
+            if not x4a_sales_order.logout_x4a():
+                self.logger.info("Failed to Logout X4A url")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_logout_x4a_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Logout X4A url")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_logout_x4a_successfully.png")
+                return True
         except Exception as e:
-            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
-                                        "_logout_x4a_error.png")
-            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                                  "_logout_x4a_error.png"
-            self.logger.error("Error while Logouting the X4A url")
+            self.logger.error("Error while Logout the X4A url")
             self.logger.exception(e)
             return False

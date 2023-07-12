@@ -1,5 +1,4 @@
 import time
-
 from selenium.webdriver.common.by import By
 from CommonUtilities.baseSet.BasePage import BasePage
 from CommonUtilities.parse_config import ParseConfigFile
@@ -590,12 +589,13 @@ class X4ASalesOrdersPage(BasePage):
             self.logger.error("Not able to validate Created on date is in descending order")
             return False
 
-    def logot_x4a(self):
+    def logout_x4a(self):
         try:
             self.do_click_by_locator(self.USER_DROPDOWN)
             self.do_click_by_locator(self.LOGOUT)
             self.logger.info("Logout Successfully")
+            return True
         except Exception as e:
             self.logger.error('Exception occurred while Logout X4A ' + str(e))
-            raise e
+            return False
 

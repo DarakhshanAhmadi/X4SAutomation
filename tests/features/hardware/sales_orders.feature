@@ -34,8 +34,7 @@ Feature: Sales Orders
 
   @logout
   Scenario: logout X4A
-    Given launch chrome browser and open the X4A url
-    Then logout the X4A url
+    Given logout the X4A url
 
 #  # EDT-8470
 #  @search_bcn

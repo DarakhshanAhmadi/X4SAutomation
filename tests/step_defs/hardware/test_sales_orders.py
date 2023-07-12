@@ -42,6 +42,7 @@ def test_validate_created_on_descending():
 @scenario("features/hardware/sales_orders.feature", "logout X4A")
 def test_logout_x4a():
     pass
+
 # @scenario("features/hardware/sales_orders.feature", "Search order by BCN from Sales Order")
 # def test_search_bcn():
 #     pass
@@ -218,12 +219,12 @@ def search_bcn(init_driver):
         raise e
 
 
-@then(parsers.parse('logout the X4A url'))
+@given(parsers.parse('logout the X4A url'))
 def logout_x4a_url(init_driver):
     feature_file_name = "sales_orders"
     create_order_steps = CreateOrder(init_driver)
     try:
-        create_order_steps.logout_x4a_url(feature_file_name, screen_shot)
+        create_order_steps.logout_x4a_url(feature_file_name)
         logger.info("Logout X4A url is successfully.")
     except Exception as e:
         logger.error("Not able to logout x4a url %s", e)
