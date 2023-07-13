@@ -1,4 +1,5 @@
 from CommonUtilities.logGeneration import LogGenerator
+from db.model.X4AUserData import X4AUserData
 from db.model.X4AinputOrder import X4AInputOrder
 
 
@@ -13,3 +14,10 @@ class PrepareObject:
                                             test_data.get("IMOrderNo"), test_data.get("OrderType"),
                                             test_data.get("ResellerPO"), test_data.get("VendorName"), test_data.get("OrderStatus"))
         return x4a_input_order_obj
+    def prepare_x4a_user_data_obj(self, test_data):
+        x4a_user_data_obj = X4AUserData(test_data.get("FeatureFileName"),
+                                            test_data.get("Associate_Name"),
+                                            test_data.get("Associate_Email"),
+                                            test_data.get("Associate_Roles"),
+                                            test_data.get("Associate_Countries"))
+        return x4a_user_data_obj

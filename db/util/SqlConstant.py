@@ -15,3 +15,12 @@ class SqlConstant:
 
     X4A_GET_ORDER_STATUS_BY_FEATURE_FILE_NAME_SQL_QUERY  = "SELECT order_status FROM x4a_input_order where feature_file_name =?"
 
+
+    X4A_USER_DATA_INSERT_SQL_QUERY = "INSERT INTO x4a_user_data(" \
+                                         "feature_file_name, Associate_Name, Associate_Email, Associate_Roles, " \
+                                               "Associate_countries)" \
+                                         "VALUES(?, ?, ?, ?, ?)"
+
+    X4A_USER_DATA_BY_FEATURE_FILE_SQL_QUERY = "SELECT * from x4a_user_data"
+
+
