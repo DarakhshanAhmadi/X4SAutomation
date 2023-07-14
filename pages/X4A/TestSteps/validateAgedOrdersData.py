@@ -1,11 +1,9 @@
 from CommonUtilities.logGeneration import LogGenerator
 from CommonUtilities.parse_config import ParseConfigFile
 from CommonUtilities.readProperties import ReadConfig
-from db.service.IM360InputOrderDbManagementService import X4AInputOrderDbManagementService
 from pages.X4A.Facade.BrowserSet import BrowserSettings
 from pages.X4A.Pages.X4ALogin import LoginPage
 from pages.X4A.Pages.X4AOrdersAgedOrders import X4AAgedOrdersPage
-from pages.X4A.Pages.X4AOrdersSalesOrders import X4ASalesOrdersPage
 
 
 class ValidateAgedOrdersData:
