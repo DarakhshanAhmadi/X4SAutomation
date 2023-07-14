@@ -8,7 +8,7 @@ from CommonUtilities.file_operations import logger
 from db.database_operations import DataOperations
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def init_driver():
     screen_shot_path = ReadConfig.getScreenshotPath()
     module_screen_shot_path = screen_shot_path + "\\X4A\\"
