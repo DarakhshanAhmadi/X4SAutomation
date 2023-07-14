@@ -11,3 +11,4 @@ class X4AInputOrder:
         self.total_revenue_min = total_revenue_min
         self.total_revenue_max = total_revenue_max
         self.customer_name = customer_name
+

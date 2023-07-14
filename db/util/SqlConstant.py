@@ -21,3 +21,6 @@ class SqlConstant:
     X4A_INPUT_ORDER_GET_MIN_TOTAL_REVENUE_BY_FEATURE_FILE_NAME = "SELECT total_revenue_min from x4a_input_order where feature_file_name = ?"
 
     X4A_INPUT_ORDER_GET_MAX_TOTAL_REVENUE_BY_FEATURE_FILE_NAME = "SELECT total_revenue_max from x4a_input_order where feature_file_name = ?"
+
+    X4A_GET_RESELLER_PO_BY_FEATURE_FILE_NAME_SQL_QUERY  = "SELECT reseller_po FROM x4a_input_order where feature_file_name =?"
+

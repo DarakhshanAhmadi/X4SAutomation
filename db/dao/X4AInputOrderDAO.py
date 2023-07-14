@@ -1,8 +1,8 @@
 import sqlite3
 from sqlite3 import Error
 from db.util.SqlConstant import SqlConstant
-
 from tests.test_base_x4a import BaseTest
+import sqlite3
 
 
 class X4AInputOrderDAO(BaseTest):
@@ -11,18 +11,18 @@ class X4AInputOrderDAO(BaseTest):
         self.connection = None
         self.cursor = None
 
-    def insert_records(self, sql_util, im360_input_order_list):
+    def insert_records(self, sql_util, x4a_input_order_list):
         # This method is responsible to insert multiple records into x4a_input_order table
         try:
             self.logger.info("Inserting the input data into x4a_input_order table")
             connection = sql_util.get_connection()
             cursor = connection.cursor()
-            for im360_input_order in im360_input_order_list:
+            for x4a_input_order in x4a_input_order_list:
                 cursor.execute(SqlConstant.X4A_INPUT_ORDER_INSERT_SQL_QUERY,
-                               (im360_input_order.feature_file_name, im360_input_order.reseller_bcn, im360_input_order.im_order_number,
-                                im360_input_order.order_type, im360_input_order.reseller_po, im360_input_order.vendor_name,
-                                im360_input_order.order_status, im360_input_order.customer_po, im360_input_order.total_revenue_min,
-                                im360_input_order.total_revenue_max, im360_input_order.customer_name))
+                               (x4a_input_order_list.feature_file_name, x4a_input_order_list.reseller_bcn, x4a_input_order_list.im_order_number,
+                                x4a_input_order_list.order_type, x4a_input_order_list.reseller_po, x4a_input_order_list.vendor_name,
+                                x4a_input_order_list.order_status, x4a_input_order_list.customer_po, x4a_input_order_list.total_revenue_min,
+                                x4a_input_order_list.total_revenue_max, x4a_input_order_list.customer_name))
                 connection.commit()
         except Error as e:
             self.logger.error("Exception occurred while trying to insert the input data into x4a_input_order table "
@@ -78,6 +78,29 @@ class X4AInputOrderDAO(BaseTest):
                              im_order_no)
             return im_order_no
 
+    def get_order_type_by_feature_file_name(self, sql_util, feature_file_name):
+        order_type = None
+        try:
+            self.logger.info("Fetching the Order Type from x4a_input_order table by feature file name")
+            connection = sql_util.get_connection()
+            connection.row_factory = sqlite3.Row
+            cursor = connection.cursor()
+            cursor.execute(SqlConstant.X4A_GET_ORDER_TYPE_BY_FEATURE_FILE_NAME_SQL_QUERY, [str(feature_file_name)])
+            x4a_input_order = cursor.fetchall()
+            for record in x4a_input_order:
+                order_type = record[0]
+        except Error as e:
+            self.logger.error(
+                "Exception occurred while trying to fetch Order Type from x4a_input_order table by feature file name"
+                + str(e))
+            raise e
+        finally:
+            sql_util.close_connection(connection)
+
+            self.logger.info("Order Type %s fetched successfully from X4A_input_order table by feature file name",
+                             order_type)
+            return order_type
+
     def get_vendor_name_by_feature_file_name(self, sql_util, feature_file_name):
         vendor_name = None
         try:
@@ -100,6 +123,7 @@ class X4AInputOrderDAO(BaseTest):
             self.logger.info("Vendor Name %s fetched successfully from X4A_input_order table by feature file name",
                              vendor_name)
             return vendor_name
+
 
     def get_customer_po_number_by_feature_file_name(self, sql_util, feature_file_name):
         # This method is responsible to fetch customer po number from x4a_input_order table
@@ -145,28 +169,27 @@ class X4AInputOrderDAO(BaseTest):
         self.logger.info("data fetched successfully into x4a_input_order table")
         return customer_name
 
-    def get_order_type_by_feature_file_name(self, sql_util, feature_file_name):
-        order_type = None
+    def get_reseller_po_by_feature_file_name(self, sql_util, feature_file_name):
+        reseller_po = None
         try:
-            self.logger.info("Fetching the Order Type from x4a_input_order table by feature file name")
+            self.logger.info("Fetching the Reseller PO from x4a_input_order table by feature file name")
             connection = sql_util.get_connection()
             connection.row_factory = sqlite3.Row
             cursor = connection.cursor()
-            cursor.execute(SqlConstant.X4A_GET_ORDER_TYPE_BY_FEATURE_FILE_NAME_SQL_QUERY, [str(feature_file_name)])
+            cursor.execute(SqlConstant.X4A_GET_RESELLER_PO_BY_FEATURE_FILE_NAME_SQL_QUERY, [str(feature_file_name)])
             x4a_input_order = cursor.fetchall()
             for record in x4a_input_order:
-                order_type = record[0]
+                reseller_po = record[0]
         except Error as e:
             self.logger.error(
-                "Exception occurred while trying to fetch Order Type from x4a_input_order table by feature file name"
+                "Exception occurred while trying to fetch Reseller PO from x4a_input_order table by feature file name"
                 + str(e))
             raise e
         finally:
             sql_util.close_connection(connection)
-
-            self.logger.info("Order Type %s fetched successfully from X4A_input_order table by feature file name",
-                             order_type)
-            return order_type
+            self.logger.info("Reseller PO %s fetched successfully from X4A_input_order table by feature file name",
+                             reseller_po)
+            return reseller_po
 
     def get_order_status_by_feature_file_name(self, sql_util, feature_file_name):
         order_status = None
@@ -234,3 +257,4 @@ class X4AInputOrderDAO(BaseTest):
             sql_util.close_connection(connection)
         self.logger.info("data fetched successfully into x4a_input_order table")
         return min_total_revenue
+
