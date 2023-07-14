@@ -136,16 +136,16 @@ def login(init_driver):
         raise e
 
 
-# @when(parsers.parse('the user traverse to Aged Order Tab'))
-# def click_on_aged_orders(init_driver):
-#     feature_file_name = "aged_orders"
-#     validate_aged_orders = ValidateAgedOrdersData(init_driver)
-#     try:
-#         if not validate_aged_orders.click_on_aged_order(feature_file_name, screen_shot):
-#             raise Exception("Failed to click on aged orders")
-#     except Exception as e:
-#         logger.error("Error while clicking on aged orders %s", e)
-#         raise e
+@when(parsers.parse('the user traverse to Aged Order Tab'))
+def click_on_aged_orders(init_driver):
+    feature_file_name = "aged_orders"
+    validate_aged_orders = ValidateAgedOrdersData(init_driver)
+    try:
+        if not validate_aged_orders.click_on_aged_order(feature_file_name, screen_shot):
+            raise Exception("Failed to click on aged orders")
+    except Exception as e:
+        logger.error("Error while clicking on aged orders %s", e)
+        raise e
 
 
 @then(parsers.parse('verify the columns in the table are correct'))

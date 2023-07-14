@@ -122,6 +122,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.IM_ORDER_QUICK_SEARCH_OPTION)
             self.do_send_keys(self.SEARCH_BAR, order_number)
             self.do_click_by_locator(self.SEARCH_BUTTON)
+            time.sleep(2)
         except Exception as e:
             self.logger.error("Exception occurred while order number quick search" + str(e))
             raise e
@@ -149,7 +150,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.VENDOR_NAME_QUICK_SEARCH_OPTION)
             self.do_send_keys(self.SEARCH_BAR, vendor_name)
             self.do_click_by_locator(self.SEARCH_BUTTON)
-            time.sleep(5)
+            time.sleep(2)
         except Exception as e:
             self.logger.error("Exception occurred while vendor name quick search" + str(e))
             raise e
@@ -161,6 +162,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.BCN_ACCOUNT_QUICK_SEARCH_OPTION)
             self.do_send_keys(self.SEARCH_BAR, bcn_account_number)
             self.do_click_by_locator(self.SEARCH_BUTTON)
+            time.sleep(2)
         except Exception as e:
             self.logger.error("Exception occurred while searching bcn account" + str(e))
             raise e
@@ -172,6 +174,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.CUSTOMER_PO_QUICK_SEARCH_OPTION)
             self.do_send_keys(self.SEARCH_BAR, customer_po_number)
             self.do_click_by_locator(self.SEARCH_BUTTON)
+            time.sleep(2)
         except Exception as e:
             self.logger.error("Exception occurred while searching customer po number" + str(e))
             raise e
@@ -343,8 +346,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.ORDER_DATE_MENU_ITEM)
             self.do_click_by_locator(self.CALENDAR_ICON)
             self.do_click_by_locator(self.LAST_SIX_MONTHS_CALENDER_OPTION)
-            date_range = self.do_get_attribute(self.DATE_RANGE_TEXTBOX, 'value')
-            self.logger.info(date_range)
+            time.sleep(2)
         except Exception as e:
             self.logger.error("Error while selecting order date range " + str(e))
             raise e
@@ -356,8 +358,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.LAST_UPDATE_MENU_ITEM)
             self.do_click_by_locator(self.CALENDAR_ICON)
             self.do_click_by_locator(self.LAST_SIX_MONTHS_CALENDER_OPTION)
-            date_range = self.do_get_attribute(self.DATE_RANGE_TEXTBOX, 'value')
-            self.logger.info(date_range)
+            time.sleep(2)
         except Exception as e:
             self.logger.error("Error while selecting order date range " + str(e))
             raise e
@@ -528,6 +529,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.FILTER_CHECK_ICON)
             self.do_click_by_locator(self.FILTER_BY_BCN)
             self.do_click_by_locator(self.FILTER_APPLY_BUTTON)
+            time.sleep(2)
         except Exception as e:
             self.logger.error("Error while filtering by bcn " + str(e))
             raise e
@@ -541,6 +543,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.FILTER_CHECK_ICON)
             self.do_click_by_locator(self.FILTER_BY_CUSTOMER_NAME)
             self.do_click_by_locator(self.FILTER_APPLY_BUTTON)
+            time.sleep(2)
         except Exception as e:
             self.logger.error("Error while filtering by customer name " + str(e))
             raise e
@@ -554,6 +557,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.FILTER_CHECK_ICON)
             self.do_click_by_locator(self.FILTER_BY_VENDOR_NAME)
             self.do_click_by_locator(self.FILTER_APPLY_BUTTON)
+            time.sleep(2)
         except Exception as e:
             self.logger.error("Error while filtering by vendor name " + str(e))
             raise e
@@ -567,6 +571,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.FILTER_ORDER_TYPE_CHECKBOX)
             self.do_click_by_locator(self.FILTER_BY_ORDER_TYPE)
             self.do_click_by_locator(self.FILTER_APPLY_BUTTON)
+            time.sleep(2)
         except Exception as e:
             self.logger.error("Error while filtering by order type " + str(e))
             raise e
@@ -581,6 +586,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.FILTER_CHECK_ICON)
             self.do_click_by_locator(self.FILTER_BY_TOTAL_REVENUE)
             self.do_click_by_locator(self.FILTER_APPLY_BUTTON)
+            time.sleep(2)
         except Exception as e:
             self.logger.error("Error while filtering by total revenue " + str(e))
             raise e
@@ -594,6 +600,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.FILTER_ORDER_STATUS_CHECKBOX)
             self.do_click_by_locator(self.FILTER_BY_ORDER_STATUS)
             self.do_click_by_locator(self.FILTER_APPLY_BUTTON)
+            time.sleep(2)
         except Exception as e:
             self.logger.error("Error while filtering by order status " + str(e))
             raise e
@@ -859,6 +866,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.FILTER_ORDER_STATUS_CHECKBOX)
             self.do_click_by_locator(self.FILTER_BY_ORDER_STATUS)
             self.do_click_by_locator(self.FILTER_APPLY_BUTTON)
+            time.sleep(2)
         except Exception as e:
             self.logger.error("Error while applying filters " + str(e))
             raise e
