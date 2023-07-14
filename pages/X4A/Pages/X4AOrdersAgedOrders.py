@@ -1,3 +1,4 @@
+import random
 import time
 from datetime import datetime
 
@@ -33,7 +34,7 @@ class X4AAgedOrdersPage(BasePage):
     VENDOR_NAME_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-row']/div[@data-field='vendorName']")
     AGED_ORDER_TABLE = "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-uw2ren-MuiDataGrid-virtualScrollerRenderZone']"
     ITEMS_PER_PAGE = (By.XPATH, "//div[@class='MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-d2iqo8-MuiSelect-select-MuiInputBase-input']")
-    link = (By.XPATH, "//div[@class='MuiBox-root css-7g6ps3']/p[@id='modal-modal-description']/div")
+    MULTIPLE_VENDOR_LINK = (By.XPATH, "//div[@class='MuiBox-root css-7g6ps3']/p[@id='modal-modal-description']/div")
     LINK_CLOSE_BUTTON = (By.XPATH, "//button[text()='Close']")
     DATE_SEARCH_DROP_DOWN = (By.XPATH, "//*[@id='root']/div/div[2]/div[1]/div/div[4]/div[1]/div[2]/div/div/div[2]/div/div/div/div/div[1]/div/div")
     ORDER_DATE_MENU_ITEM = (By.XPATH, "//li[@data-testid='ordercreatedate-MenuItem']")
@@ -62,7 +63,8 @@ class X4AAgedOrdersPage(BasePage):
     FILTER_TOTAL_REVENUE_MAX_TEXTBOX = (By.ID, "totalRevenuMxn")
     FILTER_APPLY_BUTTON = (By.XPATH, "//button[text()='Apply']")
     FILTER_CLEAR_BUTTON = (By.XPATH, "//button[text()='Clear all']")
-
+    USER_DROPDOWN = (By.XPATH, "//*[@data-testid='KeyboardArrowDownIcon']")
+    LOGOUT = (By.XPATH, "//*[text()='LogOut']")
 
     def go_to_aged_orders(self):
         try:
@@ -126,15 +128,15 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_order_number_quick_search(self, order_number):
         try:
-            if self.do_check_visibility(self.NO_RESULT_TEXT):
-                raise Exception("No order found")
+            self.check_if_result_found()
+            time.sleep(2)
             rows = self.get_all_elements(self.ORDER_NUMBER_ROWS)
             if len(rows) == 1:
                 self.logger.info("Order found")
                 for row in rows:
                     assert row.text == order_number
             else:
-                raise Exception("Order number search failed")
+                raise Exception("Multiple orders found for searched order")
             self.do_click_by_locator(self.CLOSE_SEARCH)
         except Exception as e:
             self.logger.error("Exception occurred verifying the order number quick search" + str(e))
@@ -176,19 +178,14 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_vendor_name_in_pages(self, vendor_name):
         try:
-            if self.do_check_visibility(self.NO_RESULT_TEXT):
-                self.logger.error("No order found for searched vendor name")
-                raise Exception("No order found")
-            pages = self.get_all_elements(self.PAGINATION_PAGES)
-            first_page_number = int(pages[0].text)
-            last_page_number = int(pages[-1].text)
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
             self.logger.info("verifying vendor name in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_vendor_name_quick_search(vendor_name)
             if first_page_number != last_page_number:
-                random_page = first_page_number + 10
-                self.logger.info(random_page)
-                if random_page < last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
                     self.logger.info("verifying vendor name in page %s", str(random_page))
                     self.search_vendor_name(vendor_name)
                     self.go_to_page(random_page)
@@ -224,13 +221,11 @@ class X4AAgedOrdersPage(BasePage):
                     self.logger.info("there are only " + str(i) + " elements")
                     break
                 if "Multiple Vendors" in ui_vendor_name:
-                    self.logger.info("multiple vens")
-                    link_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='"+str(i)+"']/div/div/button[contains(text(), 'Multiple Vendors')]")
-                    self.do_click_by_locator(link_xpath)
-                    popup_vendor_names = self.get_element_text(self.link)
-                    if vendor_name in popup_vendor_names:
-                        self.logger.info(popup_vendor_names)
-                    else:
+                    self.logger.info("multiple vendors")
+                    multiple_vendor_link_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='"+str(i)+"']/div/div/button[contains(text(), 'Multiple Vendors')]")
+                    self.do_click_by_locator(multiple_vendor_link_xpath)
+                    popup_vendor_names = self.get_element_text(self.MULTIPLE_VENDOR_LINK)
+                    if vendor_name not in popup_vendor_names:
                         raise Exception("vendor name mismatched")
                     self.do_click_by_locator(self.LINK_CLOSE_BUTTON)
                 else:
@@ -243,19 +238,14 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_bcn_account_in_pages(self, bcn_account):
         try:
-            if self.do_check_visibility(self.NO_RESULT_TEXT):
-                self.logger.error("No order found for searched bcn account")
-                raise Exception("No order found")
-            pages = self.get_all_elements(self.PAGINATION_PAGES)
-            first_page_number = int(pages[0].text)
-            last_page_number = int(pages[-1].text)
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
             self.logger.info("verifying bcn account in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_bcn_account_quick_search(bcn_account)
             if first_page_number != last_page_number:
-                random_page = first_page_number + 10
-                self.logger.info(random_page)
-                if random_page < last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
                     self.logger.info("verifying bcn account in page %s", str(random_page))
                     self.search_bcn_account(bcn_account)
                     self.go_to_page(random_page)
@@ -298,19 +288,14 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_customer_po_in_pages(self, customer_po):
         try:
-            if self.do_check_visibility(self.NO_RESULT_TEXT):
-                self.logger.error("No order found for searched customer po")
-                raise Exception("No order found")
-            pages = self.get_all_elements(self.PAGINATION_PAGES)
-            first_page_number = int(pages[0].text)
-            last_page_number = int(pages[-1].text)
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
             self.logger.info("verifying customer po in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_customer_po_quick_search(customer_po)
             if first_page_number != last_page_number:
-                random_page = first_page_number + 10
-                self.logger.info(random_page)
-                if random_page < last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
                     self.logger.info("verifying customer po in page %s", str(random_page))
                     self.search_customer_po_number(customer_po)
                     self.go_to_page(random_page)
@@ -379,19 +364,14 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_order_date_in_pages(self):
         try:
-            if self.do_check_visibility(self.NO_RESULT_TEXT):
-                self.logger.error("No order found for searched order date")
-                raise Exception("No order found")
-            pages = self.get_all_elements(self.PAGINATION_PAGES)
-            first_page_number = int(pages[0].text)
-            last_page_number = int(pages[-1].text)
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
             self.logger.info("verifying order date in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_order_date()
             if first_page_number != last_page_number:
-                random_page = first_page_number + 10
-                self.logger.info(random_page)
-                if random_page < last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
                     self.logger.info("verifying order date in page %s", str(random_page))
                     self.select_order_date_range()
                     self.go_to_page(random_page)
@@ -402,18 +382,13 @@ class X4AAgedOrdersPage(BasePage):
                 time.sleep(2)
                 self.verify_order_date()
             self.logger.info("Successfully verified order date")
-            self.verify_order_date_reset()
         except Exception as e:
             self.logger.error("Exception occurred verifying the order date quick search" + str(e))
             raise e
 
     def verify_order_date(self):
         try:
-            date_range = self.do_get_attribute(self.DATE_RANGE_TEXTBOX, 'value')
-            dates = date_range.split("to")
-            from_date = datetime.strptime(dates[0].strip(), '%Y-%m-%d').date()
-            to_date = datetime.strptime(dates[-1].strip(), '%Y-%m-%d').date()
-            self.logger.info(date_range)
+            from_date, to_date = self.get_from_date_and_to_date()
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
             self.logger.info(max_rows)
             for i in range(int(max_rows)):
@@ -440,10 +415,7 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_order_date_reset(self):
         try:
-            date_range = self.do_get_attribute(self.DATE_RANGE_TEXTBOX, 'value')
-            dates = date_range.split("to")
-            from_date = datetime.strptime(dates[0].strip(), '%Y-%m-%d').date()
-            to_date = datetime.strptime(dates[-1].strip(), '%Y-%m-%d').date()
+            from_date, to_date = self.get_from_date_and_to_date()
             self.do_click_by_locator(self.CALENDAR_ICON)
             self.do_click_by_locator(self.RESET_CALENDAR_OPTION)
             self.do_click_by_locator(self.DATE_RANGE_TEXTBOX)
@@ -456,14 +428,14 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.info(ui_date)
                 formatted_date = datetime.strptime(self.format_date(ui_date), '%Y-%m-%d').date()
                 if from_date <= formatted_date <= to_date:
-                    raise Exception("Reset of date is working")
+                    raise Exception("Reset of date is not working")
         except Exception as e:
             self.logger.error("Error while selecting order date range " + str(e))
             raise e
 
     def format_date(self, date):
         try:
-            self.logger.info("Going to format date"+ str(date))
+            self.logger.info("Going to format date : " + str(date))
             date = date.split(",")
             date_parts = date[0].split("/")
             month = date_parts[0]
@@ -478,19 +450,14 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_last_update_date_in_pages(self):
         try:
-            if self.do_check_visibility(self.NO_RESULT_TEXT):
-                self.logger.error("No order found for searched last update date")
-                raise Exception("No order found")
-            pages = self.get_all_elements(self.PAGINATION_PAGES)
-            first_page_number = int(pages[0].text)
-            last_page_number = int(pages[-1].text)
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
             self.logger.info("verifying order date in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_last_update_date()
             if first_page_number != last_page_number:
-                random_page = first_page_number + 10
-                self.logger.info(random_page)
-                if random_page < last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
                     self.logger.info("verifying order date in page %s", str(random_page))
                     self.select_last_updated_date_range()
                     self.go_to_page(random_page)
@@ -501,18 +468,13 @@ class X4AAgedOrdersPage(BasePage):
                 time.sleep(2)
                 self.verify_last_update_date()
             self.logger.info("Successfully verified order date")
-            self.verify_last_update_date_reset()
         except Exception as e:
             self.logger.error("Exception occurred verifying the order date quick search" + str(e))
             raise e
 
     def verify_last_update_date(self):
         try:
-            date_range = self.do_get_attribute(self.DATE_RANGE_TEXTBOX, 'value')
-            dates = date_range.split("to")
-            from_date = datetime.strptime(dates[0].strip(), '%Y-%m-%d').date()
-            to_date = datetime.strptime(dates[-1].strip(), '%Y-%m-%d').date()
-            self.logger.info(date_range)
+            from_date, to_date = self.get_from_date_and_to_date()
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
             self.logger.info(max_rows)
             for i in range(int(max_rows)):
@@ -539,10 +501,7 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_last_update_date_reset(self):
         try:
-            date_range = self.do_get_attribute(self.DATE_RANGE_TEXTBOX, 'value')
-            dates = date_range.split("to")
-            from_date = datetime.strptime(dates[0].strip(), '%Y-%m-%d').date()
-            to_date = datetime.strptime(dates[-1].strip(), '%Y-%m-%d').date()
+            from_date, to_date = self.get_from_date_and_to_date()
             self.do_click_by_locator(self.CALENDAR_ICON)
             self.do_click_by_locator(self.RESET_CALENDAR_OPTION)
             self.do_click_by_locator(self.DATE_RANGE_TEXTBOX)
@@ -555,7 +514,7 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.info(ui_date)
                 formatted_date = datetime.strptime(self.format_date(ui_date), '%Y-%m-%d').date()
                 if from_date <= formatted_date <= to_date:
-                    raise Exception("Reset of date is working")
+                    raise Exception("Reset of date is not working")
         except Exception as e:
             self.logger.error("Error while selecting last update date range " + str(e))
             raise e
@@ -641,19 +600,14 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_filtered_bcn_account_in_pages(self, bcn_account):
         try:
-            if self.do_check_visibility(self.NO_RESULT_TEXT):
-                self.logger.error("No order found for searched bcn account")
-                raise Exception("No order found")
-            pages = self.get_all_elements(self.PAGINATION_PAGES)
-            first_page_number = int(pages[0].text)
-            last_page_number = int(pages[-1].text)
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
             self.logger.info("verifying bcn account in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_bcn_account_quick_search(bcn_account)
             if first_page_number != last_page_number:
-                random_page = first_page_number + 10
-                self.logger.info(random_page)
-                if random_page < last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
                     self.logger.info("verifying bcn account in page %s", str(random_page))
                     self.filter_by_bcn(bcn_account)
                     self.go_to_page(random_page)
@@ -670,19 +624,14 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_filtered_vendor_in_pages(self, vendor_name):
         try:
-            if self.do_check_visibility(self.NO_RESULT_TEXT):
-                self.logger.error("No order found for searched vendor")
-                raise Exception("No order found")
-            pages = self.get_all_elements(self.PAGINATION_PAGES)
-            first_page_number = int(pages[0].text)
-            last_page_number = int(pages[-1].text)
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
             self.logger.info("verifying vendor in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_vendor_name_quick_search(vendor_name)
             if first_page_number != last_page_number:
-                random_page = first_page_number + 10
-                self.logger.info(random_page)
-                if random_page < last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
                     self.logger.info("verifying vendor in page %s", str(random_page))
                     self.filter_by_vendor_name(vendor_name)
                     self.go_to_page(random_page)
@@ -724,19 +673,14 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_filtered_customer_name_in_pages(self, customer_name):
         try:
-            if self.do_check_visibility(self.NO_RESULT_TEXT):
-                self.logger.error("No order found for searched vendor")
-                raise Exception("No order found")
-            pages = self.get_all_elements(self.PAGINATION_PAGES)
-            first_page_number = int(pages[0].text)
-            last_page_number = int(pages[-1].text)
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
             self.logger.info("verifying vendor in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_customer_name(customer_name)
             if first_page_number != last_page_number:
-                random_page = first_page_number + 10
-                self.logger.info(random_page)
-                if random_page < last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
                     self.logger.info("verifying customer name in page %s", str(random_page))
                     self.filter_by_customer_name(customer_name)
                     self.go_to_page(random_page)
@@ -753,19 +697,14 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_filtered_order_type_in_pages(self, order_type):
         try:
-            if self.do_check_visibility(self.NO_RESULT_TEXT):
-                self.logger.error("No order found for searched order type")
-                raise Exception("No order found")
-            pages = self.get_all_elements(self.PAGINATION_PAGES)
-            first_page_number = int(pages[0].text)
-            last_page_number = int(pages[-1].text)
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
             self.logger.info("verifying order type in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_order_type(order_type)
             if first_page_number != last_page_number:
-                random_page = first_page_number + 10
-                self.logger.info(random_page)
-                if random_page < last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
                     self.logger.info("verifying order type in page %s", str(random_page))
                     self.filter_by_order_type(order_type)
                     self.go_to_page(random_page)
@@ -807,19 +746,14 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_filtered_order_status_in_pages(self, order_type):
         try:
-            if self.do_check_visibility(self.NO_RESULT_TEXT):
-                self.logger.error("No order found for searched order status")
-                raise Exception("No order found")
-            pages = self.get_all_elements(self.PAGINATION_PAGES)
-            first_page_number = int(pages[0].text)
-            last_page_number = int(pages[-1].text)
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
             self.logger.info("verifying order status in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_order_status(order_type)
             if first_page_number != last_page_number:
-                random_page = first_page_number + 10
-                self.logger.info(random_page)
-                if random_page < last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
                     self.logger.info("verifying order status in page %s", str(random_page))
                     self.filter_by_order_status(order_type)
                     self.go_to_page(random_page)
@@ -859,21 +793,16 @@ class X4AAgedOrdersPage(BasePage):
             self.logger.error("Exception occurred verifying the order status" + str(e))
             raise e
 
-    def verify_last_total_revenue_in_pages(self, min_total_revenue, max_total_revenue):
+    def verify_total_revenue_in_pages(self, min_total_revenue, max_total_revenue):
         try:
-            if self.do_check_visibility(self.NO_RESULT_TEXT):
-                self.logger.error("No order found for searched total revenue")
-                raise Exception("No order found")
-            pages = self.get_all_elements(self.PAGINATION_PAGES)
-            first_page_number = int(pages[0].text)
-            last_page_number = int(pages[-1].text)
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
             self.logger.info("verifying total revenue in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_total_revenue(min_total_revenue, max_total_revenue)
             if first_page_number != last_page_number:
-                random_page = first_page_number + 10
-                self.logger.info(random_page)
-                if random_page < last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
                     self.logger.info("verifying total revenue in page %s", str(random_page))
                     self.filter_by_total_revenue(min_total_revenue, max_total_revenue)
                     self.go_to_page(random_page)
@@ -912,3 +841,140 @@ class X4AAgedOrdersPage(BasePage):
         except Exception as e:
             self.logger.error("Error while verifying order value " + str(e))
             raise e
+
+    def filter_by_bcn_vendor_and_order_status(self, bcn_account, vendor_name, order_status):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.FILTER_ICON)
+            self.do_click_by_locator(self.FILTER_BY_BCN)
+            self.do_send_keys(self.FILTER_BCN_SEARCH_BOX, bcn_account)
+            self.do_click_by_locator(self.FILTER_CHECK_ICON)
+            self.do_click_by_locator(self.FILTER_BY_BCN)
+            self.do_click_by_locator(self.FILTER_BY_VENDOR_NAME)
+            self.do_send_keys(self.FILTER_VENDOR_SEARCH_BOX, vendor_name)
+            self.do_click_by_locator(self.FILTER_CHECK_ICON)
+            self.do_click_by_locator(self.FILTER_BY_VENDOR_NAME)
+            self.do_click_by_locator(self.FILTER_BY_ORDER_STATUS)
+            self.do_send_keys(self.FILTER_ORDER_STATUS_SEARCH_BOX, order_status)
+            self.do_click_by_locator(self.FILTER_ORDER_STATUS_CHECKBOX)
+            self.do_click_by_locator(self.FILTER_BY_ORDER_STATUS)
+            self.do_click_by_locator(self.FILTER_APPLY_BUTTON)
+        except Exception as e:
+            self.logger.error("Error while applying filters " + str(e))
+            raise e
+
+    def verify_bcn_vendor_and_order_status_in_pages(self, bcn_account, vendor_name, order_status):
+        try:
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("verifying bcn, vendor and order status in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.verify_bcn_vendor_and_order_status(bcn_account, vendor_name, order_status)
+            if first_page_number != last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
+                    self.logger.info("verifying bcn, vendor and order status in page %s", str(random_page))
+                    self.filter_by_bcn_vendor_and_order_status(bcn_account, vendor_name, order_status)
+                    self.go_to_page(random_page)
+                    self.verify_bcn_vendor_and_order_status(bcn_account, vendor_name, order_status)
+                self.logger.info("verifying bcn, vendor and order status in page %s", str(last_page_number))
+                self.filter_by_bcn_vendor_and_order_status(bcn_account, vendor_name, order_status)
+                self.go_to_page(last_page_number)
+                time.sleep(2)
+                self.verify_bcn_vendor_and_order_status(bcn_account, vendor_name, order_status)
+            self.logger.info("Successfully verified bcn, vendor and order status")
+        except Exception as e:
+            self.logger.error("Exception occurred verifying the bcn, vendor and order status" + str(e))
+            raise e
+
+    def verify_bcn_vendor_and_order_status(self, bcn_account, vendor_name, order_status):
+        try:
+            max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
+            self.logger.info(max_rows)
+            for i in range(int(max_rows)):
+                if i > 0 and i % 2 == 0:
+                    self.logger.info("going to scroll")
+                    table = self.driver.find_element(By.XPATH, self.AGED_ORDER_TABLE)
+                    self.scroll_down(table)
+                    time.sleep(2)
+                self.logger.info("fetching bcn, vendor and order status")
+                bcn_account_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
+                    i) + "']/div[@data-field='customerNumber']")
+                vendor_name_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
+                    i) + "']/div[@data-field='vendorName']")
+                order_status_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
+                    i) + "']/div[@data-field='orderStatus']")
+                try:
+                    ui_bcn_account = self.get_element_text(bcn_account_xpath)
+                    ui_vendor_name = self.get_element_text(vendor_name_xpath)
+                    ui_order_status = self.get_element_text(order_status_xpath)
+                    self.logger.info("fetched ui bcn, vendor and order status " + str(ui_bcn_account) + "," + str(ui_vendor_name) + "," + str(ui_order_status))
+                except:
+                    self.logger.info("there are only " + str(i) + " elements")
+                    break
+                if "Multiple Vendors" in ui_vendor_name:
+                    self.logger.info("multiple vendors")
+                    multiple_vendor_link_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='"+str(i)+"']/div/div/button[contains(text(), 'Multiple Vendors')]")
+                    self.do_click_by_locator(multiple_vendor_link_xpath)
+                    popup_vendor_names = self.get_element_text(self.MULTIPLE_VENDOR_LINK)
+                    if vendor_name not in popup_vendor_names:
+                        raise Exception("vendor name mismatched")
+                    self.do_click_by_locator(self.LINK_CLOSE_BUTTON)
+                else:
+                    self.logger.info("single vendor")
+                    assert ui_vendor_name.strip() == vendor_name.strip(), "Vendor Name mismatched"
+                assert str(ui_bcn_account) == str(bcn_account), "BCN mismatched"
+                assert str(ui_order_status) == str(order_status), "Order status mismatched"
+        except Exception as e:
+            self.logger.error("Error while verifying bcn, vendor and order status " + str(e))
+            raise e
+
+    def logout_x4a(self):
+        try:
+            self.do_click_by_locator(self.USER_DROPDOWN)
+            self.do_click_by_locator(self.LOGOUT)
+            self.logger.info("Logout Successfully")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while Logout X4A ' + str(e))
+            return False
+
+    def check_if_result_found(self):
+        try:
+            self.logger.info("Checking if result found for Aged order")
+            table_rows = self.get_all_elements_without_visibility(self.TABLE_ROWS)
+        except Exception as e:
+            if self.do_check_visibility(self.NO_RESULT_TEXT):
+                self.logger.error("No result found for the search or filter")
+                raise e
+            else:
+                self.logger.error("Exception while checking the Aged order search result")
+                raise e
+
+    def get_from_date_and_to_date(self):
+        try:
+            date_range = self.do_get_attribute(self.DATE_RANGE_TEXTBOX, 'value')
+            self.logger.info(date_range)
+            dates = date_range.split("to")
+            from_date = datetime.strptime(dates[0].strip(), '%Y-%m-%d').date()
+            to_date = datetime.strptime(dates[-1].strip(), '%Y-%m-%d').date()
+            return from_date, to_date
+        except Exception as e:
+            self.logger.error("Error while getting from and to date")
+            raise e
+
+    def get_pagination_first_and_last_page(self):
+        try:
+            pages = self.get_all_elements(self.PAGINATION_PAGES)
+            first_page_number = int(pages[0].text)
+            last_page_number = int(pages[-1].text)
+            return first_page_number, last_page_number
+        except Exception as e:
+            self.logger.erro("Exception while getting pagination first and last page")
+            raise e
+
+    def get_random_page(self, first, last):
+        if last > 10:
+            return random.randint(2, 10)
+        elif last <= 10:
+            return random.randint(first + 1, last-1)
