@@ -974,7 +974,11 @@ class X4AAgedOrdersPage(BasePage):
             raise e
 
     def get_random_page(self, first, last):
-        if last > 10:
-            return random.randint(2, 10)
-        elif last <= 10:
-            return random.randint(first + 1, last-1)
+        try:
+            if last > 10:
+                return random.randint(2, 10)
+            elif last <= 10:
+                return random.randint(first + 1, last - 1)
+        except Exception as e:
+            self.logger.error("Exception while generating random number" + str(e))
+            raise e

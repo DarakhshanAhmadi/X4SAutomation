@@ -19,10 +19,10 @@ class X4AInputOrderDAO(BaseTest):
             cursor = connection.cursor()
             for x4a_input_order in x4a_input_order_list:
                 cursor.execute(SqlConstant.X4A_INPUT_ORDER_INSERT_SQL_QUERY,
-                               (x4a_input_order_list.feature_file_name, x4a_input_order_list.reseller_bcn, x4a_input_order_list.im_order_number,
-                                x4a_input_order_list.order_type, x4a_input_order_list.reseller_po, x4a_input_order_list.vendor_name,
-                                x4a_input_order_list.order_status, x4a_input_order_list.customer_po, x4a_input_order_list.total_revenue_min,
-                                x4a_input_order_list.total_revenue_max, x4a_input_order_list.customer_name))
+                               (x4a_input_order.feature_file_name, x4a_input_order.reseller_bcn, x4a_input_order.im_order_number,
+                                x4a_input_order.order_type, x4a_input_order.reseller_po, x4a_input_order.vendor_name,
+                                x4a_input_order.order_status, x4a_input_order.customer_po, x4a_input_order.total_revenue_min,
+                                x4a_input_order.total_revenue_max, x4a_input_order.customer_name))
                 connection.commit()
         except Error as e:
             self.logger.error("Exception occurred while trying to insert the input data into x4a_input_order table "
