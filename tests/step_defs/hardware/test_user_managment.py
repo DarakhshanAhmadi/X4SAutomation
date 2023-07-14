@@ -55,7 +55,7 @@ def launch_browser(init_driver):
             user_data_management_srv_obj.save_associate_details(db_file_path, user_data_list)
         environment = parse_config_json.get_data_from_config_json("environment", "environment_type", "config.json")
         logger.info(environment)
-        # breakpoint()
+        
         if environment == 'Stage':
             url = parse_config_json.get_data_from_config_json("x4aStageCredentials", "x4aBaseUrl", "config.json")
         else:
@@ -71,7 +71,7 @@ def login(init_driver):
     feature_file_name = "user_management"
     User_data_steps = UserValidateData(init_driver)
     try:
-        # breakpoint()
+        
         User_data_steps.login(feature_file_name, screen_shot)
         logger.info("Launched the browser and login to X4A is successfully.")
     except Exception as e:
@@ -79,15 +79,15 @@ def login(init_driver):
         raise e
 
 
-@then(parsers.parse('go to administration associate management page'))
-def click_on_administration_associate_management(init_driver):
+@when(parsers.parse('Traverse to associate management page'))
+def traverse_to_associate_management(init_driver):
     feature_file_name = "user_management"
     User_data_steps = UserValidateData(init_driver)
     try:
-        if not User_data_steps.click_on_administration_associate_management(feature_file_name, screen_shot):
-            raise Exception("Failed to click on associate management")
+        if not User_data_steps.go_to_associate_management(feature_file_name, screen_shot):
+            raise Exception("Failed to traverse to associate management")
     except Exception as e:
-        logger.error("Error while clicking on associate management %s", e)
+        logger.error("Error while traversing to associate management %s", e)
         raise e
 
 @then(parsers.parse('Verify that Associate Header List'))
@@ -102,7 +102,7 @@ def verify_associate_header_list(init_driver):
         logger.error("Error while searching Associate %s", e)
         raise e
 
-@when(parsers.parse('Click on search bar and enter Associate name'))
+@when(parsers.parse('Open the associate detail page'))
 def search_associate(init_driver):
     feature_file_name = "user_management"
     User_data_steps = UserValidateData(init_driver)
@@ -115,16 +115,16 @@ def search_associate(init_driver):
         raise e
 
 
-@then(parsers.parse('Verify that Associate details page has been opened'))
+@then(parsers.parse('Verify that Associate is Active'))
 def verify_associate_details_page(init_driver):
     feature_file_name = "user_management"
     User_data_steps = UserValidateData(init_driver)
     try:
         if not User_data_steps.do_validate_associate_page(feature_file_name, screen_shot):
-            raise Exception("Failed to open Associate details")
+            raise Exception("Failed to validate Associate details")
         init_driver.refresh()
     except Exception as e:
-        logger.error("Error while searching Associate %s", e)
+        logger.error("Error while validating Associate details %s", e)
         raise e
 
 @then(parsers.parse('Verify the associates roles'))
@@ -133,10 +133,10 @@ def verify_associate_role(init_driver):
     User_data_steps = UserValidateData(init_driver)
     try:
         if not User_data_steps.do_validate_associate_role(feature_file_name, screen_shot):
-            raise Exception("Failed to search Associate role")
+            raise Exception("Failed to validate Associate role")
         init_driver.refresh()
     except Exception as e:
-        logger.error("Error while searching Associate role %s", e)
+        logger.error("Error while validating Associate role %s", e)
         raise e
 
 @then(parsers.parse('Verify associate country'))
@@ -145,13 +145,13 @@ def verify_associate_country(init_driver):
     User_data_steps = UserValidateData(init_driver)
     try:
         if not User_data_steps.do_validate_associate_country(feature_file_name, screen_shot):
-            raise Exception("Failed to search Associate country")
+            raise Exception("Failed to validate Associate country")
         init_driver.refresh()
     except Exception as e:
-        logger.error("Error while searching Associate country %s", e)
+        logger.error("Error while validating Associate country %s", e)
         raise e
 
-@when(parsers.parse('Click on manage from associate role and Delete the role'))
+@when(parsers.parse('A role is deleted'))
 def do_manage_associate_role(init_driver):
     feature_file_name = "user_management"
     User_data_steps = UserValidateData(init_driver)
@@ -163,31 +163,31 @@ def do_manage_associate_role(init_driver):
         logger.error("Error while managing Associate role %s", e)
         raise e
 
-@then(parsers.parse('Verify the associates roles after deletion'))
+@then(parsers.parse('Verify the roles deleted properly'))
 def verify_associate_role_after_deletion(init_driver):
     feature_file_name = "user_management"
     User_data_steps = UserValidateData(init_driver)
     try:
         if not User_data_steps.do_validate_associate_role_after_deletion(feature_file_name, screen_shot):
-            raise Exception("Failed to search Associate role after deletion")
+            raise Exception("Failed to validate Associate role after deletion")
         init_driver.refresh()
     except Exception as e:
-        logger.error("Error while searching Associate role %s", e)
+        logger.error("Error while validating Associate role after deletion: %s", e)
         raise e
 
-@when(parsers.parse('Add new role'))
+@when(parsers.parse('A new role is added'))
 def do_add_associate_role(init_driver):
     feature_file_name = "user_management"
     User_data_steps = UserValidateData(init_driver)
     try:
         if not User_data_steps.do_add_associate_role(feature_file_name, screen_shot):
-            raise Exception("Failed to manage Associate role")
+            raise Exception("Failed to add Associate role")
         init_driver.refresh()
     except Exception as e:
-        logger.error("Error while managing Associate role %s", e)
+        logger.error("Error while adding Associate role %s", e)
         raise e
 
-@when(parsers.parse('Click on manage from Countries and Delete the country'))
+@when(parsers.parse('A country is deleted'))
 def do_manage_associate_country(init_driver):
     feature_file_name = "user_management"
     User_data_steps = UserValidateData(init_driver)
@@ -199,19 +199,19 @@ def do_manage_associate_country(init_driver):
         logger.error("Error while managing Associate country %s", e)
         raise e
 
-@then(parsers.parse('Verify the associates countries after deletion'))
+@then(parsers.parse('Verify the country deleted properly'))
 def verify_associate_country_after_deletion(init_driver):
     feature_file_name = "user_management"
     User_data_steps = UserValidateData(init_driver)
     try:
         if not User_data_steps.do_validate_associate_country_after_deletion(feature_file_name, screen_shot):
-            raise Exception("Failed to search Associate country")
+            raise Exception("Failed to validate Associate country after deletion")
         init_driver.refresh()
     except Exception as e:
-        logger.error("Error while searching Associate country %s", e)
+        logger.error("Error while validating Associate country after deletion %s", e)
         raise e
 
-@when(parsers.parse('Add new country'))
+@when(parsers.parse('A new country is added'))
 def do_add_associate_country(init_driver):
     feature_file_name = "user_management"
     User_data_steps = UserValidateData(init_driver)
@@ -223,7 +223,7 @@ def do_add_associate_country(init_driver):
         logger.error("Error while add Associate country %s", e)
         raise e
 
-@when(parsers.parse('De-Activate the account'))
+@when(parsers.parse('Associate is deactivated'))
 def do_deactivate_account(init_driver):
     feature_file_name = 'user_management'
     User_data_steps = UserValidateData(init_driver)
@@ -235,19 +235,19 @@ def do_deactivate_account(init_driver):
         logger.error("Error while searching Associate country %s", e)
         raise e
 
-@then(parsers.parse('Verify the account is deactivated'))
+@then(parsers.parse('Verify the Associate is deactivated'))
 def verify_account_deactivation(init_driver):
     feature_file_name = "user_management"
     User_data_steps = UserValidateData(init_driver)
     try:
         if not User_data_steps.do_validate_account_deactivation(feature_file_name, screen_shot):
-            raise Exception("Failed to validate Associate deactivation")
+            raise Exception("Failed to validate Associate is deactivated")
         init_driver.refresh()
     except Exception as e:
         logger.error("Error while validating Associate deactivation %s", e)
         raise e
 
-@when(parsers.parse('Activate the account'))
+@when(parsers.parse('Associate is Activated'))
 def do_activate_account(init_driver):
     feature_file_name = 'user_management'
     User_data_steps = UserValidateData(init_driver)

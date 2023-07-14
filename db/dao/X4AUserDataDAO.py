@@ -47,6 +47,6 @@ class X4AUserDataDAO(BaseTest):
             self.logger.info('Associate details fetched successfully!')
         finally:
             sql_util.close_connection(self.connection)
-        # breakpoint()
+        
         return user_data[0]
 
