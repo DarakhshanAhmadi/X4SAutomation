@@ -11,7 +11,6 @@ class CreateOrder:
     logger = LogGenerator.logGen()
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
-    db_file_path = ReadConfig.get_db_file_path()
     """constructor of the createOrder Page class"""
 
     def __init__(self, driver):
