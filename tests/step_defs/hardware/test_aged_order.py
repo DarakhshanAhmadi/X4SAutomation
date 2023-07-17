@@ -136,7 +136,7 @@ def login(init_driver):
         raise e
 
 
-@when(parsers.parse('the user traverse to Aged Order Tab'))
+@then(parsers.parse('the user traverse to Aged Order Tab'))
 def click_on_aged_orders(init_driver):
     feature_file_name = "aged_orders"
     validate_aged_orders = ValidateAgedOrdersData(init_driver)
@@ -148,7 +148,7 @@ def click_on_aged_orders(init_driver):
         raise e
 
 
-@then(parsers.parse('verify the columns in the table are correct'))
+@given(parsers.parse('verify the columns in the table are correct'))
 def check_table_columns(init_driver):
     feature_file_name = "aged_orders"
     validate_aged_orders = ValidateAgedOrdersData(init_driver)

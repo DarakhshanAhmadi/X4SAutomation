@@ -5,12 +5,12 @@ Feature: Aged Orders
   Scenario: Login to X4A portal
     Given launch chrome browser and open the X4A url
     Then provide user ID and Password to login
+    And the user traverse to Aged Order Tab
 
   @verify_column_headers_and_quick_search_options
   Scenario: Verify table columns and quick search options
-     When the user traverse to Aged Order Tab
-     Then verify the columns in the table are correct
-     And Verify quick search options
+     Given verify the columns in the table are correct
+     Then Verify quick search options
 
   @search_order_number
   Scenario: Verify quick search with IM order number

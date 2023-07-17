@@ -12,8 +12,6 @@ class CreateOrder:
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
     db_file_path = ReadConfig.get_db_file_path()
-    aged_order_table_headers = ['IM Order #', 'BCN account #', 'Customer name', 'Customer PO #', 'Vendor name', 'Order type', 'Order value', 'Order status', 'Order date', 'Last updated', 'IM SKU', 'Country']
-    aged_order_quick_search_options = ['IM Order #', 'Vendor name', 'BCN Account #', 'Customer PO Number']
     """constructor of the createOrder Page class"""
 
     def __init__(self, driver):
