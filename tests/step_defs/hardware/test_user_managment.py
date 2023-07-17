@@ -90,7 +90,7 @@ def traverse_to_associate_management(init_driver):
         logger.error("Error while traversing to associate management %s", e)
         raise e
 
-@then(parsers.parse('Verify that Associate Header List'))
+@then(parsers.parse('Verify the Associate Header List'))
 def verify_associate_header_list(init_driver):
     feature_file_name = "user_management"
     User_data_steps = UserValidateData(init_driver)
