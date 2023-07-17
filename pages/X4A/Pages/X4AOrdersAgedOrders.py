@@ -130,7 +130,6 @@ class X4AAgedOrdersPage(BasePage):
     def verify_order_number_quick_search(self, order_number):
         try:
             self.check_if_result_found()
-            time.sleep(2)
             rows = self.get_all_elements(self.ORDER_NUMBER_ROWS)
             if len(rows) == 1:
                 self.logger.info("Order found")
@@ -196,7 +195,6 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.info("verifying vendor name in page %s", str(last_page_number))
                 self.search_vendor_name(vendor_name)
                 self.go_to_page(last_page_number)
-                time.sleep(2)
                 self.verify_vendor_name_quick_search(vendor_name)
             self.logger.info("Successfully verified vendor name")
         except Exception as e:
@@ -256,7 +254,6 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.info("verifying bcn account in page %s", str(last_page_number))
                 self.search_bcn_account(bcn_account)
                 self.go_to_page(last_page_number)
-                time.sleep(2)
                 self.verify_bcn_account_quick_search(bcn_account)
             self.logger.info("Successfully verified bcn account")
         except Exception as e:
@@ -306,7 +303,6 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.info("verifying customer po in page %s", str(last_page_number))
                 self.search_customer_po_number(customer_po)
                 self.go_to_page(last_page_number)
-                time.sleep(2)
                 self.verify_customer_po_quick_search(customer_po)
             self.logger.info("Successfully verified customer po")
         except Exception as e:
@@ -380,7 +376,6 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.info("verifying order date in page %s", str(last_page_number))
                 self.select_order_date_range()
                 self.go_to_page(last_page_number)
-                time.sleep(2)
                 self.verify_order_date()
             self.logger.info("Successfully verified order date")
         except Exception as e:
@@ -422,7 +417,6 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.DATE_RANGE_TEXTBOX)
             date_range = self.do_get_attribute(self.DATE_RANGE_TEXTBOX, 'value')
             assert date_range == "", "Date is search box is not empty after reset"
-            time.sleep(2)
             ele = self.get_all_elements(self.ORDER_DATE_ROWS)
             for e in ele:
                 ui_date = e.text
@@ -466,7 +460,6 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.info("verifying order date in page %s", str(last_page_number))
                 self.select_last_updated_date_range()
                 self.go_to_page(last_page_number)
-                time.sleep(2)
                 self.verify_last_update_date()
             self.logger.info("Successfully verified order date")
         except Exception as e:
@@ -508,7 +501,6 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.DATE_RANGE_TEXTBOX)
             date_range = self.do_get_attribute(self.DATE_RANGE_TEXTBOX, 'value')
             assert date_range == "", "Date is search box is not empty after reset"
-            time.sleep(2)
             ele = self.get_all_elements(self.LAST_UPDATE_DATE_ROWS)
             for e in ele:
                 ui_date = e.text
@@ -622,7 +614,6 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.info("verifying bcn account in page %s", str(last_page_number))
                 self.filter_by_bcn(bcn_account)
                 self.go_to_page(last_page_number)
-                time.sleep(2)
                 self.verify_bcn_account_quick_search(bcn_account)
             self.logger.info("Successfully verified bcn account")
         except Exception as e:
@@ -646,7 +637,6 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.info("verifying vendor in page %s", str(last_page_number))
                 self.filter_by_vendor_name(vendor_name)
                 self.go_to_page(last_page_number)
-                time.sleep(2)
                 self.verify_vendor_name_quick_search(vendor_name)
             self.logger.info("Successfully verified vendor")
         except Exception as e:
@@ -695,7 +685,6 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.info("verifying vendor in page %s", str(last_page_number))
                 self.filter_by_customer_name(customer_name)
                 self.go_to_page(last_page_number)
-                time.sleep(2)
                 self.verify_customer_name(customer_name)
             self.logger.info("Successfully verified customer name")
         except Exception as e:
@@ -719,7 +708,6 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.info("verifying order type in page %s", str(last_page_number))
                 self.filter_by_order_type(order_type)
                 self.go_to_page(last_page_number)
-                time.sleep(2)
                 self.verify_order_type(order_type)
             self.logger.info("Successfully verified order type")
         except Exception as e:
@@ -768,7 +756,6 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.info("verifying order status in page %s", str(last_page_number))
                 self.filter_by_order_status(order_type)
                 self.go_to_page(last_page_number)
-                time.sleep(2)
                 self.verify_order_status(order_type)
             self.logger.info("Successfully verified order status")
         except Exception as e:
@@ -817,7 +804,6 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.info("verifying total revenue in page %s", str(last_page_number))
                 self.filter_by_total_revenue(min_total_revenue, max_total_revenue)
                 self.go_to_page(last_page_number)
-                time.sleep(2)
                 self.verify_total_revenue(min_total_revenue, max_total_revenue)
             self.logger.info("Successfully verified total revenue")
         except Exception as e:
@@ -888,7 +874,6 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.info("verifying bcn, vendor and order status in page %s", str(last_page_number))
                 self.filter_by_bcn_vendor_and_order_status(bcn_account, vendor_name, order_status)
                 self.go_to_page(last_page_number)
-                time.sleep(2)
                 self.verify_bcn_vendor_and_order_status(bcn_account, vendor_name, order_status)
             self.logger.info("Successfully verified bcn, vendor and order status")
         except Exception as e:

@@ -224,7 +224,6 @@ class X4AInputOrderDAO(BaseTest):
             cursor = connection.cursor()
             cursor.execute(SqlConstant.X4A_INPUT_ORDER_GET_MAX_TOTAL_REVENUE_BY_FEATURE_FILE_NAME, [str(feature_file_name)])
             max_total_revenues = cursor.fetchall()
-            self.logger.info(max_total_revenues)
             for record in max_total_revenues:
                 max_total_revenue = record[0]
         except Error as e:
@@ -246,7 +245,6 @@ class X4AInputOrderDAO(BaseTest):
             cursor = connection.cursor()
             cursor.execute(SqlConstant.X4A_INPUT_ORDER_GET_MIN_TOTAL_REVENUE_BY_FEATURE_FILE_NAME, [str(feature_file_name)])
             min_total_revenues = cursor.fetchall()
-            self.logger.info(min_total_revenues)
             for record in min_total_revenues:
                 min_total_revenue = record[0]
         except Error as e:
