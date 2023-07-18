@@ -1,4 +1,4 @@
---------------------------------------------------------------- Version 1.0 [09th Nov 2022] ---------------------------------------------------------------
+--------------------------------------------------------------- Version 1.0 [01st July 2023] ---------------------------------------------------------------
 
 --------------------------------------------------------------- DDL -----------------------------------------------------------------------
 
@@ -17,4 +17,13 @@ customer_po String,
 total_revenue_min String,
 total_revenue_max String,
 customer_name String
+);
+
+CREATE TABLE IF NOT EXISTS x4a_user_data(
+id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+feature_file_name String NOT NULL,
+Associate_Name String,
+Associate_Email String,
+Associate_Roles String,
+Associate_countries String
 );
