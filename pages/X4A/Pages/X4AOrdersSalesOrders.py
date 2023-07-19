@@ -5,6 +5,7 @@ from CommonUtilities.parse_config import ParseConfigFile
 from selenium.webdriver import ActionChains, Keys
 from datetime import datetime
 from CommonUtilities.readProperties import ReadConfig
+from db.service.X4AInputOrderDbManagementService import X4AInputOrderDbManagementService
 
 
 class X4ASalesOrdersPage(BasePage):
@@ -506,16 +507,15 @@ class X4ASalesOrdersPage(BasePage):
                 dt_obj2 = datetime.strptime(created_on_date1, "%m/%d/%Y %H:%M:%S")
                 self.logger.info(dt_obj2)
                 if dt_obj1 == dt_obj2:
+                    count = count + 1
                     pass
                 else:
                     if dt_obj1 > dt_obj2:
                         count = count + 1
-                        if count == 1:
-                            pass
                         self.logger.info(f'Count: {count}')
                     else:
                         return False
-            if count == len(created_on_list) - 1:
+            if count == len(created_on_list):
                 self.logger.info(f'Total number of create on date count is: {count}')
                 return True
         except Exception as e:
@@ -546,7 +546,7 @@ class X4ASalesOrdersPage(BasePage):
             else:
                 self.driver.save_screenshot(
                     self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_created_on_date_descending_error.png")
-                self.logger.error(f'Failed to validate Created on date is in ascending order on {page1} number')
+                self.logger.error(f'Failed to validate Created on date is in descending order on {page1} number')
                 return False
         except Exception as e:
             self.logger.error("Not able to validate Created on date is in descending order")
@@ -573,16 +573,15 @@ class X4ASalesOrdersPage(BasePage):
                 dt_obj2 = datetime.strptime(created_on_date1, "%m/%d/%Y %H:%M:%S")
                 self.logger.info(dt_obj2)
                 if dt_obj1 == dt_obj2:
+                    count = count + 1
                     pass
                 else:
                     if dt_obj1 < dt_obj2:
                         count = count + 1
-                        if count == 1:
-                            pass
                         self.logger.info(f'Count: {count}')
                     else:
                         return False
-            if count == len(created_on_list) - 1:
+            if count == len(created_on_list):
                 self.logger.info(f'Total number of create on date count is: {count}')
                 return True
         except Exception as e:
@@ -598,4 +597,3 @@ class X4ASalesOrdersPage(BasePage):
         except Exception as e:
             self.logger.error('Exception occurred while Logout X4A ' + str(e))
             return False
-
