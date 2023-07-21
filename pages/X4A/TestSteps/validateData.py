@@ -4,6 +4,7 @@ from CommonUtilities.readProperties import ReadConfig
 from pages.X4A.Facade.BrowserSet import BrowserSettings
 from pages.X4A.Pages.X4ALogin import LoginPage
 from pages.X4A.Pages.X4AOrdersAgedOrders import X4AAgedOrdersPage
+from pages.X4A.Pages.X4AOrdersErrorOrders import X4AErrorOrdersPage
 from pages.X4A.Pages.X4AOrdersSalesOrders import X4ASalesOrdersPage
 
 
@@ -11,6 +12,7 @@ class CreateOrder:
     logger = LogGenerator.logGen()
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
+
     """constructor of the createOrder Page class"""
 
     def __init__(self, driver):
@@ -64,6 +66,22 @@ class CreateOrder:
             self.logger.exception(e)
             return False
 
+    def click_on_aged_order(self, feature_file_name, screen_shot):
+        x4a_aged_order = X4AAgedOrdersPage(self.driver)
+        try:
+            x4a_aged_order.go_to_aged_orders()
+            self.logger.info("Successfully clicked on aged orders")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "aged_orders_clicked_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "aged_orders_clicking_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "aged_orders_clicking_error.png"
+            self.logger.error("Error while clicking on aged orders")
+            self.logger.exception(e)
+            return False
 
     """ This method filters order by feature file name and returns order data """
 
@@ -390,3 +408,261 @@ class CreateOrder:
             self.logger.error("Error while Logout the X4A url")
             self.logger.exception(e)
             return False
+
+    def click_on_error_orders(self, feature_file_name, screen_shot):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            x4a_error_order.go_to_error_orders()
+            self.logger.info("Successfully clicked on error order")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_error_order_clicked_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_error_order_clicking_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_error_order_clicking_error.png"
+            self.logger.error("Error while clicking on error order")
+            self.logger.exception(e)
+            return False
+
+    def select_multiple_record(self, feature_file_name, screen_shot):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            x4a_error_order.select_multiple_record()
+            self.logger.info("Successfully selected the multiple record")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_multiple_record_selected_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_sales_orders_listing_page_visible_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_multiple_record_selected_error.png"
+            self.logger.error("Error while selecting the multiple record")
+            self.logger.exception(e)
+            return False
+
+    def single_record_list(self, feature_file_name, screen_shot):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            x4a_error_order.single_record_list()
+            self.logger.info("Successfully verified that cancel button is disabled")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_sales_orders_listing_page_visible_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_sales_orders_listing_page_visible_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_sales_orders_listing_page_visible_error.png"
+            self.logger.error("Error while verifying Sales Orders Listing Page")
+            self.logger.exception(e)
+            return False
+
+    def do_verify_cancel_button(self, feature_file_name, screen_shot, status):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            x4a_error_order.do_verify_cancel_button(status)
+            self.logger.info("Successfully verified cancel button")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_multiple_record_selected_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_multiple_record_selected_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_multiple_record_selected_error.png"
+            self.logger.error("Error while verifing cancel button")
+            self.logger.exception(e)
+            return False
+
+    def do_click_cancel_button(self, feature_file_name, screen_shot):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            x4a_error_order.do_click_cancel_button()
+            self.logger.info("Successfully ,clicked the cancel button")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_click_cancel_button_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_click_cancel_button_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_click_cancel_button_error.png"
+            self.logger.error("Error while clicking the cancel button")
+            self.logger.exception(e)
+            return False
+
+    def do_verify_cancel_order_popup(self, feature_file_name, screen_shot):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            x4a_error_order.do_verify_cancel_order_popup()
+            self.logger.info("Successfully verified cancel order popup")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_cancel_order_popup_verify_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_cancel_order_popup_verify_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_cancel_order_popup_verify_error.png"
+            self.logger.error("Error while verifing cancel order popup")
+            self.logger.exception(e)
+            return False
+
+    def do_click_no_cancel_button(self, feature_file_name, screen_shot):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            x4a_error_order.do_click_no_cancel_button()
+            self.logger.info("Successfully ,clicked No button of cancel order popup")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_click_cancel_NO_button_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_click_cancel_NO_button_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_click_cancel_NO_button_error.png"
+            self.logger.error("Error while clicking No button of cancel order popup")
+            self.logger.exception(e)
+            return False
+
+    def do_verify_error_details_page(self, feature_file_name, screen_shot):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            x4a_error_order.do_verify_error_details_page()
+            self.logger.info("Successfully verified cancel order popup is closed")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_cancel_order_popup_verify_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_cancel_order_popup_verify_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_cancel_order_popup_verify_error.png"
+            self.logger.error("Error while verifing cancel order popup is closed")
+            self.logger.exception(e)
+            return False
+
+    def do_click_yes_cancel_button(self, feature_file_name, screen_shot):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            x4a_error_order.do_click_yes_cancel_button()
+            self.logger.info("Successfully clicked yes Cancel button")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_yes_cancel_order_popup_verify_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_yes_cancel_order_popup_verify_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_yes_cancel_order_popup_verify_error.png"
+            self.logger.error("Error while clicked yes Cancel button")
+            self.logger.exception(e)
+            return False
+
+    def verify_cancel_order_popup_after_yes(self, feature_file_name, screen_shot):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            x4a_error_order.verify_cancel_order_popup_after_yes()
+            self.logger.info("Successfully verified cancel order popup after yes")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_yes_cancel_order_popup_verify_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_yes_cancel_order_popup_verify_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_yes_cancel_order_popup_verify_error.png"
+            self.logger.error("Error while verified cancel order popup after yes")
+            self.logger.exception(e)
+            return False
+
+    def do_click_back_cancel_button(self, feature_file_name, screen_shot):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            x4a_error_order.do_click_back_cancel_button()
+            self.logger.info("Successfully clicked back Cancel button")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_back_cancel_order_popup_verify_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_back_cancel_order_popup_verify_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_back_cancel_order_popup_verify_error.png"
+            self.logger.error("Error while clicked back Cancel button")
+            self.logger.exception(e)
+            return False
+
+
+# ---------------
+    def do_cancel_order_without_reason(self, feature_file_name, screen_shot):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            x4a_error_order.do_cancel_order_without_reason()
+            self.logger.info("Successfully clicked cancel order without reason")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_yes_cancel_order_popup_verify_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_yes_cancel_order_popup_verify_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_yes_cancel_order_popup_verify_error.png"
+            self.logger.error("Error while clicking cancel order without reason")
+            self.logger.exception(e)
+            return False
+
+    def do_verify_cancel_order_message(self, feature_file_name, screen_shot):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            x4a_error_order.do_verify_cancel_order_message()
+            self.logger.info("Successfully verified cancel order message")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_cancel_order_message_verify_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_cancel_order_message_verify_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_cancel_order_message_verify_error.png"
+            self.logger.error("Error while verified cancel order message")
+            self.logger.exception(e)
+            return False
+
+    def do_cancel_order_with_reason(self, feature_file_name, screen_shot):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            x4a_error_order.do_cancel_order_with_reason()
+            self.logger.info("Successfully canceled order with reason")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_cancel_order_verify_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_cancel_order_verify_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_cancel_order_verify_error.png"
+            self.logger.error("Error while canceled order with reason")
+            self.logger.exception(e)
+            return False
+
+    def do_cancel_order_success_message(self, feature_file_name, screen_shot):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            x4a_error_order.do_cancel_order_success_message()
+            self.logger.info("Successfully verified cancel order message")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_cancel_order_message_verify_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_cancel_order_message_verify_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_cancel_order_message_verify_error.png"
+            self.logger.error("Error while verified cancel order message")
+            self.logger.exception(e)
+            return False
+
