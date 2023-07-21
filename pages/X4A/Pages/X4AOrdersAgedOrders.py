@@ -424,6 +424,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.DATE_RANGE_TEXTBOX)
             date_range = self.do_get_attribute(self.DATE_RANGE_TEXTBOX, 'value')
             assert date_range == "", "Date is search box is not empty after reset"
+            time.sleep(2)
             ele = self.get_all_elements(self.ORDER_DATE_ROWS)
             for e in ele:
                 ui_date = e.text
@@ -508,6 +509,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.DATE_RANGE_TEXTBOX)
             date_range = self.do_get_attribute(self.DATE_RANGE_TEXTBOX, 'value')
             assert date_range == "", "Date is search box is not empty after reset"
+            time.sleep(2)
             ele = self.get_all_elements(self.LAST_UPDATE_DATE_ROWS)
             for e in ele:
                 ui_date = e.text
