@@ -1,3 +1,4 @@
+import sqlite3
 from sqlite3 import Error
 from db.util.SqlConstant import SqlConstant
 from tests.test_base_x4a import BaseTest
@@ -18,9 +19,10 @@ class X4AInputOrderDAO(BaseTest):
             cursor = connection.cursor()
             for x4a_input_order in x4a_input_order_list:
                 cursor.execute(SqlConstant.X4A_INPUT_ORDER_INSERT_SQL_QUERY,
-                               (x4a_input_order.feature_file_name, x4a_input_order.reseller_bcn,
-                                x4a_input_order.im_order_number, x4a_input_order.order_type, x4a_input_order.reseller_po,
-                                x4a_input_order.vendor_name,x4a_input_order.order_status))
+                               (x4a_input_order.feature_file_name, x4a_input_order.reseller_bcn, x4a_input_order.im_order_number,
+                                x4a_input_order.order_type, x4a_input_order.reseller_po, x4a_input_order.vendor_name,
+                                x4a_input_order.order_status, x4a_input_order.customer_po, x4a_input_order.total_revenue_min,
+                                x4a_input_order.total_revenue_max, x4a_input_order.customer_name))
                 connection.commit()
         except Error as e:
             self.logger.error("Exception occurred while trying to insert the input data into x4a_input_order table "
@@ -122,6 +124,51 @@ class X4AInputOrderDAO(BaseTest):
                              vendor_name)
             return vendor_name
 
+
+    def get_customer_po_number_by_feature_file_name(self, sql_util, feature_file_name):
+        # This method is responsible to fetch customer po number from x4a_input_order table
+        customer_po = None
+        try:
+            self.logger.info("Fetching the customer po number from X4A_input_order table by feature file name ID %s",
+                             feature_file_name)
+            connection = sql_util.get_connection()
+            cursor = connection.cursor()
+            cursor.execute(SqlConstant.X4A_INPUT_ORDER_GET_CUSTOMER_PO_NUMBER_BY_FEATURE_FILE_NAME, [str(feature_file_name)])
+            customer_pos = cursor.fetchall()
+            self.logger.info(customer_pos)
+            for record in customer_pos:
+                customer_po = record[0]
+        except Error as e:
+            self.logger.error("Exception occurred while trying to fetch customer po number from x4a_input_order table "
+                              + str(e))
+            raise e
+        finally:
+            sql_util.close_connection(connection)
+        self.logger.info("data fetched successfully into x4a_input_order table")
+        return customer_po
+
+    def get_customer_name_by_feature_file_name(self, sql_util, feature_file_name):
+        # This method is responsible to fetch customer po number from x4a_input_order table
+        customer_name = None
+        try:
+            self.logger.info("Fetching the customer name from X4A_input_order table by feature file name ID %s",
+                             feature_file_name)
+            connection = sql_util.get_connection()
+            cursor = connection.cursor()
+            cursor.execute(SqlConstant.X4A_INPUT_ORDER_GET_CUSTOMER_NAME_BY_FEATURE_FILE_NAME, [str(feature_file_name)])
+            customer_names = cursor.fetchall()
+            self.logger.info(customer_names)
+            for record in customer_names:
+                customer_name = record[0]
+        except Error as e:
+            self.logger.error("Exception occurred while trying to fetch customer name from x4a_input_order table "
+                              + str(e))
+            raise e
+        finally:
+            sql_util.close_connection(connection)
+        self.logger.info("data fetched successfully into x4a_input_order table")
+        return customer_name
+
     def get_reseller_po_by_feature_file_name(self, sql_util, feature_file_name):
         reseller_po = None
         try:
@@ -140,7 +187,6 @@ class X4AInputOrderDAO(BaseTest):
             raise e
         finally:
             sql_util.close_connection(connection)
-
             self.logger.info("Reseller PO %s fetched successfully from X4A_input_order table by feature file name",
                              reseller_po)
             return reseller_po
@@ -167,4 +213,46 @@ class X4AInputOrderDAO(BaseTest):
             self.logger.info("Order Status %s fetched successfully from X4A_input_order table by feature file name",
                              order_status)
             return order_status
+
+    def get_max_total_revenue_by_feature_file_name(self, sql_util, feature_file_name):
+        # This method is responsible to fetch customer po number from x4a_input_order table
+        max_total_revenue = None
+        try:
+            self.logger.info("Fetching the max tax revenue from X4A_input_order table by feature file name ID %s",
+                             feature_file_name)
+            connection = sql_util.get_connection()
+            cursor = connection.cursor()
+            cursor.execute(SqlConstant.X4A_INPUT_ORDER_GET_MAX_TOTAL_REVENUE_BY_FEATURE_FILE_NAME, [str(feature_file_name)])
+            max_total_revenues = cursor.fetchall()
+            for record in max_total_revenues:
+                max_total_revenue = record[0]
+        except Error as e:
+            self.logger.error("Exception occurred while trying to fetch max total revenue from x4a_input_order table "
+                              + str(e))
+            raise e
+        finally:
+            sql_util.close_connection(connection)
+        self.logger.info("data fetched successfully into x4a_input_order table")
+        return max_total_revenue
+
+    def get_min_total_revenue_by_feature_file_name(self, sql_util, feature_file_name):
+        # This method is responsible to fetch customer po number from x4a_input_order table
+        min_total_revenue = None
+        try:
+            self.logger.info("Fetching the min total revenue from X4A_input_order table by feature file name ID %s",
+                             feature_file_name)
+            connection = sql_util.get_connection()
+            cursor = connection.cursor()
+            cursor.execute(SqlConstant.X4A_INPUT_ORDER_GET_MIN_TOTAL_REVENUE_BY_FEATURE_FILE_NAME, [str(feature_file_name)])
+            min_total_revenues = cursor.fetchall()
+            for record in min_total_revenues:
+                min_total_revenue = record[0]
+        except Error as e:
+            self.logger.error("Exception occurred while trying to fetch min total revenue from x4a_input_order table "
+                              + str(e))
+            raise e
+        finally:
+            sql_util.close_connection(connection)
+        self.logger.info("data fetched successfully into x4a_input_order table")
+        return min_total_revenue
 
