@@ -11,6 +11,7 @@ class CreateOrder:
     logger = LogGenerator.logGen()
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
+
     """constructor of the createOrder Page class"""
 
     def __init__(self, driver):
@@ -390,3 +391,4 @@ class CreateOrder:
             self.logger.error("Error while Logout the X4A url")
             self.logger.exception(e)
             return False
+
