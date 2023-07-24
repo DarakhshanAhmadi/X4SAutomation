@@ -29,6 +29,8 @@ class X4AErrorOrdersPage(BasePage):
     CANCEL_ORDER_BUTTON = (By.XPATH, "//button[text() = 'cancel order']")
     CANCEL_ORDER_MESSAGE = (By.XPATH, "//div[text() = 'Cancel notes required!.']")
     CANCEL_ORDER_SUCCESS_MESSAGE = (By.XPATH, "//div[text() = 'Cancelled! order was successfully cancelled.']")
+    USER_DROPDOWN = (By.XPATH, "//*[@data-testid='KeyboardArrowDownIcon']")
+    LOGOUT = (By.XPATH, "//*[text()='LogOut']")
 
     def go_to_error_orders(self):
         try:
@@ -201,5 +203,12 @@ class X4AErrorOrdersPage(BasePage):
             self.logger.error('Exception occurred while verifying cancel order success message ' + str(e))
             raise e
 
-
-
+    def logout_x4a(self):
+        try:
+            self.do_click_by_locator(self.USER_DROPDOWN)
+            self.do_click_by_locator(self.LOGOUT)
+            self.logger.info("Logout Successfully")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while Logout X4A ' + str(e))
+            return False

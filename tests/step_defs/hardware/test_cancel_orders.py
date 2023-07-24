@@ -4,15 +4,15 @@ from CommonUtilities.parse_config import ParseConfigFile
 from CommonUtilities.file_operations import logger
 from CommonUtilities.readProperties import ReadConfig
 from db.service.X4AInputOrderDbManagementService import X4AInputOrderDbManagementService
+from db.service.X4AUserDataDbManagementService import X4AUserDataDbManagementService
 from pages.X4A.Facade.PrepareObject import PrepareObject
-from pages.X4A.TestSteps.validateData import CreateOrder
+from pages.X4A.TestSteps.validateErrorOrdersData import ValidateErrorOrdersData
 
 parse_config_json = ParseConfigFile()
 screen_shot = {"path": " "}
 x4a_status_list = []
 x4a_input_order_list = []
 db_file_path = ReadConfig.get_db_file_path()
-
 
 @scenario("features/hardware/cancel_orders.feature", "Login to X4A portal")
 def test_login_the_x4a_portal():
@@ -51,7 +51,7 @@ def test_logout_x4a():
 
 @given(parsers.parse('launch chrome browser and open the X4A url'))
 def launch_browser(init_driver):
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     order_management_srv_obj = X4AInputOrderDbManagementService()
     prepare_obj = PrepareObject(init_driver)
     feature_file_name = "cancel_orders"
@@ -80,9 +80,8 @@ def launch_browser(init_driver):
 @then(parsers.parse('provide user ID and Password to login'))
 def login(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
-        # breakpoint()
         create_order_steps.login(feature_file_name, screen_shot)
         logger.info("Launched the browser and login to X4A is successfully.")
     except Exception as e:
@@ -93,7 +92,7 @@ def login(init_driver):
 @when(parsers.parse('the user traverse to Error Order menu'))
 def click_on_error_orders_menu(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
         if not create_order_steps.click_on_error_orders(feature_file_name, screen_shot):
             raise Exception("Failed to click on error Orders menu")
@@ -105,7 +104,7 @@ def click_on_error_orders_menu(init_driver):
 @when(parsers.parse('Selected more than one record from System Error list'))
 def multiple_record_system_error_list(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
         if not create_order_steps.select_multiple_record(feature_file_name, screen_shot):
             raise Exception("Failed to select multiple record")
@@ -117,7 +116,7 @@ def multiple_record_system_error_list(init_driver):
 @then(parsers.parse('Cancel button should remain disable'))
 def status_of_disabled_cancel_button(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     status = 'disabled'
     try:
         if not create_order_steps.do_verify_cancel_button(feature_file_name, screen_shot, status):
@@ -130,7 +129,7 @@ def status_of_disabled_cancel_button(init_driver):
 @when(parsers.parse('Selected only one record from System Error list'))
 def single_record_system_error_list(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
         if not create_order_steps.single_record_list(feature_file_name, screen_shot):
             raise Exception("Failed to select single record")
@@ -142,7 +141,7 @@ def single_record_system_error_list(init_driver):
 @then(parsers.parse('Cancel button should get enable'))
 def status_of_enabled_cancel_button(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     status = 'enabled'
     try:
         if not create_order_steps.do_verify_cancel_button(feature_file_name, screen_shot, status):
@@ -155,7 +154,7 @@ def status_of_enabled_cancel_button(init_driver):
 @when(parsers.parse('Cancel button clicked'))
 def do_click_cancel_button(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
         if not create_order_steps.do_click_cancel_button(feature_file_name, screen_shot):
             raise Exception("Failed to click cancel button")
@@ -167,7 +166,7 @@ def do_click_cancel_button(init_driver):
 @then(parsers.parse('verify the cancel order popup'))
 def verify_cancel_order_popup(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
         if not create_order_steps.do_verify_cancel_order_popup(feature_file_name, screen_shot):
             raise Exception("Failed to verify that cancel order popup")
@@ -179,7 +178,7 @@ def verify_cancel_order_popup(init_driver):
 @when(parsers.parse('click to No keep order button'))
 def do_click_no_cancel_button(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
         if not create_order_steps.do_click_no_cancel_button(feature_file_name, screen_shot):
             raise Exception("Failed to click No button of cancel order popup")
@@ -191,7 +190,7 @@ def do_click_no_cancel_button(init_driver):
 @then(parsers.parse('verify error detail page opened'))
 def verify_error_details_page(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
         if not create_order_steps.do_verify_error_details_page(feature_file_name, screen_shot):
             raise Exception("Failed to verify error details page opened")
@@ -203,7 +202,7 @@ def verify_error_details_page(init_driver):
 @when(parsers.parse('Click on the YES button'))
 def do_click_yes_cancel_button(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
         if not create_order_steps.do_click_yes_cancel_button(feature_file_name, screen_shot):
             raise Exception("failed to click yes Cancel button")
@@ -216,7 +215,7 @@ def do_click_yes_cancel_button(init_driver):
 @then(parsers.parse('verify the cancel order popup after yes button'))
 def verify_cancel_order_popup_after_yes(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
         if not create_order_steps.verify_cancel_order_popup_after_yes(feature_file_name, screen_shot):
             raise Exception("Failed to verify cancel order popup after clicking yes button")
@@ -228,7 +227,7 @@ def verify_cancel_order_popup_after_yes(init_driver):
 @when(parsers.parse('Click on the BACK button'))
 def do_click_back_cancel_button(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
         if not create_order_steps.do_click_back_cancel_button(feature_file_name, screen_shot):
             raise Exception("failed to click back Cancel button")
@@ -241,7 +240,7 @@ def do_click_back_cancel_button(init_driver):
 @then(parsers.parse('verify redirect back to "Cancel Order" popup'))
 def verify_redirect_cancel_order_popup(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
         if not create_order_steps.do_verify_cancel_order_popup(feature_file_name, screen_shot):
             raise Exception("Failed to verify that cancel order popup")
@@ -253,7 +252,7 @@ def verify_redirect_cancel_order_popup(init_driver):
 @when(parsers.parse('Click Cancel Order button without giving reason'))
 def do_cancel_order_without_reason(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
         if not create_order_steps.do_cancel_order_without_reason(feature_file_name, screen_shot):
             raise Exception("failed to cancel order without reason")
@@ -266,7 +265,7 @@ def do_cancel_order_without_reason(init_driver):
 @then(parsers.parse('verify cancel order message'))
 def verify_cancel_order_message(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
         if not create_order_steps.do_verify_cancel_order_message(feature_file_name, screen_shot):
             raise Exception("Failed to verify that cancel order message")
@@ -278,7 +277,7 @@ def verify_cancel_order_message(init_driver):
 @when(parsers.parse('Order cancel with proper reason'))
 def do_cancel_order_with_reason(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
         if not create_order_steps.do_cancel_order_with_reason(feature_file_name, screen_shot):
             raise Exception("failed to cancel order with reason")
@@ -291,7 +290,7 @@ def do_cancel_order_with_reason(init_driver):
 @then(parsers.parse('verify successfully cancel order message'))
 def do_cancel_order_success_message(init_driver):
     feature_file_name = "cancel_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
         if not create_order_steps.do_cancel_order_success_message(feature_file_name, screen_shot):
             raise Exception("failed to verify cancel order success message")
@@ -304,7 +303,7 @@ def do_cancel_order_success_message(init_driver):
 @given(parsers.parse('logout the X4A url'))
 def logout_x4a_url(init_driver):
     feature_file_name = "sales_orders"
-    create_order_steps = CreateOrder(init_driver)
+    create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
         create_order_steps.logout_x4a_url(feature_file_name)
         logger.info("Logout X4A url is successfully.")

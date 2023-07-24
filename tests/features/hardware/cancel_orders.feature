@@ -6,7 +6,6 @@ Feature: Cancel Orders
     Given launch chrome browser and open the X4A url
     Then provide user ID and Password to login
     When the user traverse to Error Order menu
-#    Then verify that Error Orders listing page visible
 
 #  EDT-9815
   @Verify_Cancel_order_button_for_more_than_one_record
