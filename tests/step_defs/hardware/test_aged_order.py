@@ -1,4 +1,6 @@
 import os
+from datetime import date
+
 from pytest_bdd import scenario, parsers, when, then, given
 from CommonUtilities import readWriteTestData
 from CommonUtilities.parse_config import ParseConfigFile
@@ -14,6 +16,7 @@ x4a_status_list = []
 x4a_input_order_list = []
 db_file_path = ReadConfig.get_db_file_path()
 x4a_input_order_obj = X4AInputOrderDbManagementService()
+latest_downloaded_file = ""
 
 
 @scenario("features/hardware/aged_orders.feature", "Login to X4A portal")
@@ -88,6 +91,21 @@ def test_verify_filter_with_total_revenue():
 
 @scenario("features/hardware/aged_orders.feature", "Verify filter with BCN, Vendor and Order status")
 def test_verify_filter_with_bcn_vendor_and_order_status():
+    pass
+
+
+@scenario("features/hardware/aged_orders.feature", "Verify the downloaded file")
+def test_validate_csv_file():
+    pass
+
+
+@scenario("features/hardware/aged_orders.feature", "Filter by bcn and order date and verify the data")
+def test_validate_searched_file_with_ui_data():
+    pass
+
+
+@scenario("features/hardware/aged_orders.feature", "Filter by bcn, vendor name and order status and verify the data")
+def test_validate_filtered_file_with_ui_data():
     pass
 
 
@@ -540,11 +558,100 @@ def verify_reset_for_last_update_date(init_driver):
 
 @given(parsers.parse('logout the X4A url'))
 def logout_x4a_url(init_driver):
-    feature_file_name = "sales_orders"
+    feature_file_name = "aged_orders"
     validate_aged_orders = ValidateAgedOrdersData(init_driver)
     try:
         validate_aged_orders.logout_x4a_url(feature_file_name)
         logger.info("Logout X4A url is successfully.")
     except Exception as e:
         logger.error("Not able to logout x4a url %s", e)
+        raise e
+
+
+@when(parsers.parse('click on download button'))
+def click_download_button(init_driver):
+    feature_file_name = "aged_orders"
+    validate_aged_orders = ValidateAgedOrdersData(init_driver)
+    try:
+        if not validate_aged_orders.click_on_download(feature_file_name, screen_shot):
+            raise Exception("Failed to download the aged order data")
+    except Exception as e:
+        logger.error("Not able to download aged order data %s", e)
+        raise e
+
+
+@then(parsers.parse('verify the downloaded file name'))
+def validate_file_name(init_driver):
+    feature_file_name = "aged_orders"
+    validate_aged_orders = ValidateAgedOrdersData(init_driver)
+    try:
+        global latest_downloaded_file
+        latest_downloaded_file = validate_aged_orders.validate_file_name(feature_file_name, screen_shot)
+        file = latest_downloaded_file.split("\\")
+        file_name = file[-1]
+        curr_date = date.today().strftime("%m-%d-%Y")
+        if curr_date.startswith("0"):
+            curr_date = curr_date[1:]
+        file_str = "-AgedOrdersData"
+        required_file_name = curr_date + file_str
+        logger.info(required_file_name)
+        logger.info(file_name)
+        if required_file_name not in file_name:
+            raise Exception("File name validation failed")
+        logger.info("File verified successfully")
+    except Exception as e:
+        logger.error("Failed to validate file name %s", e)
+        raise e
+
+
+@then(parsers.parse('verify the number of rows in downloaded file'))
+def verify_rows_in_downloaded_file(init_driver):
+    feature_file_name = "aged_orders"
+    validate_aged_orders = ValidateAgedOrdersData(init_driver)
+    try:
+        if not validate_aged_orders.verify_rows(latest_downloaded_file, feature_file_name, screen_shot):
+            raise Exception("Failed to verify rows in downloaded the aged order data")
+    except Exception as e:
+        logger.error("Failed to verify rows in downloaded the aged order data %s", e)
+        raise e
+
+
+@when(parsers.parse('search by bcn and order date'))
+def filter_by_bcn_and_order_date(init_driver):
+    feature_file_name = "aged_orders"
+    validate_aged_orders = ValidateAgedOrdersData(init_driver)
+    try:
+        bcn = x4a_input_order_obj.get_bcn_by_feature_file_name(db_file_path, feature_file_name)
+        if not validate_aged_orders.filter_by_bcn_and_order_date(feature_file_name, screen_shot, bcn):
+            raise Exception("Failed to filter by bcn and order date")
+    except Exception as e:
+        logger.error("Not able to filter by bcn and order date %s", e)
+        raise e
+
+
+@then(parsers.parse('verify the first and last data in excel with ui'))
+def verify_excel_data_with_ui(init_driver):
+    feature_file_name = "aged_orders"
+    validate_aged_orders = ValidateAgedOrdersData(init_driver)
+    try:
+        bcn = x4a_input_order_obj.get_bcn_by_feature_file_name(db_file_path, feature_file_name)
+        if not validate_aged_orders.verify_excel_data_with_ui_for_search(feature_file_name, screen_shot, bcn, latest_downloaded_file):
+            raise Exception("Failed to verify file data with UI")
+    except Exception as e:
+        logger.error("Not able to verify file data with UI %s", e)
+        raise e
+
+
+@then(parsers.parse('verify the filtered first and last data in excel with ui'))
+def verify_filtered_file_data_with_ui(init_driver):
+    feature_file_name = "aged_orders"
+    validate_aged_orders = ValidateAgedOrdersData(init_driver)
+    try:
+        bcn = x4a_input_order_obj.get_bcn_by_feature_file_name(db_file_path, feature_file_name)
+        vendor_name = x4a_input_order_obj.get_vendor_name_by_feature_file_name(db_file_path, feature_file_name)
+        order_status = x4a_input_order_obj.get_order_status_by_feature_file_name(db_file_path, feature_file_name)
+        if not validate_aged_orders.verify_excel_data_with_ui_for_filter(feature_file_name, screen_shot, bcn, vendor_name, order_status, latest_downloaded_file):
+            raise Exception("Failed to verify file data with UI for filter")
+    except Exception as e:
+        logger.error("Not able to verify file data with UI for filter %s", e)
         raise e

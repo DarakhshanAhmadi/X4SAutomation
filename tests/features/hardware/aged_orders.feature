@@ -93,6 +93,29 @@ Feature: Aged Orders
     When filter with bcn, vendor and order status
     Then verify the data for filtered bcn, vendor and order status is listed
 
+    #EDT-8188
+  @verify_downloaded_file
+  Scenario: Verify the downloaded file
+    When click on download button
+    Then verify the downloaded file name
+    And verify the number of rows in downloaded file
+
+    #EDT-8188
+  @search_by_bcn_order_date_and_verify_downloaded_file
+  Scenario: Filter by bcn and order date and verify the data
+    When search by bcn and order date
+    And click on download button
+    Then verify the downloaded file name
+    And verify the first and last data in excel with ui
+
+    #EDT-8188
+  @filter_by_bcn_vendor_order_status_and_verify_downloaded_file
+  Scenario: Filter by bcn, vendor name and order status and verify the data
+    When filter with bcn, vendor and order status
+    And click on download button
+    Then verify the downloaded file name
+    And verify the filtered first and last data in excel with ui
+
   @logout
   Scenario: logout X4A
     Given logout the X4A url

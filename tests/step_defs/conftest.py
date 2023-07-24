@@ -22,6 +22,7 @@ def init_driver():
     browser = ReadConfig.get_browser()
     if browser == "Chrome":
         options = webdriver.ChromeOptions()
+        options.add_experimental_option("excludeSwitches", ['enable-automation'])
         options.add_argument("--incognito")
         web_driver = webdriver.Chrome(executable_path=ReadConfig.get_chrome_executable_path(), options=options)
     elif browser == "Edge":
