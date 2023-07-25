@@ -1,3 +1,8 @@
+import glob
+import os
+from pathlib import Path
+
+from CommonUtilities.CSVReader import CSVReader
 from CommonUtilities.logGeneration import LogGenerator
 from CommonUtilities.parse_config import ParseConfigFile
 from CommonUtilities.readProperties import ReadConfig
@@ -632,5 +637,196 @@ class ValidateAgedOrdersData:
             screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
                                                           "verify_reset_last_update_error.png"
             self.logger.error("Error while verifying reset for last update date")
+            self.logger.exception(e)
+            return False
+
+    def click_on_download(self, feature_file_name, screen_shot):
+        x4a_aged_order = X4AAgedOrdersPage(self.driver)
+        try:
+            self.logger.info("verifying download")
+            x4a_aged_order.click_aged_orders_download()
+            self.logger.info("File downloaded successfully")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "aged_order_data_downloaded_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "aged_order_data_download_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                                          "aged_order_data_download_error.png"
+            self.logger.error("Error while downloading aged order data")
+            self.logger.exception(e)
+            return False
+
+    def validate_file_name(self, feature_file_name, screen_shot):
+        try:
+            self.logger.info("Fetching latest downloaded file")
+            download_dir = str(os.path.join(Path.home(), "Downloads"))
+            self.logger.info("Download directory is " + str(download_dir))
+            list_of_files = glob.glob(download_dir + '/*.csv')
+            latest_file = max(list_of_files, key=os.path.getmtime)
+            self.logger.info("Recent file in the downloads: " + str(latest_file))
+            # downloaded_file_name_list = os.listdir(download_dir)
+            # length_of_list = len(downloaded_file_name_list)
+            # try:
+            #     for i in range(length_of_list):
+            #         file_name = downloaded_file_name_list[i].split(".")
+            #         if file_name[1] == "csv":
+            #             download_file_name = file_name[0]
+            #             self.logger.info(download_file_name)
+            #             break
+            #         else:
+            #             self.logger.info("No file found")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "downloaded_file_name_verified_successfully.png")
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "verify_downloaded_file_name_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "verify_downloaded_file_name_error.png"
+            self.logger.error("Error while verifying the downloaded file name %s", e)
+            raise e
+        return latest_file
+
+    def verify_rows(self, file, feature_file_name, screen_shot):
+        x4a_aged_order = X4AAgedOrdersPage(self.driver)
+        try:
+            self.logger.info("Verifying downloaded file rows")
+            csv_file = CSVReader(file)
+            rows = len(csv_file.read_file())
+            self.logger.info(rows)
+            assert rows == 10000, "Number of rows mismatched"
+            self.logger.info("Verified downloaded file rows successfully")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "downloaded_file_rows_verified_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "verify_downloaded_file_rows_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "verify_downloaded_file_rows_error.png"
+            self.logger.error("Error while verifying downloaded file rows")
+            self.logger.exception(e)
+            return False
+
+    def filter_by_bcn_and_order_date(self, feature_file_name, screen_shot, bcn):
+        x4a_aged_order = X4AAgedOrdersPage(self.driver)
+        try:
+            self.logger.info("Filtering by bcn and order date")
+            x4a_aged_order.filter_by_bcn_and_order_date(bcn)
+            self.logger.info("filtered by bcn and order date successfully")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "bcn_and_order_date_filtered_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "filter_bcn_and_order_date_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                                        "filter_bcn_and_order_date_error.png"
+            self.logger.error("Error while filtering by bcn and order date")
+            self.logger.exception(e)
+            return False
+
+    def verify_excel_data_with_ui_for_search(self, feature_file_name, screen_shot, bcn, file):
+        x4a_aged_order = X4AAgedOrdersPage(self.driver)
+        try:
+            self.logger.info("Verifying Excel data with UI for search with bcn and order date")
+            csv_file = CSVReader(file)
+            rows = csv_file.read_file()
+            file_first_row = rows[0]
+            file_last_row = rows[-1]
+            self.logger.info(file_last_row)
+            self.logger.info(file_first_row)
+            table_header = x4a_aged_order.get_table_column_header()
+            ui_first_row, ui_last_row = x4a_aged_order.get_first_and_last_row_data_for_search_with_bcn_and_order_data(table_header, bcn)
+            self.verify_data(ui_first_row, ui_last_row, file_first_row, file_last_row)
+            self.logger.info("Verified CSV data with UI successfully for search with bcn and order date")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "file_and_ui_data_verified_for_search_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "verify_file_and_ui_data_for_search_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "verify_file_and_ui_data_for_search_error.png"
+            self.logger.error("Error while verifying ui and file data for search")
+            self.logger.exception(e)
+            return False
+
+    def verify_data(self, ui_first_row, ui_last_row, file_first_row, file_last_row):
+        try:
+            for header in self.aged_order_table_headers:
+                self.logger.info("Verifying the header %s", header)
+                if header == 'Vendor name':
+                    self.logger.info("assigning vendor name")
+                    if 'Multiple Vendors' in ui_first_row[header]:
+                        ui_first_row[header] = 'Multiple'
+                    if 'Multiple Vendors' in ui_last_row[header]:
+                        ui_last_row[header] = 'Multiple'
+                    self.logger.info(ui_first_row)
+                    self.logger.info(ui_last_row)
+                if header != 'Order date' and header != 'Last updated':
+                    if file_first_row[header] != ui_first_row[header]:
+                        self.logger.error("%s mismatched in UI an file for first row of data", header)
+                        self.logger.error("File: " + str(file_first_row[header]) + "\n" + "UI: " + str(ui_first_row[header]))
+                        raise Exception("value mismatched for first row of data")
+                    if file_last_row[header] != ui_last_row[header]:
+                        self.logger.error("%s mismatched in UI an file for last row of data", header)
+                        self.logger.error("File: " + str(file_last_row[header]) + "\n" + "UI: " + str(ui_last_row[header]))
+                        raise Exception("value mismatched for last row of data")
+                else:
+                    ui_first_row_date = (ui_first_row[header].split(","))[0]
+                    ui_first_row_time = (ui_first_row[header].split(","))[1]
+                    ui_last_row_date = (ui_last_row[header].split(","))[0]
+                    ui_last_row_time = (ui_last_row[header].split(","))[1]
+                    file_first_row_date = (file_first_row[header].split(" "))[0]
+                    file_first_row_time = (file_first_row[header].split(" "))[1]
+                    file_last_row_date = (file_last_row[header].split(" "))[0]
+                    file_last_row_time = (file_last_row[header].split(" "))[1]
+                    if ui_first_row_date != file_first_row_date:
+                        self.logger.error("Date mismatched in UI and file for first row of data for %s", header)
+                        self.logger.error(
+                            "File: " + str(ui_first_row_date) + "\t" + "UI: " + str(ui_last_row_date))
+                        raise Exception("Date value mismatched for first row of data")
+                    if ui_first_row_time != file_first_row_time:
+                        self.logger.warning("Time mismatched in UI and file for first row of data for %s", header)
+                        self.logger.warning(
+                            "File: " + str(ui_first_row_time) + "\t" + "UI: " + str(file_first_row_time))
+                    if ui_last_row_date != file_last_row_date:
+                        self.logger.error("Date mismatched in UI and file for last row of data for %s", header)
+                        self.logger.error(
+                            "File: " + str(ui_last_row_date) + "\t" + "UI: " + str(file_last_row_date))
+                        raise Exception("Date value mismatched for last row of data")
+                    if ui_last_row_time != file_last_row_time:
+                        self.logger.warning("Time mismatched in UI and file for first row of data for %s", header)
+                        self.logger.warning(
+                            "File: " + str(ui_last_row_time) + "\t" + "UI: " + str(file_last_row_time))
+        except Exception as e:
+            self.logger.info("Exception while validating file data with UI data")
+            raise e
+
+    def verify_excel_data_with_ui_for_filter(self, feature_file_name, screen_shot, bcn, vendor_name, order_status, file):
+        x4a_aged_order = X4AAgedOrdersPage(self.driver)
+        try:
+            self.logger.info("Verifying File data with UI for filter with bcn, vendor name and order status")
+            csv_file = CSVReader(file)
+            rows = csv_file.read_file()
+            file_first_row = rows[0]
+            file_last_row = rows[-1]
+            self.logger.info(file_last_row)
+            self.logger.info(file_first_row)
+            table_header = x4a_aged_order.get_table_column_header()
+            ui_first_row, ui_last_row = x4a_aged_order.get_first_and_last_row_data_for_filter_bcn_and_vendor_and_status(table_header, bcn, vendor_name, order_status)
+            self.verify_data(ui_first_row, ui_last_row, file_first_row, file_last_row)
+            self.logger.info("Verified CSV data with UI successfully for filter with bcn, vendor name and order status")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "file_and_ui_data_verified_for_filter_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "verify_file_and_ui_data_for_filter_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "verify_file_and_ui_data_for_filter_error.png"
+            self.logger.error("Error while verifying ui and file data for filter")
             self.logger.exception(e)
             return False

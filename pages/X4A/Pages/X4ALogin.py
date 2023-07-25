@@ -20,8 +20,7 @@ class LoginPage(BasePage):
     """Page actions for login page"""
 
     """
-    This is used to login to IM360
-    Author: Soumi Ghosh
+    This is used to login to X4A
     """
 
     def do_login_to_x4a(self, username, password):

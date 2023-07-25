@@ -1,3 +1,5 @@
+import glob
+import os
 import random
 import time
 from datetime import datetime
@@ -65,6 +67,11 @@ class X4AAgedOrdersPage(BasePage):
     FILTER_CLEAR_BUTTON = (By.XPATH, "//button[text()='Clear all']")
     USER_DROPDOWN = (By.XPATH, "//*[@data-testid='KeyboardArrowDownIcon']")
     LOGOUT = (By.XPATH, "//*[text()='LogOut']")
+    DOWNLOAD_CANCEL = (By.XPATH, "//div[@class='MuiBox-root css-1vfajb6']//button[contains(text(), 'Cancel')]")
+    DOWNLOAD_CONTINUE = (By.XPATH, "//div[@class='MuiBox-root css-1vfajb6']//button[contains(text(), 'Continue')]")
+    DOWNLOAD_POPUP_MESSAGE = (By.XPATH, "//div//p[@id='modal-modal-description']")
+    TABLE_FIRST_ROW = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='0']")
+    SKU_POPUP_CLOSE = (By.XPATH, "//div[@class='MuiBox-root css-7g6ps3']/div/button/*[@data-testid='CloseIcon']")
 
     def go_to_aged_orders(self):
         try:
@@ -226,9 +233,9 @@ class X4AAgedOrdersPage(BasePage):
                     multiple_vendor_link_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='"+str(i)+"']/div/div/button[contains(text(), 'Multiple Vendors')]")
                     self.do_click_by_locator(multiple_vendor_link_xpath)
                     popup_vendor_names = self.get_element_text(self.MULTIPLE_VENDOR_LINK)
+                    self.do_click_by_locator(self.LINK_CLOSE_BUTTON)
                     if vendor_name not in popup_vendor_names:
                         raise Exception("vendor name mismatched")
-                    self.do_click_by_locator(self.LINK_CLOSE_BUTTON)
                 else:
                     self.logger.info("single vendor")
                     assert ui_vendor_name.strip() == vendor_name.strip(), "Vendor Name mismatched"
@@ -417,6 +424,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.DATE_RANGE_TEXTBOX)
             date_range = self.do_get_attribute(self.DATE_RANGE_TEXTBOX, 'value')
             assert date_range == "", "Date is search box is not empty after reset"
+            time.sleep(2)
             ele = self.get_all_elements(self.ORDER_DATE_ROWS)
             for e in ele:
                 ui_date = e.text
@@ -501,6 +509,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.DATE_RANGE_TEXTBOX)
             date_range = self.do_get_attribute(self.DATE_RANGE_TEXTBOX, 'value')
             assert date_range == "", "Date is search box is not empty after reset"
+            time.sleep(2)
             ele = self.get_all_elements(self.LAST_UPDATE_DATE_ROWS)
             for e in ele:
                 ui_date = e.text
@@ -876,7 +885,9 @@ class X4AAgedOrdersPage(BasePage):
                 self.go_to_page(last_page_number)
                 self.verify_bcn_vendor_and_order_status(bcn_account, vendor_name, order_status)
             self.logger.info("Successfully verified bcn, vendor and order status")
+            self.driver.refresh()
         except Exception as e:
+            self.driver.refresh()
             self.logger.error("Exception occurred verifying the bcn, vendor and order status" + str(e))
             raise e
 
@@ -910,9 +921,9 @@ class X4AAgedOrdersPage(BasePage):
                     multiple_vendor_link_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='"+str(i)+"']/div/div/button[contains(text(), 'Multiple Vendors')]")
                     self.do_click_by_locator(multiple_vendor_link_xpath)
                     popup_vendor_names = self.get_element_text(self.MULTIPLE_VENDOR_LINK)
+                    self.do_click_by_locator(self.LINK_CLOSE_BUTTON)
                     if vendor_name not in popup_vendor_names:
                         raise Exception("vendor name mismatched")
-                    self.do_click_by_locator(self.LINK_CLOSE_BUTTON)
                 else:
                     self.logger.info("single vendor")
                     assert ui_vendor_name.strip() == vendor_name.strip(), "Vendor Name mismatched"
@@ -975,3 +986,146 @@ class X4AAgedOrdersPage(BasePage):
         except Exception as e:
             self.logger.error("Exception while generating random number" + str(e))
             raise e
+
+    def click_aged_orders_download(self):
+        try:
+            self.do_click_by_locator(self.DOWNLOAD_ICON)
+            self.logger.info("Clicked on Aged orders download button.")
+            pop_up_message = self.get_element_text(self.DOWNLOAD_POPUP_MESSAGE)
+            self.logger.info(pop_up_message)
+            assert pop_up_message == "Only the first 10,000 items will be downloaded. You may filter to minimize number of items being downloaded as, needed.", "pop up message is not correct"
+            self.do_click_by_locator(self.DOWNLOAD_CONTINUE)
+            time.sleep(5)
+            self.logger.info("Clicked on Continue download button.")
+        except Exception as e:
+            self.logger.error('Exception occurred while downloading on Aged orders ' + str(e))
+            raise e
+
+    def filter_by_bcn_and_order_date(self, bcn):
+        try:
+            self.search_bcn_account(bcn)
+            self.do_click_by_locator(self.DATE_SEARCH_DROP_DOWN)
+            self.do_click_by_locator(self.ORDER_DATE_MENU_ITEM)
+            self.do_click_by_locator(self.CALENDAR_ICON)
+            self.do_click_by_locator(self.LAST_SIX_MONTHS_CALENDER_OPTION)
+            time.sleep(2)
+            self.logger.info("Filter by bcn %s and order date of 6-9 months applied", bcn)
+        except Exception as e:
+            self.logger.error('Exception occurred while applying filter by bcn and order date ' + str(e))
+            raise e
+
+    def get_first_and_last_row_data_for_search_with_bcn_and_order_data(self, header_row, bcn):
+        try:
+            first_page, last_page = self.get_pagination_first_and_last_page()
+            self.filter_by_bcn_and_order_date(bcn)
+            self.go_to_page(first_page)
+            first_row = self.get_first_row(header_row)
+            self.filter_by_bcn_and_order_date(bcn)
+            self.go_to_page(last_page)
+            last_row = self.get_last_row(header_row)
+            return first_row, last_row
+        except Exception as e:
+            self.logger.error('Exception occurred while applying filter by bcn and order date ' + str(e))
+            raise e
+
+    def get_first_row(self, header_row):
+        row_data = []
+        try:
+            time.sleep(2)
+            for i in range(1, 13):
+                column_xpath = "//div[@class='MuiDataGrid-row'] [@data-id='0']/div[@data-colindex='" + str(i) + "']"
+                column_element = (By.XPATH, column_xpath)
+                column_data = self.get_element_text(column_element)
+                column_name = self.do_get_attribute(column_element, 'data-field')
+                if column_name == 'ingramPartNumbers':
+                    if "..." in column_data:
+                        column_data = self.get_multiple_sku_data(column_data, column_xpath)
+                row_data.append(column_data)
+                if i == 9 or i == 12:
+                    time.sleep(1)
+                    scroll_element = self.driver.find_element(By.XPATH, column_xpath)
+                    self.scroll_horizontally(scroll_element)
+            self.logger.info("Fetched first row data successfully")
+            self.logger.info(row_data)
+            if len(header_row) != len(row_data):
+                self.logger.error("Please check the data")
+                raise Exception("Length of header did not match with length of data")
+            row_dict = dict(zip(header_row, row_data))
+            self.logger.info(row_dict)
+        except Exception as e:
+            self.logger.error("Exception occurred while retrieving the first row data" + str(e))
+            raise e
+        return row_dict
+
+    def get_last_row(self, header_row):
+        row_data = []
+        row_index = 0
+        try:
+            time.sleep(2)
+            max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
+            table = self.driver.find_element(By.XPATH, self.AGED_ORDER_TABLE)
+            for i in range(int(max_rows)):
+                if i > 0 and i % 2 == 0:
+                    self.logger.info("going to scroll")
+                    self.scroll_down(table)
+                    time.sleep(2)
+                row_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id='" + str(i) + "']")
+                if not self.do_check_availability(row_xpath):
+                    self.logger.info("there are only %s elements", str(i))
+                    row_index = i - 1
+                    break
+                row_index = i
+            for i in range(1, 13):
+                column_xpath = "//div[@class='MuiDataGrid-row'] [@data-id='" + str(row_index) + "']/div[@data-colindex='" + str(i) + "']"
+                column_element = (By.XPATH, column_xpath)
+                column_data = self.get_element_text(column_element)
+                column_name = self.do_get_attribute(column_element, 'data-field')
+                if column_name == 'ingramPartNumbers':
+                    if "..." in column_data:
+                        column_data = self.get_multiple_sku_data(column_data, column_xpath)
+                row_data.append(column_data)
+                if i == 9 or i == 12:
+                    scroll_element = self.driver.find_element(By.XPATH, column_xpath)
+                    self.scroll_horizontally(scroll_element)
+                    time.sleep(1)
+            self.logger.info("Aged order table last row fetched successfully")
+            self.logger.info(row_data)
+            if len(header_row) != len(row_data):
+                self.logger.error("Please check the data")
+                raise Exception("Length of header did not match with length of data")
+            row_dict = dict(zip(header_row, row_data))
+            self.logger.info(row_dict)
+        except Exception as e:
+            self.logger.error("Exception occurred while retrieving the last row data " + str(e))
+            raise e
+        return row_dict
+
+    def get_multiple_sku_data(self, column_data, column_xpath):
+        row_data = ""
+        try:
+            self.logger.info("getting the multiple skus")
+            self.do_click_by_locator((By.XPATH, column_xpath))
+            e = (By.XPATH, "//*[@id='modal-modal-description']/div/div/div/div[2]/div[2]/div/div/div")
+            data = self.get_element_text(e)
+            row_data = data.replace("\n", ",")
+            self.logger.info(row_data)
+            self.do_click_by_locator(self.LINK_CLOSE_BUTTON)
+        except Exception as e:
+            self.logger.error("Error while getting multiple sku data from link " + str(e))
+            raise e
+        return row_data
+
+    def get_first_and_last_row_data_for_filter_bcn_and_vendor_and_status(self, header_row, bcn, vendor_name, order_status):
+        try:
+            first_page, last_page = self.get_pagination_first_and_last_page()
+            self.filter_by_bcn_vendor_and_order_status(bcn, vendor_name, order_status)
+            self.go_to_page(first_page)
+            first_row = self.get_first_row(header_row)
+            self.filter_by_bcn_vendor_and_order_status(bcn, vendor_name, order_status)
+            self.go_to_page(last_page)
+            last_row = self.get_last_row(header_row)
+            return first_row, last_row
+        except Exception as e:
+            self.logger.error('Exception occurred while applying filter by bcn and vendor and order status' + str(e))
+            raise e
+
