@@ -5,13 +5,14 @@ from CommonUtilities.file_operations import logger
 from CommonUtilities.readProperties import ReadConfig
 from db.service.X4AInputOrderDbManagementService import X4AInputOrderDbManagementService
 from pages.X4A.Facade.PrepareObject import PrepareObject
-from pages.X4A.TestSteps.validateData import CreateOrder
+from pages.X4A.TestSteps.validateSalesOrdersData import ValidateSalesOrdersData
 
 parse_config_json = ParseConfigFile()
 screen_shot = {"path": " "}
 x4a_status_list = []
 x4a_input_order_list = []
 db_file_path = ReadConfig.get_db_file_path()
+order_management_srv_obj = X4AInputOrderDbManagementService()
 
 
 @scenario("features/hardware/sales_orders.feature", "Login to X4A portal")
@@ -39,9 +40,65 @@ def test_validate_created_on_descending():
     pass
 
 
+@scenario("features/hardware/sales_orders.feature", "All tabs visible on Order Details page")
+def test_all_tabs_on_order_details_tab():
+    pass
+
+
+@scenario("features/hardware/sales_orders.feature", "Same header display for all tab")
+def test_same_header_display_for_all_tab():
+    pass
+
+
+@scenario("features/hardware/sales_orders.feature", "Ingram order number and Order Status title on Order details page")
+def test_ingram_order_number_and_order_status_title_order_details_tab():
+    pass
+
+
+@scenario("features/hardware/sales_orders.feature", "Header data on Order details page")
+def test_header_data_on_order_details_tab():
+    pass
+
+
+@scenario("features/hardware/sales_orders.feature", "Reference Number fields data validation")
+def test_reference_number_fields_data_validation():
+    pass
+
+
+@scenario("features/hardware/sales_orders.feature", "Bill to info fields data validation")
+def test_bill_to_fields_data_validation():
+    pass
+
+
+@scenario("features/hardware/sales_orders.feature", "Ship to info fields data validation")
+def test_ship_to_fields_data_validation():
+    pass
+
+
+@scenario("features/hardware/sales_orders.feature", "End user info fields data validation")
+def test_end_user_fields_data_validation():
+    pass
+
+
+@scenario("features/hardware/sales_orders.feature", "Order lines tab fields data validation")
+def test_order_lines_fields_data_validation():
+    pass
+
+
+@scenario("features/hardware/sales_orders.feature", "Serial number header data validation")
+def test_serial_number_header_data_validation():
+    pass
+
+
+@scenario("features/hardware/sales_orders.feature", "Additional Attributes header data validation")
+def test_additional_attributes_header_data_validation():
+    pass
+
+
 @scenario("features/hardware/sales_orders.feature", "logout X4A")
 def test_logout_x4a():
     pass
+
 
 # @scenario("features/hardware/sales_orders.feature", "Search order by BCN from Sales Order")
 # def test_search_bcn():
@@ -71,13 +128,13 @@ def test_logout_x4a():
 
 @given(parsers.parse('launch chrome browser and open the X4A url'))
 def launch_browser(init_driver):
-    create_order_steps = CreateOrder(init_driver)
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
     order_management_srv_obj = X4AInputOrderDbManagementService()
     prepare_obj = PrepareObject(init_driver)
     feature_file_name = "sales_orders"
     try:
         test_data_order = readWriteTestData.load_excel_to_dictionary(ReadConfig.get_test_data_file(), "Input_Data")
-        filtered_order_data = create_order_steps.filtered_orders_by_feature_file(test_data_order, feature_file_name)
+        filtered_order_data = validate_sales_orers.filtered_orders_by_feature_file(test_data_order, feature_file_name)
         logger.info(filtered_order_data)
         for order_index, test_data_order in filtered_order_data.iterrows():
             x4a_input_order_list.clear()
@@ -100,21 +157,21 @@ def launch_browser(init_driver):
 @then(parsers.parse('provide user ID and Password to login'))
 def login(init_driver):
     feature_file_name = "sales_orders"
-    create_order_steps = CreateOrder(init_driver)
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
     try:
-        create_order_steps.login(feature_file_name, screen_shot)
+        validate_sales_orers.login(feature_file_name, screen_shot)
         logger.info("Launched the browser and login to X4A is successfully.")
     except Exception as e:
         logger.error("Not able to Launch the browser and login x4a %s", e)
         raise e
 
 
-@when(parsers.parse('the user traverse to Sales Order menu'))
+@then(parsers.parse('the user traverse to Sales Order menu'))
 def click_on_sales_orders_menu(init_driver):
     feature_file_name = "sales_orders"
-    create_order_steps = CreateOrder(init_driver)
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
     try:
-        if not create_order_steps.click_on_sales_orders(feature_file_name, screen_shot):
+        if not validate_sales_orers.click_on_sales_orders(feature_file_name, screen_shot):
             raise Exception("Failed to click on Sales Orders menu")
     except Exception as e:
         logger.error("Error while clicking on Sales Orders menu %s", e)
@@ -124,9 +181,9 @@ def click_on_sales_orders_menu(init_driver):
 @then(parsers.parse('verify that Sales Orders listing page visible'))
 def sales_orders_listing_page_visible(init_driver):
     feature_file_name = "sales_orders"
-    create_order_steps = CreateOrder(init_driver)
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
     try:
-        if not create_order_steps.is_sales_orders_listing_page_visible(feature_file_name, screen_shot):
+        if not validate_sales_orers.is_sales_orders_listing_page_visible(feature_file_name, screen_shot):
             raise Exception("Failed to verify that Sales Orders listing page")
     except Exception as e:
         logger.error("Error while verifying that Sales Orders listing page %s", e)
@@ -136,9 +193,9 @@ def sales_orders_listing_page_visible(init_driver):
 @then(parsers.parse('verify that all column should be present'))
 def columns_visible_on_sales_orders_listing_page_visible(init_driver):
     feature_file_name = "sales_orders"
-    create_order_steps = CreateOrder(init_driver)
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
     try:
-        if not create_order_steps.is_all_column_visible(feature_file_name, screen_shot):
+        if not validate_sales_orers.is_all_column_visible(feature_file_name, screen_shot):
             raise Exception("Failed to verify that All column on sales orders page ")
     except Exception as e:
         logger.error("Error while verifying that All column on Sales Orders page %s", e)
@@ -149,12 +206,12 @@ def columns_visible_on_sales_orders_listing_page_visible(init_driver):
 def search_im_order_number(init_driver):
     init_driver.refresh()
     feature_file_name = "sales_orders"
-    create_order_steps = CreateOrder(init_driver)
-    order_management_srv_obj = X4AInputOrderDbManagementService()
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
     try:
-        im_order_number = order_management_srv_obj.get_im_order_number_by_feature_file_name(db_file_path,
-                                                                                            feature_file_name)
-        if not create_order_steps.do_search_im_order_number(im_order_number, feature_file_name, screen_shot):
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        im_order_number = input_order_data.get("im_order_number")
+        if not validate_sales_orers.do_search_im_order_number(im_order_number, feature_file_name, screen_shot):
             raise Exception("Failed to search IM Order Number")
     except Exception as e:
         logger.error("Error while searching IM Order Number %s", e)
@@ -164,12 +221,12 @@ def search_im_order_number(init_driver):
 @then(parsers.parse('Validate the IM Order number is listed'))
 def validate_im_order_number(init_driver):
     feature_file_name = "sales_orders"
-    create_order_steps = CreateOrder(init_driver)
-    order_management_srv_obj = X4AInputOrderDbManagementService()
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
     try:
-        im_order_number = order_management_srv_obj.get_im_order_number_by_feature_file_name(db_file_path,
-                                                                                            feature_file_name)
-        if not create_order_steps.do_validate_im_order_number(im_order_number, feature_file_name, screen_shot):
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        im_order_number = input_order_data.get("im_order_number")
+        if not validate_sales_orers.do_validate_im_order_number(im_order_number, feature_file_name, screen_shot):
             raise Exception("Failed to Validate IM Order Number")
     except Exception as e:
         logger.error("Not able to Validate IM Order Number %s", e)
@@ -181,9 +238,9 @@ def validate_created_on_date_ascending(init_driver):
     page1 = 1
     page2 = 3
     feature_file_name = "sales_orders"
-    create_order_steps = CreateOrder(init_driver)
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
     try:
-        if not create_order_steps.do_validate_created_on_ascending(feature_file_name, page1, page2, screen_shot):
+        if not validate_sales_orers.do_validate_created_on_ascending(feature_file_name, page1, page2, screen_shot):
             raise Exception("Failed to Validate All orders created on date should be a,scending")
     except Exception as e:
         logger.error("Not able to Validate All orders created on date should be ascending %s", e)
@@ -195,9 +252,9 @@ def validate_created_on_date_descending(init_driver):
     page1 = 1
     page2 = 3
     feature_file_name = "sales_orders"
-    create_order_steps = CreateOrder(init_driver)
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
     try:
-        if not create_order_steps.do_validate_created_on_descending(feature_file_name, page1, page2, screen_shot):
+        if not validate_sales_orers.do_validate_created_on_descending(feature_file_name, page1, page2, screen_shot):
             raise Exception("Failed to Validate All orders created on date should be descending")
     except Exception as e:
         logger.error("Not able to Validate All orders created on date should be descending %s", e)
@@ -208,23 +265,331 @@ def validate_created_on_date_descending(init_driver):
 def search_bcn(init_driver):
     init_driver.refresh()
     feature_file_name = "sales_orders"
-    create_order_steps = CreateOrder(init_driver)
-    order_management_srv_obj = X4AInputOrderDbManagementService()
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
     try:
-        reseller_bcn = order_management_srv_obj.get_bcn_by_feature_file_name(db_file_path, feature_file_name)
-        if not create_order_steps.do_search_bcn(reseller_bcn, feature_file_name, screen_shot):
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        reseller_bcn = input_order_data.get("reseller_bcn")
+
+        if not validate_sales_orers.do_search_bcn(reseller_bcn, feature_file_name, screen_shot):
             raise Exception("Failed to search BCN")
     except Exception as e:
         logger.error("Error while searching BCN %s", e)
         raise e
 
 
+@when(parsers.parse('Click on searched IM order number'))
+def click_on_im_order_number(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orers.click_on_im_order_num(feature_file_name):
+            raise Exception("Failed to click on searched IM order number")
+    except Exception as e:
+        logger.error("Error while click on searched IM order number %s", e)
+        raise e
+
+
+@then(parsers.parse('Verify that all tabs should be present'))
+def tabs_visible_on_order_details_page(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orers.is_all_tabs_visible(feature_file_name, screen_shot):
+            raise Exception("Failed to verify that All tabs on Order Details page")
+    except Exception as e:
+        logger.error("Error while verifying that All tabs on Order Details page %s", e)
+        raise e
+
+
+@when(parsers.parse('Click on Order Details tab on Order Details page'))
+def click_on_order_detail_tab(init_driver):
+    init_driver.refresh()
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orers.click_on_order_details_tab(feature_file_name):
+            raise Exception("Failed to click on Order Details tab on Order Details page")
+    except Exception as e:
+        logger.error("Error while clicking on Order Details tab on Order Details page %s", e)
+        raise e
+
+
+@when(parsers.parse('Click on Order lines tab on Order Details page'))
+def click_on_order_lines_tab(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orers.click_on_order_lines_tab(feature_file_name):
+            raise Exception("Failed to click on Order Lines tab on Order Details page")
+    except Exception as e:
+        logger.error("Error while clicking on Order Lines tab on Order Details page %s", e)
+        raise e
+
+
+@when(parsers.parse('Click on Order Tracking tab on Order Details page'))
+def click_on_order_tracking_tab(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orers.click_on_order_tracking_tab(feature_file_name):
+            raise Exception("Failed to click on Order Tracking tab on Order Details page")
+    except Exception as e:
+        logger.error("Error while clicking on Order Tracking tab on Order Details page %s", e)
+        raise e
+
+
+@when(parsers.parse('Click on Additional attributes tab on Order Details page'))
+def click_on_order_lines_tab(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orers.click_on_additional_attr_tab(feature_file_name):
+            raise Exception("Failed to click on Additional attributes tab on Order Details page")
+    except Exception as e:
+        logger.error("Error while clicking on Additional attributes tab on Order Details page %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate header data contains Order value and Order type'))
+def header_data_contain_order_value_order_type(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        order_value = input_order_data.get("order_value")
+        if not validate_sales_orers.is_order_value_header_data_visible(feature_file_name, screen_shot, order_value):
+            raise Exception("Failed to verify that Order value header data on Order Details page")
+    except Exception as e:
+        logger.error("Error while verify that Order value header data on Order Details page %s", e)
+        raise e
+
+
+@then(parsers.parse(
+    'Verify that title on the header of the order details page contains Ingram order number and Order Status'))
+def title_ingram_order_number_and_order_status(init_driver):
+    init_driver.refresh()
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        im_order_number = input_order_data.get("im_order_number")
+        order_status = input_order_data.get("order_status")
+        if not validate_sales_orers.is_ingram_order_number_and_order_status_title_shown(feature_file_name, screen_shot,
+                                                                                        im_order_number, order_status):
+            raise Exception(
+                "Failed to Verify that title on the header of the order details page contains Ingram order number and the Order Status")
+    except Exception as e:
+        logger.error(
+            "Error while verifying that title on the header of the order details page contains Ingram order number and the Order Status %s",
+            e)
+        raise e
+
+
+@then(parsers.parse('Validate header data contains Order value'))
+def header_data_contain_order_value(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        order_value = input_order_data.get("order_value")
+
+        if not validate_sales_orers.is_order_value_header_data_visible(feature_file_name, screen_shot, order_value):
+            raise Exception("Failed to verify that Order value header data on Order Details page")
+    except Exception as e:
+        logger.error("Error while verify that Order value header data on Order Details page %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate header data contains Order type'))
+def header_data_contain_order_type(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        order_type = input_order_data.get("order_type")
+
+        if not validate_sales_orers.is_order_type_header_data_visible(feature_file_name, screen_shot, order_type):
+            raise Exception("Failed to verify that Order type header data on Order Details page")
+    except Exception as e:
+        logger.error("Error while verify that Order type header data on Order Details page %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate fields under reference number section'))
+def fields_under_reference_number_section(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        reference_numbers = input_order_data.get("reference_numbers")
+        reference_numbers_list = list(reference_numbers.split(","))
+        logger.info(reference_numbers_list)
+
+        if not validate_sales_orers.validate_fields_under_reference_no(feature_file_name, screen_shot,
+                                                                       reference_numbers_list):
+            raise Exception("Failed to verify the fields under Reference number section on Order Details page")
+    except Exception as e:
+        logger.error("Error while verify the fields under Reference number section on Order Details page %s", e)
+        raise e
+
+
+@when(parsers.parse('Click on Billing tab on Order Details page'))
+def click_on_billing_tab(init_driver):
+    init_driver.refresh()
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orers.click_on_billing_tab(feature_file_name):
+            raise Exception("Failed to click on Billing tab on Order Details page")
+    except Exception as e:
+        logger.error("Error while clicking on Billing tab on Order Details page %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate fields under Bill to info section'))
+def fields_under_bill_to_info_section(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        billing_to_info = input_order_data.get("billing_to_info")
+        billing_to_info_list = list(billing_to_info.split(","))
+        logger.info(billing_to_info_list)
+        if not validate_sales_orers.validate_fields_under_bill_to_info(feature_file_name, screen_shot,
+                                                                       billing_to_info_list):
+            raise Exception("Failed to verify fields under Bill to info section on Order Details page")
+    except Exception as e:
+        logger.error("Error while verify the fields under Bill to info section on Order Details page %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate fields under Ship to info section'))
+def fields_under_ship_to_info_section(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        ship_to_info = input_order_data.get("ship_to_info")
+        ship_to_info_list = list(ship_to_info.split(","))
+        logger.info(ship_to_info_list)
+        if not validate_sales_orers.validate_fields_under_ship_to_info(feature_file_name, screen_shot,
+                                                                       ship_to_info_list):
+            raise Exception("Failed to verify fields under Ship to info section on Order Details page")
+    except Exception as e:
+        logger.error("Error while verify the fields under Ship to info section on Order Details page %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate fields under End user info section'))
+def fields_under_end_user_info_section(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        end_user_info = input_order_data.get("end_user_info")
+        end_user_info_list = list(end_user_info.split(","))
+        logger.info(end_user_info_list)
+        if not validate_sales_orers.validate_fields_under_end_user_info(feature_file_name, screen_shot,
+                                                                        end_user_info_list):
+            raise Exception("Failed to verify fields under End user info section on Order Details page")
+    except Exception as e:
+        logger.error("Error while verify the fields under End user info section on Order Details page %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate fields under Order lines tab'))
+def fields_under_order_lines_tab(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        order_lines_tab_info = input_order_data.get("order_lines_tab")
+        order_lines_tab_info_list = list(order_lines_tab_info.split(","))
+        logger.info(order_lines_tab_info_list)
+        if not validate_sales_orers.validate_fields_under_order_lines_tab(feature_file_name, screen_shot,
+                                                                          order_lines_tab_info_list):
+            raise Exception("Failed to verify fields under Order lines on Order Details page")
+    except Exception as e:
+        logger.error("Error while verify the fields under Order lines section on Order Details page %s", e)
+        raise e
+
+
+@when(parsers.parse('Click on Serial numbers view more option'))
+def click_on_serial_numbers_view_more_option(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orers.click_on_view_more_option(feature_file_name):
+            raise Exception("Failed to click on Serial numbers View more option on Order Details page")
+    except Exception as e:
+        logger.error("Error while clicking on Serial numbers View more option on Order Details page %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate fields under Serial Numbers header'))
+def fields_under_serial_numbers_tab(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        serial_numbers_info = input_order_data.get("serial_numbers")
+        serial_numbers_info_list = list(serial_numbers_info.split(","))
+        logger.info(serial_numbers_info_list)
+        if not validate_sales_orers.validate_fields_under_serial_numbers_header(feature_file_name, screen_shot,
+                                                                                serial_numbers_info_list):
+            raise Exception("Failed to verify fields under Serial numbers header on Order Details page")
+    except Exception as e:
+        logger.error("Error while verify the fields under Serial numbers header on Order Details page %s", e)
+        raise e
+
+
+@when(parsers.parse('Click on Additional attributes view more option'))
+def click_on_additional_attr_view_more_option(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orers.click_on_additional_attr_view_more_button(feature_file_name):
+            raise Exception("Failed to click on Additional Attributes View more option on Order Details page")
+    except Exception as e:
+        logger.error("Error while clicking on Additional Attributes View more option on Order Details page %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate fields under Additional attributes header'))
+def fields_under_additional_attributes_tab(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        additional_attributes_info = input_order_data.get("additional_attributes")
+        additional_attributes_info_list = list(additional_attributes_info.split(","))
+        logger.info(additional_attributes_info_list)
+        if not validate_sales_orers.validate_fields_under_additional_attribute_header(feature_file_name, screen_shot,
+                                                                                      additional_attributes_info_list):
+            raise Exception("Failed to verify fields under Additional attributes header on Order Details page")
+    except Exception as e:
+        logger.error("Error while verify the fields under Additional attributes header on Order Details page %s", e)
+        raise e
+
+
 @given(parsers.parse('logout the X4A url'))
 def logout_x4a_url(init_driver):
     feature_file_name = "sales_orders"
-    create_order_steps = CreateOrder(init_driver)
+    validate_sales_orers = ValidateSalesOrdersData(init_driver)
     try:
-        create_order_steps.logout_x4a_url(feature_file_name)
+        validate_sales_orers.logout_x4a_url(feature_file_name)
         logger.info("Logout X4A url is successfully.")
     except Exception as e:
         logger.error("Not able to logout x4a url %s", e)

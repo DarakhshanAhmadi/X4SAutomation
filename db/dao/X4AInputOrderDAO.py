@@ -19,10 +19,18 @@ class X4AInputOrderDAO(BaseTest):
             cursor = connection.cursor()
             for x4a_input_order in x4a_input_order_list:
                 cursor.execute(SqlConstant.X4A_INPUT_ORDER_INSERT_SQL_QUERY,
-                               (x4a_input_order.feature_file_name, x4a_input_order.reseller_bcn, x4a_input_order.im_order_number,
+                               (x4a_input_order.feature_file_name, x4a_input_order.reseller_bcn,
+                                x4a_input_order.im_order_number,
                                 x4a_input_order.order_type, x4a_input_order.reseller_po, x4a_input_order.vendor_name,
-                                x4a_input_order.order_status, x4a_input_order.customer_po, x4a_input_order.total_revenue_min,
-                                x4a_input_order.total_revenue_max, x4a_input_order.customer_name))
+                                x4a_input_order.order_status, x4a_input_order.customer_po,
+                                x4a_input_order.total_revenue_min,
+                                x4a_input_order.total_revenue_max, x4a_input_order.customer_name,
+                                x4a_input_order.order_value,
+                                x4a_input_order.reference_numbers, x4a_input_order.billing_to_info,
+                                x4a_input_order.ship_to_info,
+                                x4a_input_order.end_user_info, x4a_input_order.order_lines_tab,
+                                x4a_input_order.serial_numbers,
+                                x4a_input_order.additional_attributes))
                 connection.commit()
         except Error as e:
             self.logger.error("Exception occurred while trying to insert the input data into x4a_input_order table "
@@ -78,29 +86,6 @@ class X4AInputOrderDAO(BaseTest):
                              im_order_no)
             return im_order_no
 
-    def get_order_type_by_feature_file_name(self, sql_util, feature_file_name):
-        order_type = None
-        try:
-            self.logger.info("Fetching the Order Type from x4a_input_order table by feature file name")
-            connection = sql_util.get_connection()
-            connection.row_factory = sqlite3.Row
-            cursor = connection.cursor()
-            cursor.execute(SqlConstant.X4A_GET_ORDER_TYPE_BY_FEATURE_FILE_NAME_SQL_QUERY, [str(feature_file_name)])
-            x4a_input_order = cursor.fetchall()
-            for record in x4a_input_order:
-                order_type = record[0]
-        except Error as e:
-            self.logger.error(
-                "Exception occurred while trying to fetch Order Type from x4a_input_order table by feature file name"
-                + str(e))
-            raise e
-        finally:
-            sql_util.close_connection(connection)
-
-            self.logger.info("Order Type %s fetched successfully from X4A_input_order table by feature file name",
-                             order_type)
-            return order_type
-
     def get_vendor_name_by_feature_file_name(self, sql_util, feature_file_name):
         vendor_name = None
         try:
@@ -124,7 +109,6 @@ class X4AInputOrderDAO(BaseTest):
                              vendor_name)
             return vendor_name
 
-
     def get_customer_po_number_by_feature_file_name(self, sql_util, feature_file_name):
         # This method is responsible to fetch customer po number from x4a_input_order table
         customer_po = None
@@ -133,7 +117,8 @@ class X4AInputOrderDAO(BaseTest):
                              feature_file_name)
             connection = sql_util.get_connection()
             cursor = connection.cursor()
-            cursor.execute(SqlConstant.X4A_INPUT_ORDER_GET_CUSTOMER_PO_NUMBER_BY_FEATURE_FILE_NAME, [str(feature_file_name)])
+            cursor.execute(SqlConstant.X4A_INPUT_ORDER_GET_CUSTOMER_PO_NUMBER_BY_FEATURE_FILE_NAME,
+                           [str(feature_file_name)])
             customer_pos = cursor.fetchall()
             self.logger.info(customer_pos)
             for record in customer_pos:
@@ -222,7 +207,8 @@ class X4AInputOrderDAO(BaseTest):
                              feature_file_name)
             connection = sql_util.get_connection()
             cursor = connection.cursor()
-            cursor.execute(SqlConstant.X4A_INPUT_ORDER_GET_MAX_TOTAL_REVENUE_BY_FEATURE_FILE_NAME, [str(feature_file_name)])
+            cursor.execute(SqlConstant.X4A_INPUT_ORDER_GET_MAX_TOTAL_REVENUE_BY_FEATURE_FILE_NAME,
+                           [str(feature_file_name)])
             max_total_revenues = cursor.fetchall()
             for record in max_total_revenues:
                 max_total_revenue = record[0]
@@ -243,7 +229,8 @@ class X4AInputOrderDAO(BaseTest):
                              feature_file_name)
             connection = sql_util.get_connection()
             cursor = connection.cursor()
-            cursor.execute(SqlConstant.X4A_INPUT_ORDER_GET_MIN_TOTAL_REVENUE_BY_FEATURE_FILE_NAME, [str(feature_file_name)])
+            cursor.execute(SqlConstant.X4A_INPUT_ORDER_GET_MIN_TOTAL_REVENUE_BY_FEATURE_FILE_NAME,
+                           [str(feature_file_name)])
             min_total_revenues = cursor.fetchall()
             for record in min_total_revenues:
                 min_total_revenue = record[0]
@@ -256,3 +243,23 @@ class X4AInputOrderDAO(BaseTest):
         self.logger.info("data fetched successfully into x4a_input_order table")
         return min_total_revenue
 
+    def get_x4a_input_test_case_order_detail(self, sql_util, feature_file_name):
+        # This method is responsible to get given test case records from x4ainput_order table
+        order_test_case_details_json = None
+        try:
+            self.logger.info("Fetching the records from x4a_input_order table by test case ID and marketplace")
+            connection = sql_util.get_connection()
+            connection.row_factory = sqlite3.Row
+            cursor = connection.cursor()
+
+            cursor.execute(SqlConstant.X4A_INPUT_GET_ORDER_TEST_CASE_RECORD_SQL_QUERY, [str(feature_file_name)])
+            order_test_case_details = cursor.fetchall()
+            order_test_case_details_json = [dict(ix) for ix in order_test_case_details][0]
+        except Error as e:
+            self.logger.error("Exception occurred while trying to fetch test case record fromx4a_input_order table "
+                              + str(e))
+            raise e
+        finally:
+            sql_util.close_connection(connection)
+            self.logger.info("Records fetched successfully from x4a_input_order table")
+            return order_test_case_details_json
