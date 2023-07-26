@@ -16,7 +16,15 @@ order_status String,
 customer_po String,
 total_revenue_min String,
 total_revenue_max String,
-customer_name String
+customer_name String,
+order_value String,
+reference_numbers String,
+billing_to_info String,
+ship_to_info String,
+end_user_info String,
+order_lines_tab String,
+serial_numbers  String,
+additional_attributes String
 );
 
 CREATE TABLE IF NOT EXISTS x4a_user_data(
