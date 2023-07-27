@@ -5,12 +5,14 @@ from CommonUtilities.parse_config import ParseConfigFile
 from selenium.webdriver import ActionChains, Keys
 from datetime import datetime
 from CommonUtilities.readProperties import ReadConfig
-from db.service.X4AInputOrderDbManagementService import X4AInputOrderDbManagementService
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class X4ASalesOrdersPage(BasePage):
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
+
+    """Sales Orders Page"""
 
     ORDER_MENU = (By.XPATH, "//*[@data-testid='orders-MenuItem']")
     SALES_ORDER_OPTION = (By.XPATH, "//*[text()='Sales Orders']")
@@ -53,7 +55,109 @@ class X4ASalesOrdersPage(BasePage):
     USER_DROPDOWN = (By.XPATH, "//*[@data-testid='KeyboardArrowDownIcon']")
     LOGOUT = (By.XPATH, "//*[text()='LogOut']")
 
-    """constructor of the Login Page class"""
+    SEARCHED_IM_ORDER_NUMBER = (By.XPATH,
+                                "//*[@class='MuiDataGrid-virtualScrollerRenderZone css-uw2ren-MuiDataGrid-virtualScrollerRenderZone']//div[@data-field='orderNumber']/div/a")
+
+    """Order Details page"""
+
+    ORDER_DETAILS_TAB = (By.XPATH, "//button/div/div[text()='Order Details']")
+    BILLING_TAB = (By.XPATH, "//button/div/div[text()='Billing']")
+    ORDER_LINES_TAB = (By.XPATH, "//button/div/div[text()='Order lines']")
+    ORDER_TRACKING_TAB = (By.XPATH, "//button/div/div[text()='Order Tracking']")
+    ADDITION_ATTRIBUTE_TAB = (By.XPATH, "//button/div/div[text()='Additional attributes']")
+    IM_ORDER_NUMBER_TITLE = (By.XPATH, "//h2[contains(text(),'IM order #')]")
+    ORDER_STATUS_TITLE = (By.XPATH, "//h2[contains(text(),'IM order #')]/parent::div/div/span")
+    ORDER_VALUE_HEADER = (By.XPATH, "//*[@class='TopArea']/div[2]/div[1]")
+    ORDER_TYPE_HEADER = (By.XPATH, "//*[@class='TopArea']/div[2]/div[3]")
+
+    """Order Details tab-Reference numbers"""
+
+    END_USER_PO_FIELD = (By.XPATH, "//*[text()='End user PO:']/parent::div/div[@class='fieldValue']/strong")
+    RESELLER_PO_FIELD = (By.XPATH, "//*[text()='Reseller PO:']/parent::div/div[@class='fieldValue']/strong")
+    VENDOR_ORDER_FIELD = (By.XPATH, "//*[text()='Vendor order:']/parent::div/div[@class='fieldValue']/strong")
+    VENDOR_SALES_ORDER_FIELD = (
+        By.XPATH, "//*[text()='Vendor sales order:']/parent::div/div[@class='fieldValue']/strong")
+
+    """Biiling tab-Bill to info"""
+
+    BILL_TO_ID_FIElD = (By.XPATH, "//*[text()='Bill to ID (suffix):']/parent::div/div[@class='labeltext']/strong")
+    BILL_TO_INFO_CONTACT_FIElD = (
+        By.XPATH, "//*[@class='billingToId']//div[text()='Contact:']/parent::div/div[@class='labeltext']/strong")
+    BILL_TO_INFO_COMPANY_NAME_FIElD = (
+        By.XPATH, "//*[@class='billingToId']//div[text()='Company name:']/parent::div/div[@class='labeltext']/strong")
+    BILL_TO_INFO_EMAIL_FIElD = (
+        By.XPATH, "//*[@class='billingToId']//div[text()='Email:']/parent::div/div[@class='labeltext']/strong")
+    BILL_TO_INFO_ADDRESS_FIElD = (
+        By.XPATH, "//*[@class='billingToId']//*[text()='Address:']/parent::div/div[@class='field'][1]")
+    BILL_TO_INFO_PHONE_NO_FIElD = (
+        By.XPATH, "//*[@class='billingToId']//div[text()='Phone number:']/parent::div/div[@class='labeltext']/strong")
+
+    """Biiling tab-Ship to info"""
+
+    SHIP_TO_ID_FIElD = (By.XPATH, "//*[text()='Ship to ID (suffix):']/parent::div/div[@class='labeltext']/strong")
+    SHIP_TO_INFO_CONTACT_FIElD = (
+        By.XPATH, "//*[@class='shipToId']//*[text()='Contact:']/parent::div/div[@class='labeltext']/strong")
+    SHIP_TO_INFO_COMPANY_NAME_FIElD = (
+        By.XPATH, "//*[@class='shipToId']//*[text()='Company name:']/parent::div/div[@class='labeltext']/strong")
+    SHIP_TO_INFO_EMAIL_FIElD = (
+        By.XPATH, "//*[@class='shipToId']//*[text()='Email:']/parent::div/div[@class='labeltext']/strong")
+    SHIP_TO_INFO_PHONE_NO_FIElD = (
+        By.XPATH, "//*[@class='shipToId']//*[text()='Phone number:']/parent::div/div[@class='labeltext']/strong")
+    SHIP_TO_INFO_SHIPPING_COMMENT_FIElD = (
+        By.XPATH,
+        "//*[@class='shipToId']//*[text()='Shipping comments:']/parent::div/div[@class='labeltext']/div/strong")
+    SHIP_TO_INFO_ADDRESS_FIElD = (
+        By.XPATH, "//*[@class='shipToId']//*[text()='Address:']/parent::div/div[@class='field'][1]")
+
+    """Biiling tab-End user info"""
+
+    END_USER_ID_FIElD = (By.XPATH, "//*[text()='End user ID (suffix):']/parent::div/div[@class='labeltext']/strong")
+    END_USER_COMPANY_NAME_FIElD = (
+        By.XPATH, "//*[@class='endUserId']//*[text()='Company name:']/parent::div/div[@class='labeltext']/strong")
+    END_USER_ADDRESS_FIElD = (
+        By.XPATH, "//*[@class='endUserId']//*[text()='Address:']/parent::div/div[@class='field'][1]")
+    END_USER_CONTACT_FIElD = (
+        By.XPATH, "//*[@class='endUserId']//*[text()='Contact:']/parent::div/div[@class='labeltext']/strong")
+    END_USER_PHONE_NO_FIElD = (
+        By.XPATH, "//*[@class='endUserId']//*[text()='Phone number:']/parent::div/div[@class='labeltext']/strong")
+    END_USER_EMAIL_FIElD = (
+        By.XPATH, "//*[@class='endUserId']//*[text()='Email:']/parent::div/div[@class='labeltext']/strong")
+
+    """Order Lines tab """
+
+    ORDER_LINE = (By.XPATH, "//*[@data-id='0']/div[@role='cell' and @data-field='ingramOrderLineNumber']")
+    ORDER_LINE_STATUS = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='lineStatus']")
+    ORDER_LINE_DESCRIPTION = (
+        By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='partDescription']/div/div[1]/strong")
+    ORDER_LINE_VPN_NUMBER = (
+        By.XPATH, "//*[@data-id='0']//div[@role='cell' and @data-field='partDescription']/div/div/span[1]")
+    ORDER_LINE_IM_PART = (
+        By.XPATH, "//*[@data-id='0']//div[@role='cell' and @data-field='partDescription']/div/div/span[2]")
+    ORDER_LINE_SPECIAL_BID_NUMBER = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='specialBidNumber']")
+    ORDER_LINE_UNIT_PRICE = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='unitPrice']")
+    ORDER_LINE_EXTENDED_PRICE = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='extendedPrice']")
+    ORDER_LINE_COST = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='cost']")
+    ORDER_LINE_EXTENDED_COST = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='extendedCost']")
+    ORDER_LINE_MARGIN = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='margin']")
+    ORDER_LINE_CURRENCY_CODE = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='currencyCode']")
+    ORDER_LINE_PAYMENT_TERMS = (By.XPATH, "//*[@role='cell' and @data-field='paymentTerms']")
+    ORDER_LINE_QUANTITY = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityOrdered']")
+    ORDER_LINE_QUANTITY_CONFIRMED = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityConfirmed']")
+    ORDER_LINE_QUANTITY_BACKORDERED = (
+        By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityBackOrdered']")
+    ORDER_LINE_NOTES = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='lineNotes']")
+    CLOSE_BUTTON_ON_POPUP = (By.XPATH, "//*[@id='modal-modal-title']/parent::div/following-sibling::div")
+
+    """Order Lines tab-Additional Attributes """
+
+    INCOMETAXAMOUNT_NAME_VALUE = (
+        By.XPATH, "//div[text()='icmstaxamount']//following-sibling::div[@data-field='attributeValue']")
+    OTHERTAXAMOUNT_NAME_VALUE = (
+        By.XPATH, "//div[text()='othertaxamount']//following-sibling::div[@data-field='attributeValue']")
+    ROLLSWITCH_VALUE = (By.XPATH, "//div[text()='rollswitch']//following-sibling::div[@data-field='attributeValue']")
+    ADDITION_ATTRIBUTE_CLOSE_BUTTON = (By.XPATH, "//button[text()='Close']")
+
+    """constructor of the Login Page c`lass"""
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -596,4 +700,790 @@ class X4ASalesOrdersPage(BasePage):
             return True
         except Exception as e:
             self.logger.error('Exception occurred while Logout X4A ' + str(e))
+            return False
+
+    def click_on_im_order_num(self):
+        try:
+            self.do_click_by_locator(self.SEARCHED_IM_ORDER_NUMBER)
+            self.logger.info("Successfully Clicked on Im order number")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while Click on IM Order Number ' + str(e))
+            return False
+
+    def is_order_details_tab_visible(self):
+        try:
+            self.do_check_visibility(self.ORDER_DETAILS_TAB)
+            self.logger.info("Successfully verified the Order Details tab")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Order Details tab on Order Details page ' + str(e))
+            return False
+
+    def is_billing_tab_visible(self):
+        try:
+            self.do_check_visibility(self.BILLING_TAB)
+            self.logger.info("Successfully verified the Billing tab")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Billing tab on Order Details page ' + str(e))
+            return False
+
+    def is_order_lines_tab_visible(self):
+        try:
+            self.do_check_visibility(self.ORDER_LINES_TAB)
+            self.logger.info("Successfully verified the Order Lines tab")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Order Lines tab on Order Details page ' + str(e))
+            return False
+
+    def is_order_tracking_tab_visible(self):
+        try:
+            self.do_check_visibility(self.ORDER_TRACKING_TAB)
+            self.logger.info("Successfully verified the Order Tracking tab")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Order Tracking tab on Order Details page ' + str(e))
+            return False
+
+    def is_addition_attributes_visible(self):
+        try:
+            self.do_check_visibility(self.ADDITION_ATTRIBUTE_TAB)
+            self.logger.info("Successfully verified Additional attribites tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Additional attribites tab on Order Details page ' + str(e))
+            return False
+
+    def is_ingram_order_number_and_order_status_title_shown(self, im_order_number, order_status):
+        try:
+            self.do_check_visibility(self.IM_ORDER_NUMBER_TITLE)
+            order_number = self.get_element_text(self.IM_ORDER_NUMBER_TITLE)
+            order_number = order_number.replace("IM order #: ", "")
+            if order_number in im_order_number:
+                self.logger.info("Successfully verified IM Order Number title")
+            status = self.get_element_text(self.ORDER_STATUS_TITLE)
+            assert str(status) == str(order_status)
+            self.logger.info("Successfully verified Order Status title")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Additional attribites tab on Order Details page ' + str(e))
+            return False
+
+    def is_order_value_header_data_visible(self, order_value):
+        try:
+            self.do_check_visibility(self.ORDER_VALUE_HEADER)
+            ord_value = self.get_element_text(self.ORDER_VALUE_HEADER)
+            if str(order_value) in str(ord_value):
+                self.logger.info("Successfully verified Order value header")
+                return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order value header on Order Details page ' + str(e))
+            return False
+
+    def is_order_type_header_data_visible(self, order_type):
+        try:
+            self.do_check_visibility(self.ORDER_TYPE_HEADER)
+            or_type = self.get_element_text(self.ORDER_TYPE_HEADER)
+            if str(order_type) in str(or_type):
+                self.logger.info("Successfully verified Order Type header")
+                return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order Type header on Order Details page ' + str(e))
+            return False
+
+    def is_end_user_po_field_visible(self, end_user_po):
+        try:
+            end_ur_po = self.get_element_text(self.END_USER_PO_FIELD)
+            if str(end_user_po) == '.':
+                end_user_po = end_user_po.replace(".", "-")
+            assert str(end_ur_po) == str(end_user_po)
+            self.logger.info("Successfully verified End user PO field under Reference number")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying End user PO field under Reference number ' + str(e))
+            return False
+
+    def is_reseller_po_field_visible(self, reseller_po):
+        try:
+            r_po = self.get_element_text(self.RESELLER_PO_FIELD)
+            assert str(r_po) == str(reseller_po)
+            self.logger.info("Successfully verified Reseller PO field under Reference number")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Reseller PO field under Reference number ' + str(e))
+            return False
+
+    def is_vendor_order_field_visible(self, vendor_order):
+        try:
+            if str(vendor_order) == '.':
+                vendor_order = vendor_order.replace(".", "-")
+            vendor_ord = self.get_element_text(self.VENDOR_ORDER_FIELD)
+            assert str(vendor_ord) == str(vendor_order)
+            self.logger.info("Successfully verified Vendor order field under Reference number")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Vendor order field under Reference number ' + str(e))
+            return False
+
+    def is_vendor_sales_order_field_visible(self, vendor_sales_order):
+        try:
+            if str(vendor_sales_order) == '.':
+                vendor_sales_order = vendor_sales_order.replace(".", "-")
+            vendor_sale_ord = self.get_element_text(self.VENDOR_SALES_ORDER_FIELD)
+            assert str(vendor_sale_ord) == str(vendor_sales_order)
+            self.logger.info("Successfully verified Vendor sales order field under Reference number")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Vendor sales order field under Reference number ' + str(e))
+            return False
+
+    def click_on_billing_tab(self):
+        try:
+            self.do_click_by_locator(self.BILLING_TAB)
+            self.logger.info("Successfully Clicked Billing tab")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while Click on Billing tab ' + str(e))
+            return False
+
+    def click_on_order_details_tab(self):
+        try:
+            self.do_click_by_locator(self.ORDER_DETAILS_TAB)
+            self.logger.info("Successfully Clicked Order Details tab")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while Click on Order Details tab ' + str(e))
+            return False
+
+    def click_on_order_lines_tab(self):
+        try:
+            self.do_click_by_locator(self.ORDER_LINES_TAB)
+            self.logger.info("Successfully Clicked Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while Click on Order lines tab ' + str(e))
+            return False
+
+    def click_on_order_tracking_details_tab(self):
+        try:
+            self.do_click_by_locator(self.ORDER_TRACKING_TAB)
+            self.logger.info("Successfully Clicked Order Tracking tab")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while Click on Order Tracking tab ' + str(e))
+            return False
+
+    def click_on_additional_attr_tab(self):
+        try:
+            self.do_click_by_locator(self.ADDITION_ATTRIBUTE_TAB)
+            self.logger.info("Successfully Clicked Addition Attribute tab")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while Click on Addition Attribute tab ' + str(e))
+            return False
+
+    def is_bill_to_id_field_visible(self, bill_to_id):
+        try:
+            bill_to_id = bill_to_id.replace("0", "000")
+            id = self.get_element_text(self.BILL_TO_ID_FIElD)
+            assert str(id) == str(bill_to_id)
+            self.logger.info("Successfully verified Bill to Id field under Billing to info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Bill to Id field under Billing to info' + str(e))
+            return False
+
+    def is_company_nm_bill_field_visible(self, bill_to_company_name):
+        try:
+            company_name = self.get_element_text(self.BILL_TO_INFO_COMPANY_NAME_FIElD)
+            assert str(company_name) == str(bill_to_company_name)
+            self.logger.info("Successfully verified Company name field under Billing to info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Company name field under Billing to info' + str(e))
+            return False
+
+    def is_address_bill_field_visible(self, bill_to_address):
+        try:
+            addr = self.get_element_text(self.BILL_TO_INFO_ADDRESS_FIElD)
+            address = addr.replace("\n", " ")
+            assert str(address) == str(bill_to_address)
+            self.logger.info("Successfully verified Address field under Billing to info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Address field under Billing to info' + str(e))
+            return False
+
+    def is_contact_bill_field_visible(self, bill_to_contact):
+        try:
+            if str(bill_to_contact) == '.':
+                bill_to_contact = bill_to_contact.replace(".", "-")
+            contact = self.get_element_text(self.BILL_TO_INFO_CONTACT_FIElD)
+            assert str(contact) == str(bill_to_contact)
+            self.logger.info("Successfully verified Contact field under Billing to info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Contact field under Billing to info' + str(e))
+            return False
+
+    def is_phone_no_bill_field_visible(self, bill_to_phone_no):
+        try:
+            if str(bill_to_phone_no) == '.':
+                bill_to_phone_no = bill_to_phone_no.replace(".", "-")
+            phone_no = self.get_element_text(self.BILL_TO_INFO_EMAIL_FIElD)
+            assert str(phone_no) == str(bill_to_phone_no)
+            self.logger.info("Successfully verified Phone no field under Billing to info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Phone no field under Billing to info' + str(e))
+            return False
+
+    def is_email_bill_field_visible(self, bill_to_email):
+        try:
+            if str(bill_to_email) == '.':
+                bill_to_email = bill_to_email.replace(".", "-")
+            email = self.get_element_text(self.BILL_TO_INFO_EMAIL_FIElD)
+            assert str(email) == str(bill_to_email)
+            self.logger.info("Successfully verified Email field under Billing to info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Email field under Billing to info' + str(e))
+            return False
+
+    def is_ship_to_id_field_visible(self, ship_to_id):
+        try:
+            if str(ship_to_id) == '.':
+                ship_to_id = ship_to_id.replace(".", "-")
+            id = self.get_element_text(self.SHIP_TO_ID_FIElD)
+            assert str(id) == str(ship_to_id)
+            self.logger.info("Successfully verified Ship to Id field under Billing to info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Ship to Id field under Billing to info' + str(e))
+            return False
+
+    def is_company_nm_ship_field_visible(self, ship_to_cmp_nm):
+        try:
+            company_name = self.get_element_text(self.SHIP_TO_INFO_COMPANY_NAME_FIElD)
+            assert str(company_name) == str(ship_to_cmp_nm)
+            self.logger.info("Successfully verified Company name field under Ship to info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Company name field under Ship to info' + str(e))
+            return False
+
+    def is_address_ship_field_visible(self, ship_to_addr):
+        try:
+            addr = self.get_element_text(self.SHIP_TO_INFO_ADDRESS_FIElD)
+            address = addr.replace("\n", " ")
+            assert str(address) == str(ship_to_addr)
+            self.logger.info("Successfully verified Address field under Ship to info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Address field under Ship to info' + str(e))
+            return False
+
+    def is_contact_ship_field_visible(self, ship_to_contact):
+        try:
+            if str(ship_to_contact) == '.':
+                ship_to_contact = ship_to_contact.replace(".", "-")
+            contact = self.get_element_text(self.SHIP_TO_INFO_CONTACT_FIElD)
+            assert str(contact) == str(ship_to_contact)
+            self.logger.info("Successfully verified Contact field under Ship to info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Contact field under Ship to info' + str(e))
+            return False
+
+    def is_phone_no_ship_field_visible(self, ship_to_phn_no):
+        try:
+            if str(ship_to_phn_no) == '.':
+                ship_to_phn_no = ship_to_phn_no.replace(".", "-")
+            phone_no = self.get_element_text(self.SHIP_TO_INFO_PHONE_NO_FIElD)
+            assert str(phone_no) == str(ship_to_phn_no)
+            self.logger.info("Successfully verified Phone no field under Ship to info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Phone no field under Ship to info' + str(e))
+            return False
+
+    def is_email_ship_field_visible(self, ship_to_email):
+        try:
+            if str(ship_to_email) == '.':
+                ship_to_email = ship_to_email.replace(".", "-")
+            email = self.get_element_text(self.SHIP_TO_INFO_EMAIL_FIElD)
+            assert str(email) == str(ship_to_email)
+            self.logger.info("Successfully verified Email field under Ship to info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Email field under Ship to info' + str(e))
+            return False
+
+    def is_shipping_comment_ship_field_visible(self, ship_to_shipping_comment):
+        try:
+            if str(ship_to_shipping_comment) == '.':
+                ship_to_shipping_comment = ship_to_shipping_comment.replace(".", "-")
+            comment = self.get_element_text(self.SHIP_TO_INFO_SHIPPING_COMMENT_FIElD)
+            assert str(comment) == str(ship_to_shipping_comment)
+            self.logger.info("Successfully verified Shipping Comment field under Ship to info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Shipping Comment field under Ship to info' + str(e))
+            return False
+
+    def is_end_user_id_field_visible(self, end_user_id):
+        try:
+            if str(end_user_id) == '.':
+                end_user_id = end_user_id.replace(".", "-")
+            id = self.get_element_text(self.END_USER_ID_FIElD)
+            assert str(id) == str(end_user_id)
+            self.logger.info("Successfully verified End user Id field under End user info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying End user Id field under End user  info' + str(e))
+            return False
+
+    def is_company_nm_end_user_field_visible(self, end_user_cmp_nm):
+        try:
+            if str(end_user_cmp_nm) == '.':
+                end_user_cmp_nm = end_user_cmp_nm.replace(".", "-")
+            company_name = self.get_element_text(self.END_USER_COMPANY_NAME_FIElD)
+            assert str(company_name) == str(end_user_cmp_nm)
+            self.logger.info("Successfully verified Company name field under End user info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Company name field under End user info' + str(e))
+            return False
+
+    def is_address_end_user_field_visible(self, end_user_addr):
+        try:
+            addr = self.get_element_text(self.END_USER_ADDRESS_FIElD)
+            if str(addr) == '':
+                addr = addr.replace("", ".")
+            assert str(addr) == str(end_user_addr)
+            self.logger.info("Successfully verified Address field under End User info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Address field under End User info' + str(e))
+            return False
+
+    def is_contact_end_user_field_visible(self, end_user_contact):
+        try:
+            if str(end_user_contact) == '.':
+                end_user_contact = end_user_contact.replace(".", "-")
+            contact = self.get_element_text(self.END_USER_CONTACT_FIElD)
+            assert str(contact) == str(end_user_contact)
+            self.logger.info("Successfully verified End User field under End user info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Contact field under End user info' + str(e))
+            return False
+
+    def is_phone_no_end_user_field_visible(self, end_user_phn_no):
+        try:
+            if str(end_user_phn_no) == '.':
+                end_user_phn_no = end_user_phn_no.replace(".", "-")
+            phone_no = self.get_element_text(self.END_USER_PHONE_NO_FIElD)
+            assert str(phone_no) == str(end_user_phn_no)
+            self.logger.info("Successfully verified Phone no field under End user info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Phone no field under End user info' + str(e))
+            return False
+
+    def is_email_end_user_field_visible(self, end_user_email):
+        try:
+            if str(end_user_email) == '.':
+                end_user_email = end_user_email.replace(".", "-")
+            email = self.get_element_text(self.END_USER_EMAIL_FIElD)
+            assert str(email) == str(end_user_email)
+            self.logger.info("Successfully verified Email field under End User info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Email field under End User info' + str(e))
+            return False
+
+    def is_order_line_field_visible(self, order_line):
+        try:
+            ord_line = self.get_element_text(self.ORDER_LINE)
+            assert str(ord_line) == str(order_line)
+
+            self.logger.info("Successfully verified Order line field under Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order line field under Order lines tab"' + str(e))
+            return False
+
+    def is_order_line_status_field_visible(self, order_line_status):
+        try:
+            status = self.get_element_text(self.ORDER_LINE_STATUS)
+            assert str(status) == str(order_line_status)
+            self.logger.info("Successfully verified Order line status field under Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order line status field under Order lines tab"' + str(e))
+            return False
+
+    def is_order_line_description_field_visible(self, order_line_description):
+        try:
+            description = self.get_element_text(self.ORDER_LINE_DESCRIPTION)
+            assert str(description) == str(order_line_description)
+            self.logger.info("Successfully verified Order line Description field under Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order line Description field under Order lines tab"' + str(e))
+            return False
+
+    def is_contact_vpn_no_field_visible(self, order_line_vpn_no):
+        try:
+            vpn_no = self.get_element_text(self.ORDER_LINE_VPN_NUMBER)
+            vpn_no = vpn_no.replace("VPN: ", "")
+            assert str(vpn_no) == str(order_line_vpn_no)
+            self.logger.info("Successfully verified Order line VPN number field under Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order line VPN number field under Order lines tab"' + str(e))
+            return False
+
+    def is_order_line_im_part_field_visible(self, order_line_im_part):
+        try:
+            im_part = self.get_element_text(self.ORDER_LINE_IM_PART)
+            im_part = im_part.replace("IM part #: ", "")
+            assert str(im_part) == str(order_line_im_part)
+            self.logger.info("Successfully verified Order line IM part # field under Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order line IM part # field under Order lines tab"' + str(e))
+            return False
+
+    def is_order_line_special_bid_field_visible(self, order_line_special_bid_no):
+        try:
+            special_bid = self.get_element_text(self.ORDER_LINE_SPECIAL_BID_NUMBER)
+            if str(special_bid) == '':
+                special_bid = special_bid.replace("", ".")
+            assert str(special_bid) == str(order_line_special_bid_no)
+            self.logger.info("Successfully verified Order line Special Bid number field under Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order line Special Bid number field under Order lines tab"' + str(
+                    e))
+            return False
+
+    def is_order_line_unit_price_field_visible(self, order_line_unit_price):
+        try:
+            unit_price = self.get_element_text(self.ORDER_LINE_UNIT_PRICE)
+            assert str(unit_price) == str(order_line_unit_price)
+            self.logger.info("Successfully verified Order line Unit Price field under Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order line Unit Price field under Order lines tab"' + str(e))
+            return False
+
+    def is_order_line_extended_price_field_visible(self, order_line_extended_price):
+        try:
+            extended_price = self.get_element_text(self.ORDER_LINE_EXTENDED_PRICE)
+            assert str(extended_price) == str(order_line_extended_price)
+            self.logger.info("Successfully verified Order line Extended Price field under Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order line Extended Price field under Order lines tab"' + str(e))
+            return False
+
+    def is_order_line_cost_field_visible(self, order_line_cost):
+        try:
+            cost = self.get_element_text(self.ORDER_LINE_COST)
+            assert str(cost) == str(order_line_cost)
+            self.logger.info("Successfully verified Order line Cost field under Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order line Cost field under Order lines tab"' + str(e))
+            return False
+
+    def is_order_line_ext_cost_field_visible(self, order_line_extended_cost):
+        try:
+            element = "//*[@data-id='0']//*[@role='cell' and @data-field='extendedCost']"
+            extended_cost = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(extended_cost)
+            ext_cost = self.get_element_text(self.ORDER_LINE_EXTENDED_COST)
+            assert str(ext_cost) == str(order_line_extended_cost)
+            self.logger.info("Successfully verified Order line Extended cost field under Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order line Extended cost field under Order lines tab"' + str(e))
+            return False
+
+    def is_order_line_margin_field_visible(self, order_line_margin):
+        try:
+            element = "//*[@data-id='0']//*[@role='cell' and @data-field='margin']"
+            mrg = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(mrg)
+
+            margin = self.get_element_text(self.ORDER_LINE_MARGIN)
+            assert str(margin) == str(order_line_margin)
+            self.logger.info("Successfully verified Order line Margin field under Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order line Margin field under Order lines tab"' + str(e))
+            return False
+
+    def is_order_line_currency_code_field_visible(self, order_line_currency_code):
+        try:
+            element = "//*[@role='cell' and @data-field='currencyCode']"
+            currency_code_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(currency_code_element)
+
+            currency_code = self.get_element_text(self.ORDER_LINE_CURRENCY_CODE)
+            assert str(currency_code) == str(order_line_currency_code)
+            self.logger.info("Successfully verified Order line Currency Code field under Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order line Currency Code field under Order lines tab"' + str(e))
+            return False
+
+    # def is_order_line_payment_terms_field_visible(self, order_line_payment_terms):
+    #     try:
+    #         element = "//*[@role='cell' and @data-field='paymentTerms']"
+    #         payment_terms_element = self.driver.find_element(By.XPATH, element)
+    #         self.scroll_horizontally(payment_terms_element)
+    #
+    #         payment_terms = self.get_element_text(self.ORDER_LINE_PAYMENT_TERMS)
+    #         assert str(payment_terms) == str(order_line_payment_terms)
+    #         self.logger.info("Successfully verified Order line Payment terms field under Order lines tab")
+    #         return True
+    #     except Exception as e:
+    #         self.logger.error(
+    #             'Exception occurred while verifying Order line Payment terms field under Order lines tab"' + str(e))
+    #         return False
+
+    #  Here the horizontal scrolling is not working
+    def is_order_line_quantity_field_visible(self, order_line_quantity):
+        try:
+            time.sleep(10)
+            element = "//*[@role='cell' and @data-field='upcCode']"
+            upc_code_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(upc_code_element)
+
+            time.sleep(10)
+            element = "//*[@role='cell' and @data-field='unitWeight']"
+            unit_weight_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(unit_weight_element)
+
+            time.sleep(10)
+            element = "//*[@role='cell' and @data-field='weightUom']"
+            weight_uom_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(weight_uom_element)
+
+            element = "//*[@role='cell' and @data-field='quantityOrdered']"
+            quantity_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(quantity_element)
+
+            quantity = self.get_element_text(self.ORDER_LINE_QUANTITY)
+            assert str(quantity) == str(order_line_quantity)
+            self.logger.info("Successfully verified Order line Quantity field under Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order line Quantity field under Order lines tab"' + str(e))
+            return False
+
+    def is_order_line_qty_confirmed_field_visible(self, order_line_quantity_confirmed):
+        try:
+            element = "//*[@role='cell' and @data-field='quantityConfirmed']"
+            quantity_confirmed_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(quantity_confirmed_element)
+            quantity_confirmed = self.get_element_text(self.ORDER_LINE_QUANTITY_CONFIRMED)
+            assert str(quantity_confirmed) == str(order_line_quantity_confirmed)
+            self.logger.info("Successfully verified Order line Quantity Confirmed field under Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order line Quantity Confirmed field under Order lines tab"' + str(
+                    e))
+            return False
+
+    def is_order_line_qty_backordered_field_visible(self, order_line_quantity_backordered):
+        try:
+            element = "//*[@role='cell' and @data-field='quantityBackOrdered']"
+            quantity_backordered_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(quantity_backordered_element)
+            quantity_backordered = self.get_element_text(self.ORDER_LINE_QUANTITY_BACKORDERED)
+            assert str(quantity_backordered) == str(order_line_quantity_backordered)
+            self.logger.info("Successfully verified Order line Quantity Backordered field under Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order line Quantity Backordered field under Order lines tab"' + str(
+                    e))
+            return False
+
+    def is_order_line_notes_field_visible(self, Order_line_notes):
+        try:
+            element = "//*[@role='cell' and @data-field='lineNotes']"
+            notes_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(notes_element)
+            notes = self.get_element_text(self.ORDER_LINE_NOTES)
+            if str(notes) == '':
+                notes = notes.replace("", ".")
+            assert str(notes) == str(Order_line_notes)
+            self.logger.info("Successfully verified Order line Notes field under Order lines tab")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying')
+
+    def click_on_view_more_option(self):
+        try:
+            element = "//*[@data-field='serialNumbers']/button"
+            view_more_button = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(view_more_button)
+            self.do_click_by_locator(view_more_button)
+            self.logger.info("Successfully Clicked View more button")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while Click View more button ' + str(e))
+            return False
+
+    def is_serial_line_no_field_visible(self, order_line):
+        try:
+            ord_line = self.get_element_text(self.ORDER_LINE)
+            assert str(ord_line) == str(order_line)
+            self.logger.info("Successfully verified Serial numbers field")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order line field' + str(e))
+            return False
+
+    def is_serial_no_description_field_visible(self, order_line_description):
+        try:
+            description = self.get_element_text(self.ORDER_LINE_DESCRIPTION)
+            assert str(description) == str(order_line_description)
+            self.logger.info("Successfully verifiedSerial numbers Description field")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Serial numbers Description field' + str(e))
+            return False
+
+    def is_serial_no_vpn_no_field_visible(self, order_line_vpn_no):
+        try:
+            vpn_no = self.get_element_text(self.ORDER_LINE_VPN_NUMBER)
+            vpn_no = vpn_no.replace("VPN :", "")
+            assert str(vpn_no) == str(order_line_vpn_no)
+            self.logger.info("Successfully verified Order line VPN number field")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Serial numbers VPN number field under' + str(e))
+            return False
+
+    def is_serial_no_im_part_field_visible(self, order_line_im_part):
+        try:
+            im_part = self.get_element_text(self.ORDER_LINE_IM_PART)
+            im_part = im_part.replace("IM part #: :", "")
+            assert str(im_part) == str(order_line_im_part)
+            self.logger.info("Successfully verified Serial numbers IM part # field")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Serial numbers IM part # field' + str(e))
+            return False
+
+    def is_serial_no_quantity_field_visible(self, serial_no_quantity):
+        try:
+            quantity = self.get_element_text(self.ORDER_LINE_QUANTITY)
+            assert str(quantity) == str(serial_no_quantity)
+            self.logger.info("Successfully verified Serial numbers Quantity field")
+            self.do_click_by_locator(self.CLOSE_BUTTON_ON_POPUP)
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Serial numbers Quantity field' + str(e))
+            return False
+
+    def click_on_additional_attr_view_more_button(self):
+        try:
+            element = "//*[@data-field='additionalAttributes']/button"
+            view_more_button = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(view_more_button)
+            self.do_click_by_locator(view_more_button)
+            self.logger.info("Successfully Clicked View more button")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while Click View more button ' + str(e))
+            return False
+
+    def is_icmstaxamount_nm_and_value_visible(self, icmstaxamount_name_value):
+        try:
+            icmstaxamount_nm_value = self.get_element_text(self.INCOMETAXAMOUNT_NAME_VALUE)
+            assert str(icmstaxamount_nm_value) == str(icmstaxamount_name_value)
+            self.logger.info("Successfully verified incometaxamount name and value")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying incometaxamount name and value' + str(e))
+            return False
+
+    def is_othertaxamount_nm_and_value_visible(self, othertaxamount_name_value):
+        try:
+            othertaxamount_nm_val = self.get_element_text(self.OTHERTAXAMOUNT_NAME_VALUE)
+            assert str(othertaxamount_nm_val) == str(othertaxamount_name_value)
+            self.logger.info("Successfully verified othertaxamount name and value")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying othertaxamount name and value' + str(e))
+            return False
+
+    def is_rollswitch_nm_and_value_visible(self, rollswitch_name_value):
+        try:
+            rollswitch_nm_value = self.get_element_text(self.ROLLSWITCH_VALUE)
+            assert str(rollswitch_nm_value) == str(rollswitch_name_value)
+            self.logger.info("Successfully verified rollswitch name and value")
+            self.do_click_by_locator(self.ADDITION_ATTRIBUTE_CLOSE_BUTTON)
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying rollswitch name and value' + str(e))
             return False
