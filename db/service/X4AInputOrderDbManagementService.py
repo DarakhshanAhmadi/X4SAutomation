@@ -14,16 +14,6 @@ class X4AInputOrderDbManagementService:
         x4a_input_order_dao = X4AInputOrderDAO()
         return x4a_input_order_dao.get_bcn_by_feature_file_name(sql_util, feature_file_name)
 
-    def get_im_order_number_by_feature_file_name(self, db_path, feature_file_name):
-        sql_util = SqlUtil(db_path)
-        x4a_input_order_dao = X4AInputOrderDAO()
-        return x4a_input_order_dao.get_im_order_number_by_feature_file_name(sql_util, feature_file_name)
-
-    def get_order_type_by_feature_file_name(self, db_path, feature_file_name):
-        sql_util = SqlUtil(db_path)
-        x4a_input_order_dao = X4AInputOrderDAO()
-        return x4a_input_order_dao.get_order_type_by_feature_file_name(sql_util, feature_file_name)
-
     def get_vendor_name_by_feature_file_name(self, db_path, feature_file_name):
         sql_util = SqlUtil(db_path)
         x4a_input_order_dao = X4AInputOrderDAO()
@@ -58,3 +48,8 @@ class X4AInputOrderDbManagementService:
         sql_util = SqlUtil(db_path)
         x4a_input_order_dao = X4AInputOrderDAO()
         return x4a_input_order_dao.get_customer_name_by_feature_file_name(sql_util, feature_file_name)
+
+    def get_x4a_input_test_case_order_detail(self, db_path, feature_file_name ):
+        sql_util = SqlUtil(db_path)
+        x4a_input_order_dao = X4AInputOrderDAO()
+        return x4a_input_order_dao.get_x4a_input_test_case_order_detail(sql_util, feature_file_name)
