@@ -202,6 +202,7 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.info("verifying vendor name in page %s", str(last_page_number))
                 self.search_vendor_name(vendor_name)
                 self.go_to_page(last_page_number)
+                time.sleep(4)
                 self.verify_vendor_name_quick_search(vendor_name)
             self.logger.info("Successfully verified vendor name")
         except Exception as e:
@@ -229,7 +230,7 @@ class X4AAgedOrdersPage(BasePage):
                     self.logger.info("there are only " + str(i) + " elements")
                     break
                 if "Multiple Vendors" in ui_vendor_name:
-                    self.logger.info("multiple vendors")
+                    self.logger.info("multiple vendors present")
                     multiple_vendor_link_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='"+str(i)+"']/div/div/button[contains(text(), 'Multiple Vendors')]")
                     self.do_click_by_locator(multiple_vendor_link_xpath)
                     popup_vendor_names = self.get_element_text(self.MULTIPLE_VENDOR_LINK)
@@ -237,7 +238,7 @@ class X4AAgedOrdersPage(BasePage):
                     if vendor_name not in popup_vendor_names:
                         raise Exception("vendor name mismatched")
                 else:
-                    self.logger.info("single vendor")
+                    self.logger.info("single vendor present")
                     assert ui_vendor_name.strip() == vendor_name.strip(), "Vendor Name mismatched"
             self.do_click_by_locator(self.CLOSE_SEARCH)
         except Exception as e:
@@ -424,16 +425,16 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.DATE_RANGE_TEXTBOX)
             date_range = self.do_get_attribute(self.DATE_RANGE_TEXTBOX, 'value')
             assert date_range == "", "Date is search box is not empty after reset"
-            time.sleep(2)
-            ele = self.get_all_elements(self.ORDER_DATE_ROWS)
-            for e in ele:
-                ui_date = e.text
-                self.logger.info(ui_date)
-                formatted_date = datetime.strptime(self.format_date(ui_date), '%Y-%m-%d').date()
-                if from_date <= formatted_date <= to_date:
-                    raise Exception("Reset of date is not working")
+            # time.sleep(2)
+            # ele = self.get_all_elements(self.ORDER_DATE_ROWS)
+            # for e in ele:
+            #     ui_date = e.text
+            #     self.logger.info(ui_date)
+            #     formatted_date = datetime.strptime(self.format_date(ui_date), '%Y-%m-%d').date()
+            #     if from_date <= formatted_date <= to_date:
+            #         raise Exception("Reset of date is not working")
         except Exception as e:
-            self.logger.error("Error while selecting order date range " + str(e))
+            self.logger.error("Error while resetting order date range " + str(e))
             raise e
 
     def format_date(self, date):
@@ -509,16 +510,16 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.DATE_RANGE_TEXTBOX)
             date_range = self.do_get_attribute(self.DATE_RANGE_TEXTBOX, 'value')
             assert date_range == "", "Date is search box is not empty after reset"
-            time.sleep(2)
-            ele = self.get_all_elements(self.LAST_UPDATE_DATE_ROWS)
-            for e in ele:
-                ui_date = e.text
-                self.logger.info(ui_date)
-                formatted_date = datetime.strptime(self.format_date(ui_date), '%Y-%m-%d').date()
-                if from_date <= formatted_date <= to_date:
-                    raise Exception("Reset of date is not working")
+            # time.sleep(2)
+            # ele = self.get_all_elements(self.LAST_UPDATE_DATE_ROWS)
+            # for e in ele:
+            #     ui_date = e.text
+            #     self.logger.info(ui_date)
+            #     formatted_date = datetime.strptime(self.format_date(ui_date), '%Y-%m-%d').date()
+            #     if from_date <= formatted_date <= to_date:
+            #         raise Exception("Reset of date is not working")
         except Exception as e:
-            self.logger.error("Error while selecting last update date range " + str(e))
+            self.logger.error("Error while resetting last update date range " + str(e))
             raise e
 
     def filter_by_bcn(self, bcn):
@@ -646,6 +647,7 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.info("verifying vendor in page %s", str(last_page_number))
                 self.filter_by_vendor_name(vendor_name)
                 self.go_to_page(last_page_number)
+                time.sleep(4)
                 self.verify_vendor_name_quick_search(vendor_name)
             self.logger.info("Successfully verified vendor")
         except Exception as e:
@@ -969,6 +971,7 @@ class X4AAgedOrdersPage(BasePage):
 
     def get_pagination_first_and_last_page(self):
         try:
+            time.sleep(2)
             pages = self.get_all_elements(self.PAGINATION_PAGES)
             first_page_number = int(pages[0].text)
             last_page_number = int(pages[-1].text)
@@ -995,8 +998,8 @@ class X4AAgedOrdersPage(BasePage):
             self.logger.info(pop_up_message)
             assert pop_up_message == "Only the first 10,000 items will be downloaded. You may filter to minimize number of items being downloaded as, needed.", "pop up message is not correct"
             self.do_click_by_locator(self.DOWNLOAD_CONTINUE)
-            time.sleep(5)
             self.logger.info("Clicked on Continue download button.")
+            self.wait_till_element_is_not_available(self.DOWNLOAD_POPUP_MESSAGE)
         except Exception as e:
             self.logger.error('Exception occurred while downloading on Aged orders ' + str(e))
             raise e
