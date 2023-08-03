@@ -17,7 +17,9 @@
     "backupDirectoryPath": "Backup"
   },
   "inputFile": {
-    "inputFileName": ".\\TestData\\Input_file.xlsx"
+    "inputFileName": ".\\TestData\\Input_file.xlsx",
+    "associateInputFileName": ".\\TestData\\Administration_Input_file.xlsx",
+    "bulkOrderInputFileName": "Testdata_1_QA.xlsx"
   },
  "x4aStageCredentials": {
     "x4aBaseUrl": "https://stage.ingrammicro.com/x4a/app/Orders/Sales/OrderManagement",
@@ -25,13 +27,14 @@
     "enc_password": "6/SM2aH7cXFJFbKL9fbrHQ=="
   },
   "x4aBetaCredentials": {
-    "x4aBaseUrl": "https://beta.ingrammicro.com/x4a/app/Orders/Sales/OrderManagement",
+    "x4aBaseUrl": "https://beta.ingrammicro.com/x4a/app/home",
     "username": "Svc-CRMTest_QA30Global@ingrammicro.com",
     "enc_password": "6/SM2aH7cXFJFbKL9fbrHQ=="
   },
   "dbLocation": {
     "db_file_path": "D:\\Database\\xvs_lite_automation_db.sqlite3",
-    "db_script_file_path": "db\\DbScript.sql"
+    "db_script_file_path": "db\\DbScript.sql",
+    "file_path": "C:\\Users\\ustiws02\\Documents\\x4a-automation-test-suite\\TestData\\"
   },
   "retryParams": {
     "max_wait_period": "1500",
