@@ -256,6 +256,7 @@ class BasePage:
 
     def go_to_page(self, page_number):
         try:
+            time.sleep(2)
             pages = self.get_all_elements(self.PAGINATION_PAGES)
             first_page_number = int(pages[0].text)
             last_page_number = int(pages[-1].text)
@@ -280,3 +281,10 @@ class BasePage:
         except Exception as e:
             self.logger.error("Exception occurred while switching to page tab " + str(e))
             raise e
+
+    def wait_till_element_is_not_available(self, by_locator):
+        while True:
+            try:
+                element = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(by_locator))
+            except:
+                break
