@@ -237,6 +237,9 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_end_user_nm_clum_visible(self):
         try:
+            element = "//div[@data-id=0]/div[@data-colindex=6]"
+            order_value_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(order_value_element)
             self.do_check_visibility(self.END_USER_NAME)
             self.logger.info("Successfully verified the End User name Column")
             return True
@@ -247,6 +250,9 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_end_user_po_clum_visible(self):
         try:
+            element = "//div[@data-id=0]/div[@data-colindex=7]"
+            order_value_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(order_value_element)
             self.do_check_visibility(self.END_USER_PO)
             self.logger.info("Successfully verified the End User PO Column")
             return True
@@ -563,6 +569,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def do_validate_created_on_ascending_on_pages(self, page1, page2, feature_file_name):
         try:
+            time.sleep(3)
             if self.do_validate_created_on_ascending(page1):
                 self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                                             + "_validate_created_on_date_ascending_successfully.png")
@@ -588,6 +595,10 @@ class X4ASalesOrdersPage(BasePage):
 
     def do_validate_created_on_ascending(self, page_number):
         try:
+            time.sleep(3)
+            element = "//div[@data-id=0]/div[@data-colindex=6]"
+            order_value_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(order_value_element)
             element = "//div[@class='MuiDataGrid-row'] [@data-id='1']/div[@data-field='orderCreateDate']"
             created_on_element = self.driver.find_element(By.XPATH, element)
             self.scroll_horizontally(created_on_element)
@@ -629,6 +640,9 @@ class X4ASalesOrdersPage(BasePage):
     def do_validate_created_on_descending_on_pages(self, page1, page2, feature_file_name):
         try:
             time.sleep(3)
+            element = "//div[@data-id=0]/div[@data-colindex=6]"
+            order_value_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(order_value_element)
             element = "//div[@class='MuiDataGrid-row'] [@data-id='1']/div[@data-field='orderCreateDate']"
             created_on_element = self.driver.find_element(By.XPATH, element)
             self.scroll_horizontally(created_on_element)
