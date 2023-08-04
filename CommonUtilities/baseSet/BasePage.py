@@ -260,8 +260,8 @@ class BasePage:
             pages = self.get_all_elements(self.PAGINATION_PAGES)
             first_page_number = int(pages[0].text)
             last_page_number = int(pages[-1].text)
-            self.logger.info(first_page_number)
-            self.logger.info(last_page_number)
+            self.logger.info("First page :" + str(first_page_number))
+            self.logger.info("Last page :" + str(last_page_number))
             if page_number < first_page_number or page_number > last_page_number:
                 raise Exception("The page number provided does not exist.")
             if page_number == last_page_number:

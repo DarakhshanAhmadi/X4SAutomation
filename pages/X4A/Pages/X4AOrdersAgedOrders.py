@@ -97,11 +97,10 @@ class X4AAgedOrdersPage(BasePage):
                     self.scroll_horizontally(scroll_element)
                     column_headers = self.get_element_text(self.TABLE_COLUMN_HEADERS_CONTAINER)
                     aged_order = column_headers.split("\n")
-                    self.logger.info(aged_order)
                     for column_header in aged_order:
                         if column_header not in aged_order_table_column_header:
                             aged_order_table_column_header.append(column_header)
-            self.logger.info(aged_order_table_column_header)
+            self.logger.info("Aged order column headers :" + str(aged_order_table_column_header))
             self.logger.info("Aged order table column headers fetched successfully")
             return aged_order_table_column_header
         except Exception as e:
@@ -189,17 +188,17 @@ class X4AAgedOrdersPage(BasePage):
         try:
             self.check_if_result_found()
             first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("verifying vendor name in page %s", str(first_page_number))
+            self.logger.info("Verifying vendor name in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_vendor_name_quick_search(vendor_name)
             if first_page_number != last_page_number:
                 if last_page_number != first_page_number + 1:
                     random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.logger.info("verifying vendor name in page %s", str(random_page))
+                    self.logger.info("Verifying vendor name in page %s", str(random_page))
                     self.search_vendor_name(vendor_name)
                     self.go_to_page(random_page)
                     self.verify_vendor_name_quick_search(vendor_name)
-                self.logger.info("verifying vendor name in page %s", str(last_page_number))
+                self.logger.info("Verifying vendor name in page %s", str(last_page_number))
                 self.search_vendor_name(vendor_name)
                 self.go_to_page(last_page_number)
                 time.sleep(4)
@@ -211,34 +210,33 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_vendor_name_quick_search(self, vendor_name):
         try:
-            self.logger.info("verifying the vendor name in table")
+            self.logger.info("Verifying the vendor name in table")
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
-            self.logger.info(max_rows)
+            self.logger.info("Max items per page: " + max_rows)
             for i in range(int(max_rows)):
                 if i > 0 and i % 2 == 0:
-                    self.logger.info("going to scroll")
                     table = self.driver.find_element(By.XPATH, self.AGED_ORDER_TABLE)
                     self.scroll_down(table)
                     time.sleep(2)
-                self.logger.info("fetching vendor name")
+                self.logger.info("Fetching vendor name")
                 vendor_name_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='vendorName']")
                 try:
                     ui_vendor_name = self.get_element_text(vendor_name_xpath)
-                    self.logger.info("fetched ui ven name" + str(ui_vendor_name))
+                    self.logger.info("Fetched ui vendor name :" + str(ui_vendor_name))
                 except:
-                    self.logger.info("there are only " + str(i) + " elements")
+                    self.logger.info("There are only " + str(i) + " rows in table")
                     break
                 if "Multiple Vendors" in ui_vendor_name:
-                    self.logger.info("multiple vendors present")
+                    self.logger.info("Multiple vendors present")
                     multiple_vendor_link_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='"+str(i)+"']/div/div/button[contains(text(), 'Multiple Vendors')]")
                     self.do_click_by_locator(multiple_vendor_link_xpath)
                     popup_vendor_names = self.get_element_text(self.MULTIPLE_VENDOR_LINK)
                     self.do_click_by_locator(self.LINK_CLOSE_BUTTON)
                     if vendor_name not in popup_vendor_names:
-                        raise Exception("vendor name mismatched")
+                        raise Exception("Vendor name mismatched")
                 else:
-                    self.logger.info("single vendor present")
+                    self.logger.info("Single vendor present")
                     assert ui_vendor_name.strip() == vendor_name.strip(), "Vendor Name mismatched"
             self.do_click_by_locator(self.CLOSE_SEARCH)
         except Exception as e:
@@ -249,17 +247,17 @@ class X4AAgedOrdersPage(BasePage):
         try:
             self.check_if_result_found()
             first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("verifying bcn account in page %s", str(first_page_number))
+            self.logger.info("Verifying BCN account in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_bcn_account_quick_search(bcn_account)
             if first_page_number != last_page_number:
                 if last_page_number != first_page_number + 1:
                     random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.logger.info("verifying bcn account in page %s", str(random_page))
+                    self.logger.info("Verifying BCN account in page %s", str(random_page))
                     self.search_bcn_account(bcn_account)
                     self.go_to_page(random_page)
                     self.verify_bcn_account_quick_search(bcn_account)
-                self.logger.info("verifying bcn account in page %s", str(last_page_number))
+                self.logger.info("Verifying BCN account in page %s", str(last_page_number))
                 self.search_bcn_account(bcn_account)
                 self.go_to_page(last_page_number)
                 self.verify_bcn_account_quick_search(bcn_account)
@@ -270,23 +268,22 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_bcn_account_quick_search(self, bcn_account):
         try:
-            self.logger.info("verifying the BCN account in table")
+            self.logger.info("Verifying the BCN account in table")
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
-            self.logger.info(max_rows)
+            self.logger.info("Max items per page: " + max_rows)
             for i in range(int(max_rows)):
                 if i > 0 and i % 2 == 0:
-                    self.logger.info("going to scroll")
                     table = self.driver.find_element(By.XPATH, self.AGED_ORDER_TABLE)
                     self.scroll_down(table)
                     time.sleep(2)
-                self.logger.info("fetching BCN account")
+                self.logger.info("Fetching BCN account")
                 bcn_account_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='customerNumber']")
                 try:
                     ui_bcn_account = self.get_element_text(bcn_account_xpath)
-                    self.logger.info("fetched ui bcn account " + str(ui_bcn_account))
+                    self.logger.info("Fetched ui bcn account :" + str(ui_bcn_account))
                 except:
-                    self.logger.info("there are only " + str(i) + " elements")
+                    self.logger.info("There are only " + str(i) + " rows")
                     break
                 assert str(ui_bcn_account).strip() == str(bcn_account).strip(), "BCN Account mismatched"
             self.do_click_by_locator(self.CLOSE_SEARCH)
@@ -298,17 +295,17 @@ class X4AAgedOrdersPage(BasePage):
         try:
             self.check_if_result_found()
             first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("verifying customer po in page %s", str(first_page_number))
+            self.logger.info("Verifying customer po in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_customer_po_quick_search(customer_po)
             if first_page_number != last_page_number:
                 if last_page_number != first_page_number + 1:
                     random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.logger.info("verifying customer po in page %s", str(random_page))
+                    self.logger.info("Verifying customer po in page %s", str(random_page))
                     self.search_customer_po_number(customer_po)
                     self.go_to_page(random_page)
                     self.verify_customer_po_quick_search(customer_po)
-                self.logger.info("verifying customer po in page %s", str(last_page_number))
+                self.logger.info("Verifying customer po in page %s", str(last_page_number))
                 self.search_customer_po_number(customer_po)
                 self.go_to_page(last_page_number)
                 self.verify_customer_po_quick_search(customer_po)
@@ -319,23 +316,22 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_customer_po_quick_search(self, customer_po):
         try:
-            self.logger.info("verifying the customer po in table")
+            self.logger.info("Verifying the customer po in table")
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
-            self.logger.info(max_rows)
+            self.logger.info("Max items per page: " + max_rows)
             for i in range(int(max_rows)):
                 if i > 0 and i % 2 == 0:
-                    self.logger.info("going to scroll")
                     table = self.driver.find_element(By.XPATH, self.AGED_ORDER_TABLE)
                     self.scroll_down(table)
                     time.sleep(2)
-                self.logger.info("fetching customer po")
+                self.logger.info("Fetching customer po")
                 bcn_account_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='customerOrderNumber']")
                 try:
                     ui_customer_po = self.get_element_text(bcn_account_xpath)
-                    self.logger.info("fetched ui customer po " + str(ui_customer_po))
+                    self.logger.info("Fetched ui customer po :" + str(ui_customer_po))
                 except:
-                    self.logger.info("there are only " + str(i) + " elements")
+                    self.logger.info("There are only " + str(i) + " rows")
                     break
                 assert str(ui_customer_po).strip() == str(customer_po).strip(), "Customer PO mismatched"
             self.do_click_by_locator(self.CLOSE_SEARCH)
@@ -371,17 +367,17 @@ class X4AAgedOrdersPage(BasePage):
         try:
             self.check_if_result_found()
             first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("verifying order date in page %s", str(first_page_number))
+            self.logger.info("Verifying order date in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_order_date()
             if first_page_number != last_page_number:
                 if last_page_number != first_page_number + 1:
                     random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.logger.info("verifying order date in page %s", str(random_page))
+                    self.logger.info("Verifying order date in page %s", str(random_page))
                     self.select_order_date_range()
                     self.go_to_page(random_page)
                     self.verify_order_date()
-                self.logger.info("verifying order date in page %s", str(last_page_number))
+                self.logger.info("Verifying order date in page %s", str(last_page_number))
                 self.select_order_date_range()
                 self.go_to_page(last_page_number)
                 self.verify_order_date()
@@ -394,21 +390,20 @@ class X4AAgedOrdersPage(BasePage):
         try:
             from_date, to_date = self.get_from_date_and_to_date()
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
-            self.logger.info(max_rows)
+            self.logger.info("Max items per page: " + max_rows)
             for i in range(int(max_rows)):
                 if i > 0 and i % 2 == 0:
-                    self.logger.info("going to scroll")
                     table = self.driver.find_element(By.XPATH, self.AGED_ORDER_TABLE)
                     self.scroll_down(table)
                     time.sleep(2)
-                self.logger.info("fetching order date")
+                self.logger.info("Fetching order date")
                 bcn_account_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='orderCreateDate']")
                 try:
                     ui_customer_po = self.get_element_text(bcn_account_xpath)
-                    self.logger.info("fetched ui order date " + str(ui_customer_po))
+                    self.logger.info("Fetched ui order date " + str(ui_customer_po))
                 except:
-                    self.logger.info("there are only " + str(i) + " elements")
+                    self.logger.info("There are only " + str(i) + " rows")
                     break
                 ui_customer_po = datetime.strptime(self.format_date(ui_customer_po), '%Y-%m-%d').date()
                 if not from_date <= ui_customer_po <= to_date:
@@ -456,17 +451,17 @@ class X4AAgedOrdersPage(BasePage):
         try:
             self.check_if_result_found()
             first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("verifying order date in page %s", str(first_page_number))
+            self.logger.info("Verifying order date in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_last_update_date()
             if first_page_number != last_page_number:
                 if last_page_number != first_page_number + 1:
                     random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.logger.info("verifying order date in page %s", str(random_page))
+                    self.logger.info("Verifying order date in page %s", str(random_page))
                     self.select_last_updated_date_range()
                     self.go_to_page(random_page)
                     self.verify_last_update_date()
-                self.logger.info("verifying order date in page %s", str(last_page_number))
+                self.logger.info("Verifying order date in page %s", str(last_page_number))
                 self.select_last_updated_date_range()
                 self.go_to_page(last_page_number)
                 self.verify_last_update_date()
@@ -479,21 +474,20 @@ class X4AAgedOrdersPage(BasePage):
         try:
             from_date, to_date = self.get_from_date_and_to_date()
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
-            self.logger.info(max_rows)
+            self.logger.info("Max items per page: " + max_rows)
             for i in range(int(max_rows)):
                 if i > 0 and i % 2 == 0:
-                    self.logger.info("going to scroll")
                     table = self.driver.find_element(By.XPATH, self.AGED_ORDER_TABLE)
                     self.scroll_down(table)
                     time.sleep(2)
-                self.logger.info("fetching last update date")
+                self.logger.info("Fetching last update date")
                 last_update_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='orderUpdateDate']")
                 try:
                     last_update_date = self.get_element_text(last_update_xpath)
-                    self.logger.info("fetched ui last update date " + str(last_update_date))
+                    self.logger.info("Fetched ui last update date " + str(last_update_date))
                 except:
-                    self.logger.info("there are only " + str(i) + " elements")
+                    self.logger.info("There are only " + str(i) + " rows")
                     break
                 last_update_date = datetime.strptime(self.format_date(last_update_date), '%Y-%m-%d').date()
                 if not from_date <= last_update_date <= to_date:
@@ -611,17 +605,17 @@ class X4AAgedOrdersPage(BasePage):
         try:
             self.check_if_result_found()
             first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("verifying bcn account in page %s", str(first_page_number))
+            self.logger.info("Verifying BCN account in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_bcn_account_quick_search(bcn_account)
             if first_page_number != last_page_number:
                 if last_page_number != first_page_number + 1:
                     random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.logger.info("verifying bcn account in page %s", str(random_page))
+                    self.logger.info("Verifying BCN account in page %s", str(random_page))
                     self.filter_by_bcn(bcn_account)
                     self.go_to_page(random_page)
                     self.verify_bcn_account_quick_search(bcn_account)
-                self.logger.info("verifying bcn account in page %s", str(last_page_number))
+                self.logger.info("Verifying BCN account in page %s", str(last_page_number))
                 self.filter_by_bcn(bcn_account)
                 self.go_to_page(last_page_number)
                 self.verify_bcn_account_quick_search(bcn_account)
@@ -634,17 +628,17 @@ class X4AAgedOrdersPage(BasePage):
         try:
             self.check_if_result_found()
             first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("verifying vendor in page %s", str(first_page_number))
+            self.logger.info("Verifying vendor in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_vendor_name_quick_search(vendor_name)
             if first_page_number != last_page_number:
                 if last_page_number != first_page_number + 1:
                     random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.logger.info("verifying vendor in page %s", str(random_page))
+                    self.logger.info("Verifying vendor in page %s", str(random_page))
                     self.filter_by_vendor_name(vendor_name)
                     self.go_to_page(random_page)
                     self.verify_vendor_name_quick_search(vendor_name)
-                self.logger.info("verifying vendor in page %s", str(last_page_number))
+                self.logger.info("Verifying vendor in page %s", str(last_page_number))
                 self.filter_by_vendor_name(vendor_name)
                 self.go_to_page(last_page_number)
                 time.sleep(4)
@@ -656,23 +650,22 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_customer_name(self, customer_name):
         try:
-            self.logger.info("verifying the name in table")
+            self.logger.info("Verifying the Customer name in table")
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
-            self.logger.info(max_rows)
+            self.logger.info("Max items per page: " + max_rows)
             for i in range(int(max_rows)):
                 if i > 0 and i % 2 == 0:
-                    self.logger.info("going to scroll")
                     table = self.driver.find_element(By.XPATH, self.AGED_ORDER_TABLE)
                     self.scroll_down(table)
                     time.sleep(2)
-                self.logger.info("fetching customer name")
+                self.logger.info("Fetching customer name")
                 customer_name_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='customerName']")
                 try:
                     ui_customer_name = self.get_element_text(customer_name_xpath)
-                    self.logger.info("fetched ui customer name " + str(ui_customer_name))
+                    self.logger.info("Fetched ui customer name " + str(ui_customer_name))
                 except:
-                    self.logger.info("there are only " + str(i) + " elements")
+                    self.logger.info("There are only " + str(i) + " rows")
                     break
                 assert str(ui_customer_name).strip() == str(customer_name).strip(), "Customer Name mismatched"
         except Exception as e:
@@ -683,7 +676,7 @@ class X4AAgedOrdersPage(BasePage):
         try:
             self.check_if_result_found()
             first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("verifying vendor in page %s", str(first_page_number))
+            self.logger.info("Verifying Customer name in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_customer_name(customer_name)
             if first_page_number != last_page_number:
@@ -693,7 +686,7 @@ class X4AAgedOrdersPage(BasePage):
                     self.filter_by_customer_name(customer_name)
                     self.go_to_page(random_page)
                     self.verify_customer_name(customer_name)
-                self.logger.info("verifying vendor in page %s", str(last_page_number))
+                self.logger.info("Verifying Customer name in page %s", str(last_page_number))
                 self.filter_by_customer_name(customer_name)
                 self.go_to_page(last_page_number)
                 self.verify_customer_name(customer_name)
@@ -706,17 +699,17 @@ class X4AAgedOrdersPage(BasePage):
         try:
             self.check_if_result_found()
             first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("verifying order type in page %s", str(first_page_number))
+            self.logger.info("Verifying order type in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_order_type(order_type)
             if first_page_number != last_page_number:
                 if last_page_number != first_page_number + 1:
                     random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.logger.info("verifying order type in page %s", str(random_page))
+                    self.logger.info("Verifying order type in page %s", str(random_page))
                     self.filter_by_order_type(order_type)
                     self.go_to_page(random_page)
                     self.verify_order_type(order_type)
-                self.logger.info("verifying order type in page %s", str(last_page_number))
+                self.logger.info("Verifying order type in page %s", str(last_page_number))
                 self.filter_by_order_type(order_type)
                 self.go_to_page(last_page_number)
                 self.verify_order_type(order_type)
@@ -727,23 +720,22 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_order_type(self, order_type):
         try:
-            self.logger.info("verifying the order type in table")
+            self.logger.info("Verifying the order type in table")
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
-            self.logger.info(max_rows)
+            self.logger.info("Max items per page: " + max_rows)
             for i in range(int(max_rows)):
                 if i > 0 and i % 2 == 0:
-                    self.logger.info("going to scroll")
                     table = self.driver.find_element(By.XPATH, self.AGED_ORDER_TABLE)
                     self.scroll_down(table)
                     time.sleep(2)
-                self.logger.info("fetching order type")
+                self.logger.info("Fetching order type")
                 order_type_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='orderTypeName']")
                 try:
                     ui_order_type = self.get_element_text(order_type_xpath)
-                    self.logger.info("fetched ui order type " + str(ui_order_type))
+                    self.logger.info("Fetched ui order type " + str(ui_order_type))
                 except:
-                    self.logger.info("there are only " + str(i) + " elements")
+                    self.logger.info("There are only " + str(i) + " rows")
                     break
                 assert str(ui_order_type).strip() == str(order_type).strip(), "Order type mismatched"
         except Exception as e:
@@ -754,17 +746,17 @@ class X4AAgedOrdersPage(BasePage):
         try:
             self.check_if_result_found()
             first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("verifying order status in page %s", str(first_page_number))
+            self.logger.info("Verifying order status in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_order_status(order_type)
             if first_page_number != last_page_number:
                 if last_page_number != first_page_number + 1:
                     random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.logger.info("verifying order status in page %s", str(random_page))
+                    self.logger.info("Verifying order status in page %s", str(random_page))
                     self.filter_by_order_status(order_type)
                     self.go_to_page(random_page)
                     self.verify_order_status(order_type)
-                self.logger.info("verifying order status in page %s", str(last_page_number))
+                self.logger.info("Verifying order status in page %s", str(last_page_number))
                 self.filter_by_order_status(order_type)
                 self.go_to_page(last_page_number)
                 self.verify_order_status(order_type)
@@ -775,23 +767,22 @@ class X4AAgedOrdersPage(BasePage):
 
     def verify_order_status(self, order_status):
         try:
-            self.logger.info("verifying the order status in table")
+            self.logger.info("Verifying the order status in table")
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
-            self.logger.info(max_rows)
+            self.logger.info("Max items per page: " + max_rows)
             for i in range(int(max_rows)):
                 if i > 0 and i % 2 == 0:
-                    self.logger.info("going to scroll")
                     table = self.driver.find_element(By.XPATH, self.AGED_ORDER_TABLE)
                     self.scroll_down(table)
                     time.sleep(2)
-                self.logger.info("fetching order status")
+                self.logger.info("Fetching order status")
                 order_status_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='orderStatus']")
                 try:
                     ui_order_status = self.get_element_text(order_status_xpath)
-                    self.logger.info("fetched ui order status " + str(ui_order_status))
+                    self.logger.info("Fetched ui order status " + str(ui_order_status))
                 except:
-                    self.logger.info("there are only " + str(i) + " elements")
+                    self.logger.info("There are only " + str(i) + " rows")
                     break
                 assert str(ui_order_status).strip() == str(order_status).strip(), "Order status mismatched"
         except Exception as e:
@@ -802,17 +793,17 @@ class X4AAgedOrdersPage(BasePage):
         try:
             self.check_if_result_found()
             first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("verifying total revenue in page %s", str(first_page_number))
+            self.logger.info("Verifying total revenue in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_total_revenue(min_total_revenue, max_total_revenue)
             if first_page_number != last_page_number:
                 if last_page_number != first_page_number + 1:
                     random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.logger.info("verifying total revenue in page %s", str(random_page))
+                    self.logger.info("Verifying total revenue in page %s", str(random_page))
                     self.filter_by_total_revenue(min_total_revenue, max_total_revenue)
                     self.go_to_page(random_page)
                     self.verify_total_revenue(min_total_revenue, max_total_revenue)
-                self.logger.info("verifying total revenue in page %s", str(last_page_number))
+                self.logger.info("Verifying total revenue in page %s", str(last_page_number))
                 self.filter_by_total_revenue(min_total_revenue, max_total_revenue)
                 self.go_to_page(last_page_number)
                 self.verify_total_revenue(min_total_revenue, max_total_revenue)
@@ -824,21 +815,20 @@ class X4AAgedOrdersPage(BasePage):
     def verify_total_revenue(self, min_total_revenue, max_total_revenue):
         try:
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
-            self.logger.info(max_rows)
+            self.logger.info("Max items per page: " + max_rows)
             for i in range(int(max_rows)):
                 if i > 0 and i % 2 == 0:
-                    self.logger.info("going to scroll")
                     table = self.driver.find_element(By.XPATH, self.AGED_ORDER_TABLE)
                     self.scroll_down(table)
                     time.sleep(2)
-                self.logger.info("fetching order value")
+                self.logger.info("Fetching order value")
                 order_value_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='orderTotalValue']")
                 try:
                     order_value = float(self.get_element_text(order_value_xpath))
-                    self.logger.info("fetched ui order value " + str(order_value))
+                    self.logger.info("Fetched ui order value " + str(order_value))
                 except:
-                    self.logger.info("there are only " + str(i) + " elements")
+                    self.logger.info("There are only " + str(i) + " rows")
                     break
                 if not float(min_total_revenue) <= order_value <= float(max_total_revenue):
                     raise Exception("Order value filter results are incorrect")
@@ -872,17 +862,17 @@ class X4AAgedOrdersPage(BasePage):
         try:
             self.check_if_result_found()
             first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("verifying bcn, vendor and order status in page %s", str(first_page_number))
+            self.logger.info("Verifying bcn, vendor and order status in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
             self.verify_bcn_vendor_and_order_status(bcn_account, vendor_name, order_status)
             if first_page_number != last_page_number:
                 if last_page_number != first_page_number + 1:
                     random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.logger.info("verifying bcn, vendor and order status in page %s", str(random_page))
+                    self.logger.info("Verifying bcn, vendor and order status in page %s", str(random_page))
                     self.filter_by_bcn_vendor_and_order_status(bcn_account, vendor_name, order_status)
                     self.go_to_page(random_page)
                     self.verify_bcn_vendor_and_order_status(bcn_account, vendor_name, order_status)
-                self.logger.info("verifying bcn, vendor and order status in page %s", str(last_page_number))
+                self.logger.info("Verifying bcn, vendor and order status in page %s", str(last_page_number))
                 self.filter_by_bcn_vendor_and_order_status(bcn_account, vendor_name, order_status)
                 self.go_to_page(last_page_number)
                 self.verify_bcn_vendor_and_order_status(bcn_account, vendor_name, order_status)
@@ -896,14 +886,13 @@ class X4AAgedOrdersPage(BasePage):
     def verify_bcn_vendor_and_order_status(self, bcn_account, vendor_name, order_status):
         try:
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
-            self.logger.info(max_rows)
+            self.logger.info("Max items per page: " + max_rows)
             for i in range(int(max_rows)):
                 if i > 0 and i % 2 == 0:
-                    self.logger.info("going to scroll")
                     table = self.driver.find_element(By.XPATH, self.AGED_ORDER_TABLE)
                     self.scroll_down(table)
                     time.sleep(2)
-                self.logger.info("fetching bcn, vendor and order status")
+                self.logger.info("Fetching bcn, vendor and order status")
                 bcn_account_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='customerNumber']")
                 vendor_name_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
@@ -914,12 +903,12 @@ class X4AAgedOrdersPage(BasePage):
                     ui_bcn_account = self.get_element_text(bcn_account_xpath)
                     ui_vendor_name = self.get_element_text(vendor_name_xpath)
                     ui_order_status = self.get_element_text(order_status_xpath)
-                    self.logger.info("fetched ui bcn, vendor and order status " + str(ui_bcn_account) + "," + str(ui_vendor_name) + "," + str(ui_order_status))
+                    self.logger.info("Fetched ui bcn, vendor and order status " + str(ui_bcn_account) + "," + str(ui_vendor_name) + "," + str(ui_order_status))
                 except:
-                    self.logger.info("there are only " + str(i) + " elements")
+                    self.logger.info("There are only " + str(i) + " rows")
                     break
                 if "Multiple Vendors" in ui_vendor_name:
-                    self.logger.info("multiple vendors")
+                    self.logger.info("Multiple vendors present")
                     multiple_vendor_link_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='"+str(i)+"']/div/div/button[contains(text(), 'Multiple Vendors')]")
                     self.do_click_by_locator(multiple_vendor_link_xpath)
                     popup_vendor_names = self.get_element_text(self.MULTIPLE_VENDOR_LINK)
@@ -927,7 +916,7 @@ class X4AAgedOrdersPage(BasePage):
                     if vendor_name not in popup_vendor_names:
                         raise Exception("vendor name mismatched")
                 else:
-                    self.logger.info("single vendor")
+                    self.logger.info("Single vendor present")
                     assert ui_vendor_name.strip() == vendor_name.strip(), "Vendor Name mismatched"
                 assert str(ui_bcn_account) == str(bcn_account), "BCN mismatched"
                 assert str(ui_order_status) == str(order_status), "Order status mismatched"
@@ -1049,7 +1038,7 @@ class X4AAgedOrdersPage(BasePage):
                     scroll_element = self.driver.find_element(By.XPATH, column_xpath)
                     self.scroll_horizontally(scroll_element)
             self.logger.info("Fetched first row data successfully")
-            self.logger.info(row_data)
+            self.logger.info("First row data :" + str(row_data))
             if len(header_row) != len(row_data):
                 self.logger.error("Please check the data")
                 raise Exception("Length of header did not match with length of data")
@@ -1069,7 +1058,6 @@ class X4AAgedOrdersPage(BasePage):
             table = self.driver.find_element(By.XPATH, self.AGED_ORDER_TABLE)
             for i in range(int(max_rows)):
                 if i > 0 and i % 2 == 0:
-                    self.logger.info("going to scroll")
                     self.scroll_down(table)
                     time.sleep(2)
                 row_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id='" + str(i) + "']")
@@ -1092,7 +1080,7 @@ class X4AAgedOrdersPage(BasePage):
                     self.scroll_horizontally(scroll_element)
                     time.sleep(1)
             self.logger.info("Aged order table last row fetched successfully")
-            self.logger.info(row_data)
+            self.logger.info("Last row data :" + str(row_data))
             if len(header_row) != len(row_data):
                 self.logger.error("Please check the data")
                 raise Exception("Length of header did not match with length of data")
