@@ -88,7 +88,6 @@ class X4AAgedOrdersPage(BasePage):
             time.sleep(1)
             column_headers = self.get_element_text(self.TABLE_COLUMN_HEADERS_CONTAINER)
             aged_order_table_column_header = column_headers.split("\n")
-            self.logger.info(aged_order_table_column_header)
             for i in range(1, 13):
                 if i == 9 or i == 12:
                     time.sleep(1)
@@ -1043,7 +1042,7 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.error("Please check the data")
                 raise Exception("Length of header did not match with length of data")
             row_dict = dict(zip(header_row, row_data))
-            self.logger.info(row_dict)
+            self.logger.info("First row dictionary :" + str(row_dict))
         except Exception as e:
             self.logger.error("Exception occurred while retrieving the first row data" + str(e))
             raise e
@@ -1062,7 +1061,7 @@ class X4AAgedOrdersPage(BasePage):
                     time.sleep(2)
                 row_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id='" + str(i) + "']")
                 if not self.do_check_availability(row_xpath):
-                    self.logger.info("there are only %s elements", str(i))
+                    self.logger.info("There are only %s elements", str(i))
                     row_index = i - 1
                     break
                 row_index = i
@@ -1085,7 +1084,7 @@ class X4AAgedOrdersPage(BasePage):
                 self.logger.error("Please check the data")
                 raise Exception("Length of header did not match with length of data")
             row_dict = dict(zip(header_row, row_data))
-            self.logger.info(row_dict)
+            self.logger.info("Last row dictionary :" + str(row_dict))
         except Exception as e:
             self.logger.error("Exception occurred while retrieving the last row data " + str(e))
             raise e
