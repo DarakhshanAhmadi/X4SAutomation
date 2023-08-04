@@ -1,3 +1,5 @@
+import os
+
 from selenium.webdriver.common.by import By
 
 from CommonUtilities import readWriteTestData
@@ -12,7 +14,7 @@ class X4ABulkOrderUploadPage(BasePage):
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
     file_path = ReadConfig.get_file_path()
-
+    system_path = os.getcwd()
     ORDER_MENU = (By.XPATH, "//*[@data-testid='SalesIcon']")
     BULK_ORDER_UPLOAD_OPTION = (By.XPATH, "//*[text()='Bulk order upload ']")
     BULK_ORDER_UPLOAD_TEXT = (By.XPATH, "//h3[text()='Bulk order upload']")
@@ -21,8 +23,6 @@ class X4ABulkOrderUploadPage(BasePage):
     DOWNLOAD_TEMPLATE_BUTTON = (By.XPATH, "//button[text()='Download template']")
     DISABLED_REVIEW_BUTTON = (By.XPATH, "//button[@disabled and text() = 'Review']")
     DISABLED_PLACE_ORDER_BUTTON = (By.XPATH, "//button[@disabled and text() = 'Place orders']")
-    REVIEW_BUTTON = (By.XPATH, "//button[text() = 'Review']")
-    PLACE_ORDER_BUTTON = (By.XPATH, "//button[text() = 'Place orders']")
     CANCEL_BUTTON = (By.XPATH, "//button[text() = 'Cancel']")
     CLOSE_ICON = (By.XPATH, "//*[@data-testid='CloseIcon']")
     BROWSE_BUTTON = (By.XPATH, '//p[text()="Browse"]')
@@ -93,7 +93,7 @@ class X4ABulkOrderUploadPage(BasePage):
             self.do_click_by_locator(self.BROWSE_BUTTON)
             time.sleep(3)
             keyboard = Controller()
-            keyboard.type(self.file_path + 'BulkOrderErrorFile.txt')
+            keyboard.type(self.system_path + '\\TestData\\BulkOrderErrorFile.txt')
             keyboard.press(Key.enter)
             keyboard.release(Key.enter)
             time.sleep(5)
@@ -119,7 +119,7 @@ class X4ABulkOrderUploadPage(BasePage):
             self.do_click_by_locator(self.BROWSE_BUTTON)
             time.sleep(3)
             keyboard = Controller()
-            keyboard.type(self.file_path + 'Input_File.xlsx')
+            keyboard.type(self.system_path + '\\TestData\\Input_File.xlsx')
             keyboard.press(Key.enter)
             keyboard.release(Key.enter)
             time.sleep(1)
@@ -143,11 +143,11 @@ class X4ABulkOrderUploadPage(BasePage):
 
     def do_select_file(self):
         try:
-            bulk_order_file_path = parse_config_file.get_data_from_config_json("inputFile", "bulkOrderInputFileName")
+            bulk_order_file_name = parse_config_file.get_data_from_config_json("inputFile", "bulkOrderInputFileName")
             self.do_click_by_locator(self.BROWSE_BUTTON)
             time.sleep(3)
             keyboard = Controller()
-            keyboard.type(self.file_path + bulk_order_file_path)
+            keyboard.type(self.system_path + bulk_order_file_name)
             keyboard.press(Key.enter)
             keyboard.release(Key.enter)
             time.sleep(1)

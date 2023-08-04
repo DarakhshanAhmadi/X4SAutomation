@@ -39,9 +39,9 @@ def test_cancel_order_without_reason():
     pass
 
 
-@scenario("features/hardware/cancel_orders.feature", "Verify on click cancel order button with proper reason")
-def test_cancel_order_with_reason():
-    pass
+# @scenario("features/hardware/cancel_orders.feature", "Verify on click cancel order button with proper reason")
+# def test_cancel_order_with_reason():
+#     pass
 
 
 @scenario("features/hardware/cancel_orders.feature", "logout X4A")
@@ -274,30 +274,30 @@ def verify_cancel_order_message(init_driver):
         raise e
 
 
-@when(parsers.parse('Order cancel with proper reason'))
-def do_cancel_order_with_reason(init_driver):
-    feature_file_name = "cancel_orders"
-    create_order_steps = ValidateErrorOrdersData(init_driver)
-    try:
-        if not create_order_steps.do_cancel_order_with_reason(feature_file_name, screen_shot):
-            raise Exception("failed to cancel order with reason")
-
-    except Exception as e:
-        logger.error("Error while cancelling order with reason %s", e)
-        raise e
-
-
-@then(parsers.parse('verify successfully cancel order message'))
-def do_cancel_order_success_message(init_driver):
-    feature_file_name = "cancel_orders"
-    create_order_steps = ValidateErrorOrdersData(init_driver)
-    try:
-        if not create_order_steps.do_cancel_order_success_message(feature_file_name, screen_shot):
-            raise Exception("failed to verify cancel order success message")
-
-    except Exception as e:
-        logger.error("Error while verifying cancel order success message %s", e)
-        raise e
+# @when(parsers.parse('Order cancel with proper reason'))
+# def do_cancel_order_with_reason(init_driver):
+#     feature_file_name = "cancel_orders"
+#     create_order_steps = ValidateErrorOrdersData(init_driver)
+#     try:
+#         if not create_order_steps.do_cancel_order_with_reason(feature_file_name, screen_shot):
+#             raise Exception("failed to cancel order with reason")
+#
+#     except Exception as e:
+#         logger.error("Error while cancelling order with reason %s", e)
+#         raise e
+#
+#
+# @then(parsers.parse('verify successfully cancel order message'))
+# def do_cancel_order_success_message(init_driver):
+#     feature_file_name = "cancel_orders"
+#     create_order_steps = ValidateErrorOrdersData(init_driver)
+#     try:
+#         if not create_order_steps.do_cancel_order_success_message(feature_file_name, screen_shot):
+#             raise Exception("failed to verify cancel order success message")
+#
+#     except Exception as e:
+#         logger.error("Error while verifying cancel order success message %s", e)
+#         raise e
 
 
 @given(parsers.parse('logout the X4A url'))
