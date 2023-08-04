@@ -33,3 +33,6 @@ class SqlConstant:
     X4A_USER_DATA_BY_FEATURE_FILE_SQL_QUERY = "SELECT * from x4a_user_data"
 
     X4A_INPUT_GET_ORDER_TEST_CASE_RECORD_SQL_QUERY = "SELECT * FROM x4a_input_order where feature_file_name=?"
+
+    X4A_GET_ORDER_TYPE_BY_FEATURE_FILE_NAME_SQL_QUERY = "SELECT order_type FROM x4a_input_order where feature_file_name =?"
+

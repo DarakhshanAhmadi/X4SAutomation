@@ -263,3 +263,26 @@ class X4AInputOrderDAO(BaseTest):
             sql_util.close_connection(connection)
             self.logger.info("Records fetched successfully from x4a_input_order table")
             return order_test_case_details_json
+
+    def get_order_type_by_feature_file_name(self, sql_util, feature_file_name):
+        order_type = None
+        try:
+            self.logger.info("Fetching the Order Type from x4a_input_order table by feature file name")
+            connection = sql_util.get_connection()
+            connection.row_factory = sqlite3.Row
+            cursor = connection.cursor()
+            cursor.execute(SqlConstant.X4A_GET_ORDER_TYPE_BY_FEATURE_FILE_NAME_SQL_QUERY, [str(feature_file_name)])
+            x4a_input_order = cursor.fetchall()
+            for record in x4a_input_order:
+                order_type = record[0]
+        except Error as e:
+            self.logger.error(
+                "Exception occurred while trying to fetch Order Type Name from x4a_input_order table by feature file name"
+                + str(e))
+            raise e
+        finally:
+            sql_util.close_connection(connection)
+
+            self.logger.info("Order Type %s fetched successfully from X4A_input_order table by feature file name",
+                             order_type)
+            return order_type
