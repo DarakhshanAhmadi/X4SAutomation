@@ -33,7 +33,7 @@
   },
   "dbLocation": {
     "db_file_path": "D:\\Database\\xvs_lite_automation_db.sqlite3",
-    "db_script_file_path": "db\\DbScript.sql",
+    "db_script_file_path": "db\\DbScript.sql"
   },
   "retryParams": {
     "max_wait_period": "1500",
