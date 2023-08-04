@@ -256,7 +256,7 @@ class BasePage:
 
     def go_to_page(self, page_number):
         try:
-            time.sleep(2)
+            self.do_check_availability(self.PAGINATION_PAGES)
             pages = self.get_all_elements(self.PAGINATION_PAGES)
             first_page_number = int(pages[0].text)
             last_page_number = int(pages[-1].text)
