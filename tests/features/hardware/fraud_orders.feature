@@ -38,7 +38,7 @@ Feature: Fraud Orders
     Then Verify that Cancel Order button should display
     When Cancel Order Button button clicked
     Then Verify the Fraud Cancel Order popup
-    When Click to No keep order button
+    When Click on Keep order button
     Then Verify Order Details page opened
 
 #  EDT-10355
