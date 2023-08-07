@@ -62,7 +62,6 @@ def test_logout_x4a():
 
 @given(parsers.parse('launch chrome browser and open the X4A url'))
 def launch_browser(init_driver):
-    breakpoint()
     create_order_steps = ValidateErrorOrdersData(init_driver)
     order_management_srv_obj = X4AInputOrderDbManagementService()
     prepare_obj = PrepareObject(init_driver)
@@ -240,7 +239,6 @@ def verify_reprocess_order_success_message(init_driver):
 
 @then(parsers.parse('Verify that Order should not be there in list'))
 def verify_order_not_in_list(init_driver):
-    breakpoint()
     feature_file_name = "fraud_orders"
     validate_error_orders_data = ValidateErrorOrdersData(init_driver)
     try:
@@ -402,7 +400,6 @@ def do_cancel_order_success_message(init_driver):
 
 @then(parsers.parse('Verify that Cancel Order should not be there in list'))
 def verify_cancel_order_not_in_list(init_driver):
-    breakpoint()
     feature_file_name = "fraud_orders"
     validate_error_orders_data = ValidateErrorOrdersData(init_driver)
     try:
