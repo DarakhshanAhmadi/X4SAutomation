@@ -1,7 +1,7 @@
 class X4AInputOrder:
     def __init__(self, feature_file_name, reseller_bcn, im_order_number, order_type, reseller_po, vendor_name, order_status, customer_po, total_revenue_min, total_revenue_max, customer_name,
                  order_value, reference_numbers, billing_to_info, ship_to_info, end_user_info, order_lines_tab, serial_numbers, additional_attributes,
-                 fraud_cancel_order_confirmation_id, fraud_reprocess_order_confirmation_id, reseller_name):
+                 fraud_cancel_order_confirmation_id, fraud_reprocess_order_confirmation_id, reseller_name, end_user_name, created_on):
         self.feature_file_name = feature_file_name
         self.reseller_bcn = reseller_bcn
         self.im_order_number = im_order_number
@@ -24,4 +24,6 @@ class X4AInputOrder:
         self.fraud_cancel_order_confirmation_id = fraud_cancel_order_confirmation_id
         self.fraud_reprocess_order_confirmation_id = fraud_reprocess_order_confirmation_id
         self.reseller_name = reseller_name
+        self.end_user_name = end_user_name
+        self.created_on = created_on
 

@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from CommonUtilities.baseSet.BasePage import BasePage
 from CommonUtilities.parse_config import ParseConfigFile
 from selenium.webdriver import ActionChains, Keys
-from datetime import datetime
+from datetime import datetime, date
 from CommonUtilities.readProperties import ReadConfig
 from selenium.webdriver.common.action_chains import ActionChains
 
@@ -71,7 +71,7 @@ class X4ASalesOrdersPage(BasePage):
     FILTER_BY_RESELLER_NAME = (By.XPATH, "//p[text()='Reseller name']")
     FILTER_RESELLER_NAME_TEXTBOX = (By.XPATH, "//input[@id='customerName']")
     FILTER_BY_VENDOR_NAME = (By.XPATH, "//p[text()='Vendor name']")
-    FILTER_VENDOR_NAME_TEXTBOX = (By.XPATH, "//input[@id='bcnCustomer']")
+    FILTER_VENDOR_NAME_TEXTBOX = (By.XPATH, "(//input[@id='bcnCustomer'])[2]")
     FILTER_BY_END_USER_NAME = (By.XPATH, "//p[text()='End user name']")
     FILTER_END_USER_TEXTBOX = (By.XPATH, "//input[@id='endUserName']")
     FILTER_BY_ORDER_VALUE = (By.XPATH, "//p[text()='Order value']")
@@ -80,7 +80,7 @@ class X4ASalesOrdersPage(BasePage):
     FILTER_BY_ORDER_STATUS = (By.XPATH, "//div[text()='Order Status']")
     FILTER_ORDER_STATUS_TEXTBOX = (By.XPATH, "//input[@placeholder='Search Order Status']")
     FILTER_ORDER_STATUS_CHECKBOX = (By.XPATH, "//label[@data-testid='OrderStatus-0-Label']/span[@data-testid='OrderStatus-0-checkbox']")
-    FILTER_BY_CREATED_ON = (By.XPATH, "//div[text()='Created on']")
+    FILTER_BY_CREATED_ON = (By.XPATH, "//p[text()='Created on']")
     FILTER_APPLY_BUTTON = (By.XPATH, "//button[text()='Apply']")
     FILTER_CHECK_ICON = (By.XPATH, "//*[@data-testid='CheckCircleIcon']")
     ORDER_NUMBER_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-row']/div[@data-field='orderNumber']")
@@ -89,6 +89,10 @@ class X4ASalesOrdersPage(BasePage):
     ORDER_TYPE_ITEM_LIST = (By.XPATH, "//*[@class='MuiDataGrid-virtualScrollerRenderZone css-uw2ren-MuiDataGrid-virtualScrollerRenderZone']//div[@data-field='orderTypeName']")
     ITEMS_PER_PAGE = (By.XPATH,
                       "//div[@class='MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-d2iqo8-MuiSelect-select-MuiInputBase-input']")
+    MULTIPLE_VENDOR_LINK = (By.XPATH, "//div[@class='MuiBox-root css-7g6ps3']/p[@id='modal-modal-description']/div")
+    LINK_CLOSE_BUTTON = (By.XPATH, "//button[text()='Close']")
+    ORDER_VALUE_SORT = (By.XPATH, "//*[text()='Order value']")
+    CREATED_ON_LIST = (By.XPATH, "//div[@data-testid='CreatedOn-accordionData']/div/label/span[2]")
     """Order Details page"""
 
     ORDER_DETAILS_TAB = (By.XPATH, "//button/div/div[text()='Order Details']")
@@ -1818,10 +1822,10 @@ class X4ASalesOrdersPage(BasePage):
                 if last_page_number != first_page_number + 1:
                     random_page = self.get_random_page(first_page_number, last_page_number)
                     self.logger.info("Verifying Reseller Name in page %s", str(random_page))
-                    self.filter_by_reseller_po(reseller_name)
+                    self.filter_by_reseller_name(reseller_name)
                     self.go_to_page(random_page)
                     self.validate_reseller_name(reseller_name)
-                self.logger.info("Verifying Reseller PO in page %s", str(last_page_number))
+                self.logger.info("Verifying Reseller Name in page %s", str(last_page_number))
                 self.filter_by_reseller_name(reseller_name)
                 self.go_to_page(last_page_number)
                 self.validate_reseller_name(reseller_name)
@@ -1854,3 +1858,362 @@ class X4ASalesOrdersPage(BasePage):
         except Exception as e:
             self.logger.error("Exception occurred verifying Reseller Name" + str(e))
             raise e
+
+    def filter_by_vendor_name(self, vendor_name):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.FILTER_ICON)
+            self.do_click_by_locator(self.FILTER_BY_VENDOR_NAME)
+            self.do_send_keys(self.FILTER_VENDOR_NAME_TEXTBOX, vendor_name)
+            self.do_click_by_locator(self.FILTER_CHECK_ICON)
+            self.do_click_by_locator(self.FILTER_BY_VENDOR_NAME)
+            self.do_click_by_locator(self.FILTER_APPLY_BUTTON)
+            time.sleep(2)
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while filtering by Vendor Name' + str(e))
+            return False
+
+    def verify_filter_by_vendor_name_in_pages(self, vendor_name):
+        try:
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("Verifying Vendor Name in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.validate_vendor_name(vendor_name)
+            if first_page_number != last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
+                    self.logger.info("Verifying Vendor Name in page %s", str(random_page))
+                    self.filter_by_vendor_name(vendor_name)
+                    self.go_to_page(random_page)
+                    self.validate_vendor_name(vendor_name)
+                self.logger.info("Verifying Vendor Name in page %s", str(last_page_number))
+                self.filter_by_vendor_name(vendor_name)
+                self.go_to_page(last_page_number)
+                time.sleep(2)
+                self.validate_vendor_name(vendor_name)
+            self.logger.info("Successfully verified Vendor Name")
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred verifying Vendor Name in table" + str(e))
+            return False
+
+    def validate_vendor_name(self, vendor_name):
+        try:
+            self.logger.info("Verifying the Vendor Name in table")
+            max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
+            self.logger.info("Max items per page: " + max_rows)
+            for i in range(int(max_rows)):
+                if i > 0 and i == 6:
+                    table = self.driver.find_element(By.XPATH, self.SALES_ORDER_TABLE)
+                    self.scroll_down(table)
+                    time.sleep(2)
+                self.logger.info("Fetching Vendor Name")
+                vendor_name_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
+                    i) + "']/div[@data-field='vendorName']")
+                try:
+                    ui_vendor_name = self.get_element_text(vendor_name_xpath)
+                    self.logger.info("Fetched ui Vendor name account :" + str(ui_vendor_name))
+                except:
+                    self.logger.info("There are only " + str(i) + " rows")
+                    break
+                if "Multiple Vendors" in ui_vendor_name:
+                    self.logger.info("Multiple vendors present")
+                    multiple_vendor_link_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='"+str(i)+"']/div/div/button[contains(text(), 'Multiple Vendors')]")
+                    self.do_click_by_locator(multiple_vendor_link_xpath)
+                    popup_vendor_names = self.get_element_text(self.MULTIPLE_VENDOR_LINK)
+                    self.do_click_by_locator(self.LINK_CLOSE_BUTTON)
+                    if vendor_name not in popup_vendor_names:
+                        raise Exception("Vendor name mismatched")
+                else:
+                    self.logger.info("Single vendor present")
+                    assert ui_vendor_name.strip() == vendor_name.strip(), "Vendor Name mismatched"
+        except Exception as e:
+            self.logger.error("Exception occurred verifying Vendor Name" + str(e))
+            raise e
+
+    def filter_by_end_user_name(self, end_user_name):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.FILTER_ICON)
+            self.do_click_by_locator(self.FILTER_BY_END_USER_NAME)
+            self.do_send_keys(self.FILTER_END_USER_TEXTBOX, end_user_name)
+            self.do_click_by_locator(self.FILTER_CHECK_ICON)
+            self.do_click_by_locator(self.FILTER_BY_END_USER_NAME)
+            self.do_click_by_locator(self.FILTER_APPLY_BUTTON)
+            time.sleep(2)
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while filtering by End User Name' + str(e))
+            return False
+
+    def verify_filter_by_end_user_name_in_pages(self, end_user_name):
+        try:
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("Verifying End User Name in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.validate_end_user_name(end_user_name)
+            if first_page_number != last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
+                    self.logger.info("Verifying End User Name in page %s", str(random_page))
+                    self.filter_by_end_user_name(end_user_name)
+                    self.go_to_page(random_page)
+                    self.validate_end_user_name(end_user_name)
+                self.logger.info("Verifying End User Name in page %s", str(last_page_number))
+                self.filter_by_end_user_name(end_user_name)
+                self.go_to_page(last_page_number)
+                self.validate_end_user_name(end_user_name)
+            self.logger.info("Successfully verified End User Name")
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred verifying End User Name in table" + str(e))
+            return False
+
+    def validate_end_user_name(self, end_user_name):
+        try:
+            self.logger.info("Verifying the End User Name in table")
+            max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
+            self.logger.info("Max items per page: " + max_rows)
+            for i in range(int(max_rows)):
+                if i > 0 and i == 6:
+                    table = self.driver.find_element(By.XPATH, self.SALES_ORDER_TABLE)
+                    self.scroll_down(table)
+                    time.sleep(2)
+                self.logger.info("Fetching End User Name")
+                end_user_name_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
+                    i) + "']/div[@data-field='firstEndUserName']")
+                try:
+                    ui_end_user_name = self.get_element_text(end_user_name_xpath)
+                    self.logger.info("Fetched ui end user name account :" + str(ui_end_user_name))
+                except:
+                    self.logger.info("There are only " + str(i) + " rows")
+                    break
+                assert str(ui_end_user_name) == str(end_user_name), "End User Name mismatched"
+        except Exception as e:
+            self.logger.error("Exception occurred verifying End User Name" + str(e))
+            raise e
+
+    def filter_by_order_status(self, order_status):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.FILTER_ICON)
+            self.do_click_by_locator(self.FILTER_BY_ORDER_STATUS)
+            self.do_send_keys(self.FILTER_ORDER_STATUS_TEXTBOX, order_status)
+            self.do_click_by_locator(self.FILTER_ORDER_STATUS_CHECKBOX)
+            self.do_click_by_locator(self.FILTER_BY_ORDER_STATUS)
+            self.do_click_by_locator(self.FILTER_APPLY_BUTTON)
+            time.sleep(2)
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while filtering by Order Status' + str(e))
+            return False
+
+    def verify_filter_by_order_status_in_pages(self, order_status):
+        try:
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("Verifying Order Status in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.validate_order_status(order_status)
+            if first_page_number != last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
+                    self.logger.info("Verifying Order Status in page %s", str(random_page))
+                    self.filter_by_order_status(order_status)
+                    self.go_to_page(random_page)
+                    self.validate_order_status(order_status)
+                self.logger.info("Verifying Order Status in page %s", str(last_page_number))
+                self.filter_by_order_status(order_status)
+                self.go_to_page(last_page_number)
+                time.sleep(2)
+                self.validate_order_status(order_status)
+            self.logger.info("Successfully verified Order Status")
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred verifying Order Status in table" + str(e))
+            return False
+
+    def validate_order_status(self, order_status):
+        try:
+            self.logger.info("Verifying the Order Status in table")
+            max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
+            self.logger.info("Max items per page: " + max_rows)
+            for i in range(int(max_rows)):
+                if i == 0:
+                    element = "//div[@data-id=0]/div[@data-colindex=6]"
+                    order_value_element = self.driver.find_element(By.XPATH, element)
+                    self.scroll_horizontally(order_value_element)
+                    element = "//div[@class='MuiDataGrid-row'] [@data-id='" + str(i) + "']/div[@data-field='orderStatus']"
+                    order_status_element = self.driver.find_element(By.XPATH, element)
+                    self.scroll_horizontally(order_status_element)
+                if i > 0 and i == 6:
+                    table = self.driver.find_element(By.XPATH, self.SALES_ORDER_TABLE)
+                    self.scroll_down(table)
+                    time.sleep(2)
+                self.logger.info("Fetching Order Status")
+                order_status_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
+                    i) + "']/div[@data-field='orderStatus']")
+                try:
+                    ui_order_status = self.get_element_text(order_status_xpath)
+                    self.logger.info("Fetched ui order status account :" + str(ui_order_status))
+                except:
+                    self.logger.info("There are only " + str(i) + " rows")
+                    break
+                assert str(ui_order_status) == str(order_status), "Order Status mismatched"
+        except Exception as e:
+            self.logger.error("Exception occurred verifying Order Status" + str(e))
+            raise e
+
+    def filter_by_order_value(self, min_order_value, max_order_value):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.FILTER_ICON)
+            self.do_click_by_locator(self.FILTER_BY_ORDER_VALUE)
+            self.do_send_keys(self.FILTER_MIN_ORDER_VALUE, min_order_value)
+            self.do_send_keys(self.FILTER_MAX_ORDER_VALUE, max_order_value)
+            self.do_click_by_locator(self.FILTER_CHECK_ICON)
+            self.do_click_by_locator(self.FILTER_BY_ORDER_STATUS)
+            self.do_click_by_locator(self.FILTER_APPLY_BUTTON)
+            time.sleep(2)
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while filtering by Order Value' + str(e))
+            return False
+
+    def verify_filter_by_order_value_in_pages(self, min_order_value, max_order_value):
+        try:
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("Verifying Order Value in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.validate_order_value(min_order_value, max_order_value)
+            if first_page_number != last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
+                    self.logger.info("Verifying Order Value in page %s", str(random_page))
+                    self.filter_by_order_value(min_order_value, max_order_value)
+                    self.go_to_page(random_page)
+                    self.validate_order_value(min_order_value, max_order_value)
+                self.logger.info("Verifying Order Value in page %s", str(last_page_number))
+                self.filter_by_order_value(min_order_value, max_order_value)
+                self.go_to_page(last_page_number)
+                self.validate_order_value(min_order_value, max_order_value)
+            self.logger.info("Successfully verified Order Value")
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred verifying Order Value in table" + str(e))
+            return False
+
+    def validate_order_value(self, min_order_value, max_order_value):
+        try:
+            self.logger.info("Verifying the Order Value in table")
+            max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
+            self.logger.info("Max items per page: " + max_rows)
+            for i in range(int(max_rows)):
+                if i == 0:
+                    element = "//div[@data-id=0]/div[@data-colindex=6]"
+                    order_value_element = self.driver.find_element(By.XPATH, element)
+                    self.scroll_horizontally(order_value_element)
+                    element = "//div[@class='MuiDataGrid-row'] [@data-id='" + str(i) + "']/div[@data-field='orderTotalValue']"
+                    order_status_element = self.driver.find_element(By.XPATH, element)
+                    self.scroll_horizontally(order_status_element)
+                    self.do_double_click(self.ORDER_VALUE_SORT)
+                if i > 0 and i == 6:
+                    table = self.driver.find_element(By.XPATH, self.SALES_ORDER_TABLE)
+                    self.scroll_down(table)
+                    time.sleep(2)
+                self.logger.info("Fetching Order Value")
+                order_value_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
+                    i) + "']/div[@data-field='orderTotalValue']")
+                try:
+                    ui_order_value = self.get_element_text(order_value_xpath)
+                    self.logger.info("Fetched ui order status account :" + str(ui_order_value))
+                except:
+                    self.logger.info("There are only " + str(i) + " rows")
+                    break
+                if not float(min_order_value) <= float(str(ui_order_value).replace('$ ' , "")) <= float(max_order_value):
+                    raise Exception("Order value filter results are incorrect")
+        except Exception as e:
+            self.logger.error("Exception occurred verifying Order Value" + str(e))
+            raise e
+
+    def filter_by_created_on(self, created_on):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.FILTER_ICON)
+            self.do_click_by_locator(self.FILTER_BY_CREATED_ON)
+            created_on_options = self.get_all_elements(self.CREATED_ON_LIST)
+            for ele in created_on_options:
+                if ele.text == created_on:
+                    ele.click()
+                    break
+            self.do_click_by_locator(self.FILTER_BY_CREATED_ON)
+            self.do_click_by_locator(self.FILTER_APPLY_BUTTON)
+        except Exception as e:
+            self.logger.error("Exception occurred filtering created on" + str(e))
+            raise e
+
+    def verify_filter_by_created_on_in_pages(self, created_on):
+        try:
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("Verifying Created On in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.validate_created_on(created_on)
+            if first_page_number != last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
+                    self.logger.info("Verifying Created On in page %s", str(random_page))
+                    self.filter_by_created_on(created_on)
+                    self.go_to_page(random_page)
+                    self.validate_created_on(created_on)
+                self.logger.info("Verifying Order Created On page %s", str(last_page_number))
+                self.filter_by_created_on(created_on)
+                self.go_to_page(last_page_number)
+                self.validate_created_on(created_on)
+            self.logger.info("Successfully verified Created On")
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred verifying Created On in table" + str(e))
+            return False
+
+    def validate_created_on(self, created_on):
+        try:
+            self.logger.info("Verifying the Created On in table")
+            max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
+            self.logger.info("Max items per page: " + max_rows)
+            for i in range(int(max_rows)):
+                if i == 0:
+                    element = "//div[@data-id=0]/div[@data-colindex=6]"
+                    order_value_element = self.driver.find_element(By.XPATH, element)
+                    self.scroll_horizontally(order_value_element)
+                    element = "//div[@class='MuiDataGrid-row'] [@data-id='" + str(i) + "']/div[@data-field='orderCreateDate']"
+                    order_status_element = self.driver.find_element(By.XPATH, element)
+                    self.scroll_horizontally(order_status_element)
+                if i > 0 and i == 6:
+                    table = self.driver.find_element(By.XPATH, self.SALES_ORDER_TABLE)
+                    self.scroll_down(table)
+                    time.sleep(2)
+                self.logger.info("Fetching Created On")
+                created_on_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
+                    i) + "']/div[@data-field='orderCreateDate']")
+                try:
+                    ui_created_on = self.get_element_text(created_on_xpath).split(" ")[0]
+                    self.logger.info("Fetched ui order status account :" + str(ui_created_on))
+                except:
+                    self.logger.info("There are only " + str(i) + " rows")
+                    break
+                if created_on == 'Today':
+                    created_on_date = str(date.today().strftime("%m/%d/%Y"))
+                assert ui_created_on == created_on_date, "Created On Mismatched"
+        except Exception as e:
+            self.logger.error("Exception occurred verifying Created On" + str(e))
+            raise e
+
