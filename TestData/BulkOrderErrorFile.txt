@@ -1,0 +1,1 @@
+This file is sample file to test incorrect type file for bulk order upload.

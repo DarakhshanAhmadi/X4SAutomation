@@ -51,6 +51,11 @@ class ReadConfig:
         return im360_db_file_path
 
     @staticmethod
+    def get_file_path():
+        file_path = parse_config_file.get_data_from_config_json("dbLocation", "file_path")
+        return file_path
+
+    @staticmethod
     def getScreenshotPath():
         ScreenShot_path = parse_config_file.get_data_from_config_json("logData", "screenshotsDirectoryPath")
         return ScreenShot_path
