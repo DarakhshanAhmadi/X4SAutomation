@@ -106,6 +106,31 @@ Feature: Sales Orders
     And Click on Additional attributes view more option
     Then Validate fields under Additional attributes header
 
+  @filter_by_im_order
+  Scenario: Verify filter with IM order
+     When Filter by IM order
+     Then Verify the data for filtered IM order is listed
+
+  @filter_order_type
+  Scenario: Verify filter by Order type
+    When Filter by Order type
+    Then Validate the order Type is listed
+
+  @filter_reseller_po
+  Scenario: Verify filter by Reseller PO
+    When Filter by Reseller PO
+    Then Validate the Reseller PO is listed
+
+  @filter_bcn
+  Scenario: Verify filter by BCN
+    When Filter by BCN
+    Then Validate the BCN is listed
+
+  @filter_reseller_name
+  Scenario: Verify filter by Reseller Name
+    When Filter by Reseller Name
+    Then Validate the Reseller Name is listed
+
 #  @logout
   Scenario: logout X4A
     Given logout the X4A url
