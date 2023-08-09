@@ -1,3 +1,4 @@
+import datetime
 import os
 from datetime import date
 
@@ -589,9 +590,9 @@ def validate_file_name(init_driver):
         latest_downloaded_file = validate_aged_orders.validate_file_name(feature_file_name, screen_shot)
         file = latest_downloaded_file.split("\\")
         file_name = file[-1]
-        curr_date = date.today().strftime("%m-%d-%Y")
-        if curr_date.startswith("0"):
-            curr_date = curr_date[1:]
+        curr_date = '{dt.month}-{dt.day}-{dt.year}'.format(dt=datetime.datetime.now())
+        # if curr_date.startswith("0"):
+        #     curr_date = curr_date[1:]
         file_str = "-AgedOrdersData"
         required_file_name = curr_date + file_str
         logger.info(required_file_name)
