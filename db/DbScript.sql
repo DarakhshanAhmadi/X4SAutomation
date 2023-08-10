@@ -26,7 +26,8 @@ order_lines_tab String,
 serial_numbers  String,
 additional_attributes String,
 fraud_cancel_order_confirmation_id String,
-fraud_reprocess_order_confirmation_id String
+fraud_reprocess_order_confirmation_id String,
+data_errors_resubmit_order_confirmation_id String
 );
 
 CREATE TABLE IF NOT EXISTS x4a_user_data(
