@@ -683,7 +683,7 @@ def filter_by_order_type(init_driver):
     try:
         input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
             db_file_path, feature_file_name)
-        order_type = input_order_data.get("order_type")
+        order_type = input_order_data.get("filter_order_type")
         if not validate_sales_orders.do_filter_order_type(order_type, feature_file_name, screen_shot):
             raise Exception("Failed to filter by Order type")
     except Exception as e:
@@ -698,7 +698,7 @@ def validate_filter_by_order_type_results(init_driver):
     try:
         input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
             db_file_path, feature_file_name)
-        order_type = input_order_data.get("order_type")
+        order_type = input_order_data.get("filter_order_type")
         if not validate_sales_orders.verify_order_type_filter_results(feature_file_name, screen_shot, order_type):
             raise Exception("Failed to Validate order type")
     except Exception as e:
@@ -864,7 +864,7 @@ def filter_by_order_status(init_driver):
     try:
         input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
             db_file_path, feature_file_name)
-        order_status = input_order_data.get("order_status")
+        order_status = input_order_data.get("filter_order_status")
         if not validate_sales_orders.do_filter_order_status(order_status, feature_file_name, screen_shot):
             raise Exception("Failed to filter by Order Status")
     except Exception as e:
@@ -879,7 +879,7 @@ def validate_filter_by_order_status_results(init_driver):
     try:
         input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
             db_file_path, feature_file_name)
-        order_status = input_order_data.get("order_status")
+        order_status = input_order_data.get("filter_order_status")
         if not validate_sales_orders.do_validate_order_status(order_status, feature_file_name, screen_shot):
             raise Exception("Failed to Validate Order Status")
     except Exception as e:
