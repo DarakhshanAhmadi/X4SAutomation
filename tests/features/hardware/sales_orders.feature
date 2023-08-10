@@ -106,7 +106,7 @@ Feature: Sales Orders
     And Click on Additional attributes view more option
     Then Validate fields under Additional attributes header
 
-  @filter_by_im_order
+  @filter_im_order
   Scenario: Verify filter with IM order
      When Filter by IM order
      Then Verify the data for filtered IM order is listed
@@ -130,6 +130,31 @@ Feature: Sales Orders
   Scenario: Verify filter by Reseller Name
     When Filter by Reseller Name
     Then Validate the Reseller Name is listed
+
+  @filter_vendor_name
+  Scenario: Verify filter by Vendor Name
+    When Filter by Vendor Name
+    Then Validate the Vendor Name is listed
+
+  @filter_end_user_name
+  Scenario: Verify filter by End User Name
+    When Filter by End User Name
+    Then Validate the End User Name is listed
+
+  @filter_order_status
+  Scenario: Verify filter by Order Status
+    When Filter by Order Status
+    Then Validate the Order Status is listed
+
+  @filter_order_value
+  Scenario: Verify filter by Order Value
+    When Filter by Order Value
+    Then Validate the Order Value is listed
+
+  @filter_created_on
+  Scenario: Verify filter by Created On
+    When Filter by Created On
+    Then Validate the Created On is listed
 
 #  @logout
   Scenario: logout X4A

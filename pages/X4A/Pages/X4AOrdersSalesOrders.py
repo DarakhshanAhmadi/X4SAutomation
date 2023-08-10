@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from CommonUtilities.baseSet.BasePage import BasePage
 from CommonUtilities.parse_config import ParseConfigFile
 from selenium.webdriver import ActionChains, Keys
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from CommonUtilities.readProperties import ReadConfig
 from selenium.webdriver.common.action_chains import ActionChains
 
@@ -1648,7 +1648,7 @@ class X4ASalesOrdersPage(BasePage):
                     i) + "']/div[@data-field='orderTypeName']")
                 try:
                     ui_order_type = self.get_element_text(order_type_xpath)
-                    self.logger.info("Fetched ui bcn account :" + str(ui_order_type))
+                    self.logger.info("Fetched ui order type :" + str(ui_order_type))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
                     break
@@ -1786,7 +1786,7 @@ class X4ASalesOrdersPage(BasePage):
                     i) + "']/div[@data-field='customerOrderNumber']")
                 try:
                     ui_reseller_po = self.get_element_text(reseller_po_xpath)
-                    self.logger.info("Fetched ui reseller po account :" + str(ui_reseller_po))
+                    self.logger.info("Fetched ui reseller po :" + str(ui_reseller_po))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
                     break
@@ -1850,7 +1850,7 @@ class X4ASalesOrdersPage(BasePage):
                     i) + "']/div[@data-field='customerName']")
                 try:
                     ui_reseller_name = self.get_element_text(reseller_name_xpath)
-                    self.logger.info("Fetched ui reseller name account :" + str(ui_reseller_name))
+                    self.logger.info("Fetched ui reseller name :" + str(ui_reseller_name))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
                     break
@@ -1915,7 +1915,7 @@ class X4ASalesOrdersPage(BasePage):
                     i) + "']/div[@data-field='vendorName']")
                 try:
                     ui_vendor_name = self.get_element_text(vendor_name_xpath)
-                    self.logger.info("Fetched ui Vendor name account :" + str(ui_vendor_name))
+                    self.logger.info("Fetched ui Vendor name :" + str(ui_vendor_name))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
                     break
@@ -1989,7 +1989,7 @@ class X4ASalesOrdersPage(BasePage):
                     i) + "']/div[@data-field='firstEndUserName']")
                 try:
                     ui_end_user_name = self.get_element_text(end_user_name_xpath)
-                    self.logger.info("Fetched ui end user name account :" + str(ui_end_user_name))
+                    self.logger.info("Fetched ui end user name :" + str(ui_end_user_name))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
                     break
@@ -2061,7 +2061,7 @@ class X4ASalesOrdersPage(BasePage):
                     i) + "']/div[@data-field='orderStatus']")
                 try:
                     ui_order_status = self.get_element_text(order_status_xpath)
-                    self.logger.info("Fetched ui order status account :" + str(ui_order_status))
+                    self.logger.info("Fetched ui order status :" + str(ui_order_status))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
                     break
@@ -2134,7 +2134,7 @@ class X4ASalesOrdersPage(BasePage):
                     i) + "']/div[@data-field='orderTotalValue']")
                 try:
                     ui_order_value = self.get_element_text(order_value_xpath)
-                    self.logger.info("Fetched ui order status account :" + str(ui_order_value))
+                    self.logger.info("Fetched ui order value :" + str(ui_order_value))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
                     break
@@ -2156,6 +2156,7 @@ class X4ASalesOrdersPage(BasePage):
                     break
             self.do_click_by_locator(self.FILTER_BY_CREATED_ON)
             self.do_click_by_locator(self.FILTER_APPLY_BUTTON)
+            time.sleep(2)
         except Exception as e:
             self.logger.error("Exception occurred filtering created on" + str(e))
             raise e
@@ -2206,12 +2207,14 @@ class X4ASalesOrdersPage(BasePage):
                     i) + "']/div[@data-field='orderCreateDate']")
                 try:
                     ui_created_on = self.get_element_text(created_on_xpath).split(" ")[0]
-                    self.logger.info("Fetched ui order status account :" + str(ui_created_on))
+                    self.logger.info("Fetched ui Created On :" + str(ui_created_on))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
                     break
                 if created_on == 'Today':
                     created_on_date = str(date.today().strftime("%m/%d/%Y"))
+                elif created_on == 'Yesterday':
+                    created_on_date = (date.today() - timedelta(days=1)).strftime("%m/%d/%Y")
                 assert ui_created_on == created_on_date, "Created On Mismatched"
         except Exception as e:
             self.logger.error("Exception occurred verifying Created On" + str(e))
