@@ -52,5 +52,8 @@
   },
   "environment": {
     "environment_type": "Stage"
+  },
+  "restApi": {
+    "data_error_order_creation_api": "http://10.12.73.194:5376"
   }
 }
