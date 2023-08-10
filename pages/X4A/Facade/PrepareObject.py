@@ -18,7 +18,7 @@ class PrepareObject:
                                             test_data.get("BillingToInfo"), test_data.get("ShipToInfo"), test_data.get("EndUserInfo"),
                                             test_data.get("OrderLinesTab"), test_data.get("SerialNumbers"), test_data.get("AdditionalAttributes"),
                                             test_data.get("FraudCancelOrderConfirmationId"), test_data.get("FraudReprocessOrderConfirmationId"),
-                                            test_data.get("ResellerName"), test_data.get("EndUserName"), test_data.get("CreatedOn"))
+                                            test_data.get("DataErrorResubmitOrderConfirmationId"), test_data.get("ResellerName"), test_data.get("EndUserName"), test_data.get("CreatedOn"))
         return x4a_input_order_obj
     def prepare_x4a_user_data_obj(self, test_data):
         x4a_user_data_obj = X4AUserData(test_data.get("FeatureFileName"),

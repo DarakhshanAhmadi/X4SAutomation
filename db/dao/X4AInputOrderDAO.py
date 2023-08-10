@@ -30,9 +30,12 @@ class X4AInputOrderDAO(BaseTest):
                                 x4a_input_order.ship_to_info,
                                 x4a_input_order.end_user_info, x4a_input_order.order_lines_tab,
                                 x4a_input_order.serial_numbers,
-                                x4a_input_order.additional_attributes, x4a_input_order.fraud_cancel_order_confirmation_id,
-                                x4a_input_order.fraud_reprocess_order_confirmation_id, x4a_input_order.reseller_name,
+                                x4a_input_order.additional_attributes,
+                                x4a_input_order.fraud_cancel_order_confirmation_id,
+                                x4a_input_order.fraud_reprocess_order_confirmation_id,
+                                x4a_input_order.data_errors_resubmit_order_confirmation_id, x4a_input_order.reseller_name,
                                 x4a_input_order.end_user_name, x4a_input_order.created_on))
+
                 connection.commit()
         except Error as e:
             self.logger.error("Exception occurred while trying to insert the input data into x4a_input_order table "
@@ -288,3 +291,19 @@ class X4AInputOrderDAO(BaseTest):
             self.logger.info("Order Type %s fetched successfully from X4A_input_order table by feature file name",
                              order_type)
             return order_type
+
+    def save_confirmation_id_in_db(self, sql_util, feature_file_name, data_errors_resubmit_order_confirmation_id):
+        try:
+            connection = sql_util.get_connection()
+            cursor = connection.cursor()
+            self.logger.info("Updating Data errors resubmit order confirmation_id into x4a_input_order table")
+            cursor.execute(SqlConstant.X4A_UPDATE_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY,
+                           [data_errors_resubmit_order_confirmation_id, feature_file_name])
+            connection.commit()
+        except Error as e:
+            self.logger.error(
+                "Exception occurred while trying to update Data errors resubmit order confirmation_id into x4a_input_order table " + str(
+                    e))
+        finally:
+            sql_util.close_connection(connection)
+        self.logger.info("Data errors resubmit order confirmation_id updated successfully into x4a_input_order table")
