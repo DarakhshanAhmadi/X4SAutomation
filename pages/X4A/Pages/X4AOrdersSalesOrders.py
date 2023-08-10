@@ -92,7 +92,7 @@ class X4ASalesOrdersPage(BasePage):
     MULTIPLE_VENDOR_LINK = (By.XPATH, "//div[@class='MuiBox-root css-7g6ps3']/p[@id='modal-modal-description']/div")
     LINK_CLOSE_BUTTON = (By.XPATH, "//button[text()='Close']")
     ORDER_VALUE_SORT = (By.XPATH, "//*[text()='Order value']")
-    CREATED_ON_LIST = (By.XPATH, "//div[@data-testid='CreatedOn-accordionData']/div/label/span[2]")
+    FILTER_CREATED_ON_LIST = (By.XPATH, "//div[@data-testid='CreatedOn-accordionData']/div/label/span[2]")
     """Order Details page"""
 
     ORDER_DETAILS_TAB = (By.XPATH, "//button/div/div[text()='Order Details']")
@@ -2149,7 +2149,7 @@ class X4ASalesOrdersPage(BasePage):
             self.driver.refresh()
             self.do_click_by_locator(self.FILTER_ICON)
             self.do_click_by_locator(self.FILTER_BY_CREATED_ON)
-            created_on_options = self.get_all_elements(self.CREATED_ON_LIST)
+            created_on_options = self.get_all_elements(self.FILTER_CREATED_ON_LIST)
             for ele in created_on_options:
                 if ele.text == created_on:
                     ele.click()

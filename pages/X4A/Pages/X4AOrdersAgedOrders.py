@@ -72,6 +72,7 @@ class X4AAgedOrdersPage(BasePage):
     DOWNLOAD_POPUP_MESSAGE = (By.XPATH, "//div//p[@id='modal-modal-description']")
     TABLE_FIRST_ROW = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='0']")
     SKU_POPUP_CLOSE = (By.XPATH, "//div[@class='MuiBox-root css-7g6ps3']/div/button/*[@data-testid='CloseIcon']")
+    ORDER_VALUE_SORT = (By.XPATH, "//*[text()='Order value']")
 
     def go_to_aged_orders(self):
         try:
@@ -581,6 +582,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.FILTER_CHECK_ICON)
             self.do_click_by_locator(self.FILTER_BY_TOTAL_REVENUE)
             self.do_click_by_locator(self.FILTER_APPLY_BUTTON)
+            self.do_double_click(self.ORDER_VALUE_SORT)
             time.sleep(2)
         except Exception as e:
             self.logger.error("Error while filtering by total revenue " + str(e))
