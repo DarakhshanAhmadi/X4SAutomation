@@ -1,10 +1,6 @@
 @data_errors_orders @regression
 Feature: Fraud Orders
 
-  @testApi
-  Scenario: create error Order
-    Given the error order is created via api
-
   @login
   Scenario: Login to X4A portal
     Given launch chrome browser and open the X4A url
@@ -14,6 +10,7 @@ Feature: Fraud Orders
 #  EDT-9280
   @resubmit_order_popup
   Scenario: Verify resubmit order popup
+    Given the error order is created via api
     When Search and Select the Data Errors Order
     Then Verify that Resubmit Order button should display
     And Update the correct Reseller PO
