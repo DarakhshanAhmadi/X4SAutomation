@@ -765,7 +765,16 @@ class ValidateAgedOrdersData:
                         ui_last_row[header] = 'Multiple'
                     self.logger.info("UI first row :" + str(ui_first_row))
                     self.logger.info("UI last row :" + str(ui_last_row))
-                if header != 'Order date' and header != 'Last updated':
+                if header != 'Order date' and header != 'Last updated' and header != 'IM SKU':
+                    if file_first_row[header] != ui_first_row[header]:
+                        self.logger.error("%s mismatched in UI an file for first row of data", header)
+                        self.logger.error("File: " + str(file_first_row[header]) + "\n" + "UI: " + str(ui_first_row[header]))
+                        raise Exception("value mismatched for first row of data")
+                    if file_last_row[header] != ui_last_row[header]:
+                        self.logger.error("%s mismatched in UI an file for last row of data", header)
+                        self.logger.error("File: " + str(file_last_row[header]) + "\n" + "UI: " + str(ui_last_row[header]))
+                        raise Exception("Value mismatched for last row of data")
+                elif header == 'IM SKU':
                     if file_first_row[header] != ui_first_row[header]:
                         self.logger.error("%s mismatched in UI an file for first row of data", header)
                         self.logger.error("File: " + str(file_first_row[header]) + "\n" + "UI: " + str(ui_first_row[header]))

@@ -55,6 +55,21 @@ class X4AErrorOrdersPage(BasePage):
     FRAUD_CANCEL_ORDER_BUTTON = (By.XPATH, "//button[text() = 'Cancel Order']")
     ORDER_NOT_FOUND = (By.XPATH, "//*[text()='No failed orders found.']")
 
+    """Data errors Orders tab"""
+
+    DATA_ERRORS_SEARCH_BOX = (By.XPATH, "//*[@data-testid='SearchBar']/div/input")
+    DATA_ERRORS_RESUBMIT_ORDER_BUTTON = (By.XPATH, "//*[text()='Resubmit Order']")
+    RESELLER_PO_VALUE = (By.XPATH, "//*[@id='reference-details-po-number']")
+    REFERENCE_DETAILS_EDIT_BUTTON = (
+        By.XPATH, "//*[text()='Reference Details']/parent::div/*[@data-testid='ModeEditOutlineOutlinedIcon']")
+    END_CUSTOMER_ORDER_VALUE = (By.XPATH, "//*[@id='reference-details-edit-customer-number']")
+    DATA_ERROR_ORDER_UPDATE_BUTTON = (By.XPATH, "//button[text()='Update']")
+    RESUBMIT_ORDER_TITLE = (By.XPATH, "//div[@class = 'ModelTitle']")
+    RESUBMIT_ORDER_POPUP_MSG = (By.XPATH, "//div[text()='Resubmit Order']/parent::div/div[@class='modelBody']")
+    RESUBMIT_ORDER_REVIEW_BUTTON = (By.XPATH, "//*[@class='ModelTitle']/parent::div/div/button[1]")
+    YES_RESUBMIT_ORDER_BUTTON = (By.XPATH, "//*[@class='ModelTitle']/parent::div/div/button[2]")
+    RESUBMITTED_ORDER_SUCCESS_MESSAGE = (By.XPATH, "//*[@class='MuiAlert-message css-acap47-MuiAlert-message']")
+
     def go_to_error_orders(self):
         try:
             self.do_click_by_locator(self.ORDER_MENU)
@@ -403,4 +418,137 @@ class X4AErrorOrdersPage(BasePage):
         except Exception as e:
             self.logger.error(
                 'Exception occurred while clicking on YES, Cancel Order button from cancel order popup ' + str(e))
+            return False
+
+    def do_search_and_select_data_error_order(self, confirmation_id):
+        try:
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_click_by_locator(self.SEARCH_DROP_DOWN)
+            self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
+            self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+            time.sleep(5)
+            self.do_click_by_locator(self.FRAUD_FIRST_RECORD)
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while Searching and Selection Data error Order ' + str(e))
+            return False
+
+    def do_verify_data_error_resubmit_order_button(self):
+        try:
+            time.sleep(5)
+            self.do_check_visibility(self.DATA_ERRORS_RESUBMIT_ORDER_BUTTON)
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Data Error Resubmit Order button ' + str(e))
+            return False
+
+    def update_reseller_po_data_error_order(self):
+        try:
+            self.do_click_by_locator(self.REFERENCE_DETAILS_EDIT_BUTTON)
+            reseller_po = self.do_get_attribute(self.RESELLER_PO_VALUE, "value")
+            special_symbols = ['!', '@', '$', '%', '^', '&', '*']
+            for x in range(len(special_symbols)):
+                symbol = str(special_symbols[x])
+                if symbol in reseller_po:
+                    reseller_po = reseller_po.replace(symbol, "")
+            self.logger.info(reseller_po)
+            self.do_send_keys(self.RESELLER_PO_VALUE, reseller_po)
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while updating Reseller Po for Data Error order' + str(e))
+            return False
+
+    def update_end_customer_order_data_error_order(self):
+        try:
+            end_customer_order = self.do_get_attribute(self.END_CUSTOMER_ORDER_VALUE, "value")
+            special_symbols = ['!', '@', '$', '%', '^', '&', '*']
+            for x in range(len(special_symbols)):
+                symbol = str(special_symbols[x])
+                if symbol in end_customer_order:
+                    end_customer_order = end_customer_order.replace(symbol, "")
+            self.logger.info(end_customer_order)
+            self.do_send_keys(self.END_CUSTOMER_ORDER_VALUE, end_customer_order)
+            self.do_click_by_locator(self.DATA_ERROR_ORDER_UPDATE_BUTTON)
+            time.sleep(3)
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while updating End customer order for Data Error order' + str(e))
+            return False
+
+    def do_click_resubmit_order_button(self):
+        try:
+            self.do_click_by_locator(self.DATA_ERRORS_RESUBMIT_ORDER_BUTTON)
+            self.logger.info("Successfully clicked on Resubmit Order button")
+            return True
+        except Exception as e:
+            self.logger.eror('Exception occurred while clicking on Resubmit Order button ' + str(e))
+            return False
+
+    def verify_content_of_resubmit_order_popup(self):
+        try:
+            resubmit_order_title = 'Resubmit Order'
+            resubmit_order_message_msg = 'Are you sure you want to resubmit order? Order will be resubmitted, cannot undo this action. You may review prior to resubmitting.'
+            resubmit_order_review_button = 'Review'
+            resubmit_order_yes_button = 'Yes, Resubmit Order'
+            message = self.get_element_text(self.RESUBMIT_ORDER_POPUP_MSG).replace("\n", " ")
+
+            assert resubmit_order_title in self.get_element_text(
+                self.RESUBMIT_ORDER_TITLE), "Resubmit Order Title not present"
+            assert resubmit_order_message_msg in message, "Resubmit order popup message not present"
+            assert resubmit_order_review_button in self.get_element_text(
+                self.RESUBMIT_ORDER_REVIEW_BUTTON), "Resubmit Order Review Button is not present"
+            assert resubmit_order_yes_button in self.get_element_text(
+                self.YES_RESUBMIT_ORDER_BUTTON), "Resubmit order Yes button is not present"
+            self.logger.info(
+                "Successfully verified Resubmit Order title, No button ,Yes button and message in popup menu")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying cancel button ' + str(e))
+            return False
+
+    def do_click_resubmit_order_review_button(self):
+        try:
+            self.do_click_by_locator(self.RESUBMIT_ORDER_REVIEW_BUTTON)
+            self.logger.info("Successfully clicked on Resubmit Order Review button")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on Review button on Resubmit Order popup ' + str(e))
+            return False
+
+    def do_click_resubmit_order_yes_button(self):
+        try:
+            self.do_click_by_locator(self.YES_RESUBMIT_ORDER_BUTTON)
+            self.logger.info("Successfully clicked on Yes, Resubmit Order button")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while clicking on Yes, Resubmit Order button on Resubmit Order popup ' + str(e))
+            return False
+
+    def do_resubmitted_order_success_message(self):
+        try:
+            cancel_order_message = 'Order has been successfully resubmitted.'
+            assert cancel_order_message in self.get_element_text(
+                self.RESUBMITTED_ORDER_SUCCESS_MESSAGE), "Successfully Resubmitted Order message not present"
+            self.logger.info("Order reprocessed successfully")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Resubmitted order success message ' + str(e))
+            return False
+
+    def do_verify_data_error_order_in_list(self, confirmation_id):
+        try:
+            self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_click_by_locator(self.SEARCH_DROP_DOWN)
+            self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
+            self.do_send_keys(self.FRAUD_SEARCH_BOX, confirmation_id)
+            self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+            self.do_check_visibility(self.ORDER_NOT_FOUND)
+            self.logger.info("Successfully verified that resubmitted Order should not be there in list")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying resubmitted Order should not be there in list')
             return False

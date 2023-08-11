@@ -72,6 +72,7 @@ class X4AAgedOrdersPage(BasePage):
     DOWNLOAD_POPUP_MESSAGE = (By.XPATH, "//div//p[@id='modal-modal-description']")
     TABLE_FIRST_ROW = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='0']")
     SKU_POPUP_CLOSE = (By.XPATH, "//div[@class='MuiBox-root css-7g6ps3']/div/button/*[@data-testid='CloseIcon']")
+    ORDER_VALUE_SORT = (By.XPATH, "//*[text()='Order value']")
 
     def go_to_aged_orders(self):
         try:
@@ -581,6 +582,7 @@ class X4AAgedOrdersPage(BasePage):
             self.do_click_by_locator(self.FILTER_CHECK_ICON)
             self.do_click_by_locator(self.FILTER_BY_TOTAL_REVENUE)
             self.do_click_by_locator(self.FILTER_APPLY_BUTTON)
+            self.do_double_click(self.ORDER_VALUE_SORT)
             time.sleep(2)
         except Exception as e:
             self.logger.error("Error while filtering by total revenue " + str(e))
@@ -1091,19 +1093,30 @@ class X4AAgedOrdersPage(BasePage):
         return row_dict
 
     def get_multiple_sku_data(self, column_data, column_xpath):
-        row_data = ""
+        sku_list = []
         try:
-            self.logger.info("getting the multiple skus")
+            self.logger.info("Getting the multiple skus")
             self.do_click_by_locator((By.XPATH, column_xpath))
-            e = (By.XPATH, "//*[@id='modal-modal-description']/div/div/div/div[2]/div[2]/div/div/div")
-            data = self.get_element_text(e)
-            row_data = data.replace("\n", ",")
-            self.logger.info(row_data)
+            for i in range(1, 100):
+                s = "/html/body/div[2]/div[3]"
+                e = self.driver.find_element(By.XPATH, s)
+                if i == 13 or i == 18 or i == 24:
+                    self.scroll_down(e)
+                xpath = (By.XPATH, "//*[@id='modal-modal-description']/div/div/div/div[2]/div[2]/div/div/div//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]")
+                try:
+                    sku = self.get_element_text(xpath)
+                except:
+                    self.logger.info("There are only %s skus", str(i-1))
+                    break
+                sku_list.append(sku)
+                if i % 3 == 0:
+                    self.scroll_down(e)
             self.do_click_by_locator(self.LINK_CLOSE_BUTTON)
+            sku_list = ",".join(sku_list)
         except Exception as e:
             self.logger.error("Error while getting multiple sku data from link " + str(e))
             raise e
-        return row_data
+        return sku_list
 
     def get_first_and_last_row_data_for_filter_bcn_and_vendor_and_status(self, header_row, bcn, vendor_name, order_status):
         try:

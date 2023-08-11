@@ -127,10 +127,10 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def do_validate_reseller_bcn(self, reseller_bcn, feature_file_name, screen_shot, page1, page2, page3):
+    def do_validate_reseller_bcn(self, reseller_bcn, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            if not x4a_sales_order.do_validate_bcn_on_pages(reseller_bcn, page1, page2, page3):
+            if not x4a_sales_order.verify_filter_by_bcn_in_pages(reseller_bcn):
                 self.logger.error("Failed to validate Reseller BCN")
                 self.driver.save_screenshot(
                     self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_bcn_error.png")
@@ -185,64 +185,10 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def do_search_order_type(self, order_type, feature_file_name, screen_shot):
-        x4a_sales_order = X4ASalesOrdersPage(self.driver)
-        try:
-            x4a_sales_order.search_order_type(order_type)
-            self.logger.info("Successfully searched Order Type")
-            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
-                                        + "_searched_order_type_successfully.png")
-            return True
-        except Exception as e:
-            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
-                                        "_searched_order_type_error.png")
-            screen_shot[
-                "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_searched_order_type_error.png"
-            self.logger.error("Error while searching Order Type")
-            self.logger.exception(e)
-            return False
-
-    def do_validate_order_type(self, order_type, feature_file_name, screen_shot, page1, page2, page3):
-        x4a_sales_order = X4ASalesOrdersPage(self.driver)
-        try:
-            if not x4a_sales_order.do_validate_order_type_on_pages(order_type, page1, page2, page3, feature_file_name):
-                self.logger.error("Failed to validate Order Type")
-                self.driver.save_screenshot(
-                    self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_order_type_error.png")
-                screen_shot[
-                    "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_order_type_error.png"
-                return False
-            else:
-                self.logger.info("Successfully validate Order Type successfully")
-                self.driver.save_screenshot(
-                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name + "_validate_order_type_successfully.png")
-                return True
-        except Exception as e:
-            self.logger.error("Error while validating Order Type")
-            self.logger.exception(e)
-            return False
-
-    def do_search_reseller_po(self, reseller_po, feature_file_name, screen_shot):
-        x4a_sales_order = X4ASalesOrdersPage(self.driver)
-        try:
-            x4a_sales_order.search_reseller_po(reseller_po)
-            self.logger.info("Successfully searched Reseller PO")
-            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
-                                        + "_searched_reseller_po_successfully.png")
-            return True
-        except Exception as e:
-            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
-                                        "_searched_reseller_po_error.png")
-            screen_shot[
-                "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_searched_reseller_po_error.png"
-            self.logger.error("Error while searching Reseller PO")
-            self.logger.exception(e)
-            return False
-
     def do_validate_reseller_po(self, reseller_po, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            if not x4a_sales_order.do_validate_reseller_po(reseller_po):
+            if not x4a_sales_order.verify_filter_by_reseller_po_in_pages(reseller_po):
                 self.logger.error("Failed to validate Reseller PO")
                 self.driver.save_screenshot(
                     self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_reseller_po_error.png")
@@ -259,27 +205,10 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def do_search_vendor_name(self, vendor_name, feature_file_name, screen_shot):
-        x4a_sales_order = X4ASalesOrdersPage(self.driver)
-        try:
-            x4a_sales_order.search_vendor_name(vendor_name)
-            self.logger.info("Successfully searched Vendor Name")
-            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
-                                        + "_searched_vendor_name_successfully.png")
-            return True
-        except Exception as e:
-            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
-                                        "_searched_vendor_name_error.png")
-            screen_shot[
-                "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_searched_vendor_name_error.png"
-            self.logger.error("Error while searching Vendor name")
-            self.logger.exception(e)
-            return False
-
     def do_validate_vendor_name(self, vendor_name, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            if not x4a_sales_order.do_validate_vendor_name(vendor_name):
+            if not x4a_sales_order.verify_filter_by_vendor_name_in_pages(vendor_name):
                 self.logger.error("Failed to validate Vendor name")
                 self.driver.save_screenshot(
                     self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_vendor_name_error.png")
@@ -296,27 +225,10 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def do_search_order_status(self, order_status, feature_file_name, screen_shot):
-        x4a_sales_order = X4ASalesOrdersPage(self.driver)
-        try:
-            x4a_sales_order.search_order_status(order_status)
-            self.logger.info("Successfully searched Order status")
-            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
-                                        + "_searched_order_status_successfully.png")
-            return True
-        except Exception as e:
-            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
-                                        "_searched_order_status_error.png")
-            screen_shot[
-                "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_searched_order_status_error.png"
-            self.logger.error("Error while searching Order Status")
-            self.logger.exception(e)
-            return False
-
     def do_validate_order_status(self, order_status, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            if not x4a_sales_order.do_validate_order_status(order_status):
+            if not x4a_sales_order.verify_filter_by_order_status_in_pages(order_status):
                 self.logger.error("Failed to validate Order Status")
                 self.driver.save_screenshot(
                     self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_order_status_error.png")
@@ -853,5 +765,298 @@ class ValidateSalesOrdersData:
                                   "_additional_attr_nm_value_error.png"
             self.logger.error(
                 "Error while verifying fields under Additional attribute name and Value")
+            self.logger.exception(e)
+            return False
+
+    def filter_by_im_order(self, feature_file_name, screen_shot, im_order):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if x4a_sales_order.filter_by_im_order(im_order):
+                self.logger.info(
+                    "Successfully filtered by im order")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_filtered_by_im_order_successfully.png")
+                return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_filter_by_im_order_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_filter_by_im_order_error.png"
+            self.logger.error(
+                "Error while filtering by im order")
+            self.logger.exception(e)
+            return False
+
+    def verify_im_order_filter_results(self, feature_file_name, screen_shot, im_order):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if x4a_sales_order.verify_im_order(im_order):
+                self.logger.info(
+                    "Successfully verified filter by im order result")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_verified_filter_by_im_order_successfully.png")
+                return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_verify_filter_by_im_order_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_verify_filter_by_im_order_error.png"
+            self.logger.error(
+                "Error while verifying filter by im order results")
+            self.logger.exception(e)
+            return False
+
+    def do_filter_order_type(self, order_type, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            x4a_sales_order.filter_by_order_type(order_type)
+            self.logger.info("Successfully filtered Order Type")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_filtered_order_type_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_filter_order_type_error.png")
+            screen_shot[
+                "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_filter_order_type_error.png"
+            self.logger.error("Error while filtering Order Type")
+            self.logger.exception(e)
+            return False
+
+    def verify_order_type_filter_results(self, feature_file_name, screen_shot, order_type):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if x4a_sales_order.verify_filter_order_type_in_pages(order_type):
+                self.logger.info(
+                    "Successfully verified filter by order type result")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_verified_filter_by_order_type_successfully.png")
+                return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_verify_filter_by_order_type_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_verify_filter_by_order_type_error.png"
+            self.logger.error(
+                "Error while verifying filter by order type results")
+            self.logger.exception(e)
+            return False
+
+    def do_filter_bcn(self, bcn, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            x4a_sales_order.filter_by_bcn(bcn)
+            self.logger.info("Successfully filtered BCN")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_filtered_bcn_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_filter_bcn_error.png")
+            screen_shot[
+                "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_filter_bcn_error.png"
+            self.logger.error("Error while filtering BCN")
+            self.logger.exception(e)
+            return False
+
+    def do_filter_reseller_po(self, reseller_po, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            x4a_sales_order.filter_by_reseller_po(reseller_po)
+            self.logger.info("Successfully filtered Reseller PO")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_filtered_reseller_po_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_filter_reseller_po_error.png")
+            screen_shot[
+                "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_filter_reseller_po_error.png"
+            self.logger.error("Error while filtering Reseller PO")
+            self.logger.exception(e)
+            return False
+
+    def do_validate_reseller_name(self, reseller_name, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.verify_filter_by_reseller_name_in_pages(reseller_name):
+                self.logger.error("Failed to validate Reseller Name")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_reseller_name_error.png")
+                screen_shot[
+                    "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_reseller_name_error.png"
+                return False
+            else:
+                self.logger.info("Successfully validate Reseller Name")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name + "_validate_reseller_name_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating Reseller Name")
+            self.logger.exception(e)
+            return False
+
+    def do_filter_reseller_name(self, reseller_name, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            x4a_sales_order.filter_by_reseller_name(reseller_name)
+            self.logger.info("Successfully filtered Reseller Name")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_filtered_reseller_name_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_filter_reseller_name_error.png")
+            screen_shot[
+                "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_filter_reseller_name_error.png"
+            self.logger.error("Error while filtering Reseller Name")
+            self.logger.exception(e)
+            return False
+
+    def do_filter_vendor_name(self, vendor_name, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            x4a_sales_order.filter_by_vendor_name(vendor_name)
+            self.logger.info("Successfully filtered Vendor Name")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_filtered_vendor_name_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_filter_vendor_name_error.png")
+            screen_shot[
+                "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_filter_vendor_name_error.png"
+            self.logger.error("Error while filtering Vendor Name")
+            self.logger.exception(e)
+            return False
+
+    def do_filter_end_user_name(self, end_user_name, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            x4a_sales_order.filter_by_end_user_name(end_user_name)
+            self.logger.info("Successfully filtered End User Name")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_filtered_end_user_name_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_filter_end_user_name_error.png")
+            screen_shot[
+                "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_filter_end_user_name_error.png"
+            self.logger.error("Error while filtering End User Name")
+            self.logger.exception(e)
+            return False
+
+    def do_validate_end_user_name(self, end_user_name, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.verify_filter_by_end_user_name_in_pages(end_user_name):
+                self.logger.error("Failed to validate End User Name")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_end_user_name_error.png")
+                screen_shot[
+                    "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_end_user_name_error.png"
+                return False
+            else:
+                self.logger.info("Successfully validate End User Name")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name + "_validate_end_user_name_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating End User Name")
+            self.logger.exception(e)
+            return False
+
+    def do_filter_order_status(self, order_status, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            x4a_sales_order.filter_by_order_status(order_status)
+            self.logger.info("Successfully filtered Order Status")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_filtered_order_status_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_filter_order_status_error.png")
+            screen_shot[
+                "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_filter_order_status_error.png"
+            self.logger.error("Error while filtering Order Status")
+            self.logger.exception(e)
+            return False
+
+    def do_filter_order_value(self, min_order_value, max_order_value, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            x4a_sales_order.filter_by_order_value(min_order_value, max_order_value)
+            self.logger.info("Successfully filtered Order Value")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_filtered_order_value_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_filter_order_value_error.png")
+            screen_shot[
+                "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_filter_order_value_error.png"
+            self.logger.error("Error while filtering Order Value")
+            self.logger.exception(e)
+            return False
+
+    def do_validate_order_value(self, min_order_value, max_order_value , feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.verify_filter_by_order_value_in_pages(min_order_value, max_order_value):
+                self.logger.error("Failed to validate Order Value")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_order_value_error.png")
+                screen_shot[
+                    "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_order_value_error.png"
+                return False
+            else:
+                self.logger.info("Successfully validate Order Value")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name + "_validate_order_value_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating Order Value")
+            self.logger.exception(e)
+            return False
+
+    def do_filter_created_on(self, created_on, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            x4a_sales_order.filter_by_created_on(created_on)
+            self.logger.info("Successfully filtered Created On")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_filtered_created_on_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_filter_created_on_error.png")
+            screen_shot[
+                "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_filter_created_on_error.png"
+            self.logger.error("Error while filtering Created On")
+            self.logger.exception(e)
+            return False
+
+    def do_validate_created_on(self, created_on, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.verify_filter_by_created_on_in_pages(created_on):
+                self.logger.error("Failed to validate Created On")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_created_on_error.png")
+                screen_shot[
+                    "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_created_on_error.png"
+                return False
+            else:
+                self.logger.info("Successfully validate Created On")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name + "_validate_created_on_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating Created On")
             self.logger.exception(e)
             return False
