@@ -1,3 +1,7 @@
+import glob
+import os
+from pathlib import Path
+
 from CommonUtilities.logGeneration import LogGenerator
 from CommonUtilities.parse_config import ParseConfigFile
 from CommonUtilities.readProperties import ReadConfig
@@ -121,6 +125,7 @@ class ValidateBulkOrderUploadData:
     def do_select_file(self, feature_file_name, screen_shot):
         x4a_bulk_order_upload = X4ABulkOrderUploadPage(self.driver)
         try:
+            
             x4a_bulk_order_upload.do_select_file()
             self.logger.info("Successfully selected file")
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
@@ -204,7 +209,7 @@ class ValidateBulkOrderUploadData:
         x4a_bulk_order_upload = X4ABulkOrderUploadPage(self.driver)
         try:
             x4a_bulk_order_upload.verify_template_error_message()
-            self.logger.info("Successfully verified file error")
+            self.logger.info("Successfully verified template error")
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                                         + "_selected_file_verified_successfully.png")
             return True
@@ -231,6 +236,104 @@ class ValidateBulkOrderUploadData:
             self.logger.error("Error while clicking delete icon")
             self.logger.exception(e)
             return False
+
+    def do_select_review(self, feature_file_name, screen_shot):
+        x4a_bulk_order_upload = X4ABulkOrderUploadPage(self.driver)
+        try:
+            
+            x4a_bulk_order_upload.do_select_review()
+            self.logger.info("Successfully clicked review button")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_file_reviewed_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_file_reviewing_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_file_reviewing_error.png"
+            self.logger.error("Error while clicking review button")
+            self.logger.exception(e)
+            return False
+
+    def verify_bulk_order_page(self, feature_file_name, screen_shot):
+        x4a_bulk_order_upload = X4ABulkOrderUploadPage(self.driver)
+        try:
+            x4a_bulk_order_upload.verify_bulk_order_page()
+            self.logger.info("Successfully verified bulk order page")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_bulk_order_page_verified_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_bulk_order_page_verified_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_bulk_order_page_verified_error.png"
+            self.logger.error("Error while verifying bulk order page")
+
+    def do_click_download_template(self, feature_file_name, screen_shot,no_of_click):
+        x4a_bulk_order_upload = X4ABulkOrderUploadPage(self.driver)
+        try:
+            
+            if no_of_click == "single":
+                x4a_bulk_order_upload.do_click_download_template()
+            elif no_of_click == "multiple":
+                x4a_bulk_order_upload.do_download_multiple_template(5)
+            self.logger.info("Successfully clicked Download template button")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_file_downloaded_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_file_downloading_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_file_downloading_error.png"
+            self.logger.error("Error while clicking Download template button")
+            self.logger.exception(e)
+            return False
+
+    def validate_file_name(self, feature_file_name, screen_shot):
+        try:
+            
+            self.logger.info("Fetching latest downloaded file")
+            download_dir = str(os.path.join(Path.home(), "Downloads"))
+            self.logger.info("Download directory is " + str(download_dir))
+            list_of_files = glob.glob(download_dir + '/*.xlsx')
+            latest_file = max(list_of_files, key=os.path.getmtime)
+            self.logger.info("Recent file in the downloads: " + str(latest_file))
+
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "downloaded_file_name_verified_successfully.png")
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "verify_downloaded_file_name_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "verify_downloaded_file_name_error.png"
+            self.logger.error("Error while verifying the downloaded file name %s", e)
+            raise e
+        return latest_file
+
+    def validate_multiple_file_name(self, feature_file_name, screen_shot):
+        try:
+            
+            self.logger.info("Fetching latest downloaded file")
+            download_dir = str(os.path.join(Path.home(), "Downloads"))
+            self.logger.info("Download directory is " + str(download_dir))
+            file_list = glob.glob(download_dir + '/Ingram_BulkUpload_Template*.xlsx')
+            # latest_file = max(list_of_files, key=os.path.getmtime)
+            for i in file_list:
+                self.logger.info("Recent file in the downloads: " + str(i))
+
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "downloaded_file_name_verified_successfully.png")
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "verify_downloaded_file_name_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "verify_downloaded_file_name_error.png"
+            self.logger.error("Error while verifying the downloaded file name %s", e)
+            raise e
+        return file_list
+
 
     def logout_x4a_url(self, feature_file_name):
         x4a_bulk_order_upload = X4ABulkOrderUploadPage(self.driver)

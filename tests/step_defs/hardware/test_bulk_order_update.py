@@ -1,3 +1,6 @@
+import datetime
+import os
+
 from pytest_bdd import scenario, parsers, when, then, given
 from CommonUtilities import readWriteTestData
 from CommonUtilities.parse_config import ParseConfigFile
@@ -12,6 +15,8 @@ screen_shot = {"path": " "}
 x4a_status_list = []
 x4a_input_order_list = []
 db_file_path = ReadConfig.get_db_file_path()
+latest_downloaded_file = ""
+latest_downloaded_files = ""
 
 @scenario("features/hardware/bulk_order_upload.feature", "Login to X4A portal")
 def test_login_the_x4a_portal():
@@ -31,6 +36,10 @@ def test_template_error():
 
 @scenario("features/hardware/bulk_order_upload.feature", "Upload file")
 def test_upload_file():
+    pass
+
+@scenario("features/hardware/bulk_order_upload.feature", "Download template")
+def test_template_file():
     pass
 
 
@@ -201,6 +210,104 @@ def do_delete_file(init_driver):
             raise Exception("Failed to delete file")
     except Exception as e:
         logger.error("Error while deleting file %s", e)
+        raise e
+
+@when(parsers.parse('selected file for review'))
+def do_select_review(init_driver):
+    feature_file_name = "bulk_order_upload"
+    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+    try:
+        
+        if not bulk_order_upload_steps.do_select_review(feature_file_name, screen_shot):
+            raise Exception("Failed to click review button")
+    except Exception as e:
+        logger.error("Error while clicking review button %s", e)
+        raise e
+
+@then(parsers.parse('verify bulk order page'))
+def verify_bulk_order_page(init_driver):
+    feature_file_name = "bulk_order_upload"
+    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+    try:
+        if not bulk_order_upload_steps.verify_bulk_order_page(feature_file_name, screen_shot):
+            raise Exception("Failed to verify bulk order page")
+    except Exception as e:
+        logger.error("Error while verifying bulk order page %s", e)
+        raise e
+
+@when(parsers.parse('download template button clicked'))
+def do_download_template(init_driver):
+    feature_file_name = "bulk_order_upload"
+    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+    try:
+        if not bulk_order_upload_steps.do_click_download_template(feature_file_name, screen_shot,"single"):
+            raise Exception("Failed to download file")
+    except Exception as e:
+        logger.error("Error while downloading file %s", e)
+        raise e
+
+@then(parsers.parse('verify the downloaded template file name'))
+def verify_template_file_downloaded(init_driver):
+    feature_file_name = "bulk_order_upload"
+    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+    try:
+        global latest_downloaded_file
+        
+        latest_downloaded_file = bulk_order_upload_steps.validate_file_name(feature_file_name, screen_shot)
+        file = latest_downloaded_file.split("\\")
+        file_name = file[-1]
+        file_str = "Ingram_BulkUpload_Template"
+        required_file_name = file_str
+        
+        logger.info(required_file_name)
+        logger.info(file_name)
+        if required_file_name not in file_name:
+            raise Exception("File name validation failed")
+        logger.info("File verified successfully")
+    except Exception as e:
+        logger.error("Failed to validate file name %s", e)
+        raise e
+
+
+@when(parsers.parse('download template button clicked multiple times'))
+def do_download_multiple_template(init_driver):
+    feature_file_name = "bulk_order_upload"
+    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+    try:
+        if not bulk_order_upload_steps.do_click_download_template(feature_file_name, screen_shot,"multiple"):
+            raise Exception("Failed to download file")
+    except Exception as e:
+        logger.error("Error while downloading file %s", e)
+        raise e
+
+@then(parsers.parse('verify the all downloaded template file names'))
+def verify_multiple_template_file_downloaded(init_driver):
+    feature_file_name = "bulk_order_upload"
+    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+    try:
+        count = 1
+        global latest_downloaded_files
+        
+        latest_downloaded_files = bulk_order_upload_steps.validate_multiple_file_name(feature_file_name, screen_shot)
+        
+        for i in latest_downloaded_files:
+            file = i.split("\\")
+            file_name = file[-1]
+            file_str = "Ingram_BulkUpload_Template"
+            if count == len(latest_downloaded_files):
+                required_file_name = file_str
+            else:
+                required_file_name = file_str + ' (' + str(count) + ')'
+                count = count + 1
+            logger.info(required_file_name)
+            logger.info(file_name)
+            if required_file_name not in file_name:
+                raise Exception("File name validation failed")
+            logger.info("File verified successfully")
+        for i in latest_downloaded_files:
+            os.remove(i)
+    except Exception as e:
+        logger.error("Failed to validate file name %s", e)
         raise e
 
 

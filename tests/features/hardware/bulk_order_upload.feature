@@ -33,6 +33,18 @@ Feature: Bulk Order Upload
     Then verify upload file ready popup
     When click on delete icon
     Then verify upload file popup
+    When selected file for review
+    Then verify bulk order page
+
+# EDT-9593
+  @download_template
+  Scenario: Download template
+    Given launch chrome browser and open the X4A url
+    Then provide user ID and Password to login
+    When download template button clicked
+    Then verify the downloaded template file name
+    When download template button clicked multiple times
+    Then verify the all downloaded template file names
 
   @logout
   Scenario: logout X4A

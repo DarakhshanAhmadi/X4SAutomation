@@ -1,8 +1,8 @@
+import datetime
 import os
 
 from selenium.webdriver.common.by import By
 
-from CommonUtilities import readWriteTestData
 from CommonUtilities.baseSet.BasePage import BasePage
 from CommonUtilities.parse_config import ParseConfigFile
 from CommonUtilities.readProperties import ReadConfig, parse_config_file
@@ -13,7 +13,6 @@ import time
 class X4ABulkOrderUploadPage(BasePage):
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
-    file_path = ReadConfig.get_file_path()
     system_path = os.getcwd()
     ORDER_MENU = (By.XPATH, "//*[@data-testid='SalesIcon']")
     BULK_ORDER_UPLOAD_OPTION = (By.XPATH, "//*[text()='Bulk order upload ']")
@@ -38,6 +37,12 @@ class X4ABulkOrderUploadPage(BasePage):
     FILE_ERROR_MSG = (By.XPATH, "//div[@class='MuiAlert-message css-acap47-MuiAlert-message']")
     TEMPLATE_ERROR_MSG = (By.XPATH, "//div[@class='MuiAlert-message css-acap47-MuiAlert-message']")
     BACK_BUTTON = (By.XPATH, "//button[text() = 'Back']")
+
+    UPLOAD_FILE_NAME = (By.XPATH, "//span[text()='Upload file']")
+    UPLOADED_DATE = (By.XPATH, "//span[@class='MuiTypography-root MuiTypography-bodycopyregular css-6bpapz-MuiTypography-root']/following-sibling::span/following-sibling::span")
+    UPLOADED_BY = (By.XPATH, "//span[@class='MuiTypography-root MuiTypography-bodycopyregular css-6bpapz-MuiTypography-root']")
+    EXCEL_ICON = (By.XPATH, "//*[@data-testid='ExcelIcon']")
+
     USER_DROPDOWN = (By.XPATH, "//*[@data-testid='KeyboardArrowDownIcon']")
     LOGOUT = (By.XPATH, "//*[text()='LogOut']")
 
@@ -76,6 +81,7 @@ class X4ABulkOrderUploadPage(BasePage):
         try:
             upload_file_label_msg = 'Drag and Drop file here or Browse files from your computer Supported file type: Excel (.xls, .xlsx)'
             address = self.get_element_text(self.UPLOAD_FILE_LABEL).replace("\n", " ")
+            
             assert 'Review' in self.get_element_text(self.DISABLED_REVIEW_BUTTON), "Disabled Review button not present"
             assert 'Place orders' in self.get_element_text(self.DISABLED_PLACE_ORDER_BUTTON), "Disabled Place Order button not present"
             assert 'Cancel' in self.get_element_text(self.CANCEL_BUTTON), "Cancel button not present"
@@ -85,7 +91,7 @@ class X4ABulkOrderUploadPage(BasePage):
             # self.do_click_by_locator(self.CANCEL_BUTTON)
 
         except Exception as e:
-            self.logger.error('Exception occurred while verifying cancel order popup is closed ' + str(e))
+            self.logger.error('Exception occurred while verifying upload file popup is closed ' + str(e))
             raise e
 
     def do_upload_error_file(self):
@@ -134,6 +140,7 @@ class X4ABulkOrderUploadPage(BasePage):
             assert template_error_msg in address,"Bulk Order Upload file template error message not present"
             assert self.is_present(self.DELETE_ICON), "Delete Icon not found"
             self.logger.info("verified that bulk order upload template file error")
+            
             self.do_click_by_locator(self.DELETE_ICON)
             time.sleep(1)
 
@@ -143,11 +150,12 @@ class X4ABulkOrderUploadPage(BasePage):
 
     def do_select_file(self):
         try:
+            
             bulk_order_file_name = parse_config_file.get_data_from_config_json("inputFile", "bulkOrderInputFileName")
             self.do_click_by_locator(self.BROWSE_BUTTON)
             time.sleep(3)
             keyboard = Controller()
-            keyboard.type(self.system_path + bulk_order_file_name)
+            keyboard.type(self.system_path + "\\TestData\\" + bulk_order_file_name)
             keyboard.press(Key.enter)
             keyboard.release(Key.enter)
             time.sleep(1)
@@ -158,27 +166,87 @@ class X4ABulkOrderUploadPage(BasePage):
 
     def verify_selected_file_popup(self):
         try:
-            upload_file_label_msg = 'Your file is ready to be processed to place orders. Testdata_1_QA.xlsx 9.27 KB'
+            upload_file_label_msg = 'Your file is ready to be processed to place orders.'
             address = self.get_element_text(self.UPLOAD_FILE_LABEL).replace("\n", " ")
+            
             assert 'Review' in self.get_element_text(self.REVIEW_BUTTON), "Disabled Review button not present"
             assert 'Place orders' in self.get_element_text(self.PLACE_ORDER_BUTTON), "Disabled Place Order button not present"
             assert 'Cancel' in self.get_element_text(self.CANCEL_BUTTON), "Cancel button not present"
             assert self.is_present(self.DELETE_ICON), "Delete Icon not found"
-            assert address in upload_file_label_msg, "label message not present"
+            assert upload_file_label_msg in address, "label message not present"
             self.logger.info("verified that upload file popup")
             time.sleep(1)
 
         except Exception as e:
-            self.logger.error('Exception occurred while verifying cancel order popup is closed ' + str(e))
+            self.logger.error('Exception occurred while verifying upload file popup is closed ' + str(e))
             raise e
 
     def do_delete_file(self):
         try:
             self.do_click_by_locator(self.DELETE_ICON)
             time.sleep(1)
-
+            
         except Exception as e:
             self.logger.error('Exception occurred while selecting file ' + str(e))
+            raise e
+
+
+    def do_select_review(self):
+        try:
+            
+            self.do_select_file()
+            self.do_click_by_locator(self.REVIEW_BUTTON)
+            time.sleep(5)
+            # self.do_click_by_locator(self.DOWNLOAD_TEMPLATE_BUTTON)
+            self.logger.info("Clicked on review button")
+
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking review button ' + str(e))
+            raise e
+
+    def verify_bulk_order_page(self):
+        try:
+            #
+
+            bulk_order_file_name = parse_config_file.get_data_from_config_json("inputFile", "bulkOrderInputFileName")
+            bulk_order_file_name = bulk_order_file_name.split(".xlsx")
+            UPLOAD_FILE_NAME = (By.XPATH, "//span[text()='" + str(bulk_order_file_name[0]) + "']")
+
+            curr_date = '{dt.month}/{dt.day}/{dt.year}'.format(dt=datetime.date.today())
+            assert self.is_present(self.EXCEL_ICON), "Excel Icon not found"
+            assert bulk_order_file_name[0] in self.get_element_text(UPLOAD_FILE_NAME), "Uploaded file name not present"
+            assert curr_date in self.get_element_text(self.UPLOADED_DATE), "Uploaded date not present"
+            assert 'Shyam Tiwari' in self.get_element_text(self.UPLOADED_BY), "Uploaded by not present"
+            assert 'Cancel' in self.get_element_text(self.CANCEL_BUTTON), "Cancel button not present"
+            self.logger.info("verified that upload file popup")
+            time.sleep(1)
+
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying bulk order upload page ' + str(e))
+            raise e
+
+    def do_click_download_template(self):
+        try:
+            
+            # self.do_click_by_locator(self.CANCEL_BUTTON)
+            self.go_to_bulk_order_upload()
+            self.do_click_by_locator(self.DOWNLOAD_TEMPLATE_BUTTON)
+            self.logger.info("Clicked on download template button")
+
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking upload file button ' + str(e))
+            raise e
+
+    def do_download_multiple_template(self,no_of_files):
+        try:
+            
+            for i in range(no_of_files):
+                self.do_click_by_locator(self.DOWNLOAD_TEMPLATE_BUTTON)
+
+            self.logger.info("Clicked on download template button")
+
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking upload file button ' + str(e))
             raise e
 
     def logout_x4a(self):
