@@ -83,7 +83,7 @@ class ValidateAgedOrdersData:
             aged_order_columns = x4a_aged_order.get_table_column_header()
             for column in self.aged_order_table_headers:
                 if column not in aged_order_columns:
-                    raise Exception("column %s missing in Aged Orders table", column)
+                    raise Exception("Column %s missing in Aged Orders table", column)
             self.logger.info("Successfully verified columns in Aged order table")
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                                         + "aged_orders_columns_verified_successfully.png")
@@ -730,17 +730,17 @@ class ValidateAgedOrdersData:
     def verify_excel_data_with_ui_for_search(self, feature_file_name, screen_shot, bcn, file):
         x4a_aged_order = X4AAgedOrdersPage(self.driver)
         try:
-            self.logger.info("Verifying Excel data with UI for search with bcn and order date")
+            self.logger.info("Verifying file data with UI for search with bcn and order date")
             csv_file = CSVReader(file)
             rows = csv_file.read_file()
             file_first_row = rows[0]
             file_last_row = rows[-1]
-            self.logger.info(file_last_row)
-            self.logger.info(file_first_row)
+            self.logger.info("File first row :" + str(file_last_row))
+            self.logger.info("File last row :" + str(file_first_row))
             table_header = x4a_aged_order.get_table_column_header()
             ui_first_row, ui_last_row = x4a_aged_order.get_first_and_last_row_data_for_search_with_bcn_and_order_data(table_header, bcn)
             self.verify_data(ui_first_row, ui_last_row, file_first_row, file_last_row)
-            self.logger.info("Verified CSV data with UI successfully for search with bcn and order date")
+            self.logger.info("Verified file data with UI successfully for search with bcn and order date")
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                                         + "file_and_ui_data_verified_for_search_successfully.png")
             return True
@@ -763,9 +763,9 @@ class ValidateAgedOrdersData:
                         ui_first_row[header] = 'Multiple'
                     if 'Multiple Vendors' in ui_last_row[header]:
                         ui_last_row[header] = 'Multiple'
-                    self.logger.info(ui_first_row)
-                    self.logger.info(ui_last_row)
-                if header != 'Order date' and header != 'Last updated':
+                    self.logger.info("UI first row :" + str(ui_first_row))
+                    self.logger.info("UI last row :" + str(ui_last_row))
+                if header != 'Order date' and header != 'Last updated' and header != 'IM SKU':
                     if file_first_row[header] != ui_first_row[header]:
                         self.logger.error("%s mismatched in UI an file for first row of data", header)
                         self.logger.error("File: " + str(file_first_row[header]) + "\n" + "UI: " + str(ui_first_row[header]))
@@ -773,7 +773,16 @@ class ValidateAgedOrdersData:
                     if file_last_row[header] != ui_last_row[header]:
                         self.logger.error("%s mismatched in UI an file for last row of data", header)
                         self.logger.error("File: " + str(file_last_row[header]) + "\n" + "UI: " + str(ui_last_row[header]))
-                        raise Exception("value mismatched for last row of data")
+                        raise Exception("Value mismatched for last row of data")
+                elif header == 'IM SKU':
+                    if file_first_row[header] != ui_first_row[header]:
+                        self.logger.error("%s mismatched in UI an file for first row of data", header)
+                        self.logger.error("File: " + str(file_first_row[header]) + "\n" + "UI: " + str(ui_first_row[header]))
+                        raise Exception("value mismatched for first row of data")
+                    if file_last_row[header] != ui_last_row[header]:
+                        self.logger.error("%s mismatched in UI an file for last row of data", header)
+                        self.logger.error("File: " + str(file_last_row[header]) + "\n" + "UI: " + str(ui_last_row[header]))
+                        raise Exception("Value mismatched for last row of data")
                 else:
                     ui_first_row_date = (ui_first_row[header].split(","))[0]
                     ui_first_row_time = (ui_first_row[header].split(","))[1]
@@ -813,8 +822,8 @@ class ValidateAgedOrdersData:
             rows = csv_file.read_file()
             file_first_row = rows[0]
             file_last_row = rows[-1]
-            self.logger.info(file_last_row)
-            self.logger.info(file_first_row)
+            self.logger.info("File first row :" + str(file_last_row))
+            self.logger.info("File last row :" + str(file_first_row))
             table_header = x4a_aged_order.get_table_column_header()
             ui_first_row, ui_last_row = x4a_aged_order.get_first_and_last_row_data_for_filter_bcn_and_vendor_and_status(table_header, bcn, vendor_name, order_status)
             self.verify_data(ui_first_row, ui_last_row, file_first_row, file_last_row)

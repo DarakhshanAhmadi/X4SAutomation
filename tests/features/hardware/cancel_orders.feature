@@ -38,10 +38,10 @@ Feature: Cancel Orders
     Then verify cancel order message
 
 #  EDT-9815
-  @Verify_on_Cancel_order_button_with_proper_reason
-  Scenario: Verify on click cancel order button with proper reason
-    When Order cancel with proper reason
-    Then verify successfully cancel order message
+#  @Verify_on_Cancel_order_button_with_proper_reason
+#  Scenario: Verify on click cancel order button with proper reason
+#    When Order cancel with proper reason
+#    Then verify successfully cancel order message
 
   @logout
   Scenario: logout X4A

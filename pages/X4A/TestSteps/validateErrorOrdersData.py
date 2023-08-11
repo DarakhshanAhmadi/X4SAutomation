@@ -238,8 +238,6 @@ class ValidateErrorOrdersData:
             self.logger.exception(e)
             return False
 
-
-# ---------------
     def do_cancel_order_without_reason(self, feature_file_name, screen_shot):
         x4a_error_order = X4AErrorOrdersPage(self.driver)
         try:
@@ -326,3 +324,410 @@ class ValidateErrorOrdersData:
             self.logger.exception(e)
             return False
 
+    def is_fraud_orders_tab_visible(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_fraud_orders_tab():
+                self.logger.error("Failed to verify Fraud Orders tab")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_fraud_orders_tab_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Verified Fraud Orders tab")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_fraud_orders_tab_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def search_and_select_order(self, feature_file_name, confirmation_id):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_search_and_select_order(confirmation_id):
+                self.logger.error("Failed to Search and Select Order")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_select_order_record_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Searched and Select Order")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_select_order_record_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def is_reprocess_order_button_visible(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_reprocess_order_button():
+                self.logger.error("Failed to verify Reprocess Order Button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_fraud_reprocess_order_button_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Verified Reprocess Order Button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_fraud_reprocess_order_button_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_reprocess_order_button(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_reprocess_order_button():
+                self.logger.error("Failed to verify Reprocess Order Button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_click_fraud_reprocess_order_button_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully ,clicked the 3cancel button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_fraud_reprocess_order_button_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_reprocess_order_popup(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_reprocess_order_popup():
+                self.logger.error("Failed to verify Reprocess Order order popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_reprocess_order_popup_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified Reprocess Order order popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_reprocess_order_popup_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_reprocess_order_review_button(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_Reprocess_Order_Review_button():
+                self.logger.error("Failed to click on Reprocess Order Review button on popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                            "_click_review_button_error.png")
+                return False
+            else:
+                self.logger.info("Successfully clicked on Reprocess Order Review button on popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_review_button_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_order_details_page(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_order_details_page():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                            "_order_details_page_verify_error.png")
+                self.logger.error("Error while verifing Reprocess order popup is closed  and Order Details Page shown")
+                return False
+            else:
+                self.logger.info("Successfully verified Reprocess order popup is closed  and Order Details Page shown")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_order_details_page_verify_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_reprocess_order_yes_button(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_Reprocess_Order_Yes_button():
+                self.logger.error("Failed to click on Yes, Reprocess Order button on popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                            "_click_reprocess_order_yes_button_error.png")
+                return False
+            else:
+                self.logger.info("Successfully clicked Yes, Reprocess Order button on popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_reprocess_order_yes_button_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_reprocess_order_success_message(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_reprocess_order_success_message():
+                self.logger.error("Error while verified reprocess order message")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                            "_reprocess_order_message_verify_error.png")
+                return False
+            else:
+                self.logger.info("Successfully verified reprocess order message")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_reprocess_order_message_verify_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_order_in_list(self, feature_file_name, confirmation_id):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_order_in_list(confirmation_id):
+                self.logger.error("Failed to verified that Order should not be there in list")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                            "_order_not_present_in_list_error.png")
+                return False
+            else:
+                self.logger.info("Successfully verified that Order should not be there in list")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_order_not_present_in_list_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def is_fraud_cancel_order_button_visible(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_fraud_cancel_order_button():
+                self.logger.error("Failed to verify Cancel Order Button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_fraud_cancel_order_button_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Verified Cancel Order Button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_fraud_cancel_order_button_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_cancel_order_button(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_cancel_order_button():
+                self.logger.error("Failed to click on Cancel Order Button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_click_fraud_cancel_order_button_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully ,clicked on Cancel Order button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_fraud_cancel_order_button_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_fraud_cancel_order_popup(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_fraud_cancel_order_popup():
+                self.logger.error("Failed to verify Fraud Cancel Order order popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_fraud_cancel_order_popup_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified Fraud Cancel Order order popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_fraud_cancel_popup_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_fraud_yes_cancel_button(self, feature_file_name, screen_shot):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_fraud_yes_cancel_button():
+                self.logger.error("Failed to clicked on YES, Cancel Order button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                            "_fraud_yes_cancel_order_button_error.png")
+                return False
+            else:
+                self.logger.info("Successfully clicked YES, Cancel Order button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_yes_cancel_order_popup_verify_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def search_and_select_data_errors_order(self, feature_file_name, confirmation_id):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_search_and_select_data_error_order(confirmation_id):
+                self.logger.error("Failed to Search and Select Data errors Order")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_select_data_error_order_record_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Searched and Select Data errors Order")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_select_data_error_order_record_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def is_resubmit_order_button_visible(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_data_error_resubmit_order_button():
+                self.logger.error("Failed to verify Data error Resubmit Order Button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_data_error_resubmit_order_button_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Verified Data error Resubmit Order Button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_data_error_resubmit_order_button_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def update_reseller_po_data_error_order(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.update_reseller_po_data_error_order():
+                self.logger.error("Failed to Updating Reseller PO for Data error Order")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_reseller_po_data_error_order_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully updated Reseller PO for Data error Order")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_reseller_po_data_error_order_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def update_end_customer_order_data_error_order(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.update_end_customer_order_data_error_order():
+                self.logger.error("Failed to Updating End customer order for Data error Order")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_end_customer_order_error_order_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully updated End customer order for Data error Order")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_end_customer_order_error_order_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_resubmit_order_button(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_resubmit_order_button():
+                self.logger.error("Failed to verify Resubmit Order Button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_click_data_error_resubmit_order_button_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully ,clicked the Resubmit button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_data_error_resubmit_order_button_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_content_of_resubmit_order_popup(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_content_of_resubmit_order_popup():
+                self.logger.error("Failed to verify contents of Resubmit Order popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_contents_of_resubmit_order_popup_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified contents of Resubmit Order popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_contents_of_resubmit_order_popup_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_resubmit_order_review_button(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_resubmit_order_review_button():
+                self.logger.error("Failed to click on Resubmit Order Review button on popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                            "_click_review_button_error.png")
+                return False
+            else:
+                self.logger.info("Successfully clicked on Resubmit Order Review button on popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_review_button_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_resubmit_order_yes_button(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_resubmit_order_yes_button():
+                self.logger.error("Failed to click on Yes, Resubmit Order button on popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                            "_click_resubmit_order_yes_button_error.png")
+                return False
+            else:
+                self.logger.info("Successfully clicked Yes, Resubmit Order button on popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_resubmit_order_yes_button_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_resubmitted_order_success_message(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_resubmitted_order_success_message():
+                self.logger.error("Error while verified resubmitted order message")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                            "_resubmitted_order_message_verify_error.png")
+                return False
+            else:
+                self.logger.info("Successfully verified resubmitted order message")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_resubmitted_order_message_verify_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_data_error_order_in_list(self, feature_file_name, confirmation_id):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_data_error_order_in_list(confirmation_id):
+                self.logger.error("Failed to verified that Data error Order should not be there in list")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                            "_order_not_present_in_list_error.png")
+                return False
+            else:
+                self.logger.info("Successfully verified that Data error  Order should not be there in list")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_order_not_present_in_list_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False

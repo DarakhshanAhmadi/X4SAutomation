@@ -1,7 +1,10 @@
+import time
+
 from selenium.webdriver.common.by import By
 from CommonUtilities.baseSet.BasePage import BasePage
 from CommonUtilities.parse_config import ParseConfigFile
 from CommonUtilities.readProperties import ReadConfig
+
 
 class X4AErrorOrdersPage(BasePage):
     parse_config_json = ParseConfigFile()
@@ -24,13 +27,48 @@ class X4AErrorOrdersPage(BasePage):
     CANCEL_YES_BUTTON = (By.XPATH, "//button[text() = 'Yes, cancel order']")
 
     REASON_MSG = (By.XPATH, "//div[text()='Cancel order']/parent::div/div[@class='modelBody']/div")
-    REASON_TEXTAERA = (By.XPATH, "//div[text()='Cancel order']/parent::div/div[@class='modelBody']/div/following-sibling::textarea")
+    REASON_TEXTAERA = (
+        By.XPATH, "//div[text()='Cancel order']/parent::div/div[@class='modelBody']/div/following-sibling::textarea")
     BACK_BUTTON = (By.XPATH, "//button[text() = 'Back']")
     CANCEL_ORDER_BUTTON = (By.XPATH, "//button[text() = 'cancel order']")
     CANCEL_ORDER_MESSAGE = (By.XPATH, "//div[text() = 'Cancel notes required!.']")
     CANCEL_ORDER_SUCCESS_MESSAGE = (By.XPATH, "//div[text() = 'Cancelled! order was successfully cancelled.']")
     USER_DROPDOWN = (By.XPATH, "//*[@data-testid='KeyboardArrowDownIcon']")
     LOGOUT = (By.XPATH, "//*[text()='LogOut']")
+
+    """Fraud Orders tab"""
+    FRAUD_ORDERS_TAB = (By.XPATH, "//div[text()='Fraud orders']")
+    FRAUD_FIRST_RECORD = (
+        By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='orderConfirmationNumber']/div/a")
+    FRAUD_REPROCESS_ORDER_BUTTON = (By.XPATH, "//button[text()='Reprocess Order']")
+    REPROCESS_ORDER_TITLE = (By.XPATH, "//div[@class = 'ModelTitle']")
+    REPROCESS_ORDER_POPUP_MSG = (By.XPATH, "//div[text()='Reprocess Order']/parent::div/div[@class='modelBody']")
+    REPROCESS_ORDER_REVIEW_BUTTON = (By.XPATH, "//*[@class='ModelTitle']/parent::div/div/button[1]")
+    YES_REPROCESS_ORDER_BUTTON = (By.XPATH, "//*[@class='ModelTitle']/parent::div/div/button[2]")
+    ORDER_DETAILS_PAGE = (By.XPATH, "//*[@aria-label='breadcrumb']/ol/li[5]/p")
+    REPROCESS_ORDER_SUCCESS_MESSAGE = (By.XPATH, "//*[@class='MuiAlert-message css-acap47-MuiAlert-message']")
+    ERROR_ORDER_PAGE = (By.XPATH, "//*[text()='Error orders']")
+    DROP_DOWN = (By.XPATH, "//*[@data-testid='search-dropdown-SelectOption']")
+    SEARCH_DROP_DOWN = (By.XPATH, "//div[@data-testid='SearchBar']//div[@data-testid='search-dropdown-SelectOption']")
+    CONFRIMATION_ID_OPTION = (By.XPATH, "//*[@data-testid='confirmationId-MenuItem']")
+    FRAUD_SEARCH_BOX = (By.XPATH, "//*[@data-testid='SearchBar']/div/input")
+    FRAUD_CANCEL_ORDER_BUTTON = (By.XPATH, "//button[text() = 'Cancel Order']")
+    ORDER_NOT_FOUND = (By.XPATH, "//*[text()='No failed orders found.']")
+
+    """Data errors Orders tab"""
+
+    DATA_ERRORS_SEARCH_BOX = (By.XPATH, "//*[@data-testid='SearchBar']/div/input")
+    DATA_ERRORS_RESUBMIT_ORDER_BUTTON = (By.XPATH, "//*[text()='Resubmit Order']")
+    RESELLER_PO_VALUE = (By.XPATH, "//*[@id='reference-details-po-number']")
+    REFERENCE_DETAILS_EDIT_BUTTON = (
+        By.XPATH, "//*[text()='Reference Details']/parent::div/*[@data-testid='ModeEditOutlineOutlinedIcon']")
+    END_CUSTOMER_ORDER_VALUE = (By.XPATH, "//*[@id='reference-details-edit-customer-number']")
+    DATA_ERROR_ORDER_UPDATE_BUTTON = (By.XPATH, "//button[text()='Update']")
+    RESUBMIT_ORDER_TITLE = (By.XPATH, "//div[@class = 'ModelTitle']")
+    RESUBMIT_ORDER_POPUP_MSG = (By.XPATH, "//div[text()='Resubmit Order']/parent::div/div[@class='modelBody']")
+    RESUBMIT_ORDER_REVIEW_BUTTON = (By.XPATH, "//*[@class='ModelTitle']/parent::div/div/button[1]")
+    YES_RESUBMIT_ORDER_BUTTON = (By.XPATH, "//*[@class='ModelTitle']/parent::div/div/button[2]")
+    RESUBMITTED_ORDER_SUCCESS_MESSAGE = (By.XPATH, "//*[@class='MuiAlert-message css-acap47-MuiAlert-message']")
 
     def go_to_error_orders(self):
         try:
@@ -72,10 +110,10 @@ class X4AErrorOrdersPage(BasePage):
         try:
             #
             if status == 'disabled':
-                assert self.do_check_visibility(self.DISABLED_CANCEL_BUTTON),"Cancel button is not disabled"
+                assert self.do_check_visibility(self.DISABLED_CANCEL_BUTTON), "Cancel button is not disabled"
                 self.logger.info("Successfully verified cancel button is disabled")
             else:
-                assert self.do_check_visibility(self.ENABLED_CANCEL_BUTTON),"Cancel button is not enabled"
+                assert self.do_check_visibility(self.ENABLED_CANCEL_BUTTON), "Cancel button is not enabled"
                 self.logger.info("Successfully verified cancel button is enabled")
         except Exception as e:
             self.logger.error('Exception occurred while verifying cancel button ' + str(e))
@@ -97,12 +135,14 @@ class X4AErrorOrdersPage(BasePage):
             cancel_no_button = 'NO, KEEP ORDER'
             cancel_yes_button = 'YES, CANCEL ORDER'
             address = self.get_element_text(self.CANCEL_ORDER_MSG).replace("\n", " ")
-            assert cancel_order in self.get_element_text(self.CANCEL_ORDER_TITLE),"Cancel Order Title not present"
-            assert cancel_no_button in self.get_element_text(self.CANCEL_NO_BUTTON),"Cancel No button is not present"
-            assert cancel_yes_button in self.get_element_text(self.CANCEL_YES_BUTTON),"Cancel Yes button is not present"
+            assert cancel_order in self.get_element_text(self.CANCEL_ORDER_TITLE), "Cancel Order Title not present"
+            assert cancel_no_button in self.get_element_text(self.CANCEL_NO_BUTTON), "Cancel No button is not present"
+            assert cancel_yes_button in self.get_element_text(
+                self.CANCEL_YES_BUTTON), "Cancel Yes button is not present"
             assert cancel_order_msg in address, "Cancel Order message not present"
-            
-            self.logger.info("Successfully verified cancel order title, No button ,Yes button and message in popup menu")
+
+            self.logger.info(
+                "Successfully verified cancel order title, No button ,Yes button and message in popup menu")
         except Exception as e:
             self.logger.error('Exception occurred while verifying cancel button ' + str(e))
             raise e
@@ -117,10 +157,9 @@ class X4AErrorOrdersPage(BasePage):
 
     def do_verify_error_details_page(self):
         try:
-            assert 'Error orders' in self.get_element_text(self.ERROR_ORDER_TEXT),"Cancel Order Title not present"
+            assert 'Error orders' in self.get_element_text(self.ERROR_ORDER_TEXT), "Cancel Order Title not present"
             self.logger.info("verified that cancel order popup is closed")
             self.do_click_by_locator(self.CANCEL_BUTTON)
-
         except Exception as e:
             self.logger.error('Exception occurred while verifying cancel order popup is closed ' + str(e))
             raise e
@@ -133,25 +172,24 @@ class X4AErrorOrdersPage(BasePage):
             self.logger.error('Exception occurred while clicking on YES button from cancel order popup ' + str(e))
             raise e
 
-
     def verify_cancel_order_popup_after_yes(self):
         try:
-            assert 'Cancel order' in self.get_element_text(self.CANCEL_ORDER_TITLE),"Cancel Order Title not present"
-            assert 'CANCEL ORDER' in self.get_element_text(self.CANCEL_ORDER_BUTTON),"Cancel order button is not present"
-            assert 'BACK' in self.get_element_text(self.BACK_BUTTON),"Back button is not present"
-            assert 'Reason for cancelling *' in self.get_element_text(self.REASON_MSG), "Reason for cancelling message is not present"
+            assert 'Cancel order' in self.get_element_text(self.CANCEL_ORDER_TITLE), "Cancel Order Title not present"
+            assert 'CANCEL ORDER' in self.get_element_text(
+                self.CANCEL_ORDER_BUTTON), "Cancel order button is not present"
+            assert 'BACK' in self.get_element_text(self.BACK_BUTTON), "Back button is not present"
+            assert 'Reason for cancelling *' in self.get_element_text(
+                self.REASON_MSG), "Reason for cancelling message is not present"
             self.logger.info(
                 "Successfully verified cancel order title, cancel order button ,back button and message in popup menu")
         except Exception as e:
             self.logger.error('Exception occurred while verifying cancel order popup is closed ' + str(e))
             raise e
 
-
     def do_click_back_cancel_button(self):
         try:
             self.do_click_by_locator(self.BACK_BUTTON)
             self.logger.info("Clicked on back button")
-
         except Exception as e:
             self.logger.error('Exception occurred while clicking on YES button from cancel order popup ' + str(e))
             raise e
@@ -169,11 +207,10 @@ class X4AErrorOrdersPage(BasePage):
     def do_verify_cancel_order_message(self):
         try:
             cancel_order_message = 'Cancel notes required!.'
-            assert cancel_order_message in self.get_element_text(self.CANCEL_ORDER_MESSAGE),"Cancel note not present"
+            assert cancel_order_message in self.get_element_text(self.CANCEL_ORDER_MESSAGE), "Cancel note not present"
             self.logger.info("Successfully verified cancel message")
             self.do_click_by_locator(self.BACK_BUTTON)
-            self.logger.info("Clicked on back button")
-
+            self.logger.info("Clicked on BACK button")
         except Exception as e:
             self.logger.error('Exception occurred while verifying cancel order message ' + str(e))
             raise e
@@ -191,12 +228,12 @@ class X4AErrorOrdersPage(BasePage):
             self.logger.error('Exception occurred while clicking on back button from cancel order popup ' + str(e))
             raise e
 
-
     def do_cancel_order_success_message(self):
         try:
-            
+
             cancel_order_message = 'Cancelled! order was successfully cancelled.'
-            assert cancel_order_message in self.get_element_text(self.CANCEL_ORDER_SUCCESS_MESSAGE),"successfull Cancel Order message not present"
+            assert cancel_order_message in self.get_element_text(
+                self.CANCEL_ORDER_SUCCESS_MESSAGE), "successfull Cancel Order message not present"
             self.logger.info("order cancelled successfully")
 
         except Exception as e:
@@ -211,4 +248,307 @@ class X4AErrorOrdersPage(BasePage):
             return True
         except Exception as e:
             self.logger.error('Exception occurred while Logout X4A ' + str(e))
+            return False
+
+    def do_verify_fraud_orders_tab(self):
+        try:
+            self.do_check_visibility(self.FRAUD_ORDERS_TAB)
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying cancel order success message ' + str(e))
+            return False
+
+    def do_search_and_select_order(self, confirmation_id):
+        try:
+            self.do_click_by_locator(self.FRAUD_ORDERS_TAB)
+            self.do_click_by_locator(self.SEARCH_DROP_DOWN)
+            self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
+            self.do_send_keys(self.FRAUD_SEARCH_BOX, confirmation_id)
+            self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+            time.sleep(5)
+            self.do_click_by_locator(self.FRAUD_FIRST_RECORD)
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while Searching and Selection Order ' + str(e))
+            return False
+
+    def do_verify_reprocess_order_button(self):
+        try:
+            time.sleep(5)
+            self.do_check_visibility(self.FRAUD_REPROCESS_ORDER_BUTTON)
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Reprocess Order button ' + str(e))
+            return False
+
+    def do_click_reprocess_order_button(self):
+        try:
+            self.do_click_by_locator(self.FRAUD_REPROCESS_ORDER_BUTTON)
+            self.logger.info("Successfully clicked on Reprocess Order button")
+            return True
+        except Exception as e:
+            self.logger.eror('Exception occurred while clicking on Reprocess Order button ' + str(e))
+            return False
+
+    def do_verify_reprocess_order_popup(self):
+        try:
+            reprocess_order_title = 'Reprocess Order'
+            reprocess_order_message_msg = 'It is crucial to ensure that you have thoroughly reviewed all available information and evidence before proceeding. Please exercise caution when reprocessing, as this will mark the order as "Not Fraud”.'
+            reprocess_order_review_button = 'Review'
+            reprocess_order_yes_button = 'Yes, Reprocess Order'
+            message = self.get_element_text(self.REPROCESS_ORDER_POPUP_MSG).replace("\n", " ")
+
+            assert reprocess_order_title in self.get_element_text(
+                self.REPROCESS_ORDER_TITLE), "Reprocess Order Title not present"
+            assert reprocess_order_message_msg in message, "Reprocess order popup message not present"
+            assert reprocess_order_review_button in self.get_element_text(
+                self.REPROCESS_ORDER_REVIEW_BUTTON), "Reprocess Order Review Button is not present"
+            assert reprocess_order_yes_button in self.get_element_text(
+                self.YES_REPROCESS_ORDER_BUTTON), "Reprocess order Yes button is not present"
+
+            self.logger.info(
+                "Successfully verified Reprocess Order title, No button ,Yes button and message in popup menu")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying cancel button ' + str(e))
+            return False
+
+    def do_click_Reprocess_Order_Review_button(self):
+        try:
+            self.do_click_by_locator(self.REPROCESS_ORDER_REVIEW_BUTTON)
+            self.logger.info("Successfully clicked on Review button")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on Review button on Reprocess Order popup ' + str(e))
+            return False
+
+    def do_verify_order_details_page(self):
+        try:
+            assert 'Order Details' in self.get_element_text(self.ORDER_DETAILS_PAGE), "Order Details Title not present"
+            self.logger.info("verified that Reprocess Order popup is closed and Order Details page is shown")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Rerocess order popup is closed and Order Details page is shown' + str(
+                    e))
+            return False
+
+    def do_click_Reprocess_Order_Yes_button(self):
+        try:
+            self.do_click_by_locator(self.YES_REPROCESS_ORDER_BUTTON)
+            self.logger.info("Successfully clicked on Yes, Reprocess Order button")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while clicking on Yes, Reprocess Order button on Reprocess Order popup ' + str(e))
+            return False
+
+    def do_reprocess_order_success_message(self):
+        try:
+            cancel_order_message = 'Reprocessed! Order was successfully resubmitted.'
+            assert cancel_order_message in self.get_element_text(
+                self.REPROCESS_ORDER_SUCCESS_MESSAGE), "Successfully submitted Reprocess Order message not present"
+            self.logger.info("Order reprocessed successfully")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying reprocess order success message ' + str(e))
+            return False
+
+    def do_verify_order_in_list(self, confirmation_id):
+        try:
+            self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+            self.do_click_by_locator(self.FRAUD_ORDERS_TAB)
+            self.do_click_by_locator(self.SEARCH_DROP_DOWN)
+            self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
+            self.do_send_keys(self.FRAUD_SEARCH_BOX, confirmation_id)
+            self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+            self.do_check_visibility(self.ORDER_NOT_FOUND)
+            self.logger.info("Successfully verified that Order should not be there in list")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Order should not be there in list')
+            return False
+
+    def do_verify_fraud_cancel_order_button(self):
+        try:
+            time.sleep(5)
+            self.do_check_visibility(self.FRAUD_CANCEL_ORDER_BUTTON)
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Fraud Cancel Order button ' + str(e))
+            return False
+
+    def do_click_cancel_order_button(self):
+        try:
+            self.do_click_by_locator(self.FRAUD_CANCEL_ORDER_BUTTON)
+            self.logger.info("Successfully clicked on Cancel Order button")
+            return True
+        except Exception as e:
+            self.logger.eror('Exception occurred while clicking on Cancel Order button ' + str(e))
+            return False
+
+    def do_verify_fraud_cancel_order_popup(self):
+        try:
+            cancel_order = 'Cancel order'
+            cancel_order_msg = 'Are you sure you want to cancel order? Order will be cancelled permanently,' \
+                               ' and you cannot undo this action.'
+            cancel_no_button = 'NO, KEEP ORDER'
+            cancel_yes_button = 'YES, CANCEL ORDER'
+            address = self.get_element_text(self.CANCEL_ORDER_MSG).replace("\n", " ")
+            assert cancel_order in self.get_element_text(self.CANCEL_ORDER_TITLE), "Cancel Order Title not present"
+            assert cancel_no_button in self.get_element_text(self.CANCEL_NO_BUTTON), "Cancel No button is not present"
+            assert cancel_yes_button in self.get_element_text(
+                self.CANCEL_YES_BUTTON), "Cancel Yes button is not present"
+            assert cancel_order_msg in address, "Cancel Order message not present"
+
+            self.logger.info(
+                "Successfully verified cancel order title, No button ,Yes button and message in popup menu")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying fraud cancel order popup ' + str(e))
+            return False
+
+    def do_click_fraud_yes_cancel_button(self):
+        try:
+            self.do_click_by_locator(self.FRAUD_CANCEL_ORDER_BUTTON)
+            self.do_click_by_locator(self.CANCEL_YES_BUTTON)
+            self.logger.info("Clicked on YES, Cancel Order button from cancel order popup")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while clicking on YES, Cancel Order button from cancel order popup ' + str(e))
+            return False
+
+    def do_search_and_select_data_error_order(self, confirmation_id):
+        try:
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_click_by_locator(self.SEARCH_DROP_DOWN)
+            self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
+            self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+            time.sleep(5)
+            self.do_click_by_locator(self.FRAUD_FIRST_RECORD)
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while Searching and Selection Data error Order ' + str(e))
+            return False
+
+    def do_verify_data_error_resubmit_order_button(self):
+        try:
+            time.sleep(5)
+            self.do_check_visibility(self.DATA_ERRORS_RESUBMIT_ORDER_BUTTON)
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Data Error Resubmit Order button ' + str(e))
+            return False
+
+    def update_reseller_po_data_error_order(self):
+        try:
+            self.do_click_by_locator(self.REFERENCE_DETAILS_EDIT_BUTTON)
+            reseller_po = self.do_get_attribute(self.RESELLER_PO_VALUE, "value")
+            special_symbols = ['!', '@', '$', '%', '^', '&', '*']
+            for x in range(len(special_symbols)):
+                symbol = str(special_symbols[x])
+                if symbol in reseller_po:
+                    reseller_po = reseller_po.replace(symbol, "")
+            self.logger.info(reseller_po)
+            self.do_send_keys(self.RESELLER_PO_VALUE, reseller_po)
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while updating Reseller Po for Data Error order' + str(e))
+            return False
+
+    def update_end_customer_order_data_error_order(self):
+        try:
+            end_customer_order = self.do_get_attribute(self.END_CUSTOMER_ORDER_VALUE, "value")
+            special_symbols = ['!', '@', '$', '%', '^', '&', '*']
+            for x in range(len(special_symbols)):
+                symbol = str(special_symbols[x])
+                if symbol in end_customer_order:
+                    end_customer_order = end_customer_order.replace(symbol, "")
+            self.logger.info(end_customer_order)
+            self.do_send_keys(self.END_CUSTOMER_ORDER_VALUE, end_customer_order)
+            self.do_click_by_locator(self.DATA_ERROR_ORDER_UPDATE_BUTTON)
+            time.sleep(3)
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while updating End customer order for Data Error order' + str(e))
+            return False
+
+    def do_click_resubmit_order_button(self):
+        try:
+            self.do_click_by_locator(self.DATA_ERRORS_RESUBMIT_ORDER_BUTTON)
+            self.logger.info("Successfully clicked on Resubmit Order button")
+            return True
+        except Exception as e:
+            self.logger.eror('Exception occurred while clicking on Resubmit Order button ' + str(e))
+            return False
+
+    def verify_content_of_resubmit_order_popup(self):
+        try:
+            resubmit_order_title = 'Resubmit Order'
+            resubmit_order_message_msg = 'Are you sure you want to resubmit order? Order will be resubmitted, cannot undo this action. You may review prior to resubmitting.'
+            resubmit_order_review_button = 'Review'
+            resubmit_order_yes_button = 'Yes, Resubmit Order'
+            message = self.get_element_text(self.RESUBMIT_ORDER_POPUP_MSG).replace("\n", " ")
+
+            assert resubmit_order_title in self.get_element_text(
+                self.RESUBMIT_ORDER_TITLE), "Resubmit Order Title not present"
+            assert resubmit_order_message_msg in message, "Resubmit order popup message not present"
+            assert resubmit_order_review_button in self.get_element_text(
+                self.RESUBMIT_ORDER_REVIEW_BUTTON), "Resubmit Order Review Button is not present"
+            assert resubmit_order_yes_button in self.get_element_text(
+                self.YES_RESUBMIT_ORDER_BUTTON), "Resubmit order Yes button is not present"
+            self.logger.info(
+                "Successfully verified Resubmit Order title, No button ,Yes button and message in popup menu")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying cancel button ' + str(e))
+            return False
+
+    def do_click_resubmit_order_review_button(self):
+        try:
+            self.do_click_by_locator(self.RESUBMIT_ORDER_REVIEW_BUTTON)
+            self.logger.info("Successfully clicked on Resubmit Order Review button")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on Review button on Resubmit Order popup ' + str(e))
+            return False
+
+    def do_click_resubmit_order_yes_button(self):
+        try:
+            self.do_click_by_locator(self.YES_RESUBMIT_ORDER_BUTTON)
+            self.logger.info("Successfully clicked on Yes, Resubmit Order button")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while clicking on Yes, Resubmit Order button on Resubmit Order popup ' + str(e))
+            return False
+
+    def do_resubmitted_order_success_message(self):
+        try:
+            cancel_order_message = 'Order has been successfully resubmitted.'
+            assert cancel_order_message in self.get_element_text(
+                self.RESUBMITTED_ORDER_SUCCESS_MESSAGE), "Successfully Resubmitted Order message not present"
+            self.logger.info("Order reprocessed successfully")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Resubmitted order success message ' + str(e))
+            return False
+
+    def do_verify_data_error_order_in_list(self, confirmation_id):
+        try:
+            self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_click_by_locator(self.SEARCH_DROP_DOWN)
+            self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
+            self.do_send_keys(self.FRAUD_SEARCH_BOX, confirmation_id)
+            self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+            self.do_check_visibility(self.ORDER_NOT_FOUND)
+            self.logger.info("Successfully verified that resubmitted Order should not be there in list")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying resubmitted Order should not be there in list')
             return False
