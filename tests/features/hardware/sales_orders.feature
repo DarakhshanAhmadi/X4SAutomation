@@ -166,7 +166,17 @@ Feature: Sales Orders
     When Filter by Created On
     Then Validate the Created On is listed
 
-  # \@logout
+  @update_end_user_po_and_reseller_po
+  Scenario: Validate Update and cancel for end user po and reseller po
+    When search a order with specific IM Order number
+    Then Validate the IM Order number is listed
+    When Click on searched IM order number
+    Then Validate Cancel update of end user po and reseller po
+    And Validate Update end user po and reseller po
+
+
+
+  # @logout
   Scenario: logout X4A
     Given logout the X4A url
 
