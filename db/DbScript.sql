@@ -27,7 +27,12 @@ serial_numbers  String,
 additional_attributes String,
 fraud_cancel_order_confirmation_id String,
 fraud_reprocess_order_confirmation_id String,
-data_errors_resubmit_order_confirmation_id String
+data_errors_resubmit_order_confirmation_id String,
+reseller_name String,
+end_user_name String,
+created_on String,
+filter_order_type String,
+filter_order_status String
 );
 
 CREATE TABLE IF NOT EXISTS x4a_user_data(
