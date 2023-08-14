@@ -35,7 +35,7 @@ class X4AInputOrderDAO(BaseTest):
                                 x4a_input_order.fraud_reprocess_order_confirmation_id,
                                 x4a_input_order.data_errors_resubmit_order_confirmation_id, x4a_input_order.reseller_name,
                                 x4a_input_order.end_user_name, x4a_input_order.created_on,
-                                x4a_input_order.filter_order_type, x4a_input_order.filter_order_status))
+                                x4a_input_order.filter_order_type, x4a_input_order.filter_order_status, x4a_input_order.end_user_po))
 
                 connection.commit()
         except Error as e:

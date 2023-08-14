@@ -145,6 +145,11 @@ def test_filter_by_created_on():
     pass
 
 
+@scenario("features/hardware/sales_orders.feature", "Validate Update and cancel for end user po and reseller po")
+def test_update_end_user_po_and_reseller_po():
+    pass
+
+
 @scenario("features/hardware/sales_orders.feature", "logout X4A")
 def test_logout_x4a():
     pass
@@ -333,6 +338,7 @@ def click_on_im_order_number(init_driver):
     feature_file_name = "sales_orders"
     validate_sales_orers = ValidateSalesOrdersData(init_driver)
     try:
+        logger.info("click")
         if not validate_sales_orers.click_on_im_order_num(feature_file_name):
             raise Exception("Failed to click on searched IM order number")
     except Exception as e:
@@ -948,6 +954,37 @@ def validate_filter_by_order_value_results(init_driver):
         logger.error("Not able to Validate Created On %s", e)
         raise e
 
+
+@then(parsers.parse('Validate Update end user po and reseller po'))
+def validate_update_end_user_po_and_reseller_po(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        end_user_po = input_order_data.get("end_user_po")
+        reseller_po = input_order_data.get("reseller_po")
+        if not validate_sales_orders.do_validate_update_end_user_po_and_reseller_po(end_user_po, reseller_po, feature_file_name, screen_shot):
+            raise Exception("Failed to Validate update for end user po and reseller po")
+    except Exception as e:
+        logger.error("Not able to Validate update for end user po and reseller po %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate Cancel update of end user po and reseller po'))
+def validate_cancel_update_of_end_user_po_and_reseller_po(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        end_user_po = input_order_data.get("end_user_po")
+        reseller_po = input_order_data.get("reseller_po")
+        if not validate_sales_orders.do_validate_cancel_update_of_end_user_po_and_reseller_po(end_user_po, reseller_po, feature_file_name, screen_shot):
+            raise Exception("Failed to Validate Cancel update for end user po and reseller po")
+    except Exception as e:
+        logger.error("Not able to Validate Cancel update for end user po and reseller po %s", e)
+        raise e
 
 # We are blocking because filter is applied for all columns.
 

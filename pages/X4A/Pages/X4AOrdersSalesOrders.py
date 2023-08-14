@@ -104,14 +104,20 @@ class X4ASalesOrdersPage(BasePage):
     ORDER_STATUS_TITLE = (By.XPATH, "//h2[contains(text(),'IM order #')]/parent::div/div/span")
     ORDER_VALUE_HEADER = (By.XPATH, "//*[@class='TopArea']/div[2]/div[1]")
     ORDER_TYPE_HEADER = (By.XPATH, "//*[@class='TopArea']/div[2]/div[3]")
-
+    RESUBMIT_ORDER_BUTTON = (By.XPATH, "//*[text()='Resubmit Order']")
     """Order Details tab-Reference numbers"""
 
     END_USER_PO_FIELD = (By.XPATH, "//*[text()='End user PO:']/parent::div/div[@class='fieldValue']/strong")
     RESELLER_PO_FIELD = (By.XPATH, "//*[text()='Reseller PO:']/parent::div/div[@class='fieldValue']/strong")
     VENDOR_ORDER_FIELD = (By.XPATH, "//*[text()='Vendor order:']/parent::div/div[@class='fieldValue']/strong")
-    VENDOR_SALES_ORDER_FIELD = (
-        By.XPATH, "//*[text()='Vendor sales order:']/parent::div/div[@class='fieldValue']/strong")
+    VENDOR_SALES_ORDER_FIELD = (By.XPATH, "//*[text()='Vendor sales order:']/parent::div/div[@class='fieldValue']/strong")
+    REFERENCE_NUMBER_EDIT_ICON = (By.XPATH, "//*[@id='tablayout-tabpanel-0']/div/div/div/div/div[1]/*[@data-testid='ModeEditOutlineOutlinedIcon']")
+    POPUP_CANCEL_BUTTON = (By.XPATH, "//button[text()='Cancel']")
+    POPUP_UPDATE_BUTTON = (By.XPATH, "//button[text()='Update']")
+    POPUP_END_USER_TEXTBOX = (By.ID, "reference-details-po-number")
+    POPUP_RESELLER_PO_TEXTBOX = (By.ID, "reference-details-edit-customer-number")
+    REFERENCE_NUMBERS_END_USER_PO = (By.XPATH, "//*[@id='tablayout-tabpanel-0']/div/div/div/div/div[1]/div/div[1]/div[2]/strong")
+    REFERENCE_NUMBERS_RESELLER_PO = (By.XPATH, "//*[@id='tablayout-tabpanel-0']/div/div/div/div/div[1]/div/div[2]/div[2]/strong")
 
     """Biiling tab-Bill to info"""
 
@@ -368,7 +374,7 @@ class X4ASalesOrdersPage(BasePage):
             search_im_order_no = self.do_get_attribute(self.SEARCH_BOX, "value")
             self.logger.info(f'Search IM Order No: {search_im_order_no}')
             assert str(search_im_order_no) == str(im_order_number)
-            self.logger.info("Searched IM Order No match successfully")
+            self.logger.info("Searched IM Order matched successfully")
         except Exception as e:
             self.logger.error("Exception occurred while search IM Order No %s", e)
             raise e
@@ -2008,3 +2014,48 @@ class X4ASalesOrdersPage(BasePage):
             self.logger.error("Exception occurred verifying Created On" + str(e))
             raise e
 
+    def update_end_user_po_and_reseller_po(self, end_user_po, reseller_po):
+        try:
+            self.do_click_by_locator(self.REFERENCE_NUMBER_EDIT_ICON)
+            self.do_send_keys(self.POPUP_END_USER_TEXTBOX, end_user_po)
+            self.do_send_keys(self.POPUP_RESELLER_PO_TEXTBOX, reseller_po)
+            self.do_click_by_locator(self.POPUP_UPDATE_BUTTON)
+        except Exception as e:
+            self.logger.error("Exception occurred updating end user po and reseller po" + str(e))
+            raise e
+
+    def cancel_update_of_end_user_po_and_reseller_po(self, end_user_po, reseller_po):
+        try:
+            self.do_click_by_locator(self.REFERENCE_NUMBER_EDIT_ICON)
+            self.do_send_keys(self.POPUP_END_USER_TEXTBOX, end_user_po)
+            self.do_send_keys(self.POPUP_RESELLER_PO_TEXTBOX, reseller_po)
+            self.do_click_by_locator(self.POPUP_CANCEL_BUTTON)
+        except Exception as e:
+            self.logger.error("Exception occurred while cancelling edit of end user po and reseller po" + str(e))
+            raise e
+
+    def validate_update_end_user_po_and_reseller_po(self, end_user_po, reseller_po):
+        try:
+            self.update_end_user_po_and_reseller_po(end_user_po, reseller_po)
+            ui_end_user_po = self.get_element_text(self.REFERENCE_NUMBERS_END_USER_PO)
+            ui_reseller_po = self.get_element_text(self.REFERENCE_NUMBERS_RESELLER_PO)
+            assert ui_end_user_po == end_user_po.upper(), "End user PO mismatched"
+            assert ui_reseller_po == reseller_po.upper(), "Reseller PO mismatched"
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred while validating update of end user po and reseller po" + str(e))
+            return False
+
+    def validate_cancel_end_user_po_and_reseller_po(self, end_user_po, reseller_po):
+        try:
+            ui_end_user_po = self.get_element_text(self.REFERENCE_NUMBERS_END_USER_PO)
+            ui_reseller_po = self.get_element_text(self.REFERENCE_NUMBERS_RESELLER_PO)
+            self.cancel_update_of_end_user_po_and_reseller_po(end_user_po, reseller_po)
+            ui_cancel_end_user_po = self.get_element_text(self.REFERENCE_NUMBERS_END_USER_PO)
+            ui_cancel_reseller_po = self.get_element_text(self.REFERENCE_NUMBERS_RESELLER_PO)
+            assert ui_end_user_po == ui_cancel_end_user_po, "End user PO mismatched"
+            assert ui_reseller_po == ui_cancel_reseller_po, "Reseller PO mismatched"
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred while validating cancel update of end user po and reseller po" + str(e))
+            return False

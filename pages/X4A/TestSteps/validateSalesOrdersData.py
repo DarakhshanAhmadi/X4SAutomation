@@ -1060,3 +1060,43 @@ class ValidateSalesOrdersData:
             self.logger.error("Error while validating Created On")
             self.logger.exception(e)
             return False
+
+    def do_validate_update_end_user_po_and_reseller_po(self, end_user_po, reseller_po, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.validate_update_end_user_po_and_reseller_po(end_user_po, reseller_po):
+                self.logger.error("Failed to validate Update for end user po and reseller po")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_update_end_user_and_reseller_po_error.png")
+                screen_shot[
+                    "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_update_end_user_and_reseller_po_error.png"
+                return False
+            else:
+                self.logger.info("Successfully validated Update for end user po and reseller po")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name + "_validate_update_end_user_and_reseller_po_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating Update for end user po and reseller po")
+            self.logger.exception(e)
+            return False
+
+    def do_validate_cancel_update_of_end_user_po_and_reseller_po(self, end_user_po, reseller_po, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.validate_cancel_end_user_po_and_reseller_po(end_user_po, reseller_po):
+                self.logger.error("Failed to validate cancel Update for end user po and reseller po")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_cancel_update_end_user_and_reseller_po_error.png")
+                screen_shot[
+                    "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_cancel_update_end_user_and_reseller_po_error.png"
+                return False
+            else:
+                self.logger.info("Successfully validated cancel Update for end user po and reseller po")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name + "_validate_cancel_update_end_user_and_reseller_po_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating cancel Update for end user po and reseller po")
+            self.logger.exception(e)
+            return False
