@@ -1,4 +1,4 @@
-# blocking because fraud order as we don't have access to create the fraud orders
+# blocking fraud order as we don't have access to create the fraud orders
 
 #@fraud_orders @regression
 #Feature: Fraud Orders
