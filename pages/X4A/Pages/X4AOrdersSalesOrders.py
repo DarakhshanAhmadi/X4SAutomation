@@ -58,7 +58,7 @@ class X4ASalesOrdersPage(BasePage):
 
     SEARCHED_IM_ORDER_NUMBER = (By.XPATH,
                                 "//*[@class='MuiDataGrid-virtualScrollerRenderZone css-uw2ren-MuiDataGrid-virtualScrollerRenderZone']//div[@data-field='orderNumber']/div/a")
-    FILTER_ICON = (By.XPATH, "//*[@id='root']/div/div[2]/div[1]/div/div[4]/div[2]/div[1]/button")
+    FILTER_ICON = (By.XPATH, "//*[@id='root']/div/div[2]/div[1]/div/div[3]/div[2]/div[1]/button")
     FILTER_BY_IM_ORDER = (By.XPATH, "//p[text()='IM Order #']")
     FILTER_IM_ORDER_TEXTBOX = (By.XPATH, "//input[@id='orderNumber']")
     FILTER_BY_ORDER_TYPES = (By.XPATH, "//div[text()='Order Types']")
