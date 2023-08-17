@@ -40,58 +40,108 @@ def test_validate_created_on_descending():
     pass
 
 
-@scenario("features/hardware/sales_orders.feature", "All tabs visible on Order Details page")
-def test_all_tabs_on_order_details_tab():
+# @scenario("features/hardware/sales_orders.feature", "All tabs visible on Order Details page")
+# def test_all_tabs_on_order_details_tab():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Same header display for all tab")
+# def test_same_header_display_for_all_tab():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Ingram order number and Order Status title on Order details page")
+# def test_ingram_order_number_and_order_status_title_order_details_tab():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Header data on Order details page")
+# def test_header_data_on_order_details_tab():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Reference Number fields data validation")
+# def test_reference_number_fields_data_validation():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Bill to info fields data validation")
+# def test_bill_to_fields_data_validation():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Ship to info fields data validation")
+# def test_ship_to_fields_data_validation():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "End user info fields data validation")
+# def test_end_user_fields_data_validation():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Order lines tab fields data validation")
+# def test_order_lines_fields_data_validation():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Serial number header data validation")
+# def test_serial_number_header_data_validation():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Additional Attributes header data validation")
+# def test_additional_attributes_header_data_validation():
+#     pass
+
+
+@scenario("features/hardware/sales_orders.feature", "Verify filter with IM order")
+def test_filter_by_im_order():
     pass
 
 
-@scenario("features/hardware/sales_orders.feature", "Same header display for all tab")
-def test_same_header_display_for_all_tab():
+@scenario("features/hardware/sales_orders.feature", "Verify filter by Order type")
+def test_filter_by_order_type():
     pass
 
 
-@scenario("features/hardware/sales_orders.feature", "Ingram order number and Order Status title on Order details page")
-def test_ingram_order_number_and_order_status_title_order_details_tab():
+@scenario("features/hardware/sales_orders.feature", "Verify filter by BCN")
+def test_filter_by_bcn():
     pass
 
 
-@scenario("features/hardware/sales_orders.feature", "Header data on Order details page")
-def test_header_data_on_order_details_tab():
+@scenario("features/hardware/sales_orders.feature", "Verify filter by Reseller PO")
+def test_filter_by_reseller_po():
     pass
 
 
-@scenario("features/hardware/sales_orders.feature", "Reference Number fields data validation")
-def test_reference_number_fields_data_validation():
+@scenario("features/hardware/sales_orders.feature", "Verify filter by Reseller Name")
+def test_filter_by_reseller_name():
     pass
 
 
-@scenario("features/hardware/sales_orders.feature", "Bill to info fields data validation")
-def test_bill_to_fields_data_validation():
+@scenario("features/hardware/sales_orders.feature", "Verify filter by Vendor Name")
+def test_filter_by_vendor_name():
     pass
 
 
-@scenario("features/hardware/sales_orders.feature", "Ship to info fields data validation")
-def test_ship_to_fields_data_validation():
+@scenario("features/hardware/sales_orders.feature", "Verify filter by End User Name")
+def test_filter_by_end_user_name():
     pass
 
 
-@scenario("features/hardware/sales_orders.feature", "End user info fields data validation")
-def test_end_user_fields_data_validation():
+@scenario("features/hardware/sales_orders.feature", "Verify filter by Order Status")
+def test_filter_by_order_status():
     pass
 
 
-@scenario("features/hardware/sales_orders.feature", "Order lines tab fields data validation")
-def test_order_lines_fields_data_validation():
+@scenario("features/hardware/sales_orders.feature", "Verify filter by Order Value")
+def test_filter_by_order_value():
     pass
 
 
-@scenario("features/hardware/sales_orders.feature", "Serial number header data validation")
-def test_serial_number_header_data_validation():
-    pass
-
-
-@scenario("features/hardware/sales_orders.feature", "Additional Attributes header data validation")
-def test_additional_attributes_header_data_validation():
+@scenario("features/hardware/sales_orders.feature", "Verify filter by Created On")
+def test_filter_by_created_on():
     pass
 
 
@@ -594,6 +644,310 @@ def logout_x4a_url(init_driver):
     except Exception as e:
         logger.error("Not able to logout x4a url %s", e)
         raise e
+
+
+@when(parsers.parse('Filter by IM order'))
+def filter_by_im_order(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        im_order = input_order_data.get("im_order_number")
+        if not validate_sales_orders.filter_by_im_order(feature_file_name, screen_shot, im_order):
+            raise Exception("Failed to filter by IM order")
+    except Exception as e:
+        logger.error("Error while filtering by IM Order %s", e)
+        raise e
+
+
+@then(parsers.parse('Verify the data for filtered IM order is listed'))
+def verify_filter_by_im_order_result(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        im_order = input_order_data.get("im_order_number")
+        if not validate_sales_orders.verify_im_order_filter_results(feature_file_name, screen_shot, im_order):
+            raise Exception("Failed to verify filter by IM order results")
+    except Exception as e:
+        logger.error("Error while verifying filter by IM Order results %s", e)
+        raise e
+
+
+@when(parsers.parse('Filter by Order type'))
+def filter_by_order_type(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        order_type = input_order_data.get("filter_order_type")
+        if not validate_sales_orders.do_filter_order_type(order_type, feature_file_name, screen_shot):
+            raise Exception("Failed to filter by Order type")
+    except Exception as e:
+        logger.error("Error while filtering by Order type %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate the order Type is listed'))
+def validate_filter_by_order_type_results(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        order_type = input_order_data.get("filter_order_type")
+        if not validate_sales_orders.verify_order_type_filter_results(feature_file_name, screen_shot, order_type):
+            raise Exception("Failed to Validate order type")
+    except Exception as e:
+        logger.error("Not able to Validate order type %s", e)
+        raise e
+
+
+@when(parsers.parse('Filter by BCN'))
+def filter_by_bcn(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        bcn = input_order_data.get("reseller_bcn")
+        logger.info(bcn)
+        if not validate_sales_orders.do_filter_bcn(bcn, feature_file_name, screen_shot):
+            raise Exception("Failed to filter by BCN")
+    except Exception as e:
+        logger.error("Error while filtering by BCN %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate the BCN is listed'))
+def validate_filter_by_bcn_results(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        bcn = input_order_data.get("reseller_bcn")
+        if not validate_sales_orders.do_validate_reseller_bcn(bcn, feature_file_name, screen_shot):
+            raise Exception("Failed to Validate BCN")
+    except Exception as e:
+        logger.error("Not able to Validate BCN %s", e)
+        raise e
+
+
+@when(parsers.parse('Filter by Reseller PO'))
+def filter_by_reseller_po(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        reseller_po = input_order_data.get("reseller_po")
+        if not validate_sales_orders.do_filter_reseller_po(reseller_po, feature_file_name, screen_shot):
+            raise Exception("Failed to filter by Reseller PO")
+    except Exception as e:
+        logger.error("Error while filtering by Reseller PO %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate the Reseller PO is listed'))
+def validate_filter_by_reseller_po_results(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        reseller_po = input_order_data.get("reseller_po")
+        if not validate_sales_orders.do_validate_reseller_po(reseller_po, feature_file_name, screen_shot):
+            raise Exception("Failed to Validate Reseller PO")
+    except Exception as e:
+        logger.error("Not able to Validate Reseller PO %s", e)
+        raise e
+
+
+@when(parsers.parse('Filter by Reseller Name'))
+def filter_by_reseller_name(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        reseller_name = input_order_data.get("reseller_name")
+        if not validate_sales_orders.do_filter_reseller_name(reseller_name, feature_file_name, screen_shot):
+            raise Exception("Failed to filter by Reseller Name")
+    except Exception as e:
+        logger.error("Error while filtering by Reseller Name %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate the Reseller Name is listed'))
+def validate_filter_by_reseller_name_results(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        reseller_name = input_order_data.get("reseller_name")
+        if not validate_sales_orders.do_validate_reseller_name(reseller_name, feature_file_name, screen_shot):
+            raise Exception("Failed to Validate Reseller Name")
+    except Exception as e:
+        logger.error("Not able to Validate Reseller Name %s", e)
+        raise e
+
+
+@when(parsers.parse('Filter by Vendor Name'))
+def filter_by_vendor_name(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        vendor_name = input_order_data.get("vendor_name")
+        if not validate_sales_orders.do_filter_vendor_name(vendor_name, feature_file_name, screen_shot):
+            raise Exception("Failed to filter by Vendor Name")
+    except Exception as e:
+        logger.error("Error while filtering by Vendor Name %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate the Vendor Name is listed'))
+def validate_filter_by_vendor_name_results(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        vendor_name = input_order_data.get("vendor_name")
+        if not validate_sales_orders.do_validate_vendor_name(vendor_name, feature_file_name, screen_shot):
+            raise Exception("Failed to Validate Vendor Name")
+    except Exception as e:
+        logger.error("Not able to Validate Vendor Name %s", e)
+        raise e
+
+
+@when(parsers.parse('Filter by End User Name'))
+def filter_by_end_user_name(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        end_user_name = input_order_data.get("end_user_name")
+        if not validate_sales_orders.do_filter_end_user_name(end_user_name, feature_file_name, screen_shot):
+            raise Exception("Failed to filter by End User Name")
+    except Exception as e:
+        logger.error("Error while filtering by End User Name %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate the End User Name is listed'))
+def validate_filter_by_end_user_name_results(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        end_user_name = input_order_data.get("end_user_name")
+        if not validate_sales_orders.do_validate_end_user_name(end_user_name, feature_file_name, screen_shot):
+            raise Exception("Failed to Validate End User Name")
+    except Exception as e:
+        logger.error("Not able to Validate End User Name %s", e)
+        raise e
+
+
+@when(parsers.parse('Filter by Order Status'))
+def filter_by_order_status(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        order_status = input_order_data.get("filter_order_status")
+        if not validate_sales_orders.do_filter_order_status(order_status, feature_file_name, screen_shot):
+            raise Exception("Failed to filter by Order Status")
+    except Exception as e:
+        logger.error("Error while filtering by Order Status %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate the Order Status is listed'))
+def validate_filter_by_order_status_results(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        order_status = input_order_data.get("filter_order_status")
+        if not validate_sales_orders.do_validate_order_status(order_status, feature_file_name, screen_shot):
+            raise Exception("Failed to Validate Order Status")
+    except Exception as e:
+        logger.error("Not able to Validate Order Status %s", e)
+        raise e
+
+
+@when(parsers.parse('Filter by Order Value'))
+def filter_by_order_value(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        min_order_value = input_order_data.get("total_revenue_min")
+        max_order_value = input_order_data.get("total_revenue_max")
+        if not validate_sales_orders.do_filter_order_value(min_order_value, max_order_value, feature_file_name, screen_shot):
+            raise Exception("Failed to filter by Order Value")
+    except Exception as e:
+        logger.error("Error while filtering by Order Value %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate the Order Value is listed'))
+def validate_filter_by_order_value_results(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        min_order_value = input_order_data.get("total_revenue_min")
+        max_order_value = input_order_data.get("total_revenue_max")
+        if not validate_sales_orders.do_validate_order_value(min_order_value, max_order_value, feature_file_name, screen_shot):
+            raise Exception("Failed to Validate Order Value")
+    except Exception as e:
+        logger.error("Not able to Validate Order Value %s", e)
+        raise e
+
+
+@when(parsers.parse('Filter by Created On'))
+def filter_by_created_on(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        created_on = input_order_data.get("created_on")
+        if not validate_sales_orders.do_filter_created_on(created_on, feature_file_name, screen_shot):
+            raise Exception("Failed to filter by Created On")
+    except Exception as e:
+        logger.error("Error while filtering by Created On %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate the Created On is listed'))
+def validate_filter_by_order_value_results(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        created_on = input_order_data.get("created_on")
+        if not validate_sales_orders.do_validate_created_on(created_on, feature_file_name, screen_shot):
+            raise Exception("Failed to Validate Created On")
+    except Exception as e:
+        logger.error("Not able to Validate Created On %s", e)
+        raise e
+
 
 # We are blocking because filter is applied for all columns.
 
