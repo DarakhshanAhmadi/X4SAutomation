@@ -171,10 +171,26 @@ Feature: Sales Orders
     When search a order with specific IM Order number
     Then Validate the IM Order number is listed
     When Click on searched IM order number
+    And Check if the order is editable
     Then Validate Cancel update of end user po and reseller po
     And Validate Update end user po and reseller po
 
+  @validate_acop_field
+  Scenario: Validate ACOP field
+#    When search a order with specific IM Order number
+#    Then Validate the IM Order number is listed
+#    When Click on searched IM order number
+    When Click on Order lines tab on Order Details page
+    Then Validate ACOP field is present and has valid value
 
+  @update_order_line
+  Scenario: Validate Update and Cancel for edit order line
+    When search a order with specific IM Order number
+    Then Validate the IM Order number is listed
+    When Click on searched IM order number
+    And Click on Order lines tab on Order Details page
+    Then Cancel order line changes and validate it
+    Then Update order line and validate it
 
   # @logout
   Scenario: logout X4A

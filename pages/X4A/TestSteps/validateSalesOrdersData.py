@@ -1100,3 +1100,99 @@ class ValidateSalesOrdersData:
             self.logger.error("Error while validating cancel Update for end user po and reseller po")
             self.logger.exception(e)
             return False
+
+    def do_validate_acop_field(self, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.validate_acop_field():
+                self.logger.error("Failed to validate ACOP field")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_acop_field_error.png")
+                screen_shot[
+                    "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_acop_field_error.png"
+                return False
+            else:
+                self.logger.info("Successfully validated ACOP field")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name + "_validated_acop_field_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating ACOP field")
+            self.logger.exception(e)
+            return False
+
+    def validate_order_status_to_edit(self, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if x4a_sales_order.validate_order_status_to_check_if_editable():
+                self.logger.info(
+                    "Successfully Verified the Order Status, order can be edited")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_validated_order_details_status_successfully.png")
+                return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_title_on_order_details_page_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_order_details_status_error.png"
+            self.logger.error(
+                "Error while verifying Order Status")
+            self.logger.exception(e)
+            return False
+
+    def update_order_line_and_validate_data(self, special_bid, unit_price, quantity, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if (x4a_sales_order.update_order_line(special_bid, unit_price,quantity) & x4a_sales_order.click_order_line_edit_check_icon()):
+                self.logger.info(
+                    "Successfully updated the order line")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_updated_order_line_successfully.png")
+            ui_data = x4a_sales_order.get_order_line_data()
+            self.logger.info("Validating data for order line")
+            calculated_margin = round(((float(unit_price)-float(ui_data['cost']))/float(unit_price)) * 100, 2)
+            assert str(special_bid) == str(ui_data['special_bid']), "Special bid mismatched"
+            assert str(unit_price) == str(ui_data['unit_price']), "Unit price mismatched"
+            assert str(quantity) == str(ui_data['quantity']), "Quantity mismatched"
+            assert str(calculated_margin) == str(ui_data['margin']), "Margin Mismatched"
+            # assert int(ui_data['quantity']) == (int(ui_data['quantity_confirmed']) + int(ui_data['quantity_backordered'])), "Quantity calculation mismatched"
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_update_order_line_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_update_order_line_error.png"
+            self.logger.error(
+                "Error while updating order line")
+            self.logger.exception(e)
+            return False
+
+    def cancel_order_line_changes_and_validate_data(self, special_bid, unit_price, quantity, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if (x4a_sales_order.update_order_line(special_bid, unit_price,quantity) & x4a_sales_order.click_order_line_edit_cancel_icon()):
+                self.logger.info(
+                    "Successfully cancelled updated the order line")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_cancel_updated_order_line_successfully.png")
+            ui_data = x4a_sales_order.get_order_line_data()
+            self.logger.info("Validating data for order line")
+            calculated_margin = round(((float(unit_price)-float(ui_data['cost']))/float(unit_price)) * 100, 2)
+            assert str(special_bid) != str(ui_data['special_bid']), "Special bid matched"
+            assert str(unit_price) != str(ui_data['unit_price']), "Unit price matched"
+            assert str(quantity) != str(ui_data['quantity']), "Quantity matched"
+            assert str(calculated_margin) != str(ui_data['margin']), "Margin matched"
+            # assert int(ui_data['quantity']) == (int(ui_data['quantity_confirmed']) + int(ui_data['quantity_backordered'])), "Quantity calculation mismatched"
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_cancel_updated_order_line_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_cancel_updated_order_line_error.png"
+            self.logger.error(
+                "Error while updating order line")
+            self.logger.exception(e)
+            return False
