@@ -33,7 +33,8 @@ end_user_name String,
 created_on String,
 filter_order_type String,
 filter_order_status String,
-end_user_po String
+end_user_po String,
+edit_order_lines String
 );
 
 CREATE TABLE IF NOT EXISTS x4a_user_data(

@@ -150,6 +150,16 @@ def test_update_end_user_po_and_reseller_po():
     pass
 
 
+@scenario("features/hardware/sales_orders.feature", "Validate ACOP field")
+def test_validate_acop_field():
+    pass
+
+
+@scenario("features/hardware/sales_orders.feature", "Validate Update and Cancel for edit order line")
+def test_validate_update_order_line():
+    pass
+
+
 @scenario("features/hardware/sales_orders.feature", "logout X4A")
 def test_logout_x4a():
     pass
@@ -985,6 +995,66 @@ def validate_cancel_update_of_end_user_po_and_reseller_po(init_driver):
     except Exception as e:
         logger.error("Not able to Validate Cancel update for end user po and reseller po %s", e)
         raise e
+
+
+@then(parsers.parse('Validate ACOP field is present and has valid value'))
+def validate_acop_field(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.do_validate_acop_field(feature_file_name, screen_shot):
+            raise Exception("Failed to Validate ACOP field")
+    except Exception as e:
+        logger.error("Not able to Validate ACOP field %s", e)
+        raise e
+
+
+@when(parsers.parse('Check if the order is editable'))
+def check_if_order_is_editable(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.validate_order_status_to_edit(feature_file_name, screen_shot):
+            raise Exception("Failed to check if order is editable")
+    except Exception as e:
+        logger.error("Not able to check if order is editable %s", e)
+        raise e
+
+
+@then(parsers.parse('Update order line and validate it'))
+def update_order_line_and_validate(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+                db_file_path, feature_file_name)
+        special_bid = input_order_data.get('edit_order_lines').split(",")[0]
+        unit_price = input_order_data.get('edit_order_lines').split(",")[1]
+        quantity = input_order_data.get('edit_order_lines').split(",")[2]
+
+        if not validate_sales_orders.update_order_line_and_validate_data(special_bid, unit_price, quantity, feature_file_name, screen_shot):
+            raise Exception("Failed to update order line")
+    except Exception as e:
+        logger.error("Not able to update order line %s", e)
+        raise e
+
+
+@then(parsers.parse('Cancel order line changes and validate it'))
+def update_order_line_and_validate(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+                db_file_path, feature_file_name)
+        special_bid = input_order_data.get('edit_order_lines').split(",")[0]
+        unit_price = input_order_data.get('edit_order_lines').split(",")[1]
+        quantity = input_order_data.get('edit_order_lines').split(",")[2]
+        if not validate_sales_orders.cancel_order_line_changes_and_validate_data(special_bid, unit_price, quantity, feature_file_name, screen_shot):
+            raise Exception("Failed to cancel order line changes")
+    except Exception as e:
+        logger.error("Not able to update order line %s", e)
+        raise e
+
 
 # We are blocking because filter is applied for all columns.
 

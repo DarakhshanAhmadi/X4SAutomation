@@ -166,6 +166,7 @@ Feature: Sales Orders
     When Filter by Created On
     Then Validate the Created On is listed
 
+  # EDT-  10681
   @update_end_user_po_and_reseller_po
   Scenario: Validate Update and cancel for end user po and reseller po
     When search a order with specific IM Order number
@@ -175,6 +176,7 @@ Feature: Sales Orders
     Then Validate Cancel update of end user po and reseller po
     And Validate Update end user po and reseller po
 
+  #EDT - 10799
   @validate_acop_field
   Scenario: Validate ACOP field
 #    When search a order with specific IM Order number
@@ -183,6 +185,7 @@ Feature: Sales Orders
     When Click on Order lines tab on Order Details page
     Then Validate ACOP field is present and has valid value
 
+  # EDT - 10685
   @update_order_line
   Scenario: Validate Update and Cancel for edit order line
     When search a order with specific IM Order number

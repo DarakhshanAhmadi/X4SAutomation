@@ -20,7 +20,7 @@ class PrepareObject:
                                             test_data.get("FraudCancelOrderConfirmationId"), test_data.get("FraudReprocessOrderConfirmationId"),
                                             test_data.get("DataErrorResubmitOrderConfirmationId"), test_data.get("ResellerName"),
                                             test_data.get("EndUserName"), test_data.get("CreatedOn"), test_data.get("FilterOrderType"),
-                                            test_data.get("FilterOrderStatus"), test_data.get("EndUserPO"))
+                                            test_data.get("FilterOrderStatus"), test_data.get("EndUserPO"), test_data.get("EditOrderLines"))
         return x4a_input_order_obj
     def prepare_x4a_user_data_obj(self, test_data):
         x4a_user_data_obj = X4AUserData(test_data.get("FeatureFileName"),

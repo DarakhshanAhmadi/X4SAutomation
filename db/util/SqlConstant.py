@@ -5,8 +5,8 @@ class SqlConstant:
                                        "order_value, reference_numbers, billing_to_info, ship_to_info, end_user_info, order_lines_tab, " \
                                        "serial_numbers, additional_attributes, fraud_cancel_order_confirmation_id, fraud_reprocess_order_confirmation_id," \
                                        " data_errors_resubmit_order_confirmation_id, reseller_name, end_user_name, created_on, filter_order_type," \
-                                       " filter_order_status, end_user_po)" \
-                                       "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                       " filter_order_status, end_user_po, edit_order_lines)" \
+                                       "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
     X4A_GET_IM_ORDER_NUMBER_BY_FEATURE_FILE_NAME_SQL_QUERY = "SELECT im_order_number FROM x4a_input_order where feature_file_name =?"
 
