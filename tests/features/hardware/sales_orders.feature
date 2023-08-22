@@ -179,21 +179,18 @@ Feature: Sales Orders
   #EDT - 10799
   @validate_acop_field
   Scenario: Validate ACOP field
-#    When search a order with specific IM Order number
-#    Then Validate the IM Order number is listed
-#    When Click on searched IM order number
-    When Click on Order lines tab on Order Details page
+    When search a order with specific IM Order number
+    Then Validate the IM Order number is listed
+    When Click on searched IM order number
+    And Click on Order lines tab on Order Details page
     Then Validate ACOP field is present and has valid value
 
   # EDT - 10685
   @update_order_line
   Scenario: Validate Update and Cancel for edit order line
-    When search a order with specific IM Order number
-    Then Validate the IM Order number is listed
-    When Click on searched IM order number
-    And Click on Order lines tab on Order Details page
+    When Click on Order lines tab on Order Details page
     Then Cancel order line changes and validate it
-    Then Update order line and validate it
+    And Update order line and validate it
 
   # @logout
   Scenario: logout X4A
