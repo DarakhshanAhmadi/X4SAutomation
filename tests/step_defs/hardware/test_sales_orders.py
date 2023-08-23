@@ -40,59 +40,59 @@ def test_validate_created_on_descending():
     pass
 
 
-@scenario("features/hardware/sales_orders.feature", "All tabs visible on Order Details page")
-def test_all_tabs_on_order_details_tab():
-    pass
-
-
-@scenario("features/hardware/sales_orders.feature", "Same header display for all tab")
-def test_same_header_display_for_all_tab():
-    pass
-
-
-@scenario("features/hardware/sales_orders.feature", "Ingram order number and Order Status title on Order details page")
-def test_ingram_order_number_and_order_status_title_order_details_tab():
-    pass
-
-
-@scenario("features/hardware/sales_orders.feature", "Header data on Order details page")
-def test_header_data_on_order_details_tab():
-    pass
-
-
-@scenario("features/hardware/sales_orders.feature", "Reference Number fields data validation")
-def test_reference_number_fields_data_validation():
-    pass
-
-
-@scenario("features/hardware/sales_orders.feature", "Bill to info fields data validation")
-def test_bill_to_fields_data_validation():
-    pass
-
-
-@scenario("features/hardware/sales_orders.feature", "Ship to info fields data validation")
-def test_ship_to_fields_data_validation():
-    pass
-
-
-@scenario("features/hardware/sales_orders.feature", "End user info fields data validation")
-def test_end_user_fields_data_validation():
-    pass
-
-
-@scenario("features/hardware/sales_orders.feature", "Order lines tab fields data validation")
-def test_order_lines_fields_data_validation():
-    pass
-
-
-@scenario("features/hardware/sales_orders.feature", "Serial number header data validation")
-def test_serial_number_header_data_validation():
-    pass
-
-
-@scenario("features/hardware/sales_orders.feature", "Additional Attributes header data validation")
-def test_additional_attributes_header_data_validation():
-    pass
+# @scenario("features/hardware/sales_orders.feature", "All tabs visible on Order Details page")
+# def test_all_tabs_on_order_details_tab():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Same header display for all tab")
+# def test_same_header_display_for_all_tab():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Ingram order number and Order Status title on Order details page")
+# def test_ingram_order_number_and_order_status_title_order_details_tab():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Header data on Order details page")
+# def test_header_data_on_order_details_tab():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Reference Number fields data validation")
+# def test_reference_number_fields_data_validation():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Bill to info fields data validation")
+# def test_bill_to_fields_data_validation():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Ship to info fields data validation")
+# def test_ship_to_fields_data_validation():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "End user info fields data validation")
+# def test_end_user_fields_data_validation():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Order lines tab fields data validation")
+# def test_order_lines_fields_data_validation():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Serial number header data validation")
+# def test_serial_number_header_data_validation():
+#     pass
+#
+#
+# @scenario("features/hardware/sales_orders.feature", "Additional Attributes header data validation")
+# def test_additional_attributes_header_data_validation():
+#     pass
 
 
 @scenario("features/hardware/sales_orders.feature", "Verify filter with IM order")
