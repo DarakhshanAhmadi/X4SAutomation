@@ -15,8 +15,8 @@ class X4ASalesOrdersPage(BasePage):
 
     """Sales Orders Page"""
 
-    ORDER_MENU = (By.XPATH, "//*[@data-testid='orders-MenuItem']")
-    SALES_ORDER_OPTION = (By.XPATH, "//*[text()='Sales Orders']")
+    SALES_MENU = (By.XPATH, "//*[@data-testid='sales-MenuItem']")
+    SALES_ORDER_OPTION = (By.XPATH, "//*[text()='Order Management']")
     SEARCH_BOX = (By.ID, "search")
     SEARCH_BOX_SEARCH_ICON = (By.XPATH, "//*[@data-testid='SearchIcon']")
     ORDER_BCN_ITEM_LIST = (By.XPATH,
@@ -199,7 +199,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def go_to_sales_orders(self):
         try:
-            self.do_click_by_locator(self.ORDER_MENU)
+            self.do_click_by_locator(self.SALES_MENU)
             self.do_double_click(self.SALES_ORDER_OPTION)
             self.logger.info("Clicked on Sales Orders in the menu")
         except Exception as e:
