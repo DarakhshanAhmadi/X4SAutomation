@@ -15,8 +15,8 @@ class X4ASalesOrdersPage(BasePage):
 
     """Sales Orders Page"""
 
-    ORDER_MENU = (By.XPATH, "//*[@data-testid='orders-MenuItem']")
-    SALES_ORDER_OPTION = (By.XPATH, "//*[text()='Sales Orders']")
+    SALES_MENU = (By.XPATH, "//*[@data-testid='sales-MenuItem']")
+    SALES_ORDER_OPTION = (By.XPATH, "//*[text()='Order Management']")
     SEARCH_BOX = (By.ID, "search")
     SEARCH_BOX_SEARCH_ICON = (By.XPATH, "//*[@data-testid='SearchIcon']")
     ORDER_BCN_ITEM_LIST = (By.XPATH,
@@ -58,7 +58,7 @@ class X4ASalesOrdersPage(BasePage):
 
     SEARCHED_IM_ORDER_NUMBER = (By.XPATH,
                                 "//*[@class='MuiDataGrid-virtualScrollerRenderZone css-uw2ren-MuiDataGrid-virtualScrollerRenderZone']//div[@data-field='orderNumber']/div/a")
-    FILTER_ICON = (By.XPATH, "//*[@id='root']/div/div[2]/div[1]/div/div[4]/div[2]/div[1]/button")
+    FILTER_ICON = (By.XPATH, "//*[@id='root']/div/div[2]/div[1]/div/div[3]/div[2]/div[1]/button")
     FILTER_BY_IM_ORDER = (By.XPATH, "//p[text()='IM Order #']")
     FILTER_IM_ORDER_TEXTBOX = (By.XPATH, "//input[@id='orderNumber']")
     FILTER_BY_ORDER_TYPES = (By.XPATH, "//div[text()='Order Types']")
@@ -214,7 +214,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def go_to_sales_orders(self):
         try:
-            self.do_click_by_locator(self.ORDER_MENU)
+            self.do_click_by_locator(self.SALES_MENU)
             self.do_double_click(self.SALES_ORDER_OPTION)
             self.logger.info("Clicked on Sales Orders in the menu")
         except Exception as e:
