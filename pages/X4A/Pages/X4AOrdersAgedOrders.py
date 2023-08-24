@@ -73,6 +73,8 @@ class X4AAgedOrdersPage(BasePage):
     TABLE_FIRST_ROW = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='0']")
     SKU_POPUP_CLOSE = (By.XPATH, "//div[@class='MuiBox-root css-7g6ps3']/div/button/*[@data-testid='CloseIcon']")
     ORDER_VALUE_SORT = (By.XPATH, "//*[text()='Order value']")
+    FIRST_ROW_CHECKBOX = (By.XPATH, "//input[@aria-label='Select Row checkbox']")
+    CANCEL_AGED_ORDER = (By.XPATH, "//button[text()='Cancel Order']")
 
     def go_to_aged_orders(self):
         try:
@@ -1132,3 +1134,11 @@ class X4AAgedOrdersPage(BasePage):
             self.logger.error('Exception occurred while applying filter by bcn and vendor and order status' + str(e))
             raise e
 
+    def cancel_aged_order(self):
+        try:
+            self.do_click_by_locator(self.FIRST_ROW_CHECKBOX)
+            self.do_click_by_locator(self.CANCEL_AGED_ORDER)
+
+        except Exception as e:
+            self.logger.error('Exception occurred while cancelling order' + str(e))
+            raise e

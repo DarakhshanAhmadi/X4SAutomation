@@ -116,6 +116,13 @@ Feature: Aged Orders
     Then verify the downloaded file name
     And verify the filtered first and last data in excel with ui
 
+  @cancel_order
+  Scenario: Validate cancel order
+    When search IM order number
+    Then verify the data for searched order is listed
+    And cancel order
+
+
   @logout
   Scenario: logout X4A
     Given logout the X4A url
