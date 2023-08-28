@@ -120,7 +120,7 @@ Feature: Aged Orders
   Scenario: Validate cancel order
     When search IM order number
     Then verify the data for searched order is listed
-    And cancel order
+    And cancel order and verify its no more in list
 
 
   @logout

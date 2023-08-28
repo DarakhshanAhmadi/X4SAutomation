@@ -73,8 +73,12 @@ class X4AAgedOrdersPage(BasePage):
     TABLE_FIRST_ROW = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='0']")
     SKU_POPUP_CLOSE = (By.XPATH, "//div[@class='MuiBox-root css-7g6ps3']/div/button/*[@data-testid='CloseIcon']")
     ORDER_VALUE_SORT = (By.XPATH, "//*[text()='Order value']")
-    FIRST_ROW_CHECKBOX = (By.XPATH, "//input[@aria-label='Select Row checkbox']")
+    FIRST_ROW_CHECKBOX = (By.XPATH, "//div[@data-rowindex='0']/div")
     CANCEL_AGED_ORDER = (By.XPATH, "//button[text()='Cancel Order']")
+    CANCEL_ORDER_POPUP_MESSAGE = (By.XPATH, "//div[@class='MuiDialogContent-root css-ypiqx9-MuiDialogContent-root']/p")
+    CANCEL_CONTINUE = (By.XPATH, "//button[text()='Continue']")
+    CANCEL_STATUS = (By.XPATH, "//div[@class='MuiBox-root css-4y84eq']")
+    CANCEL_STATUS_OK_BUTTON = (By.XPATH, "//button[text()='Ok']")
 
     def go_to_aged_orders(self):
         try:
@@ -145,7 +149,7 @@ class X4AAgedOrdersPage(BasePage):
                     assert row.text == order_number
             else:
                 raise Exception("Multiple orders found for searched order")
-            self.do_click_by_locator(self.CLOSE_SEARCH)
+            # self.do_click_by_locator(self.CLOSE_SEARCH)
         except Exception as e:
             self.logger.error("Exception occurred verifying the order number quick search" + str(e))
             raise e
@@ -1136,9 +1140,24 @@ class X4AAgedOrdersPage(BasePage):
 
     def cancel_aged_order(self):
         try:
+            breakpoint()
             self.do_click_by_locator(self.FIRST_ROW_CHECKBOX)
             self.do_click_by_locator(self.CANCEL_AGED_ORDER)
-
+            popup_message = self.get_element_text(self.CANCEL_ORDER_POPUP_MESSAGE)
+            assert popup_message == 'Are you sure you want to cancel selected order/s? Once the orders are cancelled, they cannot be undone. You can only cancel up to 25 orders at a time.'
+            self.do_click_by_locator(self.CANCEL_CONTINUE)
+            cancel_status = self.get_element_text(self.CANCEL_STATUS)
+            assert cancel_status == 'SUCCESS'
+            self.do_click_by_locator(self.CANCEL_STATUS_OK_BUTTON)
         except Exception as e:
+            self.do_click_by_locator(self.CANCEL_STATUS_OK_BUTTON)
             self.logger.error('Exception occurred while cancelling order' + str(e))
+            raise e
+
+    def validate_order_is_not_in_list(self, order_number):
+        try:
+            self.search_im_order_number(order_number)
+            self.do_check_visibility(self.NO_RESULT_TEXT)
+        except Exception as e:
+            self.logger.error('Exception occurred while validating order is cancelled' + str(e))
             raise e
