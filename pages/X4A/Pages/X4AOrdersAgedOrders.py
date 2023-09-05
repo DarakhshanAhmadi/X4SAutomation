@@ -12,7 +12,7 @@ from CommonUtilities.parse_config import ParseConfigFile
 
 class X4AAgedOrdersPage(BasePage):
 
-    ORDER_MENU = (By.XPATH, "//*[@data-testid='orders-MenuItem']")
+    SALES_MENU = (By.XPATH, "//*[@data-testid='sales-MenuItem']")
     AGED_ORDER_OPTION = (By.XPATH, "//*[text()='Aged Orders']")
     FILTER_ICON = (By.XPATH, "//span[@class='MuiButton-startIcon MuiButton-iconSizeSmall css-cstir9-MuiButton-startIcon']")
     DOWNLOAD_ICON = (By.XPATH, "//*[@data-testid='FileDownloadIcon']")
@@ -76,7 +76,7 @@ class X4AAgedOrdersPage(BasePage):
 
     def go_to_aged_orders(self):
         try:
-            self.do_click_by_locator(self.ORDER_MENU)
+            self.do_click_by_locator(self.SALES_MENU)
             self.do_double_click(self.AGED_ORDER_OPTION)
             self.logger.info("Clicked on Aged orders in the menu.")
         except Exception as e:

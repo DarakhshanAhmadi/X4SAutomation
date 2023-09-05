@@ -10,7 +10,7 @@ class X4AErrorOrdersPage(BasePage):
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
 
-    ORDER_MENU = (By.XPATH, "//*[@data-testid='orders-MenuItem']")
+    SALES_MENU = (By.XPATH, "//*[@data-testid='sales-MenuItem']")
     ERROR_ORDER_OPTION = (By.XPATH, "//*[text()='Error Orders']")
     ERROR_ORDER_TEXT = (By.XPATH, "//*[text()='Error orders ']")
     DATA_ERROR_OPTION = (By.XPATH, "//div[text()='Data errors']")
@@ -72,7 +72,7 @@ class X4AErrorOrdersPage(BasePage):
 
     def go_to_error_orders(self):
         try:
-            self.do_click_by_locator(self.ORDER_MENU)
+            self.do_click_by_locator(self.SALES_MENU)
             self.logger.info("Clicked on Order in the menu")
             self.do_double_click(self.ERROR_ORDER_OPTION)
             self.logger.info("Clicked on Error Orders option")

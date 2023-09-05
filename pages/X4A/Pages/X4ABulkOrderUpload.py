@@ -10,12 +10,14 @@ from pynput.keyboard import Key, Controller
 # from pynput.mouse import Controller, Button
 import time
 
+
 class X4ABulkOrderUploadPage(BasePage):
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
     file_path = ReadConfig.get_file_path()
     system_path = os.getcwd()
-    ORDER_MENU = (By.XPATH, "//*[@data-testid='SalesIcon']")
+
+    SALES_MENU = (By.XPATH, "//*[@data-testid='sales-MenuItem']")
     BULK_ORDER_UPLOAD_OPTION = (By.XPATH, "//*[text()='Bulk order upload ']")
     BULK_ORDER_UPLOAD_TEXT = (By.XPATH, "//h3[text()='Bulk order upload']")
     UPLOAD_FILE_BUTTON = (By.XPATH, "//button[text()='Upload file']")
@@ -43,7 +45,7 @@ class X4ABulkOrderUploadPage(BasePage):
 
     def go_to_bulk_order_upload(self):
         try:
-            self.do_click_by_locator(self.ORDER_MENU)
+            self.do_click_by_locator(self.SALES_MENU)
             self.logger.info("Clicked on Order in the menu")
             self.do_double_click(self.BULK_ORDER_UPLOAD_OPTION)
             self.logger.info("Clicked on Bulk Order Upload option")
