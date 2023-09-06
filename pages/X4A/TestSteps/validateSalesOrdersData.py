@@ -1196,3 +1196,83 @@ class ValidateSalesOrdersData:
                 "Error while updating order line")
             self.logger.exception(e)
             return False
+
+    def validate_order_status_is_customer_hold(self, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if x4a_sales_order.check_order_status_is_on_customer_hold():
+                self.logger.info(
+                    "Successfully Verified that Order Status is Customer Hold")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_validated_order_status_successfully.png")
+                return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_order_status_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_order_status_error.png"
+            self.logger.error(
+                "Error while verifying Order Status is Customer Hold")
+            self.logger.exception(e)
+            return False
+
+    def validate_options_on_order_lines(self, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if x4a_sales_order.check_cancel_options_are_correct_in_order_lines():
+                self.logger.info(
+                    "Successfully Verified that Order lines options")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_validated_order_status_successfully.png")
+                return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_order_status_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_order_status_error.png"
+            self.logger.error(
+                "Error while verifying Order lines options")
+            self.logger.exception(e)
+            return False
+
+    def click_on_mark_for_cancel(self, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if x4a_sales_order.click_on_mark_for_cancel():
+                self.logger.info(
+                    "Successfully clicked on mark for order")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_mark_for_cancel_clicked_successfully.png")
+                return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_click_mark_for_cancel_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_click_mark_for_cancel_error.png"
+            self.logger.error(
+                "Error while clicking on mark for cancel")
+            self.logger.exception(e)
+            return False
+
+    def click_on_unmark_for_cancel(self, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if x4a_sales_order.click_on_unmark_for_cancel():
+                self.logger.info(
+                    "Successfully clicked on unmark for order")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_unmark_for_cancel_clicked_successfully.png")
+                return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_click_unmark_for_cancel_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_click_unmark_for_cancel_error.png"
+            self.logger.error(
+                "Error while clicking on unmark for cancel")
+            self.logger.exception(e)
+            return False

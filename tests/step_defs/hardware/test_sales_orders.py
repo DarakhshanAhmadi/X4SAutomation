@@ -160,6 +160,11 @@ def test_validate_update_order_line():
     pass
 
 
+@scenario("features/hardware/sales_orders.feature", "Validate unmark cancel order line")
+def test_unmark_order_lines():
+    pass
+
+
 @scenario("features/hardware/sales_orders.feature", "logout X4A")
 def test_logout_x4a():
     pass
@@ -1053,6 +1058,59 @@ def update_order_line_and_validate(init_driver):
             raise Exception("Failed to cancel order line changes")
     except Exception as e:
         logger.error("Not able to update order line %s", e)
+        raise e
+
+
+@given(parsers.parse('Check whether the order is in customer hold'))
+def validate_order_is_in_customer_hold(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        # input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+        #         db_file_path, feature_file_name)
+        # special_bid = input_order_data.get('edit_order_lines').split(",")[0]
+        # unit_price = input_order_data.get('edit_order_lines').split(",")[1]
+        # quantity = input_order_data.get('edit_order_lines').split(",")[2]
+        if not validate_sales_orders.validate_order_status_is_customer_hold(feature_file_name, screen_shot):
+            raise Exception("Failed to cancel order line changes")
+    except Exception as e:
+        logger.error("Not able to update order line %s", e)
+        raise e
+
+
+@when(parsers.parse('Click on three dots and check that the options are correct'))
+def validate_order_lines_option(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.validate_options_on_order_lines(feature_file_name, screen_shot):
+            raise Exception("Failed to cancel order line changes")
+    except Exception as e:
+        logger.error("Not able to update order line %s", e)
+        raise e
+
+
+@then(parsers.parse('Click on mark for cancel for order lines'))
+def click_mark_for_cancel(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.click_on_mark_for_cancel(feature_file_name, screen_shot):
+            raise Exception("Failed to click on mark for cancel")
+    except Exception as e:
+        logger.error("Not able to click on mark for cancel %s", e)
+        raise e
+
+
+@then(parsers.parse('Click on Unmark for cancel order line'))
+def click_unmark_for_cancel(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.click_on_mark_for_cancel(feature_file_name, screen_shot):
+            raise Exception("Failed to click on unmark for cancel")
+    except Exception as e:
+        logger.error("Not able to click on unmark for cancel %s", e)
         raise e
 
 

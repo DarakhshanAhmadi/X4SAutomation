@@ -197,6 +197,7 @@ class X4ASalesOrdersPage(BasePage):
     ORDER_LINE_EDIT_ICON = (By.XPATH, "//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-anj852-MuiButtonBase-root-MuiIconButton-root']")
     EDIT_CHECK_ICON = (By.XPATH, "//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']/*[@data-testid='CheckCircleOutlineOutlinedIcon']")
     EDIT_CANCEL_ICON = (By.XPATH, "//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']/*[@data-testid='ClearOutlinedIcon']")
+    THREE_DOTS_ICON_OPTIONS = (By.XPATH, "//ul[@class='MuiList-root MuiList-padding MuiMenu-list css-6hp17o-MuiList-root-MuiMenu-list']")
 
     """Order Lines tab-Additional Attributes """
 
@@ -704,6 +705,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def click_on_billing_tab(self):
         try:
+            time.sleep(5)
             self.do_click_by_locator(self.BILLING_TAB)
             self.logger.info("Successfully Clicked Billing tab")
             return True
@@ -713,6 +715,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def click_on_order_details_tab(self):
         try:
+            time.sleep(5)
             self.do_click_by_locator(self.ORDER_DETAILS_TAB)
             self.logger.info("Successfully Clicked Order Details tab")
             return True
@@ -937,15 +940,16 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_address_end_user_field_visible(self, end_user_addr):
         try:
-            addr = self.get_element_text(self.END_USER_ADDRESS_FIElD)
-            if str(addr) == '':
-                addr = addr.replace("", ".")
+            address = self.get_element_text(self.END_USER_ADDRESS_FIElD)
+            if str(address) == '':
+                addr = address.replace("", ".")
+            else:
+                addr = address.replace("\n", " ")
             assert str(addr) == str(end_user_addr)
             self.logger.info("Successfully verified Address field under End User info")
             return True
         except Exception as e:
-            self.logger.error(
-                'Exception occurred while verifying Address field under End User info' + str(e))
+            self.logger.error('Exception occurred while verifying Address field under End User info' + str(e))
             return False
 
     def is_contact_end_user_field_visible(self, end_user_contact):
@@ -2185,3 +2189,86 @@ class X4ASalesOrdersPage(BasePage):
             self.logger.error(
                 'Exception occurred while clicking on edit cancel icon ' + str(e))
             raise e
+
+    def check_order_status_is_on_customer_hold(self):
+        try:
+            status = self.get_element_text(self.ORDER_STATUS_TITLE)
+            if status != 'Customer Hold(IM)':
+                self.logger.error(f'Order status is {status}, and not customer hold')
+                raise Exception("Order is not on customer hold")
+            self.logger.info("Successfully verified Order Status is customer hold")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while checking the status is customer hold :' + str(e))
+            return False
+
+    def check_cancel_options_are_correct_in_order_lines(self):
+        try:
+            order_lines = self.get_all_elements(self.ORDER_LINES)
+            for i in range(len(order_lines)):
+                self.driver.refresh()
+                self.do_click_by_locator(self.ORDER_LINES_TAB)
+                three_dots_xpath = (By.XPATH, "//div[@data-rowindex=" + str(i) + "]/div/button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']")
+                self.do_click_by_locator(three_dots_xpath)
+                # THREE_DOTS_ICON_OPTIONS = (By.XPATH, "(//ul[@class='MuiList-root MuiList-padding MuiMenu-list css-6hp17o-MuiList-root-MuiMenu-list'])[" + str(i + 1) + "]")
+                # options = self.get_element_text(THREE_DOTS_ICON_OPTIONS)
+                order_line_options_xpath = (By.XPATH, "(//li[@role='menuitem'])")
+                order_line_options = self.get_all_elements(order_line_options_xpath)
+                self.logger.info(len(order_line_options))
+                for ele in order_line_options:
+                    if ele.text != "Unmark for cancel" and ele.text != "Mark for cancel":
+                        return False
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while checking the order lines options :' + str(e))
+            return False
+
+    def click_on_mark_for_cancel(self):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.ORDER_LINES_TAB)
+            order_lines = self.get_all_elements(self.ORDER_LINES)
+            for i in range(len(order_lines)):
+                # checkbox = (By.XPATH, "//div[@data-rowindex=" + str(i) + "]/div[@data-field='customCheckbox']")
+                three_dots_xpath = (By.XPATH, "//div[@data-rowindex=" + str(i) + "]/div/button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']")
+                self.do_click_by_locator(three_dots_xpath)
+                order_line_options_xpath = (By.XPATH, "(//li[@role='menuitem'])")
+                order_line_options = self.get_all_elements(order_line_options_xpath)
+                breakpoint()
+                c = (By.XPATH, "(//div[@class='MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiMenu-paper MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper css-1azehl2-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper'])[1]/ul/li[text()='Unmark for cancel']")
+                self.do_click_by_locator(c)
+                # for ele in order_line_options:
+                #     if ele.text == "Mark for cancel":
+                #         ele.click()
+                q = (By.XPATH, "(//li[text()='Mark for cancel'])[" + str(int(i+1)) + "]")
+                self.do_click_by_locator(q)
+                return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while marking for cancel :' + str(e))
+            return False
+
+    def click_on_unmark_for_cancel(self):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.ORDER_LINES_TAB)
+            order_lines = self.get_all_elements(self.ORDER_LINES)
+            for i in range(len(order_lines)):
+                # checkbox = (By.XPATH, "//div[@data-rowindex=" + str(i) + "]/div[@data-field='customCheckbox']")
+                three_dots_xpath = (By.XPATH, "//div[@data-rowindex=" + str(i) + "]/div/button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']")
+                self.do_click_by_locator(three_dots_xpath)
+                order_line_options_xpath = (By.XPATH, "(//li[@role='menuitem'])")
+                order_line_options = self.get_all_elements(order_line_options_xpath)
+                breakpoint()
+                # for ele in order_line_options:
+                #     if ele.text == "Mark for cancel":
+                #         ele.click()
+                q = (By.XPATH, "(//li[text()='Unmark for cancel'])[" + str(int(i+1)) + "]")
+                self.do_click_by_locator(q)
+                return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while marking for cancel :' + str(e))
+            return False
