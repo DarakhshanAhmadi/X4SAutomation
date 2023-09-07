@@ -157,7 +157,7 @@ def update_the_correct_end_customer_order(init_driver):
         raise e
 
 
-@when(parsers.parse('Resubmit Order Button button clicked'))
+@when(parsers.parse('Resubmit Order Button clicked'))
 def do_click_resubmit_order_button(init_driver):
     feature_file_name = "data_errors_orders"
     validate_error_orders_data = ValidateErrorOrdersData(init_driver)

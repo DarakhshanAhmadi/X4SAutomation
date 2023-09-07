@@ -15,7 +15,7 @@ Feature: Fraud Orders
     Then Verify that Resubmit Order button should display
     And Update the correct Reseller PO
     And Update the correct End customer order
-    When Resubmit Order Button button clicked
+    When Resubmit Order Button clicked
     Then Verify contents of Resubmit Order Confirmation popup
     When Click on Review button
     Then Verify Order Details page opened
@@ -23,7 +23,7 @@ Feature: Fraud Orders
 #  EDT-9280
   @after_resubmitted_order_not_present_in_error_data_list
   Scenario: Verify Order not present in list after successfully resubmitted
-    When Resubmit Order Button button clicked
+    When Resubmit Order Button clicked
     Then Verify contents of Resubmit Order Confirmation popup
     When Click on Resubmit Order Yes button
     Then Verify that Order has been successfully resubmitted message should display

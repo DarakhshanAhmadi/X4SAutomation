@@ -689,6 +689,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def click_on_billing_tab(self):
         try:
+            time.sleep(5)
             self.do_click_by_locator(self.BILLING_TAB)
             self.logger.info("Successfully Clicked Billing tab")
             return True
@@ -698,6 +699,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def click_on_order_details_tab(self):
         try:
+            time.sleep(5)
             self.do_click_by_locator(self.ORDER_DETAILS_TAB)
             self.logger.info("Successfully Clicked Order Details tab")
             return True
@@ -922,9 +924,11 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_address_end_user_field_visible(self, end_user_addr):
         try:
-            addr = self.get_element_text(self.END_USER_ADDRESS_FIElD)
-            if str(addr) == '':
-                addr = addr.replace("", ".")
+            address = self.get_element_text(self.END_USER_ADDRESS_FIElD)
+            if str(address) == '':
+                addr = address.replace("", ".")
+            else:
+                addr = address.replace("\n", " ")
             assert str(addr) == str(end_user_addr)
             self.logger.info("Successfully verified Address field under End User info")
             return True
@@ -1979,10 +1983,12 @@ class X4ASalesOrdersPage(BasePage):
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
             self.logger.info("Max items per page: " + max_rows)
             for i in range(int(max_rows)):
+                # breakpoint()
                 if i == 0:
                     element = "//div[@data-id=0]/div[@data-colindex=6]"
                     order_value_element = self.driver.find_element(By.XPATH, element)
                     self.scroll_horizontally(order_value_element)
+                    time.sleep(3)
                     element = "//div[@class='MuiDataGrid-row'] [@data-id='" + str(i) + "']/div[@data-field='orderCreateDate']"
                     order_status_element = self.driver.find_element(By.XPATH, element)
                     self.scroll_horizontally(order_status_element)

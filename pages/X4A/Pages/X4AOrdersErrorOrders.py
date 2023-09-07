@@ -422,6 +422,7 @@ class X4AErrorOrdersPage(BasePage):
 
     def do_search_and_select_data_error_order(self, confirmation_id):
         try:
+            time.sleep(5)
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
             self.do_click_by_locator(self.SEARCH_DROP_DOWN)
             self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
@@ -531,6 +532,8 @@ class X4AErrorOrdersPage(BasePage):
             cancel_order_message = 'Order has been successfully resubmitted.'
             assert cancel_order_message in self.get_element_text(
                 self.RESUBMITTED_ORDER_SUCCESS_MESSAGE), "Successfully Resubmitted Order message not present"
+            time.sleep(3)
+            self.do_click_by_locator(self.ERROR_ORDER_PAGE)
             self.logger.info("Order reprocessed successfully")
             return True
         except Exception as e:
