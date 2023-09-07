@@ -18,6 +18,7 @@ class BasePage:
     logger = LogGenerator.logGen()
     parse_config_json = ParseConfigFile()
     TIMEOUT = 60
+    TIMEOUT_LESSER = 15
 
     SEARCH_BOX = (By.CSS_SELECTOR, "input[placeholder='Filter by keyword']")
     SEARCH_BUTTON = (By.CSS_SELECTOR, "button[title='Start search']")
@@ -288,3 +289,7 @@ class BasePage:
                 element = WebDriverWait(self.driver, 5).until(EC.visibility_of_element_located(by_locator))
             except:
                 break
+
+    def get_element_text_for_filter(self, by_locator):
+        element = WebDriverWait(self.driver, self.TIMEOUT_LESSER).until(EC.visibility_of_element_located(by_locator))
+        return element.text
