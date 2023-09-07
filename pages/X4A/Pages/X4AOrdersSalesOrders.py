@@ -198,6 +198,7 @@ class X4ASalesOrdersPage(BasePage):
     EDIT_CHECK_ICON = (By.XPATH, "//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']/*[@data-testid='CheckCircleOutlineOutlinedIcon']")
     EDIT_CANCEL_ICON = (By.XPATH, "//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']/*[@data-testid='ClearOutlinedIcon']")
     THREE_DOTS_ICON_OPTIONS = (By.XPATH, "//ul[@class='MuiList-root MuiList-padding MuiMenu-list css-6hp17o-MuiList-root-MuiMenu-list']")
+    ORDER_LINES_MARKED_FOR_CANCEL = (By.XPATH, "//div[@class='custom-selected-row MuiDataGrid-row']")
 
     """Order Lines tab-Additional Attributes """
 
@@ -2230,21 +2231,19 @@ class X4ASalesOrdersPage(BasePage):
             self.driver.refresh()
             self.do_click_by_locator(self.ORDER_LINES_TAB)
             order_lines = self.get_all_elements(self.ORDER_LINES)
+            self.logger.info(len(order_lines))
             for i in range(len(order_lines)):
-                # checkbox = (By.XPATH, "//div[@data-rowindex=" + str(i) + "]/div[@data-field='customCheckbox']")
                 three_dots_xpath = (By.XPATH, "//div[@data-rowindex=" + str(i) + "]/div/button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']")
                 self.do_click_by_locator(three_dots_xpath)
                 order_line_options_xpath = (By.XPATH, "(//li[@role='menuitem'])")
                 order_line_options = self.get_all_elements(order_line_options_xpath)
-                breakpoint()
-                c = (By.XPATH, "(//div[@class='MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiMenu-paper MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper css-1azehl2-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper'])[1]/ul/li[text()='Unmark for cancel']")
-                self.do_click_by_locator(c)
-                # for ele in order_line_options:
-                #     if ele.text == "Mark for cancel":
-                #         ele.click()
-                q = (By.XPATH, "(//li[text()='Mark for cancel'])[" + str(int(i+1)) + "]")
-                self.do_click_by_locator(q)
-                return True
+                self.logger.info(len(order_line_options))
+                mark_for_cancel_elements = []
+                for ele in order_line_options:
+                    if ele.text == 'Mark for cancel':
+                        mark_for_cancel_elements.append(ele)
+                self.do_click_by_locator(mark_for_cancel_elements[-1])
+            return True
         except Exception as e:
             self.logger.error(
                 'Exception occurred while marking for cancel :' + str(e))
@@ -2252,22 +2251,22 @@ class X4ASalesOrdersPage(BasePage):
 
     def click_on_unmark_for_cancel(self):
         try:
-            self.driver.refresh()
-            self.do_click_by_locator(self.ORDER_LINES_TAB)
-            order_lines = self.get_all_elements(self.ORDER_LINES)
+            order_lines = self.get_all_elements(self.ORDER_LINES_MARKED_FOR_CANCEL)
             for i in range(len(order_lines)):
-                # checkbox = (By.XPATH, "//div[@data-rowindex=" + str(i) + "]/div[@data-field='customCheckbox']")
-                three_dots_xpath = (By.XPATH, "//div[@data-rowindex=" + str(i) + "]/div/button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']")
+                breakpoint()
+                three_dots_xpath = (By.XPATH, "//div[@data-rowindex=" + str(
+                    i) + "]/div/button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']")
                 self.do_click_by_locator(three_dots_xpath)
                 order_line_options_xpath = (By.XPATH, "(//li[@role='menuitem'])")
                 order_line_options = self.get_all_elements(order_line_options_xpath)
+                self.logger.info(len(order_line_options))
+                unmark_for_cancel_elements = []
                 breakpoint()
-                # for ele in order_line_options:
-                #     if ele.text == "Mark for cancel":
-                #         ele.click()
-                q = (By.XPATH, "(//li[text()='Unmark for cancel'])[" + str(int(i+1)) + "]")
-                self.do_click_by_locator(q)
-                return True
+                for ele in order_line_options:
+                    if ele.text == 'Unmark for cancel':
+                        unmark_for_cancel_elements.append(ele)
+                self.do_click_by_locator(unmark_for_cancel_elements[-1])
+            return True
         except Exception as e:
             self.logger.error(
                 'Exception occurred while marking for cancel :' + str(e))

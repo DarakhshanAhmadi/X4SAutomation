@@ -1107,7 +1107,7 @@ def click_unmark_for_cancel(init_driver):
     feature_file_name = "sales_orders"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
-        if not validate_sales_orders.click_on_mark_for_cancel(feature_file_name, screen_shot):
+        if not validate_sales_orders.click_on_unmark_for_cancel(feature_file_name, screen_shot):
             raise Exception("Failed to click on unmark for cancel")
     except Exception as e:
         logger.error("Not able to click on unmark for cancel %s", e)
