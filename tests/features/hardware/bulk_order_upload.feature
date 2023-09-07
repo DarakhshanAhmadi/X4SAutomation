@@ -8,25 +8,25 @@
 #    When the user traverse to Bulk order update menu
 #    Then verify bulk order update page
 #
-##  EDT-8751
+##  EDT-8751/OMS-178
 #  @file_upload_option_and_dialog_box
 #  Scenario: File Upload option & Dialog Box
 #    When upload file button clicked
 #    Then verify upload file popup
 #
-## EDT-8843
+## EDT-8843/OMS-175
 #  @file_upload_error
 #  Scenario: Upload file error
 #    When other than excel file was uploaded
 #    Then verify error message
 #
-## EDT-8844
+## EDT-8844/OMS-176
 #  @template_error
 #  Scenario: Template error
 #    When different template was uploaded
 #    Then verify template error message
 #
-##  EDT-8842, EDT-8845
+##  EDT-8842/OMS-174, EDT-8845/OMS-177
 #  @file_upload_and_browse_file
 #  Scenario: Upload file
 #    When file was uploaded
