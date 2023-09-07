@@ -1,5 +1,10 @@
 import time
-
+import random
+import string
+import time
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common import keys
 from selenium.webdriver.common.by import By
 from CommonUtilities.baseSet.BasePage import BasePage
 from CommonUtilities.parse_config import ParseConfigFile
@@ -10,6 +15,7 @@ class X4AErrorOrdersPage(BasePage):
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
 
+    SALES_ICON = (By.XPATH, "//*[@data-testid='SalesIcon']")
     SALES_MENU = (By.XPATH, "//*[@data-testid='sales-MenuItem']")
     ERROR_ORDER_OPTION = (By.XPATH, "//*[text()='Error Orders']")
     ERROR_ORDER_TEXT = (By.XPATH, "//*[text()='Error orders ']")
@@ -69,6 +75,78 @@ class X4AErrorOrdersPage(BasePage):
     RESUBMIT_ORDER_REVIEW_BUTTON = (By.XPATH, "//*[@class='ModelTitle']/parent::div/div/button[1]")
     YES_RESUBMIT_ORDER_BUTTON = (By.XPATH, "//*[@class='ModelTitle']/parent::div/div/button[2]")
     RESUBMITTED_ORDER_SUCCESS_MESSAGE = (By.XPATH, "//*[@class='MuiAlert-message css-acap47-MuiAlert-message']")
+
+    """Edit Reference numbers popup"""
+
+    EDIT_REFERENCE_POPUP_TITLE = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/p")
+    REFERENCE_DETAILS_PO_FIELD = (
+        By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/following-sibling::div/div/div[1]/label")
+    REFERENCE_DETAILS_MANDATORY_FIELD = (
+        By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/following-sibling::div/div/div/label/span")
+    REFERENCE_DETAILS_END_USER_CUSTOMER_FIELD = (
+        By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/following-sibling::div/div/div[2]/label")
+    REFERENCE_DETAILS_CANCEL_BUTTON = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/../div[3]/button[1]")
+    REFERENCE_DETAILS_UPDATE_BUTTON = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/../div[3]/button[2]")
+    REFERENCE_DETAILS_ClOSE_ICON_BUTTON = (By.XPATH, "//*[@data-testid='CloseIcon']")
+    REFERENCE_DETAILS_PO_CHAR_COUNT_RATIO_BUTTON = (By.XPATH, "//*[@id='reference-details-po-number-helper-text']")
+    END_CUSTOMER_ORDER_CHAR_COUNT_RATIO_BUTTON = (
+        By.XPATH, "//*[@id='reference-details-edit-customer-number-helper-text']")
+    REFERENCE_DETAILS_PO_FIELD_VALUE = (By.XPATH, "//*[text()='PO #:']/parent::div/p/strong")
+    REFERENCE_DETAILS_END_CUSTOMER_ORDER_FIELD_VALUE = (
+        By.XPATH, "//*[text()='End customer order #:']/parent::div/p/strong")
+
+    """Shipping Notes"""
+
+    BILLING_SHIPPING_TAB = (By.XPATH, "//div[text()='Billing/Shipping']")
+    SHIPPING_NOTES_EDIT_BUTTON = (
+        By.XPATH, "//*[text()='Shipping Notes']/parent::div/*[@data-testid='ModeEditOutlineOutlinedIcon']")
+    EDIT_SHIPPING_NOTES_POPUP_TITLE = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/p")
+    SHIPPING_NOTES_CANCEL_BUTTON = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/../div[3]/button[1]")
+    SHIPPING_NOTES_UPDATE_BUTTON = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/../div[3]/button[2]")
+    SHIPPING_NOTES_ClOSE_ICON_BUTTON = (By.XPATH, "//*[@data-testid='CloseIcon']")
+    EDIT_SHIPPING_NOTES_TEXT_AREA = (
+        By.XPATH, "//*[text()='Edit Shipping Notes']/parent::div/following-sibling::div/div/textarea")
+    SHIPPING_NOTES_CHARACTER_COUNTER = (
+        By.XPATH, "//*[text()='Edit Shipping Notes']/parent::div/following-sibling::div/div/div")
+    SHIPPING_NOTES_MAXIMUM_LIMIT_MESSAGE = (By.XPATH, "//textarea/parent::div/span")
+    SHIPPING_NOTES_TEXT_AREA = (By.XPATH, "//*[text()='Shipping Notes']/parent::div/parent::div/textarea")
+
+    """Filter Icon"""
+
+    FILTER_ICON = (By.XPATH, "//*[@data-testid='FilterListIcon']")
+    FILTER_TITLE = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::button/../parent::div/div/h2")
+    ORDER_ENTRY_METHOD_OPTION = (By.XPATH, "//*[@data-testid='orderEntryMethod-SearchedText']/div")
+    COUNTRY_OPTION = (By.XPATH, "//*[@data-testid='country-SearchedText']/div")
+    APPLY_BUTTON = (By.XPATH, "//button[text()='Apply']")
+    ORDER_ENTRY_METHOD_DROPDOWN_BUTTON = (
+        By.XPATH, "//*[@data-testid='orderEntryMethod-SearchedText']/span/*[@data-testid='KeyboardArrowDownIcon']")
+    COUNTRY_DROPDOWN_BUTTON = (
+        By.XPATH, "//*[@data-testid='country-SearchedText']/span/*[@data-testid='KeyboardArrowDownIcon']")
+    ORDER_ENTRY_METHOD_OPTION_LIST = (By.XPATH, "//*[@data-testid='orderEntryMethod-accordionData']/div/label/span[2]")
+    ORDER_ENTRY_METHOD_OPTION_SEE_MORE_LESS_BUTTON = (By.XPATH, "//*[@data-testid='orderEntryMethod-SeeMoreLess']")
+    COUNTRY_OPTION_SEE_MORE_LESS_BUTTON = (By.XPATH, "//*[@data-testid='country-SeeMoreLess']")
+    COUNTRY_OPTION_LIST = (By.XPATH, "//*[@data-testid='country-accordionData']/div/label/span")
+    ORDER_ENTRY_METHOD_TEXTBOX = (By.XPATH, "//*[@placeholder='Search Order entry method']")
+    SELECT_FIRST_COUNTRY = (By.XPATH, "//*[@data-testid='country-0-Label']/span")
+    HEADER_CLEAR_ALL_BUTTON = (
+        By.XPATH, "//*[text()='Filters']/parent::div/following-sibling::div/button[text()='Clear all']")
+    BITTOM_CLEAR_ALL_BUTTON = (By.XPATH, "//*[text()='Apply']/parent::div/button[text()='Clear all']")
+    SELECT_FIRST_ORDER_ENTRY_METHOD = (By.XPATH, "//*[@data-testid='orderEntryMethod-0-Label']/span[2]")
+    SELECT_SECOND_ORDER_ENTRY_METHOD = (By.XPATH, "//*[@data-testid='orderEntryMethod-1-Label']/span[2]")
+    ORDER_ENTRY_METHOD_HEADER_SELECTED_OPTION_LIST = (By.XPATH, "//*[text()='order Entry Method']/parent::div/div/span")
+    COUNTRY_HEADER_SELECTED_OPTION_LIST = (By.XPATH, "//*[text()='country']/parent::div/div/span")
+    ORDER_ENTRY_METHOD_SELECTED_OPTION_LIST = (
+        By.XPATH, "//*[@data-testid='CheckBoxIcon']/parent::span/following-sibling::span")
+    COUNTRY_ITEM_LIST = (By.XPATH,
+                         "//*[@class='MuiDataGrid-virtualScrollerRenderZone css-uw2ren-MuiDataGrid-virtualScrollerRenderZone']//div[@data-field='country']")
+    NO_FAILED_ORDER_FOUND_MESSAGE = (By.XPATH, "//*[@data-testid='required-GridLayout']/div/div[2]/div/span")
+    CHANNEL_ITEM_LIST = (By.XPATH,
+                         "//*[@class='MuiDataGrid-virtualScrollerRenderZone css-uw2ren-MuiDataGrid-virtualScrollerRenderZone']//div[@data-field='channel']")
+    DATA_GRID_INFO = (
+        By.XPATH,
+        "//*[@class='MuiDataGrid-virtualScrollerContent css-jz7yqw-MuiDataGrid-virtualScrollerContent']/div/div")
+    FILTER_CLOSE_ICON = (
+        By.XPATH, "//*[text()='Filters']/parent::div/following-sibling::div/button/*[@data-testid='CloseIcon']")
 
     def go_to_error_orders(self):
         try:
@@ -422,6 +500,7 @@ class X4AErrorOrdersPage(BasePage):
 
     def do_search_and_select_data_error_order(self, confirmation_id):
         try:
+            time.sleep(5)
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
             self.do_click_by_locator(self.SEARCH_DROP_DOWN)
             self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
@@ -531,7 +610,11 @@ class X4AErrorOrdersPage(BasePage):
             cancel_order_message = 'Order has been successfully resubmitted.'
             assert cancel_order_message in self.get_element_text(
                 self.RESUBMITTED_ORDER_SUCCESS_MESSAGE), "Successfully Resubmitted Order message not present"
+            time.sleep(3)
+            self.do_click_by_locator(self.ERROR_ORDER_PAGE)
             self.logger.info("Order reprocessed successfully")
+            time.sleep(3)
+            self.do_click_by_locator(self.ERROR_ORDER_PAGE)
             return True
         except Exception as e:
             self.logger.error('Exception occurred while verifying Resubmitted order success message ' + str(e))
@@ -539,7 +622,7 @@ class X4AErrorOrdersPage(BasePage):
 
     def do_verify_data_error_order_in_list(self, confirmation_id):
         try:
-            self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+            time.sleep(5)
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
             self.do_click_by_locator(self.SEARCH_DROP_DOWN)
             self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
@@ -551,4 +634,546 @@ class X4AErrorOrdersPage(BasePage):
         except Exception as e:
             self.logger.error(
                 'Exception occurred while verifying resubmitted Order should not be there in list')
+            return False
+
+    def do_verify_reference_details_edit_icon(self):
+        try:
+            time.sleep(5)
+            self.do_check_visibility(self.REFERENCE_DETAILS_EDIT_BUTTON)
+            return True
+        except Exception as e:
+            return False
+
+    def verify_contents_of_edit_reference_details(self):
+        try:
+            self.do_click_by_locator(self.REFERENCE_DETAILS_EDIT_BUTTON)
+            edit_reference_details_title = 'Edit reference numbers'
+            mandatory_field_po_field = 'PO #*'
+            non_mandatory_field_end_user_customer_field = 'End customer order #'
+            edit_reference_details_cancel_button = 'CANCEL'
+            edit_reference_details_update_button = 'UPDATE'
+
+            mandatory_po_number_field = self.get_element_text(self.REFERENCE_DETAILS_PO_FIELD).replace("\u2009", "")
+
+            assert edit_reference_details_title in self.get_element_text(
+                self.EDIT_REFERENCE_POPUP_TITLE), "Edit Reference Numbers Title not present"
+
+            assert mandatory_field_po_field in mandatory_po_number_field, "PO #* fields not present"
+
+            assert non_mandatory_field_end_user_customer_field in self.get_element_text(
+                self.REFERENCE_DETAILS_END_USER_CUSTOMER_FIELD), "End customer order # is not present"
+
+            assert edit_reference_details_cancel_button in self.get_element_text(
+                self.REFERENCE_DETAILS_CANCEL_BUTTON), "Reference Details CANCEL button is not present"
+
+            assert edit_reference_details_update_button in self.get_element_text(
+                self.REFERENCE_DETAILS_UPDATE_BUTTON), "Reference Details UPDATE button is not present"
+
+            self.do_check_visibility(self.REFERENCE_DETAILS_ClOSE_ICON_BUTTON)
+
+            self.logger.info(
+                "Successfully verified Edit Reference Numbers Popup title, PO #*, End customer order #, Cancel, Update fields on popup")
+            return True
+        except Exception as e:
+            return False
+
+    def verify_more_than_eighteen_char_in_po_field(self):
+        try:
+            po_number_character_count_ratio = '18/18'
+            self.do_clear_textfield(self.RESELLER_PO_VALUE)
+            po_number = "Reference*&#$PoNumber"
+            self.do_send_keys(self.RESELLER_PO_VALUE, po_number)
+            reseller_po = self.do_get_attribute(self.RESELLER_PO_VALUE, "value")
+            reseller_po_char_count = len(reseller_po)
+            self.logger.info(f'Reseller Po character count: {reseller_po_char_count}')
+            if reseller_po_char_count == 18:
+                assert po_number_character_count_ratio in self.get_element_text(
+                    self.REFERENCE_DETAILS_PO_CHAR_COUNT_RATIO_BUTTON), "Reference Details PO # number 18/18 count not present"
+                self.logger.info("Verified that PO # textbox should not allow more than 18 characters ")
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def verify_po_number_invalid_message(self):
+        try:
+            self.do_clear_textfield(self.RESELLER_PO_VALUE)
+            po_number = "Reference^PoNumber"
+            self.do_send_keys(self.RESELLER_PO_VALUE, po_number)
+            po_number_invalid_message = self.get_element_text(self.REFERENCE_DETAILS_PO_CHAR_COUNT_RATIO_BUTTON)
+            if "PO number is invalid" in po_number_invalid_message:
+                self.logger.info("Verified that PO number is invalid once add this ^ special character")
+                return True
+        except Exception as e:
+            return False
+
+    def verify_more_than_eighteen_char_in_end_customer_order_field(self):
+        try:
+            end_customer_order_character_count_ratio = '18/18'
+            self.do_clear_textfield(self.END_CUSTOMER_ORDER_VALUE)
+            end_customer_order_count = "EndCustomer*&#$Order"
+            self.do_send_keys(self.END_CUSTOMER_ORDER_VALUE, end_customer_order_count)
+            end_customer_order_number = self.do_get_attribute(self.END_CUSTOMER_ORDER_VALUE, "value")
+            end_customer_order_number_char_count = len(end_customer_order_number)
+            self.logger.info(f'End Customer Order Number character count: {end_customer_order_number_char_count}')
+            if end_customer_order_number_char_count == 18:
+                assert end_customer_order_character_count_ratio in self.get_element_text(
+                    self.END_CUSTOMER_ORDER_CHAR_COUNT_RATIO_BUTTON), "Reference Details End customer order # number 18/18 count not present"
+                self.logger.info("Verified that End customer order # textbox should not allow more than 18 characters ")
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def verify_end_customer_order_number_invalid_message(self):
+        try:
+            self.do_clear_textfield(self.END_CUSTOMER_ORDER_VALUE)
+            end_customer_order_number = "EndCust^OrderNo"
+            self.do_send_keys(self.END_CUSTOMER_ORDER_VALUE, end_customer_order_number)
+            end_customer_order_invalid_message = self.get_element_text(self.END_CUSTOMER_ORDER_CHAR_COUNT_RATIO_BUTTON)
+            if "End Cusomter order number is invalid" in end_customer_order_invalid_message:
+                self.logger.info("Verified that End customer order number is invalid once add this ^ special character")
+                return True
+        except Exception as e:
+            return False
+
+    def verify_modified_data_after_click_on_x_icon(self):
+        try:
+            reseller_po = self.do_get_attribute(self.RESELLER_PO_VALUE, "value")
+            end_customer_order_number = self.do_get_attribute(self.END_CUSTOMER_ORDER_VALUE, "value")
+            self.do_click_by_locator(self.REFERENCE_DETAILS_ClOSE_ICON_BUTTON)
+            reference_details_po_field_value = self.get_element_text(self.REFERENCE_DETAILS_PO_FIELD_VALUE)
+            reference_details_end_customer_order_field_value = self.get_element_text(
+                self.REFERENCE_DETAILS_END_CUSTOMER_ORDER_FIELD_VALUE)
+            if reseller_po != reference_details_po_field_value:
+                self.logger.info(
+                    "Successfully verified that modified PO number data is not updated after click on X icon")
+                if end_customer_order_number != reference_details_end_customer_order_field_value:
+                    self.logger.info(
+                        "Successfully verified that modified End Customer Order number data is not updated after click on X icon")
+                    return True
+                else:
+                    return False
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def verify_modified_data_after_click_on_cancel_button(self):
+        try:
+            self.do_click_by_locator(self.REFERENCE_DETAILS_EDIT_BUTTON)
+            self.do_send_keys(self.RESELLER_PO_VALUE, "Po Number")
+            self.do_send_keys(self.END_CUSTOMER_ORDER_VALUE, "End Customer No")
+            reseller_po = self.do_get_attribute(self.RESELLER_PO_VALUE, "value")
+            end_customer_order_number = self.do_get_attribute(self.END_CUSTOMER_ORDER_VALUE, "value")
+            self.do_click_by_locator(self.REFERENCE_DETAILS_CANCEL_BUTTON)
+            reference_details_po_field_value = self.get_element_text(self.REFERENCE_DETAILS_PO_FIELD_VALUE)
+            reference_details_end_customer_order_field_value = self.get_element_text(
+                self.REFERENCE_DETAILS_END_CUSTOMER_ORDER_FIELD_VALUE)
+            if reseller_po != reference_details_po_field_value:
+                self.logger.info(
+                    "Successfully verified that modified PO number data is not updated after click on Cancel button")
+                if end_customer_order_number != reference_details_end_customer_order_field_value:
+                    self.logger.info(
+                        "Successfully verified that modified End Customer Order number data is not updated after click on Cancel button")
+                    return True
+                else:
+                    return False
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def do_verify_updated_po_and_end_customer_order_data(self):
+        try:
+            self.do_click_by_locator(self.REFERENCE_DETAILS_EDIT_BUTTON)
+            reseller_po = self.do_get_attribute(self.RESELLER_PO_VALUE, "value")
+            special_symbols = ['!', '@', '$', '%', '^', '&', '*']
+            for x in range(len(special_symbols)):
+                symbol = str(special_symbols[x])
+                if symbol in reseller_po:
+                    reseller_po = reseller_po.replace(symbol, "")
+            self.logger.info(reseller_po)
+            self.do_send_keys(self.RESELLER_PO_VALUE, reseller_po)
+
+            end_customer_order = self.do_get_attribute(self.END_CUSTOMER_ORDER_VALUE, "value")
+            special_symbols = ['!', '@', '$', '%', '^', '&', '*']
+            for x in range(len(special_symbols)):
+                symbol = str(special_symbols[x])
+                if symbol in end_customer_order:
+                    end_customer_order = end_customer_order.replace(symbol, "")
+            self.logger.info(end_customer_order)
+            self.do_send_keys(self.END_CUSTOMER_ORDER_VALUE, end_customer_order)
+            self.do_click_by_locator(self.DATA_ERROR_ORDER_UPDATE_BUTTON)
+
+            reference_details_po_field_value = self.get_element_text(self.REFERENCE_DETAILS_PO_FIELD_VALUE)
+            reference_details_end_customer_order_field_value = self.get_element_text(
+                self.REFERENCE_DETAILS_END_CUSTOMER_ORDER_FIELD_VALUE)
+            if reseller_po == reference_details_po_field_value:
+                self.logger.info(
+                    "Successfully verified that updated PO number data is updated on Order Details page")
+                if end_customer_order == reference_details_end_customer_order_field_value:
+                    self.logger.info(
+                        "Successfully verified that updated End Customer Order number data is updated on Order Details page")
+                    return True
+                else:
+                    return False
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def do_verify_shipping_notes_edit_icon(self):
+        try:
+            time.sleep(3)
+            self.do_click_by_locator(self.BILLING_SHIPPING_TAB)
+            time.sleep(2)
+            self.do_check_visibility(self.SHIPPING_NOTES_EDIT_BUTTON)
+            return True
+        except Exception as e:
+            return False
+
+    def verify_contents_of_edit_shipping_notes(self):
+        try:
+            self.do_click_by_locator(self.SHIPPING_NOTES_EDIT_BUTTON)
+            edit_shipping_notes_title = 'Edit Shipping Notes'
+            edit_shipping_notes_cancel_button = 'CANCEL'
+            edit_shipping_notes_update_button = 'UPDATE'
+
+            assert edit_shipping_notes_title in self.get_element_text(
+                self.EDIT_SHIPPING_NOTES_POPUP_TITLE), "Edit Reference Numbers Title not present"
+
+            assert edit_shipping_notes_cancel_button in self.get_element_text(
+                self.SHIPPING_NOTES_CANCEL_BUTTON), "Shipping Notes CANCEL button is not present"
+
+            assert edit_shipping_notes_update_button in self.get_element_text(
+                self.SHIPPING_NOTES_UPDATE_BUTTON), "Shipping Notes UPDATE button is not present"
+
+            self.do_check_visibility(self.SHIPPING_NOTES_ClOSE_ICON_BUTTON)
+            self.do_check_visibility(self.EDIT_SHIPPING_NOTES_TEXT_AREA)
+            self.do_check_visibility(self.SHIPPING_NOTES_CHARACTER_COUNTER)
+            self.logger.info(
+                "Successfully verified Edit Shipping Notes Popup title, CANCEL, UPDATE button, X icon, Text area and character counter fields on popup")
+            return True
+        except Exception as e:
+            return False
+
+    def click_on_x_icon(self):
+        try:
+            self.do_click_by_locator(self.SHIPPING_NOTES_ClOSE_ICON_BUTTON)
+            return True
+        except Exception as e:
+            return False
+
+    def click_on_cancel_button(self):
+        try:
+            self.do_click_by_locator(self.SHIPPING_NOTES_EDIT_BUTTON)
+            self.do_click_by_locator(self.SHIPPING_NOTES_CANCEL_BUTTON)
+            return True
+        except Exception as e:
+            return False
+
+    def do_validate_maximum_limit_message(self):
+        try:
+            self.do_click_by_locator(self.SHIPPING_NOTES_EDIT_BUTTON)
+            maximum_limit_message = "You have exceeded the maximum number of 100 characters"
+            char_count = 100
+            random_str = ''.join(random.choices(string.ascii_uppercase, k=char_count))
+            print("The randomly generated string is : " + str(random_str))  # print the random data
+            self.do_send_keys(self.EDIT_SHIPPING_NOTES_TEXT_AREA, random_str)
+            assert maximum_limit_message in self.get_element_text(
+                self.SHIPPING_NOTES_MAXIMUM_LIMIT_MESSAGE), "Maximum limit message not present"
+            return True
+        except Exception as e:
+            return False
+
+    def do_validate_updated_shipping_notes_data(self):
+        try:
+            data = "Testing@#$%"
+            self.do_clear_textfield(self.EDIT_SHIPPING_NOTES_TEXT_AREA)
+            self.do_send_keys(self.EDIT_SHIPPING_NOTES_TEXT_AREA, data)
+            self.do_click_by_locator(self.SHIPPING_NOTES_UPDATE_BUTTON)
+            time.sleep(3)
+            shipping_notes_data = self.get_element_text(self.SHIPPING_NOTES_TEXT_AREA)
+            if data == shipping_notes_data:
+                self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+                self.logger.info("Successfully validate the updated shipping notes on Order Details page")
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def do_click_filter_icon(self):
+        try:
+            self.do_check_visibility(self.FILTER_ICON)
+            self.do_click_by_locator(self.FILTER_ICON)
+            self.logger.info("Successfully clicked on Filter Icon")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_filter_options(self):
+        try:
+            filter_title = 'Filters'
+            order_entry_method_option = 'Order entry method'
+            country_options = 'Country'
+            assert filter_title in self.get_element_text(self.FILTER_TITLE), "Filter title not present"
+            assert order_entry_method_option in self.get_element_text(
+                self.ORDER_ENTRY_METHOD_OPTION), "Order entry method option is not present"
+            assert country_options in self.get_element_text(self.COUNTRY_OPTION), "Country option is not present"
+            self.do_check_visibility(self.APPLY_BUTTON)
+            self.logger.info(
+                "Successfully verified Filter title, Order Entry Method, Country option and Apply button in Filter icon")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_order_entry_method_options_list(self):
+        try:
+            self.do_click_by_locator(self.ORDER_ENTRY_METHOD_DROPDOWN_BUTTON)
+            self.do_check_visibility(self.ORDER_ENTRY_METHOD_TEXTBOX)
+            self.do_click_by_locator(self.ORDER_ENTRY_METHOD_OPTION_SEE_MORE_LESS_BUTTON)
+            order_options = ['ACTO', 'AQ2O', 'ARNW', 'AWEB', 'G360', 'TCTO', 'TPLA', 'TQ2O', 'TREG', 'TRNW', 'TWEB',
+                             'XCTO', 'XPLA', 'XQ2O', 'XREG', 'XRNW', 'XWEB']
+            order_option_list = self.get_all_elements(self.ORDER_ENTRY_METHOD_OPTION_LIST)
+            order_option_method_list = []
+            for element in order_option_list:
+                self.logger.info(element.text)
+                text = element.text
+                order_option_method_list.append(text)
+            order_option_method_list.pop(0)
+            self.logger.info(order_option_method_list)
+            result = all(elem in order_options for elem in order_option_method_list)
+            if result:
+                self.logger.info("Successfully verified Order entry method options list")
+                self.do_click_by_locator(self.ORDER_ENTRY_METHOD_OPTION_SEE_MORE_LESS_BUTTON)
+                return True
+            else:
+                self.logger.info("Failed to verify Order entry method options list")
+                return False
+        except Exception as e:
+            return False
+
+    def do_verify_country_options_list(self):
+        try:
+            self.do_click_by_locator(self.COUNTRY_DROPDOWN_BUTTON)
+            self.do_click_by_locator(self.COUNTRY_OPTION_SEE_MORE_LESS_BUTTON)
+            country_options = ['Canada', 'France', 'Germany', 'India', 'Italy', 'Mexico', 'Spain', 'United Kingdom',
+                               'United States']
+            country_list = self.get_all_elements(self.COUNTRY_OPTION_LIST)
+            country_options_list = []
+            for element in country_list:
+                self.logger.info(element.text)
+                text = element.text
+                country_options_list.append(text)
+            result = all(elem in country_options for elem in country_options_list)
+            if result:
+                self.logger.info("Successfully verified Order entry method options list")
+                return True
+            else:
+                self.logger.info("Failed to verify Country options list")
+                return False
+        except Exception as e:
+            return False
+
+    def do_verify_clear_all_button(self):
+        try:
+            self.do_click_by_locator(self.SELECT_FIRST_COUNTRY)
+            self.do_check_visibility(self.HEADER_CLEAR_ALL_BUTTON)
+            self.do_check_visibility(self.BITTOM_CLEAR_ALL_BUTTON)
+            self.do_click_by_locator(self.BITTOM_CLEAR_ALL_BUTTON)
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_selected_options_ord_entry_mtd_on_header(self):
+        try:
+            self.do_click_by_locator(self.FILTER_ICON)
+            self.do_click_by_locator(self.ORDER_ENTRY_METHOD_DROPDOWN_BUTTON)
+            self.do_click_by_locator(self.SELECT_FIRST_ORDER_ENTRY_METHOD)
+            self.do_click_by_locator(self.SELECT_SECOND_ORDER_ENTRY_METHOD)
+
+            selected_option_list = self.get_all_elements(self.ORDER_ENTRY_METHOD_SELECTED_OPTION_LIST)
+            list1 = []
+            for element in selected_option_list:
+                self.logger.info(element.text)
+                text = element.text
+                list1.append(text)
+
+            order_entry_method_selected_list = self.get_all_elements(
+                self.ORDER_ENTRY_METHOD_HEADER_SELECTED_OPTION_LIST)
+            options_list = []
+            for element in order_entry_method_selected_list:
+                self.logger.info(element.text)
+                text = element.text
+                options_list.append(text)
+            result = all(elem in list1 for elem in options_list)
+            if result:
+                self.do_click_by_locator(self.BITTOM_CLEAR_ALL_BUTTON)
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def do_select_order_entry_method(self, order_entry_method):
+        try:
+            self.do_click_by_locator(self.ORDER_ENTRY_METHOD_DROPDOWN_BUTTON)
+            self.do_click_by_locator(self.ORDER_ENTRY_METHOD_OPTION_SEE_MORE_LESS_BUTTON)
+            element = "//span[text()='" + order_entry_method + "']"
+            order_entry_method_value_element = self.driver.find_element(By.XPATH, element)
+            self.do_click_by_locator(order_entry_method_value_element)
+            self.do_click_by_locator(self.APPLY_BUTTON)
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_update_data_grid_as_per_order_entry_method_filter(self, order_entry_method):
+        try:
+            time.sleep(5)
+            message = "No failed orders found."
+            if self.do_check_visibility(self.NO_FAILED_ORDER_FOUND_MESSAGE):
+                if message == (self.get_element_text(self.NO_FAILED_ORDER_FOUND_MESSAGE)):
+                    self.logger.info("Successfully verify updated grid as per country")
+                    return True
+                else:
+                    return False
+            elif self.get_all_elements(self.CHANNEL_ITEM_LIST):
+                channel_list = self.get_all_elements(self.CHANNEL_ITEM_LIST)
+                self.logger.info("length of Country list %s" % len(channel_list))
+                self.scroll()
+                channel_list = self.get_all_elements(self.CHANNEL_ITEM_LIST)
+                self.logger.info("length of Country list %s" % len(channel_list))
+                count = 0
+                for channel_item in channel_list:
+                    if str(order_entry_method) in channel_item.text:
+                        count = count + 1
+                    else:
+                        return False
+                if count == len(channel_list):
+                    return True
+                self.logger.info(f'Total number of Channel count is: {count}')
+        except Exception as e:
+            self.logger.error("Not able to validate Order Entry method")
+            return False
+
+    def do_select_country(self, country):
+        try:
+            self.do_click_by_locator(self.FILTER_ICON)
+            self.do_click_by_locator(self.HEADER_CLEAR_ALL_BUTTON)
+            self.do_click_by_locator(self.FILTER_ICON)
+            self.do_click_by_locator(self.COUNTRY_DROPDOWN_BUTTON)
+            self.do_click_by_locator(self.COUNTRY_OPTION_SEE_MORE_LESS_BUTTON)
+            element = "//span[text()='" + country + "']"
+            order_value_element = self.driver.find_element(By.XPATH, element)
+            self.do_click_by_locator(order_value_element)
+            self.do_click_by_locator(self.APPLY_BUTTON)
+            return True
+        except Exception as e:
+            return False
+
+    def scroll(self):
+        try:
+            actions = ActionChains(self.driver)
+            target = self.driver.find_element(By.XPATH,
+                                              "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-uw2ren-MuiDataGrid-virtualScrollerRenderZone']")
+            for s in range(2):
+                actions.send_keys_to_element(target, Keys.PAGE_DOWN).perform()
+            self.logger.info("Scrolled!")
+        except Exception as e:
+            print('error scrolling down web element', e)
+
+    def do_verify_update_data_grid_as_per_country_filter(self, country):
+        try:
+            message = "No failed orders found."
+            if message == (self.get_element_text(self.NO_FAILED_ORDER_FOUND_MESSAGE)):
+                self.logger.info("Successfully verify updated grid as per country")
+            else:
+                element = "//*[text()='Line items']"
+                line_items_element = self.driver.find_element(By.XPATH, element)
+                self.scroll_horizontally(line_items_element)
+
+                element = "//*[text()='Order revenue']"
+                order_revenue_element = self.driver.find_element(By.XPATH, element)
+                self.scroll_horizontally(order_revenue_element)
+
+                element = "//*[text()='Last order attempt date/time']"
+                last_order_attempt_date_element = self.driver.find_element(By.XPATH, element)
+                self.scroll_horizontally(last_order_attempt_date_element)
+                self.scroll_horizontally(last_order_attempt_date_element)
+
+                element = "//*[text()='Days aged']"
+                days_aged_element = self.driver.find_element(By.XPATH, element)
+                self.scroll_horizontally(days_aged_element)
+
+                element = "//*[text()='Retry attempt']"
+                retry_element = self.driver.find_element(By.XPATH, element)
+                self.scroll_horizontally(retry_element)
+
+                element = "//*[text()='Country']"
+                country_element = self.driver.find_element(By.XPATH, element)
+                self.scroll_horizontally(country_element)
+
+                country_list = self.get_all_elements(self.COUNTRY_ITEM_LIST)
+                self.logger.info("length of Country list %s" % len(country_list))
+                self.scroll()
+
+                country_list = self.get_all_elements(self.COUNTRY_ITEM_LIST)
+                self.logger.info("length of Country list %s" % len(country_list))
+                count = 0
+                for country_item in country_list:
+                    if str(country) in country_item.text:
+                        count = count + 1
+                    else:
+                        return False
+                if count == len(country_list):
+                    return True
+                self.logger.info(f'Total number of Reseller BCN count is: {count}')
+        except Exception as e:
+            self.logger.error("Not able to validate reseller bcn")
+            return False
+
+    def do_click_clear_all_button(self):
+        try:
+            self.do_click_by_locator(self.BITTOM_CLEAR_ALL_BUTTON)
+            self.logger.info("Successfully clicked on Clear all button")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on Clear all button ' + str(e))
+            return False
+
+    def do_select_option_from_ord_entry_method_and_country(self, order_entry_method, country):
+        try:
+            self.do_click_by_locator(self.ORDER_ENTRY_METHOD_DROPDOWN_BUTTON)
+            self.do_click_by_locator(self.ORDER_ENTRY_METHOD_OPTION_SEE_MORE_LESS_BUTTON)
+            element = "//span[text()='" + order_entry_method + "']"
+            order_entry_method_value_element = self.driver.find_element(By.XPATH, element)
+            self.do_click_by_locator(order_entry_method_value_element)
+
+            self.do_click_by_locator(self.COUNTRY_DROPDOWN_BUTTON)
+            self.do_click_by_locator(self.COUNTRY_OPTION_SEE_MORE_LESS_BUTTON)
+            element = "//span[text()='" + country + "']"
+            order_value_element = self.driver.find_element(By.XPATH, element)
+            self.do_click_by_locator(order_value_element)
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_selected_values_cleared_from_filter_header(self):
+        try:
+            self.do_click_by_locator(self.FILTER_ICON)
+            if not self.wait_till_element_is_not_available(self.ORDER_ENTRY_METHOD_HEADER_SELECTED_OPTION_LIST):
+                if not self.wait_till_element_is_not_available(self.COUNTRY_HEADER_SELECTED_OPTION_LIST):
+                    self.do_click_by_locator(self.FILTER_CLOSE_ICON)
+                    self.do_check_visibility(self.DATA_GRID_INFO)
+                    self.logger.info("Successfully Verified that Selected values should get cleared from filter header")
+                    return True
+                else:
+                    return False
+            else:
+                return False
+        except Exception as e:
             return False

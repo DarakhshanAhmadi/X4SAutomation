@@ -32,7 +32,11 @@ reseller_name String,
 end_user_name String,
 created_on String,
 filter_order_type String,
-filter_order_status String
+filter_order_status String,
+modify_reference_details_data_errors_order_id String,
+modify_shipping_notes_data_errors_order_id String,
+modify_vmf_details_data_errors_order_id String,
+modify_end_user_details_data_errors_order_id String
 );
 
 CREATE TABLE IF NOT EXISTS x4a_user_data(
