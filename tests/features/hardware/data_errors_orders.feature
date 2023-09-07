@@ -1,5 +1,6 @@
-@data_errors_orders @regression
+@data_errors_orders @regression @demo_regression
 Feature: Data Errors Orders
+
 
   @login
   Scenario: Login to X4A portal
