@@ -7,7 +7,7 @@ Feature: Data Errors Orders
     Then provide user ID and Password to login
     When the user traverse to Error Order menu
 
-#  EDT-9280
+#  EDT-9280/OMS-784
   @resubmit_order_popup
   Scenario: Verify resubmit order popup
     Given the error order is created via api
@@ -20,7 +20,7 @@ Feature: Data Errors Orders
     When Click on Review button
     Then Verify Order Details page opened
 
-#  EDT-9280
+#  EDT-9280/OMS-784
   @after_resubmitted_order_not_present_in_error_data_list
   Scenario: Verify Order not present in list after successfully resubmitted
     When Resubmit Order Button clicked
