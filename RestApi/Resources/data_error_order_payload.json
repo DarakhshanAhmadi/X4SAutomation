@@ -1,7 +1,7 @@
 {
   "customerOrderNumber": "PO TEST37^",
   "purchaseOrderDate": null,
-  "endCustomerOrderNumber": "TEST PO",
+  "endCustomerOrderNumber": "TEST PO^",
   "billToAddressId": "000",
   "specialBidNumber": null,
   "notes": null,
