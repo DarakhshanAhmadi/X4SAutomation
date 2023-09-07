@@ -1,7 +1,7 @@
 @sales_orders @regression
 Feature: Sales Orders
 
-  @login
+  @login @test
   Scenario: Login to X4A portal
     Given launch chrome browser and open the X4A url
     Then provide user ID and Password to login
