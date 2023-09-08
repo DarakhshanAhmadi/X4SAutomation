@@ -15,8 +15,8 @@ class X4ASalesOrdersPage(BasePage):
 
     """Sales Orders Page"""
 
-    ORDER_MENU = (By.XPATH, "//*[@data-testid='orders-MenuItem']")
-    SALES_ORDER_OPTION = (By.XPATH, "//*[text()='Sales Orders']")
+    SALES_MENU = (By.XPATH, "//*[@data-testid='sales-MenuItem']")
+    SALES_ORDER_OPTION = (By.XPATH, "//*[text()='Order Management']")
     SEARCH_BOX = (By.ID, "search")
     SEARCH_BOX_SEARCH_ICON = (By.XPATH, "//*[@data-testid='SearchIcon']")
     ORDER_BCN_ITEM_LIST = (By.XPATH,
@@ -93,6 +93,14 @@ class X4ASalesOrdersPage(BasePage):
     LINK_CLOSE_BUTTON = (By.XPATH, "//button[text()='Close']")
     ORDER_VALUE_SORT = (By.XPATH, "//*[text()='Order value']")
     FILTER_CREATED_ON_LIST = (By.XPATH, "//div[@data-testid='CreatedOn-accordionData']/div/label/span[2]")
+    ORDER_DETAILS_STATUS = (By.XPATH, "//*[@id='orderDetails']//*[contains(@class,'MuiChip-label')]")
+    CANCEL_ORDER_BTN = (By.XPATH, "//*[text()='Cancel Order']")
+    CANCEL_ORDER_ALERT_TITLE = (By.XPATH, "//*[@id='alert-dialog-title']")
+    CANCEL_ORDER_ALERT_CONFIRMATION = (By.XPATH, "//*[@id='alert-dialog-description']")
+    CONFIRM_CANCEL_ORDER = (By.XPATH, "//*[text()='Yes, Cancel Order']")
+    DEFER_CANCEL_ORDER = (By.XPATH, "//*[text()='No, Keep Order']")
+    SUCCESS_TOAST_NOTIFICATION = (By.XPATH, "//*[contains(@class, 'MuiAlert-message')]")
+
     """Order Details page"""
 
     ORDER_DETAILS_TAB = (By.XPATH, "//button/div/div[text()='Order Details']")
@@ -199,7 +207,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def go_to_sales_orders(self):
         try:
-            self.do_click_by_locator(self.ORDER_MENU)
+            self.do_click_by_locator(self.SALES_MENU)
             self.do_double_click(self.SALES_ORDER_OPTION)
             self.logger.info("Clicked on Sales Orders in the menu")
         except Exception as e:
@@ -2008,3 +2016,67 @@ class X4ASalesOrdersPage(BasePage):
             self.logger.error("Exception occurred verifying Created On" + str(e))
             raise e
 
+    def order_status_validate(self, status):
+        try:
+            self.driver.refresh()
+            self.driver.refresh()
+            if self.get_element_text(self.ORDER_DETAILS_STATUS) == status:
+                self.logger.info("Order status is validated successfully")
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error('Exception occurred while Click on Billing tab ' + str(e))
+            return False
+
+    def verify_cancel_order_button(self):
+        try:
+            if self.is_present(self.CANCEL_ORDER_BTN):
+                self.logger.info("Cancel order button is displayed")
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying cancel order button ' + str(e))
+            return False
+
+    def click_cancel_order_btn(self):
+        try:
+            self.do_click_by_locator(self.CANCEL_ORDER_BTN)
+            self.logger.info("Successfully Clicked On cancel order button")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on cancel order button ' + str(e))
+            return False
+
+    def validate_cancel_order_alert_elements(self):
+        try:
+            if self.get_element_text(self.CANCEL_ORDER_ALERT_TITLE) == "Cancel Order" and self.get_element_text(
+                    self.CANCEL_ORDER_ALERT_CONFIRMATION) == "Are you sure to cancel order? Order will be cancelled permanently, and you can not undo this action." and self.get_element_text(
+                    self.DEFER_CANCEL_ORDER) == "No, Keep Order" and self.get_element_text(
+                    self.CONFIRM_CANCEL_ORDER) == "Yes, Cancel Order":
+                self.logger.info("Successfully verified cancel order alert elements")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying cancel order alert elements ' + str(e))
+            return False
+
+    def cancel_order_click(self):
+        try:
+            self.do_click_by_locator(self.CONFIRM_CANCEL_ORDER)
+            self.logger.info("Successfully Clicked On cancel order confirmation button")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on cancel order confirmation button ' + str(e))
+            return False
+
+    def validate_toast_notification(self):
+        try:
+            if self.get_element_text(self.SUCCESS_TOAST_NOTIFICATION) == "Cancelled! order was successfully cancelled.":
+                self.logger.info("Toast notification message is validated successfully")
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error('Exception occurred while validating toast notification ' + str(e))
+            return False

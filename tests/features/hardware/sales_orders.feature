@@ -1,7 +1,7 @@
 @sales_orders @regression
 Feature: Sales Orders
 
-  @login @test
+  @login
   Scenario: Login to X4A portal
     Given launch chrome browser and open the X4A url
     Then provide user ID and Password to login
@@ -165,6 +165,20 @@ Feature: Sales Orders
   Scenario: Verify filter by Created On
     When Filter by Created On
     Then Validate the Created On is listed
+
+  # EDT-10730
+  @void_entire_order
+  Scenario: Verify customer hold cancel order
+    When search a order with specific IM Order number
+    Then Validate the IM Order number is listed
+    When Click on searched IM order number
+    When Verify order status is "Customer Hold(IM)"
+    Then Validate cancel order button is displayed
+    Then Click on cancel order button
+    Then Verify the elements displayed on cancel order alert
+    Then Cancel the order
+    Then Verify success toast notification is displayed
+    When Verify order status is "VOIDED"
 
   @logout
   Scenario: logout X4A
