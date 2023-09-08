@@ -1,5 +1,6 @@
 from CommonUtilities.logGeneration import LogGenerator
 from db.model.X4AUserData import X4AUserData
+from db.model.X4AbulkOrderData import X4AbulkOrderData
 from db.model.X4AinputOrder import X4AInputOrder
 
 
@@ -42,3 +43,18 @@ class PrepareObject:
                                         test_data.get("Associate_Roles"),
                                         test_data.get("Associate_Countries"))
         return x4a_user_data_obj
+
+    def prepare_x4a_bulk_order_data_obj(self, test_data):
+        x4a_bulk_order_data_obj = X4AbulkOrderData(test_data.get("FeatureFileName"),
+                                                   test_data.get("Scenario"),
+                                                   test_data.get("Operator_ID"),
+                                                   test_data.get("Country_Code"),
+                                                   test_data.get("Customer_Branch_and_Number"),
+                                                   test_data.get("Reseller_PO"),
+                                                   test_data.get("Carrier_Code"),
+                                                   test_data.get("Order_Type"),
+                                                   test_data.get("Header_Comment_1"),
+                                                   test_data.get("Header_Comment_2"),
+                                                   test_data.get("Ingram_SKU"),
+                                                   test_data.get("Qty"))
+        return x4a_bulk_order_data_obj

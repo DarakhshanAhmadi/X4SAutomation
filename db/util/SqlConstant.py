@@ -36,12 +36,19 @@ class SqlConstant:
 
     X4A_USER_DATA_BY_FEATURE_FILE_SQL_QUERY = "SELECT * from x4a_user_data"
 
+    X4A_BULK_ORDER_SCENARIO_SQL_QUERY = "INSERT INTO x4a_bulk_order_data(feature_file_name, Scenario, Operator_ID, " \
+                                        "Country_Code, Customer_Branch_and_Number, " \
+                                        "Reseller_PO, Carrier_Code, Order_Type, Header_Comment_1, " \
+                                        "Header_Comment_2, Ingram_SKU, Qty)" \
+                                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+
+    X4A_BULK_ORDER_DATA_BY_FEATURE_FILE_SQL_QUERY = "SELECT * from x4a_bulk_order_data"
+
     X4A_INPUT_GET_ORDER_TEST_CASE_RECORD_SQL_QUERY = "SELECT * FROM x4a_input_order where feature_file_name=?"
 
     X4A_GET_ORDER_TYPE_BY_FEATURE_FILE_NAME_SQL_QUERY = "SELECT order_type FROM x4a_input_order where feature_file_name =?"
 
     X4A_UPDATE_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY = "Update x4a_input_order set data_errors_resubmit_order_confirmation_id = ? where feature_file_name= ?"
-
     X4A_UPDATE_MODIFY_REFERENCE_DETAILS_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY = "Update x4a_input_order set modify_reference_details_data_errors_order_id = ? where feature_file_name= ?"
 
     X4A_UPDATE_MODIFY_SHIPPING_NOTES_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY = "Update x4a_input_order set modify_shipping_notes_data_errors_order_id = ? where feature_file_name= ?"
