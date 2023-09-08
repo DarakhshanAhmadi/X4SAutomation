@@ -1223,3 +1223,107 @@ class ValidateErrorOrdersData:
         except Exception as e:
             self.logger.exception(e)
             return False
+
+    def is_vmf_details_edit_icon_visible(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_vmf_details_edit_icon():
+                self.logger.error("Failed to verify Edit icon display beside VMF Details")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_data_error_vmf_details_edit_icon_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Verified Edit icon display beside VMF Details")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_data_error_vmf_details_edit_icon_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_contents_of_edit_vmf_details(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_contents_of_edit_vmf_details():
+                self.logger.error("Failed to verify contents of Edit VMF Details popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_contents_of_edit_vmf_details_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified contents of Edit VMF Details popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_contents_of_edit_vmf_details_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_attribute_value_allow_special_character(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_attribute_value_allow_special_characters():
+                self.logger.error("Failed to Verify Attribute value should allow special characters")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_attribute_value_allow_special_charcter_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified Attribute value should allow special characters")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_attribute_value_allow_special_charcter_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_validate_vmf_saved_data(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_validate_vmf_saved_data():
+                self.logger.error("Failed to verify saved data on orders details page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_validate_vmf_saved_data_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified saved data on orders details page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_validate_vmf_saved_data_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_validate_vmf_data_not_saved(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_validate_vmf_data_not_saved():
+                self.logger.error("Failed to Verify that VMF entered data should not get saved after click on X icon")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_validate_vmf_data_not_saved_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified VMF entered data should not get saved after click on X icon")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_validate_vmf_data_not_saved_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_validate_modified_vmf_data_not_updated(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_validate_modified_vmf_data_not_updated():
+                self.logger.error(
+                    "Failed to Verify that modified VMF data should not get updated on order details page after click on Cancel button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_validate_modified_vmf_data_not_updated_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully verified that modified VMF data should not get updated on order details page after click on Cancel button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_validate_modified_vmf_data_not_updated_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
