@@ -43,8 +43,8 @@ def pytest_bdd_step_error(request, feature, scenario, step, step_func, step_func
 
 def pytest_configure(config):
     config._metadata["Project Name"] = "Automatic Data Creator (ACDC)"
-    config._metadata["Designed By"] = "XVS QA Team"
-    config._metadata["Tester"] = "XVS QA Team "
+    config._metadata["Designed By"] = "X4S Regression QA Team"
+    config._metadata["Tester"] = "X4S Regression QA Team "
     config._metadata["version"] = "2.0"
 
 

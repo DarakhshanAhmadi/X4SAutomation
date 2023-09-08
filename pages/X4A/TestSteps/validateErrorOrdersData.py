@@ -384,7 +384,7 @@ class ValidateErrorOrdersData:
                                             + "_click_fraud_reprocess_order_button_failed.png")
                 return False
             else:
-                self.logger.info("Successfully ,clicked the 3cancel button")
+                self.logger.info("Successfully ,clicked the cancel button")
                 self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                                             + "_click_fraud_reprocess_order_button_successfully.png")
                 return True
@@ -432,10 +432,10 @@ class ValidateErrorOrdersData:
             if not x4a_error_order.do_verify_order_details_page():
                 self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
                                             "_order_details_page_verify_error.png")
-                self.logger.error("Error while verifing Reprocess order popup is closed  and Order Details Page shown")
+                self.logger.error("Error while verifing Order Details Page shown")
                 return False
             else:
-                self.logger.info("Successfully verified Reprocess order popup is closed  and Order Details Page shown")
+                self.logger.info("Successfully verified Order Details Page shown")
                 self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                                             + "_order_details_page_verify_successfully.png")
                 return True
@@ -727,6 +727,602 @@ class ValidateErrorOrdersData:
                 self.logger.info("Successfully verified that Data error  Order should not be there in list")
                 self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                                             + "_order_not_present_in_list_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def is_reference_details_edit_icon_visible(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_reference_details_edit_icon():
+                self.logger.error("Failed to verify Edit icon display beside Reference Details title")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_data_error_reference_details_edit_icon_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Verified Edit icon display beside Reference Details title")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_data_error_reference_details_edit_icon_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_contents_of_edit_reference_details(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_contents_of_edit_reference_details():
+                self.logger.error("Failed to verify contents of Edit Reference Details popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_contents_of_edit_reference_details_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified contents of Edit Reference Details popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_contents_of_edit_reference_details_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_more_than_eighteen_char_in_po_field(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_more_than_eighteen_char_in_po_field():
+                self.logger.error("Failed to Verify PO # textbox should not allow entering more than 18 characters")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_more_than_eighteen_char_in_po_field_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Verified PO # textbox should not allow entering more than 18 characters")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_more_than_eighteen_char_in_po_field_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_po_number_invalid_message(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_po_number_invalid_message():
+                self.logger.error("Failed to Verify PO number is invalid once add this ^ special character")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_po_number_invalid_message_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Verified PO number is invalid once add this ^ special character")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_po_number_invalid_message_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_more_than_eighteen_char_in_end_customer_order_field(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_more_than_eighteen_char_in_end_customer_order_field():
+                self.logger.error(
+                    "Failed to Verify End customer order # textbox should not allow entering more than 18 characters")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_more_than_eighteen_char_in_end_customer_order_field_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified End customer order # textbox should not allow entering more than 18 characters")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_more_than_eighteen_char_in_end_customer_order_field_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_end_customer_order_number_invalid_message(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_end_customer_order_number_invalid_message():
+                self.logger.error(
+                    "Failed to Verify End customer order number is invalid once add this ^ special character")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_end_customer_order_number_invalid_message_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified End customer order number is invalid once add this ^ special character")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_end_customer_order_number_invalid_message_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_modified_data_after_click_on_x_icon(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_modified_data_after_click_on_x_icon():
+                self.logger.error(
+                    "Failed to Click on X icon then verify that modified data should not get updated on order details page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_modified_data_after_click_on_x_icon_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Clicked on X icon then verified that modified data should not get updated on order details page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_modified_data_after_click_on_x_icon_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_modified_data_after_click_on_cancel_button(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_modified_data_after_click_on_cancel_button():
+                self.logger.error(
+                    "Failed to Click on cancel button then verify that modified data should not get updated on order details page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_modified_data_after_click_on_cancel_button_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Clicked on cancel button then verified that modified data should not get updated on order details page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_modified_data_after_click_on_cancel_button_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_updated_po_and_end_customer_order_data(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_updated_po_and_end_customer_order_data():
+                self.logger.error(
+                    "Failed to Update PO and End customer order number with valid data then validate updated data on order details page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_updated_po_and_end_customer_order_data_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Updateed PO and End customer order number with valid data then validated updated data on order details page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_updated_po_and_end_customer_order_data_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def is_shipping_notes_edit_icon_visible(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_shipping_notes_edit_icon():
+                self.logger.error("Failed to verify Edit icon display beside Shipping Notes")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_data_error_shipping_notes_edit_icon_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Verified Edit icon display beside Shipping Notes")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_data_error_shipping_notes_edit_icon_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_contents_of_edit_shipping_notes(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_contents_of_edit_shipping_notes():
+                self.logger.error("Failed to verify contents of Edit Shipping Notes popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_contents_of_edit_reference_details_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified contents of Edit Shipping Notes popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_contents_of_edit_reference_details_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def click_on_x_icon(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.click_on_x_icon():
+                self.logger.error("Failed to verify to click on X icon")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_click_x_icon_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified to click on X icon")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_x_icon_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def click_on_cancel_button(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.click_on_cancel_button():
+                self.logger.error("Failed to verify to click on Cancel button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_click_cancel_button_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified to click on Cancel button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_cancel_button_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_validate_maximum_limit_message(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_validate_maximum_limit_message():
+                self.logger.error("Failed to Add the more 100 characters and validate message for maximum limit")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_validate_max_limit_message_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Added the more 100 characters and validated message for maximum limit")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_validate_max_limit_message_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_validate_updated_shipping_notes_data(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_validate_updated_shipping_notes_data():
+                self.logger.error(
+                    "Failed to Update shipping notes with special characters and validate updated data should get display under shipping notes")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_validate_updated_shipping_notes_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Update shipping notes with special characters and validate updated data should get display under shipping notes")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_validate_updated_shipping_notes_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_filter_icon(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_filter_icon():
+                self.logger.error("Failed to Click on Filter Icon")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_click_filter_icon_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully clicked the Filter Icon")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_filter_icon_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_filter_options(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_filter_options():
+                self.logger.error("Failed to verify Filter Options")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_filter_options_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verify Filter Options")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_filter_options_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_order_entry_method_options_list(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_order_entry_method_options_list():
+                self.logger.error("Failed to verify Order entry method options list")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_order_entry_method_options_list_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified Order entry method options list")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_order_entry_method_options_list_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_country_options_list(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_country_options_list():
+                self.logger.error("Failed to verify Country options list")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_country_options_list_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified Country options list")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_country_options_list_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_clear_all_button(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_clear_all_button():
+                self.logger.error("Failed to verify after selected any option clear all button should display")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_clear_all_button_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified after selected any option clear all button should display")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_clear_all_button_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_selected_options_ord_entry_mtd_on_header(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_selected_options_ord_entry_mtd_on_header():
+                self.logger.error(
+                    "Failed to verify Selected multiple order entry method options should get display in header")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_selected_ord_entry_mtd_options_on_header_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully verified Selected multiple order entry method options should get display in header")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_selected_ord_entry_mtd_options_on_header_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_select_order_entry_method(self, feature_file_name, order_entry_method):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_select_order_entry_method(order_entry_method):
+                self.logger.error("Failed to Select any option from Order Entry Method dropdown list")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_selected_order_entry_method_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Selected any option from Order Entry Method dropdown list")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_selected_order_entry_method_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_update_data_grid_as_per_order_entry_method_filter(self, feature_file_name, order_entry_method):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_update_data_grid_as_per_order_entry_method_filter(order_entry_method):
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_updated_data_grid_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Data in grid should get updated as per selected Order Entry Method filter if no data found for selected value No orders found message should display")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_updated_data_grid_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_select_country(self, feature_file_name, country):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_select_country(country):
+                self.logger.error("Failed to Select any option from Country dropdown list")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_selected_country_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Selected any option from Country dropdown list")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_selected_country_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_update_data_grid_as_per_country_filter(self, feature_file_name, country):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_update_data_grid_as_per_country_filter(country):
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_updated_data_grid_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Data in grid should get updated as per selected country filter if no data found for selected value No orders found message should display")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_updated_data_grid_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_clear_all_button(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_clear_all_button():
+                self.logger.error("Failed to click on Clear all Button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_click_clear_all_button_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully clicked Clear all button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_clear_all_button_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_select_option_from_ord_entry_method_and_country(self, feature_file_name, order_entry_method, country):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_select_option_from_ord_entry_method_and_country(order_entry_method, country):
+                self.logger.error("Failed to Select any option from Order Entry Method and Country dropdown list")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_select_option_from_ord_entry_method_and_country_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Selected any option from Order Entry Method and Country dropdown list")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_select_option_from_ord_entry_method_and_country_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_selected_values_cleared_from_filter_header(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_selected_values_cleared_from_filter_header():
+                self.logger.error(
+                    "Failed to verify Selected values should get cleared from filter header and all data should get loaded in grid")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_selected_values_cleared_from_filter_header_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified Selected values should get cleared from filter header and all data should get loaded in grid")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_selected_values_cleared_from_filter_header_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def is_vmf_details_edit_icon_visible(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_vmf_details_edit_icon():
+                self.logger.error("Failed to verify Edit icon display beside VMF Details")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_data_error_vmf_details_edit_icon_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Verified Edit icon display beside VMF Details")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_data_error_vmf_details_edit_icon_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_contents_of_edit_vmf_details(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_contents_of_edit_vmf_details():
+                self.logger.error("Failed to verify contents of Edit VMF Details popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_contents_of_edit_vmf_details_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified contents of Edit VMF Details popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_contents_of_edit_vmf_details_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_attribute_value_allow_special_character(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_attribute_value_allow_special_characters():
+                self.logger.error("Failed to Verify Attribute value should allow special characters")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_attribute_value_allow_special_charcter_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified Attribute value should allow special characters")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_attribute_value_allow_special_charcter_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_validate_vmf_saved_data(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_validate_vmf_saved_data():
+                self.logger.error("Failed to verify saved data on orders details page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_validate_vmf_saved_data_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified saved data on orders details page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_validate_vmf_saved_data_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_validate_vmf_data_not_saved(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_validate_vmf_data_not_saved():
+                self.logger.error("Failed to Verify that VMF entered data should not get saved after click on X icon")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_validate_vmf_data_not_saved_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified VMF entered data should not get saved after click on X icon")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_validate_vmf_data_not_saved_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_validate_modified_vmf_data_not_updated(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_validate_modified_vmf_data_not_updated():
+                self.logger.error(
+                    "Failed to Verify that modified VMF data should not get updated on order details page after click on Cancel button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_validate_modified_vmf_data_not_updated_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully verified that modified VMF data should not get updated on order details page after click on Cancel button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_validate_modified_vmf_data_not_updated_successfully.png")
                 return True
         except Exception as e:
             self.logger.exception(e)
