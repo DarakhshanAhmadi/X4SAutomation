@@ -689,6 +689,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def click_on_billing_tab(self):
         try:
+            time.sleep(5)
             self.do_click_by_locator(self.BILLING_TAB)
             self.logger.info("Successfully Clicked Billing tab")
             return True
@@ -698,6 +699,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def click_on_order_details_tab(self):
         try:
+            time.sleep(5)
             self.do_click_by_locator(self.ORDER_DETAILS_TAB)
             self.logger.info("Successfully Clicked Order Details tab")
             return True
@@ -922,9 +924,11 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_address_end_user_field_visible(self, end_user_addr):
         try:
-            addr = self.get_element_text(self.END_USER_ADDRESS_FIElD)
-            if str(addr) == '':
-                addr = addr.replace("", ".")
+            address = self.get_element_text(self.END_USER_ADDRESS_FIElD)
+            if str(address) == '':
+                addr = address.replace("", ".")
+            else:
+                addr = address.replace("\n", " ")
             assert str(addr) == str(end_user_addr)
             self.logger.info("Successfully verified Address field under End User info")
             return True
@@ -1435,7 +1439,7 @@ class X4ASalesOrdersPage(BasePage):
                 order_type_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='orderTypeName']")
                 try:
-                    ui_order_type = self.get_element_text(order_type_xpath)
+                    ui_order_type = self.get_element_text_for_filter(order_type_xpath)
                     self.logger.info("Fetched ui order type :" + str(ui_order_type))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
@@ -1509,7 +1513,7 @@ class X4ASalesOrdersPage(BasePage):
                 bcn_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='customerNumber']")
                 try:
-                    ui_bcn = self.get_element_text(bcn_xpath)
+                    ui_bcn = self.get_element_text_for_filter(bcn_xpath)
                     self.logger.info("Fetched ui bcn account :" + str(ui_bcn))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
@@ -1573,7 +1577,7 @@ class X4ASalesOrdersPage(BasePage):
                 reseller_po_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='customerOrderNumber']")
                 try:
-                    ui_reseller_po = self.get_element_text(reseller_po_xpath)
+                    ui_reseller_po = self.get_element_text_for_filter(reseller_po_xpath)
                     self.logger.info("Fetched ui reseller po :" + str(ui_reseller_po))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
@@ -1637,7 +1641,7 @@ class X4ASalesOrdersPage(BasePage):
                 reseller_name_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='customerName']")
                 try:
-                    ui_reseller_name = self.get_element_text(reseller_name_xpath)
+                    ui_reseller_name = self.get_element_text_for_filter(reseller_name_xpath)
                     self.logger.info("Fetched ui reseller name :" + str(ui_reseller_name))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
@@ -1702,7 +1706,7 @@ class X4ASalesOrdersPage(BasePage):
                 vendor_name_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='vendorName']")
                 try:
-                    ui_vendor_name = self.get_element_text(vendor_name_xpath)
+                    ui_vendor_name = self.get_element_text_for_filter(vendor_name_xpath)
                     self.logger.info("Fetched ui Vendor name :" + str(ui_vendor_name))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
@@ -1776,7 +1780,7 @@ class X4ASalesOrdersPage(BasePage):
                 end_user_name_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='firstEndUserName']")
                 try:
-                    ui_end_user_name = self.get_element_text(end_user_name_xpath)
+                    ui_end_user_name = self.get_element_text_for_filter(end_user_name_xpath)
                     self.logger.info("Fetched ui end user name :" + str(ui_end_user_name))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
@@ -1837,6 +1841,7 @@ class X4ASalesOrdersPage(BasePage):
                     element = "//div[@data-id=0]/div[@data-colindex=6]"
                     order_value_element = self.driver.find_element(By.XPATH, element)
                     self.scroll_horizontally(order_value_element)
+                    time.sleep(3)
                     element = "//div[@class='MuiDataGrid-row'] [@data-id='" + str(i) + "']/div[@data-field='orderStatus']"
                     order_status_element = self.driver.find_element(By.XPATH, element)
                     self.scroll_horizontally(order_status_element)
@@ -1848,7 +1853,7 @@ class X4ASalesOrdersPage(BasePage):
                 order_status_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='orderStatus']")
                 try:
-                    ui_order_status = self.get_element_text(order_status_xpath)
+                    ui_order_status = self.get_element_text_for_filter(order_status_xpath)
                     self.logger.info("Fetched ui order status :" + str(ui_order_status))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
@@ -1921,7 +1926,7 @@ class X4ASalesOrdersPage(BasePage):
                 order_value_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='orderTotalValue']")
                 try:
-                    ui_order_value = self.get_element_text(order_value_xpath)
+                    ui_order_value = self.get_element_text_for_filter(order_value_xpath)
                     self.logger.info("Fetched ui order value :" + str(ui_order_value))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
@@ -1979,10 +1984,12 @@ class X4ASalesOrdersPage(BasePage):
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
             self.logger.info("Max items per page: " + max_rows)
             for i in range(int(max_rows)):
+                # breakpoint()
                 if i == 0:
                     element = "//div[@data-id=0]/div[@data-colindex=6]"
                     order_value_element = self.driver.find_element(By.XPATH, element)
                     self.scroll_horizontally(order_value_element)
+                    time.sleep(3)
                     element = "//div[@class='MuiDataGrid-row'] [@data-id='" + str(i) + "']/div[@data-field='orderCreateDate']"
                     order_status_element = self.driver.find_element(By.XPATH, element)
                     self.scroll_horizontally(order_status_element)
@@ -1994,7 +2001,7 @@ class X4ASalesOrdersPage(BasePage):
                 created_on_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='orderCreateDate']")
                 try:
-                    ui_created_on = self.get_element_text(created_on_xpath).split(" ")[0]
+                    ui_created_on = self.get_element_text_for_filter(created_on_xpath).split(" ")[0]
                     self.logger.info("Fetched ui Created On :" + str(ui_created_on))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
