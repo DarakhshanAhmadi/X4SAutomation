@@ -148,6 +148,26 @@ class X4AErrorOrdersPage(BasePage):
     FILTER_CLOSE_ICON = (
         By.XPATH, "//*[text()='Filters']/parent::div/following-sibling::div/button/*[@data-testid='CloseIcon']")
 
+    """VMF Details"""
+
+    VMF_DETAILS_EDIT_BUTTON = (
+        By.XPATH, "//*[text()='VMF Details']/*[@data-testid='ModeEditOutlineOutlinedIcon']")
+    EDIT_VMF_DETAILS_POPUP_TITLE = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/p")
+    VMF_DETAILS_CANCEL_BUTTON = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/../div[3]/button[1]")
+    VMF_DETAILS_UPDATE_BUTTON = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/../div[3]/button[2]")
+    VMF_DETAILS_ClOSE_ICON_BUTTON = (By.XPATH, "//*[@data-testid='CloseIcon']")
+    VMF_DETAILS_ATTRIBUTE_VALUE = (By.XPATH, "//*[text()='Attribute value']")
+    VMF_DETAILS_ATTRIBUTE_NAME = (By.XPATH, "//*[text()='Attribute name']")
+    SHIP_CONTACT_PHONE = (
+        By.XPATH, "//*[@value='shipctacphone']/parent::div/../../following-sibling::div/div/div/input")
+    SHIP_CONTACT_EMAIL = (
+        By.XPATH, "//*[@value='shipctacemail']/parent::div/../../following-sibling::div/div/div/input")
+    RESELLER_CONTACT_EMAIL = (
+        By.XPATH, "//*[@value='resellerctacemail']/parent::div/../../following-sibling::div/div/div/input")
+    VMF_SHIP_CONTACT_PHONE = (By.XPATH, "//*[text()='shipctacphone']/following-sibling::div")
+    VMF_SHIP_CONTACT_EMAIL = (By.XPATH, "//*[text()='shipctacemail']/following-sibling::div")
+    VMF_RESELLER_CONTACT_EMAIL = (By.XPATH, "//*[text()='resellerctacemail']/following-sibling::div")
+
     def go_to_error_orders(self):
         try:
             self.do_click_by_locator(self.SALES_MENU)
@@ -1173,6 +1193,139 @@ class X4AErrorOrdersPage(BasePage):
                     return True
                 else:
                     return False
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def do_verify_vmf_details_edit_icon(self):
+        try:
+            time.sleep(3)
+            self.do_check_visibility(self.VMF_DETAILS_EDIT_BUTTON)
+            return True
+        except Exception as e:
+            return False
+
+    def verify_contents_of_edit_vmf_details(self):
+        try:
+            self.do_click_by_locator(self.VMF_DETAILS_EDIT_BUTTON)
+            edit_vmf_details_title = 'Edit VMF Details'
+            edit_vmf_details_cancel_button = 'CANCEL'
+            edit_vmf_details_update_button = 'UPDATE'
+
+            assert edit_vmf_details_title in self.get_element_text(
+                self.EDIT_VMF_DETAILS_POPUP_TITLE), "Edit VMF Details Title not present"
+
+            assert edit_vmf_details_cancel_button in self.get_element_text(
+                self.VMF_DETAILS_CANCEL_BUTTON), "VMF Details CANCEL button is not present"
+
+            assert edit_vmf_details_update_button in self.get_element_text(
+                self.VMF_DETAILS_UPDATE_BUTTON), "VMF Details UPDATE button is not present"
+
+            self.do_check_visibility(self.VMF_DETAILS_ClOSE_ICON_BUTTON)
+            self.do_check_visibility(self.VMF_DETAILS_ATTRIBUTE_VALUE)
+            self.do_check_visibility(self.VMF_DETAILS_ATTRIBUTE_NAME)
+
+            self.logger.info(
+                "Successfully verified Edit VMF Details Popup title, CANCEL, UPDATE button, X icon, Attribute Name and Attribute value fields on popup")
+            return True
+        except Exception as e:
+            return False
+
+    def verify_attribute_value_allow_special_characters(self):
+        try:
+            special_char = '#$%@^%$'
+            self.do_clear_textfield(self.SHIP_CONTACT_PHONE)
+            self.do_send_keys(self.SHIP_CONTACT_PHONE, special_char)
+            abc = self.do_get_attribute(self.SHIP_CONTACT_PHONE, "value")
+            assert special_char in self.do_get_attribute(self.SHIP_CONTACT_PHONE,
+                                                         "value"), "Attribute value not allowed special Characters"
+
+            return True
+        except Exception as e:
+            return False
+
+    def do_validate_vmf_saved_data(self):
+        try:
+            ship_contact_phone = '77769823'
+            ship_contact_email = 'TEST@GMAIL.COM'
+            reseller_contact_email = 'TEST@INGRAMMICRO.COM'
+            self.do_clear_textfield(self.SHIP_CONTACT_PHONE)
+            self.do_send_keys(self.SHIP_CONTACT_PHONE, ship_contact_phone)
+            self.do_clear_textfield(self.SHIP_CONTACT_EMAIL)
+            self.do_send_keys(self.SHIP_CONTACT_EMAIL, ship_contact_email)
+            self.do_clear_textfield(self.RESELLER_CONTACT_EMAIL)
+            self.do_send_keys(self.RESELLER_CONTACT_EMAIL, reseller_contact_email)
+
+            self.do_click_by_locator(self.VMF_DETAILS_UPDATE_BUTTON)
+
+            assert ship_contact_phone in self.get_element_text(
+                self.VMF_SHIP_CONTACT_PHONE), "Ship Contact Phone is not updated"
+
+            assert ship_contact_email in self.get_element_text(
+                self.VMF_SHIP_CONTACT_EMAIL), "Ship Contact Email is not updated"
+
+            assert reseller_contact_email in self.get_element_text(
+                self.VMF_RESELLER_CONTACT_EMAIL), "Reseller Contact Email is not updated"
+            return True
+        except Exception as e:
+            return False
+
+    def do_validate_vmf_data_not_saved(self):
+        try:
+            self.do_click_by_locator(self.VMF_DETAILS_EDIT_BUTTON)
+
+            ship_contact_phone = '987654'
+            ship_contact_email = 'TEST123@GMAIL.COM'
+            reseller_contact_email = 'TESTING@INGRAMMICRO.COM'
+            self.do_clear_textfield(self.SHIP_CONTACT_PHONE)
+            self.do_send_keys(self.SHIP_CONTACT_PHONE, ship_contact_phone)
+            self.do_clear_textfield(self.SHIP_CONTACT_EMAIL)
+            self.do_send_keys(self.SHIP_CONTACT_EMAIL, ship_contact_email)
+            self.do_clear_textfield(self.RESELLER_CONTACT_EMAIL)
+            self.do_send_keys(self.RESELLER_CONTACT_EMAIL, reseller_contact_email)
+
+            self.do_click_by_locator(self.VMF_DETAILS_ClOSE_ICON_BUTTON)
+
+            vmf_ship_contact_phone = self.get_element_text(self.VMF_SHIP_CONTACT_PHONE)
+            vmf_ship_contact_email = self.get_element_text(self.VMF_SHIP_CONTACT_EMAIL)
+            vmf_reseller_contact_email = self.get_element_text(self.VMF_RESELLER_CONTACT_EMAIL)
+
+            if (ship_contact_phone != vmf_ship_contact_phone) & (ship_contact_email != vmf_ship_contact_email) & (
+                    reseller_contact_email != vmf_reseller_contact_email):
+                self.logger.info(
+                    "Successfully verified that modified VMF shipcontactphone, shipcontactemail and resellercontactemail data is not updated after click on X icon")
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def do_validate_modified_vmf_data_not_updated(self):
+        try:
+            self.do_click_by_locator(self.VMF_DETAILS_EDIT_BUTTON)
+
+            ship_contact_phone = '987654'
+            ship_contact_email = 'TEST123@GMAIL.COM'
+            reseller_contact_email = 'TESTING@INGRAMMICRO.COM'
+            self.do_clear_textfield(self.SHIP_CONTACT_PHONE)
+            self.do_send_keys(self.SHIP_CONTACT_PHONE, ship_contact_phone)
+            self.do_clear_textfield(self.SHIP_CONTACT_EMAIL)
+            self.do_send_keys(self.SHIP_CONTACT_EMAIL, ship_contact_email)
+            self.do_clear_textfield(self.RESELLER_CONTACT_EMAIL)
+            self.do_send_keys(self.RESELLER_CONTACT_EMAIL, reseller_contact_email)
+
+            self.do_click_by_locator(self.VMF_DETAILS_CANCEL_BUTTON)
+
+            vmf_ship_contact_phone = self.get_element_text(self.VMF_SHIP_CONTACT_PHONE)
+            vmf_ship_contact_email = self.get_element_text(self.VMF_SHIP_CONTACT_EMAIL)
+            vmf_reseller_contact_email = self.get_element_text(self.VMF_RESELLER_CONTACT_EMAIL)
+
+            if (ship_contact_phone != vmf_ship_contact_phone) & (ship_contact_email != vmf_ship_contact_email) & (
+                    reseller_contact_email != vmf_reseller_contact_email):
+                self.logger.info(
+                    "Successfully verified that modified VMF shipcontactphone, shipcontactemail and resellercontactemail data is not updated after click on Cancel button")
+                return True
             else:
                 return False
         except Exception as e:

@@ -1,75 +1,29 @@
 {
-  "customerOrderNumber": "PO TEST37^",
-  "purchaseOrderDate": null,
-  "endCustomerOrderNumber": "TEST PO^",
+  "customerOrderNumber": "TESTPO^",
+  "endCustomerOrderNumber": "TESTPO",
   "billToAddressId": "000",
-  "specialBidNumber": null,
-  "notes": null,
-  "acceptBackOrder": null,
-  "terms": null,
-  "vendorOrderHold": null,
-  "currencyCode": null,
   "allowPartialOrder": "false",
-  "carrierDescription": null,
-  "cloudAccountId": null,
-  "quoteNumber": null,
   "resellerInfo": {
     "resellerId": "20222222",
-    "addressLine2": null,
-    "addressLine3": null,
-    "city": null,
-    "companyName": null,
-    "contact": null,
-    "addressLine1": null,
-    "phoneNumber": null,
-    "email": null,
-    "state": null,
-    "postalCode": null,
     "countryCode": "US"
   },
   "shipToInfo": {
     "addressId": "200",
-    "addressLine1": null,
-    "addressLine2": null,
-    "addressLine3": null,
-    "contact": null,
-    "companyName": null,
-    "name1": null,
-    "postalCode": null,
-    "countryCode": null,
-    "phoneNumber": null,
-    "name2": null,
-    "addressLine4": null,
-    "addressLine5": null,
-    "city": null,
-    "state": null,
-    "email": null,
-    "district": null
+    "contact": "JON"
   },
-  "endUserInfo": null,
-  "creditCardDetails": null,
-  "vmf": null,
-  "ssEndUserInfo": null,
+  "vmf": [],
   "lines": [
     {
       "customerLineNumber": "001",
-      "lineType": null,
-      "lineNumber": null,
-      "globalSkuId": "A300-QZ0680",
-      "ingramPartNumber": null,
-      "customerPartNumber": null,
-      "vendorPartNumber": "CAB-TA-NA=",
-      "planId": null,
+      "globalSkuId": "A300-00JP56",
+      "vendorPartNumber": "F24T454FQN",
       "quantity": 1,
-      "specialBidNumber": null,
-      "notes": null,
       "unitPrice": 0,
-      "endUserPoNumber": "test po",
+      "endUserPoNumber": "testpo",
       "endUserPrice": 0,
       "carrierCode": "RG",
       "specialPrice": 0,
       "aucSelectionCost": 0,
-      "acopTrackingNumber": null,
       "additionalAttributes": [
         {
           "attributeName": "gsaflag",
@@ -77,53 +31,16 @@
         },
         {
           "attributeName": "shipFromWareHouseId",
-          "attributeValue": "20"
-        },
-        {
-          "attributeName": "enduserid",
-          "attributeValue": "53737"
-        },
-        {
-          "attributeName": "addresssequencenumber",
-          "attributeValue": "1"
-        },
-        {
-          "attributeName": "contactid",
-          "attributeValue": "1"
-        },
-        {
-          "attributeName": "enduseracopid",
-          "attributeValue": "41232631"
+          "attributeValue": "10"
         }
       ],
       "vmfAdditionalAttributes": [],
-      "directShipConfigAttributes": [],
-      "endUserInfo": null,
-      "warrantyInfo": null,
-      "vendorParams": null,
-      "prices": null,
-      "costs": null,
-      "applicableTo": null,
-      "decorativeData": [
-        {
-          "isResellerOnly": false,
-          "description": "NORTH AMERICA AC TYPE A POWER CABLE",
-          "resellerPrice": 34.77,
-          "endCustomerPrice": 59.14,
-          "unitOfMeasure": null,
-          "planDescription": null
-        }
-      ]
+      "directShipConfigAttributes": []
     }
   ],
   "shipmentDetails": {
-    "carrierCode": null,
-    "freightAccountNumber": null,
     "shipComplete": "False",
-    "requestedDeliveryDate": null,
-    "signatureRequired": false,
-    "shippingInstructions": null,
-    "carrierService": null
+    "signatureRequired": false
   },
   "additionalAttributes": [
     {
@@ -136,15 +53,15 @@
     },
     {
       "attributeName": "basketid",
-      "attributeValue": "52565095-febe-4438-855f-df11cc09f512"
+      "attributeValue": "84bc0efc-d1bd-46e1-980a-823b67a2b7f2"
     },
     {
       "attributeName": "userid",
-      "attributeValue": "ea4bc450-bcc0-496a-a1f1-c4ccec662ee9"
+      "attributeValue": "599f3655-31e1-4fe6-bc53-da06e9f1b0e8"
     },
     {
       "attributeName": "salesorganization",
-      "attributeValue": "SALE00"
+      "attributeValue": "SALESG"
     },
     {
       "attributeName": "distributionchannel",
@@ -156,7 +73,7 @@
     },
     {
       "attributeName": "ordertotalvalue",
-      "attributeValue": "51.76"
+      "attributeValue": "228.23"
     },
     {
       "attributeName": "regioncode",
@@ -176,7 +93,7 @@
     },
     {
       "attributeName": "euponumber",
-      "attributeValue": "TEST PO"
+      "attributeValue": "TESTPO"
     },
     {
       "attributeName": "entrymethod",
@@ -188,92 +105,22 @@
     },
     {
       "attributeName": "capsbuyerid",
-      "attributeValue": "SALE00"
+      "attributeValue": "SALESG"
     }
   ],
   "vmfAdditionalAttributes": [
     {
+      "attributeName": "shipctacphone",
+      "attributeValue": "123"
+    },
+    {
+      "attributeName": "shipctacemail",
+      "attributeValue": "JON@TESTPO.COM"
+    },
+    {
       "attributeName": "resellerctacemail",
-      "attributeValue": "VIPLAV.MAHAJAN@INGRAMMICRO.COM"
+      "attributeValue": "ENDEAVOUR_BUILD@INGRAMMICRO.COM"
     }
   ],
-  "directShipConfigAttributes": [],
-  "prices": null,
-  "costs": null,
-  "decorativeData": {
-    "shipToAddress": {
-      "addressId": "200",
-      "addressLine1": "ATTN TOD DEBIE",
-      "addressLine2": "1610 E SAINT ANDREW PL",
-      "addressLine3": "",
-      "contact": null,
-      "companyName": "INGRAM MICRO TEST ACCOUNT",
-      "name1": "",
-      "postalCode": "927054931",
-      "countryCode": "",
-      "phoneNumber": "",
-      "name2": "",
-      "addressLine4": "SANTA ANA             CA 927054931",
-      "addressLine5": null,
-      "city": "SANTA ANA",
-      "state": "CA",
-      "email": "",
-      "district": null
-    },
-    "endUserInfo": {
-      "endUserId": null,
-      "endUserType": null,
-      "companyName": "Test EndUser 002",
-      "name1": "TestContactUser833",
-      "name2": "",
-      "addressSequenceNumber": "1",
-      "contactId": null,
-      "addressLine1": "2632 Sycamore Drive",
-      "addressLine2": "drive002",
-      "addressLine3": null,
-      "contact": "TestContactUser833 , TestContactUser833 , TestContactUser833 ",
-      "name3": "",
-      "city": "Dyer",
-      "state": "IN",
-      "postalCode": "463112261",
-      "segmentation": "C",
-      "addressLine4": "",
-      "houseNumber": null,
-      "countryCode": "US",
-      "phoneNumber": "12345678",
-      "email": "endoyuza@gmail.com",
-      "authorizationNumber": null
-    },
-    "billToAddress": {
-      "addressId": "000",
-      "addressLine1": "1759 WEHRLE DR",
-      "addressLine2": "",
-      "addressLine3": "",
-      "contact": null,
-      "companyName": "INGRAM MICRO CAPS TEST ACCOUNT",
-      "name1": "",
-      "postalCode": "142217033",
-      "countryCode": "",
-      "phoneNumber": "",
-      "name2": "",
-      "addressLine4": "WILLIAMSVILLE         NY 142217033",
-      "addressLine5": null,
-      "city": "WILLIAMSVILLE",
-      "state": "NY",
-      "email": "",
-      "district": null
-    },
-    "orderTotalSummary": {
-      "shippableSubTotal": 34.77,
-      "totalTotal": 51.76,
-      "shippableTotal": 51.76,
-      "freightTotal": 16.99,
-      "orderTotal": 51.76,
-      "taxTotal": 0,
-      "backorderedTotal": 0,
-      "basketTotal": 34.77,
-      "subscriptionsTotal": 0
-    }
-  }
-
+  "directShipConfigAttributes": []
 }

@@ -94,6 +94,16 @@ def test_updated_vmf_data_should_get_display_on_order_details_page():
     pass
 
 
+@scenario("features/hardware/data_errors_orders.feature", "Verify VMF Details Edit popup content")
+def test_vmf_details_edit_popup_content():
+    pass
+
+
+@scenario("features/hardware/data_errors_orders.feature", "Updated VMF data should get display on Order Details page")
+def test_updated_vmf_data_should_get_display_on_order_details_page():
+    pass
+
+
 @scenario("features/hardware/data_errors_orders.feature", "logout X4A")
 def test_logout_x4a():
     pass
@@ -341,7 +351,6 @@ def search_select_data_errors_order_record_for_reference_details(init_driver):
     init_driver.refresh()
     feature_file_name = "data_errors_orders"
     create_order_steps = ValidateErrorOrdersData(init_driver)
-    breakpoint()
     try:
         input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
             db_file_path, feature_file_name)
@@ -490,7 +499,6 @@ def create_order_for_ship(init_driver):
 def search_select_data_errors_order_record_for_shipping_notes(init_driver):
     feature_file_name = "data_errors_orders"
     create_order_steps = ValidateErrorOrdersData(init_driver)
-    breakpoint()
     try:
         input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
             db_file_path, feature_file_name)
@@ -753,3 +761,114 @@ def selected_value_get_cleared_from_filter_header_and_all_data_should_get_loaded
             e)
         raise e
 
+
+@given(parsers.parse('the error order is created via api for VMF Details'))
+def create_order_for_vmf_details(init_driver):
+    feature_file_name = "data_errors_orders"
+    data_create_obj = DataCreationViaApi(init_driver)
+    order_management_srv_obj = X4AInputOrderDbManagementService()
+    try:
+        confirmation_id = data_create_obj.post_request_for_error_order_create()
+        logger.info(f'Confirmation ID: {confirmation_id}')
+        if not len(confirmation_id) == 0:
+            order_management_srv_obj.save_confirmation_id_for_vmf_details_in_db(db_file_path, feature_file_name,
+                                                                                confirmation_id)
+        else:
+            raise Exception('Confirmation Id is empty')
+    except Exception as e:
+        logger.error("Not able create the Data error order %s", e)
+        raise e
+
+
+@when(parsers.parse('Search and Select the Data Errors Order for VMF Details'))
+def search_select_data_errors_order_record_for_vmf_details(init_driver):
+    feature_file_name = "data_errors_orders"
+    create_order_steps = ValidateErrorOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        confirmation_id = input_order_data.get("modify_vmf_details_data_errors_order_id")
+        if not create_order_steps.search_and_select_data_errors_order(feature_file_name, confirmation_id):
+            raise Exception("Failed to select Data error order")
+    except Exception as e:
+        logger.error("Error while selecting Data error order first record %s", e)
+        raise e
+
+
+@then(parsers.parse('Verify that Edit icon should display beside VMF Details'))
+def vmf_details_edit_icon_visible(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.is_vmf_details_edit_icon_visible(feature_file_name):
+            raise Exception("Failed to verify that Edit icon display beside VMF Details")
+    except Exception as e:
+        logger.error("Error while verify that Edit icon display beside VMF Details %s", e)
+        raise e
+
+
+@then(parsers.parse('Verify contents of Edit VMF Details popup'))
+def verify_contents_of_edit_vmf_details_popup(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_contents_of_edit_vmf_details(feature_file_name):
+            raise Exception("Failed to verify contents of Edit VMF Details popup")
+    except Exception as e:
+        logger.error("Error while verifying contents of Edit VMF Details popup %s", e)
+
+
+@when(parsers.parse('Verify that Attribute value should allow special characters'))
+def verify_attribute_value_allow_special_charcter(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_attribute_value_allow_special_character(feature_file_name):
+            raise Exception("Failed to Verify that Attribute value should allow special characters")
+    except Exception as e:
+        logger.error("Error while verifying Attribute value should allow special characters %s", e)
+
+
+@then(parsers.parse(
+    'Enter valid data for Attribute value fields save it then Verify Saved data should get display in order details page'))
+def verify_saved_data_in_order_details_page(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_validate_vmf_saved_data(feature_file_name):
+            raise Exception(
+                "Failed to Enter valid data for Attribute value fields save it then Verify Saved data should get display in order details page")
+    except Exception as e:
+        logger.error(
+            "Error while Entering valid data for Attribute value fields save it then Verify Saved data should get display in order details page %s",
+            e)
+
+
+@then(parsers.parse(
+    'Verify that VMF entered data should not get saved after click on X icon'))
+def verify_entered_data_not_save_after_click_on_close_data(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_validate_vmf_data_not_saved(feature_file_name):
+            raise Exception(
+                "Failed to Verify that VMF entered data should not get saved after click on X icon")
+    except Exception as e:
+        logger.error(
+            "Error while Verifying VMF entered data should not get saved after click on X icon %s",
+            e)
+
+
+@then(parsers.parse(
+    'Verify that modified VMF data should not get updated on order details page after click on Cancel button'))
+def verify_modified_vmf_data_not_updated_after_click_on_cancel_data(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_validate_modified_vmf_data_not_updated(feature_file_name):
+            raise Exception(
+                "Failed to Verify that modified VMF data should not get updated on order details page after click on Cancel button")
+    except Exception as e:
+        logger.error(
+            "Error while Verifying modified VMF data should not get updated on order details page after click on Cancel button %s",
+            e)
