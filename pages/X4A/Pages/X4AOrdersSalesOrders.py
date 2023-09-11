@@ -93,6 +93,14 @@ class X4ASalesOrdersPage(BasePage):
     LINK_CLOSE_BUTTON = (By.XPATH, "//button[text()='Close']")
     ORDER_VALUE_SORT = (By.XPATH, "//*[text()='Order value']")
     FILTER_CREATED_ON_LIST = (By.XPATH, "//div[@data-testid='CreatedOn-accordionData']/div/label/span[2]")
+    ORDER_DETAILS_STATUS = (By.XPATH, "//*[@id='orderDetails']//*[contains(@class,'MuiChip-label')]")
+    CANCEL_ORDER_BTN = (By.XPATH, "//*[text()='Cancel Order']")
+    CANCEL_ORDER_ALERT_TITLE = (By.XPATH, "//*[@id='alert-dialog-title']")
+    CANCEL_ORDER_ALERT_CONFIRMATION = (By.XPATH, "//*[@id='alert-dialog-description']")
+    CONFIRM_CANCEL_ORDER = (By.XPATH, "//*[text()='Yes, Cancel Order']")
+    DEFER_CANCEL_ORDER = (By.XPATH, "//*[text()='No, Keep Order']")
+    SUCCESS_TOAST_NOTIFICATION = (By.XPATH, "//*[contains(@class, 'MuiAlert-message')]")
+
     """Order Details page"""
 
     ORDER_DETAILS_TAB = (By.XPATH, "//button/div/div[text()='Order Details']")
@@ -104,14 +112,21 @@ class X4ASalesOrdersPage(BasePage):
     ORDER_STATUS_TITLE = (By.XPATH, "//h2[contains(text(),'IM order #')]/parent::div/div/span")
     ORDER_VALUE_HEADER = (By.XPATH, "//*[@class='TopArea']/div[2]/div[1]")
     ORDER_TYPE_HEADER = (By.XPATH, "//*[@class='TopArea']/div[2]/div[3]")
-
+    RESUBMIT_ORDER_BUTTON = (By.XPATH, "//*[text()='Resubmit Order']")
+    RESUBMIT_YES_BUTTON = (By.XPATH, "//button[text()='Yes, Resubmit Order']")
     """Order Details tab-Reference numbers"""
 
     END_USER_PO_FIELD = (By.XPATH, "//*[text()='End user PO:']/parent::div/div[@class='fieldValue']/strong")
     RESELLER_PO_FIELD = (By.XPATH, "//*[text()='Reseller PO:']/parent::div/div[@class='fieldValue']/strong")
     VENDOR_ORDER_FIELD = (By.XPATH, "//*[text()='Vendor order:']/parent::div/div[@class='fieldValue']/strong")
-    VENDOR_SALES_ORDER_FIELD = (
-        By.XPATH, "//*[text()='Vendor sales order:']/parent::div/div[@class='fieldValue']/strong")
+    VENDOR_SALES_ORDER_FIELD = (By.XPATH, "//*[text()='Vendor sales order:']/parent::div/div[@class='fieldValue']/strong")
+    REFERENCE_NUMBER_EDIT_ICON = (By.XPATH, "//*[@id='tablayout-tabpanel-0']/div/div/div/div/div[1]/*[@data-testid='ModeEditOutlineOutlinedIcon']")
+    POPUP_CANCEL_BUTTON = (By.XPATH, "//button[text()='Cancel']")
+    POPUP_UPDATE_BUTTON = (By.XPATH, "//button[text()='Update']")
+    POPUP_END_USER_TEXTBOX = (By.ID, "reference-details-po-number")
+    POPUP_RESELLER_PO_TEXTBOX = (By.ID, "reference-details-edit-customer-number")
+    REFERENCE_NUMBERS_END_USER_PO = (By.XPATH, "//*[@id='tablayout-tabpanel-0']/div/div/div/div/div[1]/div/div[1]/div[2]/strong")
+    REFERENCE_NUMBERS_RESELLER_PO = (By.XPATH, "//*[@id='tablayout-tabpanel-0']/div/div/div/div/div[1]/div/div[2]/div[2]/strong")
 
     """Biiling tab-Bill to info"""
 
@@ -169,7 +184,9 @@ class X4ASalesOrdersPage(BasePage):
     ORDER_LINE_IM_PART = (
         By.XPATH, "//*[@data-id='0']//div[@role='cell' and @data-field='partDescription']/div/div/span[2]")
     ORDER_LINE_SPECIAL_BID_NUMBER = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='specialBidNumber']")
+    ORDER_LINE_SBN_TEXT = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='specialBidNumber']//input")
     ORDER_LINE_UNIT_PRICE = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='unitPrice']")
+    ORDER_LINE_UNIT_PRICE_TEXT = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='unitPrice']//input")
     ORDER_LINE_EXTENDED_PRICE = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='extendedPrice']")
     ORDER_LINE_COST = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='cost']")
     ORDER_LINE_EXTENDED_COST = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='extendedCost']")
@@ -177,11 +194,19 @@ class X4ASalesOrdersPage(BasePage):
     ORDER_LINE_CURRENCY_CODE = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='currencyCode']")
     ORDER_LINE_PAYMENT_TERMS = (By.XPATH, "//*[@role='cell' and @data-field='paymentTerms']")
     ORDER_LINE_QUANTITY = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityOrdered']")
+    ORDER_LINE_QUANTITY_TEXT = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityOrdered']//input")
     ORDER_LINE_QUANTITY_CONFIRMED = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityConfirmed']")
     ORDER_LINE_QUANTITY_BACKORDERED = (
         By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityBackOrdered']")
     ORDER_LINE_NOTES = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='lineNotes']")
     CLOSE_BUTTON_ON_POPUP = (By.XPATH, "//*[@id='modal-modal-title']/parent::div/following-sibling::div")
+    ORDER_LINES = (By.XPATH, "//div[@class='MuiDataGrid-row']")
+    ACOP_APPLIED_COLUMN = (By.XPATH, "//div[@class='MuiDataGrid-columnHeaderTitleContainer']/div[text()='ACOP applied']")
+    ORDER_LINE_EDIT_ICON = (By.XPATH, "//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-anj852-MuiButtonBase-root-MuiIconButton-root']")
+    EDIT_CHECK_ICON = (By.XPATH, "//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']/*[@data-testid='CheckCircleOutlineOutlinedIcon']")
+    EDIT_CANCEL_ICON = (By.XPATH, "//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']/*[@data-testid='ClearOutlinedIcon']")
+    THREE_DOTS_ICON_OPTIONS = (By.XPATH, "//ul[@class='MuiList-root MuiList-padding MuiMenu-list css-6hp17o-MuiList-root-MuiMenu-list']")
+    ORDER_LINES_MARKED_FOR_CANCEL = (By.XPATH, "//div[@class='custom-selected-row MuiDataGrid-row']")
 
     """Order Lines tab-Additional Attributes """
 
@@ -368,7 +393,7 @@ class X4ASalesOrdersPage(BasePage):
             search_im_order_no = self.do_get_attribute(self.SEARCH_BOX, "value")
             self.logger.info(f'Search IM Order No: {search_im_order_no}')
             assert str(search_im_order_no) == str(im_order_number)
-            self.logger.info("Searched IM Order No match successfully")
+            self.logger.info("Searched IM Order matched successfully")
         except Exception as e:
             self.logger.error("Exception occurred while search IM Order No %s", e)
             raise e
@@ -933,8 +958,7 @@ class X4ASalesOrdersPage(BasePage):
             self.logger.info("Successfully verified Address field under End User info")
             return True
         except Exception as e:
-            self.logger.error(
-                'Exception occurred while verifying Address field under End User info' + str(e))
+            self.logger.error('Exception occurred while verifying Address field under End User info' + str(e))
             return False
 
     def is_contact_end_user_field_visible(self, end_user_contact):
@@ -1077,9 +1101,9 @@ class X4ASalesOrdersPage(BasePage):
             self.logger.info("Successfully verified Order line Cost field under Order lines tab")
             return True
         except Exception as e:
-            self.logger.error(
+           self.logger.error(
                 'Exception occurred while verifying Order line Cost field under Order lines tab"' + str(e))
-            return False
+           return False
 
     def is_order_line_ext_cost_field_visible(self, order_line_extended_cost):
         try:
@@ -1984,7 +2008,6 @@ class X4ASalesOrdersPage(BasePage):
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
             self.logger.info("Max items per page: " + max_rows)
             for i in range(int(max_rows)):
-                # breakpoint()
                 if i == 0:
                     element = "//div[@data-id=0]/div[@data-colindex=6]"
                     order_value_element = self.driver.find_element(By.XPATH, element)
@@ -2015,3 +2038,294 @@ class X4ASalesOrdersPage(BasePage):
             self.logger.error("Exception occurred verifying Created On" + str(e))
             raise e
 
+    def update_end_user_po_and_reseller_po(self, end_user_po, reseller_po):
+        try:
+            self.do_click_by_locator(self.REFERENCE_NUMBER_EDIT_ICON)
+            self.do_send_keys(self.POPUP_END_USER_TEXTBOX, end_user_po)
+            self.do_send_keys(self.POPUP_RESELLER_PO_TEXTBOX, reseller_po)
+            self.do_click_by_locator(self.POPUP_UPDATE_BUTTON)
+        except Exception as e:
+            self.logger.error("Exception occurred updating end user po and reseller po" + str(e))
+            raise e
+
+    def cancel_update_of_end_user_po_and_reseller_po(self, end_user_po, reseller_po):
+        try:
+            self.do_click_by_locator(self.REFERENCE_NUMBER_EDIT_ICON)
+            self.do_send_keys(self.POPUP_END_USER_TEXTBOX, end_user_po)
+            self.do_send_keys(self.POPUP_RESELLER_PO_TEXTBOX, reseller_po)
+            self.do_click_by_locator(self.POPUP_CANCEL_BUTTON)
+        except Exception as e:
+            self.logger.error("Exception occurred while cancelling edit of end user po and reseller po" + str(e))
+            raise e
+
+    def validate_update_end_user_po_and_reseller_po(self, end_user_po, reseller_po):
+        try:
+            self.update_end_user_po_and_reseller_po(end_user_po, reseller_po)
+            ui_end_user_po = self.get_element_text(self.REFERENCE_NUMBERS_END_USER_PO)
+            ui_reseller_po = self.get_element_text(self.REFERENCE_NUMBERS_RESELLER_PO)
+            self.do_click_by_locator(self.RESUBMIT_ORDER_BUTTON)
+            self.do_click_by_locator(self.RESUBMIT_YES_BUTTON)
+            assert ui_end_user_po == end_user_po.upper(), "End user PO mismatched"
+            assert ui_reseller_po == reseller_po.upper(), "Reseller PO mismatched"
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred while validating update of end user po and reseller po" + str(e))
+            return False
+
+    def validate_cancel_end_user_po_and_reseller_po(self, end_user_po, reseller_po):
+        try:
+            ui_end_user_po = self.get_element_text(self.REFERENCE_NUMBERS_END_USER_PO)
+            ui_reseller_po = self.get_element_text(self.REFERENCE_NUMBERS_RESELLER_PO)
+            self.cancel_update_of_end_user_po_and_reseller_po(end_user_po, reseller_po)
+            ui_cancel_end_user_po = self.get_element_text(self.REFERENCE_NUMBERS_END_USER_PO)
+            ui_cancel_reseller_po = self.get_element_text(self.REFERENCE_NUMBERS_RESELLER_PO)
+            assert ui_end_user_po == ui_cancel_end_user_po, "End user PO mismatched"
+            assert ui_reseller_po == ui_cancel_reseller_po, "Reseller PO mismatched"
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred while validating cancel update of end user po and reseller po" + str(e))
+            return False
+
+    def validate_acop_field(self):
+        try:
+            self.do_check_visibility(self.ACOP_APPLIED_COLUMN)
+            rows = self.get_all_elements(self.ORDER_LINES)
+            for row in range(len(rows)):
+                row_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(row) + "]/div[@data-field='isAcopApplied']")
+                text = self.get_element_text(row_xpath)
+                if text != "Yes" and text != "No":
+                    self.logger.error(f'Acop field: {text}')
+                    raise Exception("ACOP field value is incorrect")
+            self.logger.info("Successfully validated ACOP field")
+            return True
+        except Exception as e:
+            self.logger.error(
+                "Exception occurred while validating ACOP field" + str(e))
+            return False
+
+    def validate_order_status_to_check_if_editable(self):
+        try:
+            status = self.get_element_text(self.ORDER_STATUS_TITLE)
+            if status != 'Order Hold(IM)' and status != 'In Progress(IM)' and status != 'Customer Hold(IM)':
+                self.logger.error(f'Order status is {status}, so the order cant be edited')
+                raise Exception("Order cant be edited")
+            self.logger.info("Successfully verified Order Status in order details")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying order status in order details page ' + str(e))
+            return False
+
+    def update_order_line(self, special_bid, unit_price, quantity):
+        try:
+            self.do_click_by_locator(self.ORDER_LINE_EDIT_ICON)
+            time.sleep(3)
+            self.do_send_keys(self.ORDER_LINE_SPECIAL_BID_NUMBER, special_bid)
+            time.sleep(3)
+            self.do_send_keys(self.ORDER_LINE_SPECIAL_BID_NUMBER, special_bid)
+            time.sleep(5)
+            self.do_send_keys(self.ORDER_LINE_UNIT_PRICE, unit_price)
+            self.do_send_keys(self.ORDER_LINE_UNIT_PRICE, unit_price)
+            element = "//*[@data-id='0']//*[@role='cell' and @data-field='unitWeight']"
+            unit_weight = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(unit_weight)
+            # scroll till quantity
+            time.sleep(10)
+            self.do_click_by_locator(self.ORDER_LINE_QUANTITY)
+            self.do_send_keys(self.ORDER_LINE_QUANTITY, quantity)
+
+            element = "//*[@data-id='0']//*[@role='cell' and @data-field='specialBidNumber']"
+            special_bid = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(special_bid)
+            # scroll till edit/cancel icon
+            time.sleep(10)
+
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying order status in order details page ' + str(e))
+            return False
+
+    def click_order_line_edit_check_icon(self):
+        try:
+            time.sleep(2)
+            self.do_click_by_locator(self.EDIT_CHECK_ICON)
+            time.sleep(2)
+            self.logger.info("Clicked on order line check icon")
+            # self.do_click_by_locator(self.RESUBMIT_ORDER_BUTTON)
+            # self.do_click_by_locator(self.RESUBMIT_YES_BUTTON)
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while clicking on edit check icon ' + str(e))
+            return False
+
+    def click_order_line_edit_cancel_icon(self):
+        try:
+            self.do_click_by_locator(self.EDIT_CANCEL_ICON)
+            time.sleep(5)
+            self.logger.info("Clicked on order line cancel changes icon")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while clicking on edit cancel icon ' + str(e))
+            return False
+
+    def get_order_line_data(self):
+        order_line_data = {}
+        try:
+            order_line_data['special_bid'] = self.do_get_attribute(self.ORDER_LINE_SBN_TEXT,'value')
+            order_line_data['unit_price'] = self.do_get_attribute(self.ORDER_LINE_UNIT_PRICE_TEXT,'value')
+
+            element = "//*[@data-id='0']//*[@role='cell' and @data-field='cost']"
+            unit_weight = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(unit_weight)
+
+            order_line_data['cost'] = self.get_element_text(self.ORDER_LINE_COST)
+            order_line_data['margin'] = self.get_element_text(self.ORDER_LINE_MARGIN)
+
+            element = "//*[@data-id='0']//*[@role='cell' and @data-field='currencyCode']"
+            unit_weight = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(unit_weight)
+
+            # scroll till quantity back order
+            time.sleep(10)
+
+            order_line_data['quantity'] = self.do_get_attribute(self.ORDER_LINE_QUANTITY_TEXT,'value')
+            order_line_data['quantity_confirmed'] = self.get_element_text(self.ORDER_LINE_QUANTITY_CONFIRMED)
+            order_line_data['quantity_backordered'] = self.get_element_text(self.ORDER_LINE_QUANTITY_BACKORDERED)
+            self.logger.info(order_line_data)
+            return order_line_data
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while clicking on edit cancel icon ' + str(e))
+            raise e
+
+    def check_cancel_options_are_correct_in_order_lines(self):
+        try:
+            order_lines = self.get_all_elements(self.ORDER_LINES)
+            for i in range(len(order_lines)):
+                self.driver.refresh()
+                time.sleep(3)
+                self.do_click_by_locator(self.ORDER_LINES_TAB)
+                three_dots_xpath = (By.XPATH, "//div[@data-rowindex=" + str(i) + "]/div/button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']")
+                self.do_click_by_locator(three_dots_xpath)
+                order_line_options_xpath = (By.XPATH, "(//li[@role='menuitem'])")
+                order_line_options = self.get_all_elements(order_line_options_xpath)
+                self.logger.info(len(order_line_options))
+                for ele in order_line_options:
+                    if ele.text != "Unmark for cancel" and ele.text != "Mark for cancel":
+                        return False
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while checking the order lines options :' + str(e))
+            return False
+
+    def click_on_mark_for_cancel(self):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.ORDER_LINES_TAB)
+            order_lines = self.get_all_elements(self.ORDER_LINES)
+            self.logger.info(len(order_lines))
+            for i in range(len(order_lines)):
+                three_dots_xpath = (By.XPATH, "//div[@data-rowindex=" + str(i) + "]/div/button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']")
+                self.do_click_by_locator(three_dots_xpath)
+                order_line_options_xpath = (By.XPATH, "(//li[@role='menuitem'])")
+                order_line_options = self.get_all_elements(order_line_options_xpath)
+                self.logger.info(len(order_line_options))
+                mark_for_cancel_elements = []
+                for ele in order_line_options:
+                    if ele.text == 'Mark for cancel':
+                        mark_for_cancel_elements.append(ele)
+                self.do_click_by_locator(mark_for_cancel_elements[-1])
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while marking for cancel :' + str(e))
+            return False
+
+    def click_on_unmark_for_cancel(self):
+        try:
+            order_lines = self.get_all_elements(self.ORDER_LINES_MARKED_FOR_CANCEL)
+            for i in range(len(order_lines)):
+                three_dots_xpath = (By.XPATH, "//div[@data-rowindex=" + str(
+                    i) + "]/div/button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']")
+                self.do_click_by_locator(three_dots_xpath)
+                order_line_options_xpath = (By.XPATH, "(//li[@role='menuitem'])")
+                order_line_options = self.get_all_elements(order_line_options_xpath)
+                self.logger.info(len(order_line_options))
+                unmark_for_cancel_elements = []
+                for ele in order_line_options:
+                    if ele.text == 'Unmark for cancel':
+                        unmark_for_cancel_elements.append(ele)
+                self.do_click_by_locator(unmark_for_cancel_elements[-1])
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while marking for cancel :' + str(e))
+
+    def order_status_validate(self, status):
+        try:
+            self.driver.refresh()
+            self.driver.refresh()
+            if self.get_element_text(self.ORDER_DETAILS_STATUS) == status:
+                self.logger.info("Order status is validated successfully")
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error('Exception occurred while Click on Billing tab ' + str(e))
+            return False
+
+    def verify_cancel_order_button(self):
+        try:
+            if self.is_present(self.CANCEL_ORDER_BTN):
+                self.logger.info("Cancel order button is displayed")
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying cancel order button ' + str(e))
+            return False
+
+    def click_cancel_order_btn(self):
+        try:
+            self.do_click_by_locator(self.CANCEL_ORDER_BTN)
+            self.logger.info("Successfully Clicked On cancel order button")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on cancel order button ' + str(e))
+            return False
+
+    def validate_cancel_order_alert_elements(self):
+        try:
+            if self.get_element_text(self.CANCEL_ORDER_ALERT_TITLE) == "Cancel Order" and self.get_element_text(
+                    self.CANCEL_ORDER_ALERT_CONFIRMATION) == "Are you sure to cancel order? Order will be cancelled permanently, and you can not undo this action." and self.get_element_text(
+                    self.DEFER_CANCEL_ORDER) == "No, Keep Order" and self.get_element_text(
+                    self.CONFIRM_CANCEL_ORDER) == "Yes, Cancel Order":
+                self.logger.info("Successfully verified cancel order alert elements")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying cancel order alert elements ' + str(e))
+            return False
+
+    def cancel_order_click(self):
+        try:
+            self.do_click_by_locator(self.CONFIRM_CANCEL_ORDER)
+            self.logger.info("Successfully Clicked On cancel order confirmation button")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on cancel order confirmation button ' + str(e))
+            return False
+
+    def validate_toast_notification(self):
+        try:
+            if self.get_element_text(self.SUCCESS_TOAST_NOTIFICATION) == "Cancelled! order was successfully cancelled.":
+                self.logger.info("Toast notification message is validated successfully")
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error('Exception occurred while validating toast notification ' + str(e))
+            return False
