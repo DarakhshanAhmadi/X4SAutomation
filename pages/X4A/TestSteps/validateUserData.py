@@ -27,7 +27,7 @@ class UserValidateData:
         clear_browser_and_cache = BrowserSettings(self.driver)
         clear_browser_and_cache.do_clear_browser_history_and_cache()
         login = LoginPage(self.driver)
-        
+
         try:
             environment = self.parse_config_json.get_data_from_config_json("environment", "environment_type",
                                                                            "config.json")
@@ -80,7 +80,7 @@ class UserValidateData:
     def do_search_associate(self, feature_file_name, screen_shot):
         x4a_associate_management = X4AUserManagementPage(self.driver)
         try:
-            
+
             x4a_associate_management.do_search_associate()
             self.logger.info("Successfully searched Associate")
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
@@ -115,7 +115,7 @@ class UserValidateData:
         x4a_associate_management = X4AUserManagementPage(self.driver)
 
         try:
-            
+
             user_status = 'Activated'
             status = x4a_associate_management.do_validate_associate_page(user_status)
             if status:
@@ -131,11 +131,11 @@ class UserValidateData:
             self.logger.error("Error while validating associate page")
             self.logger.exception(e)
             return False
-            
+
     def do_validate_associate_role(self, feature_file_name, screen_shot):
         x4a_associate_management = X4AUserManagementPage(self.driver)
         try:
-            
+
             status = x4a_associate_management.do_validate_associate_role()
             if status:
                 self.logger.info("Successfully validate Associate role")
@@ -172,7 +172,7 @@ class UserValidateData:
     def do_manage_associate_role(self, feature_file_name, screen_shot):
         x4a_associate_management = X4AUserManagementPage(self.driver)
         try:
-            
+
             status = x4a_associate_management.do_manage_associate_role()
             if status:
                 self.logger.info("Successfully accessed manage option in Associate role")
@@ -229,7 +229,7 @@ class UserValidateData:
     def do_manage_associate_country(self, feature_file_name, screen_shot):
         x4a_associate_management = X4AUserManagementPage(self.driver)
         try:
-            
+
             status = x4a_associate_management.do_manage_associate_country()
             if status:
                 self.logger.info("Successfully accessed manage option in Associate country")
@@ -267,7 +267,7 @@ class UserValidateData:
     def do_add_associate_country(self, feature_file_name, screen_shot):
         x4a_associate_management = X4AUserManagementPage(self.driver)
         try:
-            
+
             status = x4a_associate_management.do_add_associate_country()
             if status:
                 self.logger.info("Successfully added Associate country")
@@ -286,7 +286,7 @@ class UserValidateData:
     def do_validate_account_deactivation(self, feature_file_name, screen_shot):
         x4a_associate_management = X4AUserManagementPage(self.driver)
         try:
-            
+
             user_status = 'Deactivated'
             status = x4a_associate_management.do_validate_associate_page(user_status)
             if status:
@@ -305,7 +305,7 @@ class UserValidateData:
     def do_deactivate_account(self, feature_file_name, screen_shot):
         x4a_associate_management = X4AUserManagementPage(self.driver)
         try:
-            
+
             status = x4a_associate_management.do_deactivate_account()
             if status:
                 self.logger.info("Successfully deactivated account")
@@ -324,7 +324,7 @@ class UserValidateData:
     def do_activate_account(self, feature_file_name, screen_shot):
         x4a_associate_management = X4AUserManagementPage(self.driver)
         try:
-            
+
             status = x4a_associate_management.do_activate_account()
             if status:
                 self.logger.info("Successfully activated account")

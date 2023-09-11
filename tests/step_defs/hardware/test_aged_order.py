@@ -110,6 +110,11 @@ def test_validate_filtered_file_with_ui_data():
     pass
 
 
+@scenario("features/hardware/aged_orders.feature", "Validate cancel order")
+def test_validate_cancel():
+    pass
+
+
 @scenario("features/hardware/aged_orders.feature", "logout X4A")
 def test_logout_x4a():
     pass
@@ -655,4 +660,17 @@ def verify_filtered_file_data_with_ui(init_driver):
             raise Exception("Failed to verify file data with UI for filter")
     except Exception as e:
         logger.error("Not able to verify file data with UI for filter %s", e)
+        raise e
+
+
+@then(parsers.parse('cancel order and verify its no more in list'))
+def cancel_order(init_driver):
+    feature_file_name = "aged_orders"
+    validate_aged_orders = ValidateAgedOrdersData(init_driver)
+    try:
+        order_number = x4a_input_order_obj.get_im_order_number_by_feature_file_name(db_file_path, feature_file_name)
+        if not validate_aged_orders.cancel_order_and_validate(feature_file_name, screen_shot, order_number):
+            raise Exception("Failed to verify cancel aged order")
+    except Exception as e:
+        logger.error("Not able to cancel aged order %s", e)
         raise e
