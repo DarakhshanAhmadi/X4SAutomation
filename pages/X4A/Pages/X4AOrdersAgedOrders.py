@@ -1140,7 +1140,6 @@ class X4AAgedOrdersPage(BasePage):
 
     def cancel_aged_order(self):
         try:
-            breakpoint()
             self.do_click_by_locator(self.FIRST_ROW_CHECKBOX)
             self.do_click_by_locator(self.CANCEL_AGED_ORDER)
             popup_message = self.get_element_text(self.CANCEL_ORDER_POPUP_MESSAGE)

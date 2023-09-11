@@ -33,7 +33,6 @@ def launch_browser(init_driver):
     prepare_obj = PrepareObject(init_driver)
     feature_file_name = "inventory_inquiry"
     try:
-        breakpoint()
         test_data_order = readWriteTestData.load_excel_to_dictionary(ReadConfig.get_test_data_file(), "Input_Data")
         filtered_order_data = validate_inventory_inquiry.filtered_orders_by_feature_file(test_data_order, feature_file_name)
         logger.info(filtered_order_data)
