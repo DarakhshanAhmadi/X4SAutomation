@@ -2008,7 +2008,6 @@ class X4ASalesOrdersPage(BasePage):
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
             self.logger.info("Max items per page: " + max_rows)
             for i in range(int(max_rows)):
-                # breakpoint()
                 if i == 0:
                     element = "//div[@data-id=0]/div[@data-colindex=6]"
                     order_value_element = self.driver.find_element(By.XPATH, element)
@@ -2202,29 +2201,15 @@ class X4ASalesOrdersPage(BasePage):
                 'Exception occurred while clicking on edit cancel icon ' + str(e))
             raise e
 
-    def check_order_status_is_on_customer_hold(self):
-        try:
-            status = self.get_element_text(self.ORDER_STATUS_TITLE)
-            if status != 'Customer Hold(IM)':
-                self.logger.error(f'Order status is {status}, and not customer hold')
-                raise Exception("Order is not on customer hold")
-            self.logger.info("Successfully verified Order Status is customer hold")
-            return True
-        except Exception as e:
-            self.logger.error(
-                'Exception occurred while checking the status is customer hold :' + str(e))
-            return False
-
     def check_cancel_options_are_correct_in_order_lines(self):
         try:
             order_lines = self.get_all_elements(self.ORDER_LINES)
             for i in range(len(order_lines)):
                 self.driver.refresh()
+                time.sleep(3)
                 self.do_click_by_locator(self.ORDER_LINES_TAB)
                 three_dots_xpath = (By.XPATH, "//div[@data-rowindex=" + str(i) + "]/div/button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']")
                 self.do_click_by_locator(three_dots_xpath)
-                # THREE_DOTS_ICON_OPTIONS = (By.XPATH, "(//ul[@class='MuiList-root MuiList-padding MuiMenu-list css-6hp17o-MuiList-root-MuiMenu-list'])[" + str(i + 1) + "]")
-                # options = self.get_element_text(THREE_DOTS_ICON_OPTIONS)
                 order_line_options_xpath = (By.XPATH, "(//li[@role='menuitem'])")
                 order_line_options = self.get_all_elements(order_line_options_xpath)
                 self.logger.info(len(order_line_options))
@@ -2264,7 +2249,6 @@ class X4ASalesOrdersPage(BasePage):
         try:
             order_lines = self.get_all_elements(self.ORDER_LINES_MARKED_FOR_CANCEL)
             for i in range(len(order_lines)):
-                breakpoint()
                 three_dots_xpath = (By.XPATH, "//div[@data-rowindex=" + str(
                     i) + "]/div/button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']")
                 self.do_click_by_locator(three_dots_xpath)
@@ -2272,7 +2256,6 @@ class X4ASalesOrdersPage(BasePage):
                 order_line_options = self.get_all_elements(order_line_options_xpath)
                 self.logger.info(len(order_line_options))
                 unmark_for_cancel_elements = []
-                breakpoint()
                 for ele in order_line_options:
                     if ele.text == 'Unmark for cancel':
                         unmark_for_cancel_elements.append(ele)

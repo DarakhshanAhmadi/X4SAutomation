@@ -1064,23 +1064,6 @@ def update_order_line_and_validate(init_driver):
         raise e
 
 
-@given(parsers.parse('Check whether the order is in customer hold'))
-def validate_order_is_in_customer_hold(init_driver):
-    feature_file_name = "sales_orders"
-    validate_sales_orders = ValidateSalesOrdersData(init_driver)
-    try:
-        # input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
-        #         db_file_path, feature_file_name)
-        # special_bid = input_order_data.get('edit_order_lines').split(",")[0]
-        # unit_price = input_order_data.get('edit_order_lines').split(",")[1]
-        # quantity = input_order_data.get('edit_order_lines').split(",")[2]
-        if not validate_sales_orders.validate_order_status_is_customer_hold(feature_file_name, screen_shot):
-            raise Exception("Failed to cancel order line changes")
-    except Exception as e:
-        logger.error("Not able to update order line %s", e)
-        raise e
-
-
 @when(parsers.parse('Click on three dots and check that the options are correct'))
 def validate_order_lines_option(init_driver):
     feature_file_name = "sales_orders"

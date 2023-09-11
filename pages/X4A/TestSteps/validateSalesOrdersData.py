@@ -1198,25 +1198,6 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def validate_order_status_is_customer_hold(self, feature_file_name, screen_shot):
-        x4a_sales_order = X4ASalesOrdersPage(self.driver)
-        try:
-            if x4a_sales_order.check_order_status_is_on_customer_hold():
-                self.logger.info(
-                    "Successfully Verified that Order Status is Customer Hold")
-                self.driver.save_screenshot(
-                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
-                    + "_validated_order_status_successfully.png")
-                return True
-        except Exception as e:
-            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
-                                        "_order_status_error.png")
-            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                                  "_order_status_error.png"
-            self.logger.error(
-                "Error while verifying Order Status is Customer Hold")
-            self.logger.exception(e)
-            return False
 
     def validate_options_on_order_lines(self, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)

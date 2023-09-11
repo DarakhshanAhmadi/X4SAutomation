@@ -1,7 +1,7 @@
 @sales_orders @regression @demo_regression
 Feature: Sales Orders
 
-  @unmark_for_cancel_order_line
+  @login
   Scenario: Login to X4A portal
     Given launch chrome browser and open the X4A url
     Then provide user ID and Password to login
@@ -234,14 +234,14 @@ Feature: Sales Orders
   @update_end_user_po_and_reseller_po
   Scenario: Validate Update and cancel for end user po and reseller po
     When search a order with specific IM Order number
-    Then Validate the IM Order numberis listed
+    Then Validate the IM Order number is listed
     When Click on searched IM order number
     And Check if the order is editable
     Then Validate Cancel update of end user po and reseller po
     And Validate Update end user po and reseller po
 
   #EDT - 10799
-  @unmark_for_cancel_order_line
+  @verify_ACOP_field
   Scenario: Validate ACOP field
     When search a order with specific IM Order number
     Then Validate the IM Order number is listed
@@ -258,8 +258,8 @@ Feature: Sales Orders
 
   @unmark_for_cancel_order_line
   Scenario: Validate unmark cancel order line
-    Given Check whether the order is in customer hold
-    When Click on Order lines tab on Order Details page
+    When Verify order status is "Customer Hold(IM)"
+    And Click on Order lines tab on Order Details page
     And Click on three dots and check that the options are correct
     Then Click on mark for cancel for order lines
     And Click on Unmark for cancel order line
