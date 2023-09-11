@@ -36,8 +36,11 @@ class X4AInputOrderDAO(BaseTest):
                                 x4a_input_order.data_errors_resubmit_order_confirmation_id, x4a_input_order.reseller_name,
                                 x4a_input_order.end_user_name, x4a_input_order.created_on,
                                 x4a_input_order.filter_order_type, x4a_input_order.filter_order_status,
+                                x4a_input_order.modify_reference_details_data_errors_order_id,
+                                x4a_input_order.modify_shipping_notes_data_errors_order_id,
+                                x4a_input_order.modify_vmf_details_data_errors_order_id,
+                                x4a_input_order.modify_end_user_details_data_errors_order_id,
                                 x4a_input_order.end_user_po,x4a_input_order.edit_order_line))
-
                 connection.commit()
         except Error as e:
             self.logger.error("Exception occurred while trying to insert the input data into x4a_input_order table "
@@ -309,3 +312,79 @@ class X4AInputOrderDAO(BaseTest):
         finally:
             sql_util.close_connection(connection)
         self.logger.info("Data errors resubmit order confirmation_id updated successfully into x4a_input_order table")
+
+    def save_confirmation_id_for_reference_details_in_db(self, sql_util, feature_file_name,
+                                                         modify_reference_details_data_errors_order_id):
+        try:
+            connection = sql_util.get_connection()
+            cursor = connection.cursor()
+            self.logger.info("Updating modify Reference Details data errors order id into x4a_input_order table")
+            cursor.execute(
+                SqlConstant.X4A_UPDATE_MODIFY_REFERENCE_DETAILS_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY,
+                [modify_reference_details_data_errors_order_id, feature_file_name])
+            connection.commit()
+        except Error as e:
+            self.logger.error(
+                "Exception occurred while trying to update modify Reference Details data errors order id into x4a_input_order table " + str(
+                    e))
+        finally:
+            sql_util.close_connection(connection)
+        self.logger.info(
+            "Modify Reference Details data errors order id into x4a_input_order table updated successfully into x4a_input_order table")
+
+    def save_confirmation_id_for_shipping_notes_in_db(self, sql_util, feature_file_name,
+                                                      modify_shipping_notes_data_errors_order_id):
+        try:
+            connection = sql_util.get_connection()
+            cursor = connection.cursor()
+            self.logger.info("Updating modify Shipping notes data errors order id into x4a_input_order table")
+            cursor.execute(
+                SqlConstant.X4A_UPDATE_MODIFY_SHIPPING_NOTES_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY,
+                [modify_shipping_notes_data_errors_order_id, feature_file_name])
+            connection.commit()
+        except Error as e:
+            self.logger.error(
+                "Exception occurred while trying to update modify Shipping notes data errors order id into x4a_input_order table " + str(
+                    e))
+        finally:
+            sql_util.close_connection(connection)
+        self.logger.info(
+            "Modify Shipping notes data errors order id into x4a_input_order table updated successfully into x4a_input_order table")
+
+    def save_confirmation_id_for_vmf_details_in_db(self, sql_util, feature_file_name,
+                                                   modify_vmf_details_data_errors_order_id):
+        try:
+            connection = sql_util.get_connection()
+            cursor = connection.cursor()
+            self.logger.info("Updating modify VMF Details data errors order id into x4a_input_order table")
+            cursor.execute(
+                SqlConstant.X4A_UPDATE_MODIFY_VMF_DETAILS_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY,
+                [modify_vmf_details_data_errors_order_id, feature_file_name])
+            connection.commit()
+        except Error as e:
+            self.logger.error(
+                "Exception occurred while trying to update modify VMF Details data errors order id into x4a_input_order table " + str(
+                    e))
+        finally:
+            sql_util.close_connection(connection)
+        self.logger.info(
+            "Modify VMF Details data errors order id into x4a_input_order table updated successfully into x4a_input_order table")
+
+    def save_confirmation_id_for_end_user_details_in_db(self, sql_util, feature_file_name,
+                                                        modify_end_user_details_data_errors_order_id):
+        try:
+            connection = sql_util.get_connection()
+            cursor = connection.cursor()
+            self.logger.info("Updating modify VMF Details data errors order id into x4a_input_order table")
+            cursor.execute(
+                SqlConstant.X4A_UPDATE_MODIFY_END_USER_DETAILS_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY,
+                [modify_end_user_details_data_errors_order_id, feature_file_name])
+            connection.commit()
+        except Error as e:
+            self.logger.error(
+                "Exception occurred while trying to update modify End User Details data errors order id into x4a_input_order table " + str(
+                    e))
+        finally:
+            sql_util.close_connection(connection)
+        self.logger.info(
+            "Modify End User Details data errors order id into x4a_input_order table updated successfully into x4a_input_order table")

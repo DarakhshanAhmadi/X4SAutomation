@@ -4,9 +4,10 @@ class SqlConstant:
                                        "reseller_po, vendor_name, order_status, customer_po, total_revenue_min, total_revenue_max, customer_name," \
                                        "order_value, reference_numbers, billing_to_info, ship_to_info, end_user_info, order_lines_tab, " \
                                        "serial_numbers, additional_attributes, fraud_cancel_order_confirmation_id, fraud_reprocess_order_confirmation_id," \
-                                       " data_errors_resubmit_order_confirmation_id, reseller_name, end_user_name, created_on, filter_order_type," \
-                                       " filter_order_status, end_user_po, edit_order_lines)" \
-                                       "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                       " data_errors_resubmit_order_confirmation_id, reseller_name, end_user_name, created_on, filter_order_type, filter_order_status," \
+                                       "modify_reference_details_data_errors_order_id, modify_shipping_notes_data_errors_order_id, modify_vmf_details_data_errors_order_id, " \
+                                       "modify_end_user_details_data_errors_order_id, end_user_po, edit_order_lines)" \
+                                       "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
     X4A_GET_IM_ORDER_NUMBER_BY_FEATURE_FILE_NAME_SQL_QUERY = "SELECT im_order_number FROM x4a_input_order where feature_file_name =?"
 
@@ -35,9 +36,23 @@ class SqlConstant:
 
     X4A_USER_DATA_BY_FEATURE_FILE_SQL_QUERY = "SELECT * from x4a_user_data"
 
+    X4A_BULK_ORDER_SCENARIO_SQL_QUERY = "INSERT INTO x4a_bulk_order_data(feature_file_name, Scenario, Operator_ID, " \
+                                        "Country_Code, Customer_Branch_and_Number, " \
+                                        "Reseller_PO, Carrier_Code, Order_Type, Header_Comment_1, " \
+                                        "Header_Comment_2, Ingram_SKU, Qty)" \
+                                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+
+    X4A_BULK_ORDER_DATA_BY_FEATURE_FILE_SQL_QUERY = "SELECT * from x4a_bulk_order_data"
+
     X4A_INPUT_GET_ORDER_TEST_CASE_RECORD_SQL_QUERY = "SELECT * FROM x4a_input_order where feature_file_name=?"
 
     X4A_GET_ORDER_TYPE_BY_FEATURE_FILE_NAME_SQL_QUERY = "SELECT order_type FROM x4a_input_order where feature_file_name =?"
 
     X4A_UPDATE_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY = "Update x4a_input_order set data_errors_resubmit_order_confirmation_id = ? where feature_file_name= ?"
+    X4A_UPDATE_MODIFY_REFERENCE_DETAILS_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY = "Update x4a_input_order set modify_reference_details_data_errors_order_id = ? where feature_file_name= ?"
 
+    X4A_UPDATE_MODIFY_SHIPPING_NOTES_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY = "Update x4a_input_order set modify_shipping_notes_data_errors_order_id = ? where feature_file_name= ?"
+
+    X4A_UPDATE_MODIFY_VMF_DETAILS_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY = "Update x4a_input_order set modify_vmf_details_data_errors_order_id = ? where feature_file_name= ?"
+
+    X4A_UPDATE_MODIFY_END_USER_DETAILS_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY = "Update x4a_input_order set modify_end_user_details_data_errors_order_id = ? where feature_file_name= ?"

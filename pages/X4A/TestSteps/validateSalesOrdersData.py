@@ -1061,6 +1061,7 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
+
     def do_validate_update_end_user_po_and_reseller_po(self, end_user_po, reseller_po, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
@@ -1274,5 +1275,111 @@ class ValidateSalesOrdersData:
                                   "_click_unmark_for_cancel_error.png"
             self.logger.error(
                 "Error while clicking on unmark for cancel")
+
+    def validate_order_status(self, feature_file_name, status):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.order_status_validate(status):
+                self.logger.info("Failed to validate order status")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_validate_order_status_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully validated order status")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_validate_order_status_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating order status")
+            self.logger.exception(e)
+            return False
+
+    def validate_cancel_order_button_displayed(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.verify_cancel_order_button():
+                self.logger.info("Failed to verify cancel order button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_validate_cancel_order_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully validated cancel order button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_validate_cancel_order_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating cancel order button")
+            self.logger.exception(e)
+            return False
+
+    def click_on_cancel_order_btn(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.click_cancel_order_btn():
+                self.logger.info("Failed to click cancel order button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "cancel_order_click_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully clicked cancel order button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "cancel_order_click_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while clicking cancel order button")
+            self.logger.exception(e)
+            return False
+
+    def cancel_order_alert_elements(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.validate_cancel_order_alert_elements():
+                self.logger.info("Failed to verify cancel order alert elements")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "cancel_order_alert_elements_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified cancel order alert elements")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "cancel_order_alert_elements_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while verifying cancel order alert elements")
+            self.logger.exception(e)
+            return False
+
+    def click_cancel_order(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.cancel_order_click():
+                self.logger.info("Failed to click cancel order confirmation button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "cancel_order_confirmation_click_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully clicked cancel order confirmation button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "cancel_order_confirmation_click_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while clicking cancel order confirmation button")
+            self.logger.exception(e)
+            return False
+
+    def success_message_verify(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.validate_toast_notification():
+                self.logger.info("Failed to verify success notification")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "success_notification_verification_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified notification message")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "success_notification_verification_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while verifying success toast notification")
             self.logger.exception(e)
             return False
