@@ -144,6 +144,9 @@ def test_filter_by_order_value():
 def test_filter_by_created_on():
     pass
 
+@scenario("features/hardware/sales_orders.feature", "Verify customer hold cancel order")
+def test_cancel_order():
+    pass
 
 @scenario("features/hardware/sales_orders.feature", "logout X4A")
 def test_logout_x4a():
@@ -948,6 +951,77 @@ def validate_filter_by_order_value_results(init_driver):
         logger.error("Not able to Validate Created On %s", e)
         raise e
 
+
+@when(parsers.parse('Verify order status is "{status}"'))
+def verify_order_status(init_driver, status):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.validate_order_status(feature_file_name, status):
+            raise Exception("Failed to validate order status")
+    except Exception as e:
+        logger.error("Error while validating order status %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate cancel order button is displayed'))
+def is_cancel_order_button_displayed(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.validate_cancel_order_button_displayed(feature_file_name):
+            raise Exception("Failed to verify cancel order button")
+    except Exception as e:
+        logger.error("Error while validating cancel order button %s", e)
+        raise e
+
+
+@then(parsers.parse('Click on cancel order button'))
+def cancel_order_btn_click(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.click_on_cancel_order_btn(feature_file_name):
+            raise Exception("Failed to click on cancel order button")
+    except Exception as e:
+        logger.error("Error while clicking cancel order button %s", e)
+        raise e
+
+
+@then(parsers.parse('Verify the elements displayed on cancel order alert'))
+def verify_cancel_order_alert_elements(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.cancel_order_alert_elements(feature_file_name):
+            raise Exception("Failed to verify cancel order alert elements")
+    except Exception as e:
+        logger.error("Error while verifying cancel order alert elements %s", e)
+        raise e
+
+
+@then(parsers.parse('Cancel the order'))
+def cancel_order(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.click_cancel_order(feature_file_name):
+            raise Exception("Failed to click on cancel order button")
+    except Exception as e:
+        logger.error("Error while clicking on cancel order button %s", e)
+        raise e
+
+
+@then(parsers.parse('Verify success toast notification is displayed'))
+def verify_success_notification(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.success_message_verify(feature_file_name):
+            raise Exception("Failed to verify success toast notification")
+    except Exception as e:
+        logger.error("Error while verifying success toast notification %s", e)
+        raise e
 
 # We are blocking because filter is applied for all columns.
 
