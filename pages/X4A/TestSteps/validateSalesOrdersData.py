@@ -1060,3 +1060,307 @@ class ValidateSalesOrdersData:
             self.logger.error("Error while validating Created On")
             self.logger.exception(e)
             return False
+
+
+    def do_validate_update_end_user_po_and_reseller_po(self, end_user_po, reseller_po, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.validate_update_end_user_po_and_reseller_po(end_user_po, reseller_po):
+                self.logger.error("Failed to validate Update for end user po and reseller po")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_update_end_user_and_reseller_po_error.png")
+                screen_shot[
+                    "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_update_end_user_and_reseller_po_error.png"
+                return False
+            else:
+                self.logger.info("Successfully validated Update for end user po and reseller po")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name + "_validate_update_end_user_and_reseller_po_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating Update for end user po and reseller po")
+            self.logger.exception(e)
+            return False
+
+    def do_validate_cancel_update_of_end_user_po_and_reseller_po(self, end_user_po, reseller_po, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.validate_cancel_end_user_po_and_reseller_po(end_user_po, reseller_po):
+                self.logger.error("Failed to validate cancel Update for end user po and reseller po")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_cancel_update_end_user_and_reseller_po_error.png")
+                screen_shot[
+                    "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_cancel_update_end_user_and_reseller_po_error.png"
+                return False
+            else:
+                self.logger.info("Successfully validated cancel Update for end user po and reseller po")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name + "_validate_cancel_update_end_user_and_reseller_po_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating cancel Update for end user po and reseller po")
+            self.logger.exception(e)
+            return False
+
+    def do_validate_acop_field(self, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.validate_acop_field():
+                self.logger.error("Failed to validate ACOP field")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_acop_field_error.png")
+                screen_shot[
+                    "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_acop_field_error.png"
+                return False
+            else:
+                self.logger.info("Successfully validated ACOP field")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name + "_validated_acop_field_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating ACOP field")
+            self.logger.exception(e)
+            return False
+
+    def validate_order_status_to_edit(self, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if x4a_sales_order.validate_order_status_to_check_if_editable():
+                self.logger.info(
+                    "Successfully Verified the Order Status, order can be edited")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_validated_order_details_status_successfully.png")
+                return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_title_on_order_details_page_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_order_details_status_error.png"
+            self.logger.error(
+                "Error while verifying Order Status")
+            self.logger.exception(e)
+            return False
+
+    def update_order_line_and_validate_data(self, special_bid, unit_price, quantity, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if (x4a_sales_order.update_order_line(special_bid, unit_price,quantity) & x4a_sales_order.click_order_line_edit_check_icon()):
+                self.logger.info(
+                    "Successfully updated the order line")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_updated_order_line_successfully.png")
+            ui_data = x4a_sales_order.get_order_line_data()
+            self.logger.info("Validating data for order line")
+            calculated_margin = round(((float(unit_price)-float(ui_data['cost']))/float(unit_price)) * 100, 2)
+            assert str(special_bid) == str(ui_data['special_bid']), "Special bid mismatched"
+            assert str(unit_price) == str(ui_data['unit_price']), "Unit price mismatched"
+            assert str(quantity) == str(ui_data['quantity']), "Quantity mismatched"
+            assert str(calculated_margin) == str(ui_data['margin']), "Margin Mismatched"
+            # assert int(ui_data['quantity']) == (int(ui_data['quantity_confirmed']) + int(ui_data['quantity_backordered'])), "Quantity calculation mismatched"
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_update_order_line_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_update_order_line_error.png"
+            self.logger.error(
+                "Error while updating order line")
+            self.logger.exception(e)
+            return False
+
+    def cancel_order_line_changes_and_validate_data(self, special_bid, unit_price, quantity, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if (x4a_sales_order.update_order_line(special_bid, unit_price,quantity) & x4a_sales_order.click_order_line_edit_cancel_icon()):
+                self.logger.info(
+                    "Successfully cancelled updated the order line")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_cancel_updated_order_line_successfully.png")
+            ui_data = x4a_sales_order.get_order_line_data()
+            self.logger.info("Validating data for order line")
+            calculated_margin = round(((float(unit_price)-float(ui_data['cost']))/float(unit_price)) * 100, 2)
+            assert str(special_bid) != str(ui_data['special_bid']), "Special bid matched"
+            assert str(unit_price) != str(ui_data['unit_price']), "Unit price matched"
+            assert str(quantity) != str(ui_data['quantity']), "Quantity matched"
+            assert str(calculated_margin) != str(ui_data['margin']), "Margin matched"
+            # assert int(ui_data['quantity']) == (int(ui_data['quantity_confirmed']) + int(ui_data['quantity_backordered'])), "Quantity calculation mismatched"
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_cancel_updated_order_line_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_cancel_updated_order_line_error.png"
+            self.logger.error(
+                "Error while updating order line")
+            self.logger.exception(e)
+            return False
+
+
+    def validate_options_on_order_lines(self, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if x4a_sales_order.check_cancel_options_are_correct_in_order_lines():
+                self.logger.info(
+                    "Successfully Verified that Order lines options")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_validated_order_status_successfully.png")
+                return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_order_status_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_order_status_error.png"
+            self.logger.error(
+                "Error while verifying Order lines options")
+            self.logger.exception(e)
+            return False
+
+    def click_on_mark_for_cancel(self, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if x4a_sales_order.click_on_mark_for_cancel():
+                self.logger.info(
+                    "Successfully clicked on mark for order")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_mark_for_cancel_clicked_successfully.png")
+                return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_click_mark_for_cancel_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_click_mark_for_cancel_error.png"
+            self.logger.error(
+                "Error while clicking on mark for cancel")
+            self.logger.exception(e)
+            return False
+
+    def click_on_unmark_for_cancel(self, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if x4a_sales_order.click_on_unmark_for_cancel():
+                self.logger.info(
+                    "Successfully clicked on unmark for order")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_unmark_for_cancel_clicked_successfully.png")
+                return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_click_unmark_for_cancel_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_click_unmark_for_cancel_error.png"
+            self.logger.error(
+                "Error while clicking on unmark for cancel")
+
+    def validate_order_status(self, feature_file_name, status):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.order_status_validate(status):
+                self.logger.info("Failed to validate order status")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_validate_order_status_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully validated order status")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_validate_order_status_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating order status")
+            self.logger.exception(e)
+            return False
+
+    def validate_cancel_order_button_displayed(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.verify_cancel_order_button():
+                self.logger.info("Failed to verify cancel order button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_validate_cancel_order_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully validated cancel order button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_validate_cancel_order_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating cancel order button")
+            self.logger.exception(e)
+            return False
+
+    def click_on_cancel_order_btn(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.click_cancel_order_btn():
+                self.logger.info("Failed to click cancel order button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "cancel_order_click_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully clicked cancel order button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "cancel_order_click_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while clicking cancel order button")
+            self.logger.exception(e)
+            return False
+
+    def cancel_order_alert_elements(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.validate_cancel_order_alert_elements():
+                self.logger.info("Failed to verify cancel order alert elements")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "cancel_order_alert_elements_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified cancel order alert elements")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "cancel_order_alert_elements_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while verifying cancel order alert elements")
+            self.logger.exception(e)
+            return False
+
+    def click_cancel_order(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.cancel_order_click():
+                self.logger.info("Failed to click cancel order confirmation button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "cancel_order_confirmation_click_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully clicked cancel order confirmation button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "cancel_order_confirmation_click_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while clicking cancel order confirmation button")
+            self.logger.exception(e)
+            return False
+
+    def success_message_verify(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.validate_toast_notification():
+                self.logger.info("Failed to verify success notification")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "success_notification_verification_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified notification message")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "success_notification_verification_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while verifying success toast notification")
+            self.logger.exception(e)
+            return False
