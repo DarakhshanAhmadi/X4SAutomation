@@ -1110,7 +1110,7 @@ class X4AAgedOrdersPage(BasePage):
                     self.scroll_down(e)
                 xpath = (By.XPATH, "//*[@id='modal-modal-description']/div/div/div/div[2]/div[2]/div/div/div//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]")
                 try:
-                    sku = self.get_element_text(xpath)
+                    sku = self.get_element_text_for_filter(xpath)
                 except:
                     self.logger.info("There are only %s skus", str(i-1))
                     break
