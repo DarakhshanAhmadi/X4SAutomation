@@ -839,3 +839,23 @@ class ValidateAgedOrdersData:
             self.logger.error("Error while verifying ui and file data for filter")
             self.logger.exception(e)
             return False
+
+    def cancel_order_and_validate(self, feature_file_name, screen_shot, im_order):
+        x4a_aged_order = X4AAgedOrdersPage(self.driver)
+        try:
+            self.logger.info("Cancelling order")
+            x4a_aged_order.cancel_aged_order()
+            self.logger.info("Validating cancel")
+            x4a_aged_order.validate_order_is_not_in_list(im_order)
+            self.logger.info("Order cancelled successfully")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "bcn_and_order_date_filtered_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "filter_bcn_and_order_date_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                                        "filter_bcn_and_order_date_error.png"
+            self.logger.error("Error while cancelling order")
+            self.logger.exception(e)
+            return False
