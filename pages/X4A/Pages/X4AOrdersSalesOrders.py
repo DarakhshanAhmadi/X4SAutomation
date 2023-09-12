@@ -113,7 +113,10 @@ class X4ASalesOrdersPage(BasePage):
     ORDER_VALUE_HEADER = (By.XPATH, "//*[@class='TopArea']/div[2]/div[1]")
     ORDER_TYPE_HEADER = (By.XPATH, "//*[@class='TopArea']/div[2]/div[3]")
     RESUBMIT_ORDER_BUTTON = (By.XPATH, "//*[text()='Resubmit Order']")
+    RESUBMIT_ORDER_POPUP_MESSAGE = (By.ID, "alert-dialog-description")
     RESUBMIT_YES_BUTTON = (By.XPATH, "//button[text()='Yes, Resubmit Order']")
+    RESUBMIT_STATUS_TITLE = (By.XPATH, "//h2[text()='Order resubmission status']")
+    CLOSE_RESUBMIT_POPUP = (By.XPATH, "//*[@data-testid='CloseIcon']")
     """Order Details tab-Reference numbers"""
 
     END_USER_PO_FIELD = (By.XPATH, "//*[text()='End user PO:']/parent::div/div[@class='fieldValue']/strong")
@@ -2063,8 +2066,7 @@ class X4ASalesOrdersPage(BasePage):
             self.update_end_user_po_and_reseller_po(end_user_po, reseller_po)
             ui_end_user_po = self.get_element_text(self.REFERENCE_NUMBERS_END_USER_PO)
             ui_reseller_po = self.get_element_text(self.REFERENCE_NUMBERS_RESELLER_PO)
-            self.do_click_by_locator(self.RESUBMIT_ORDER_BUTTON)
-            self.do_click_by_locator(self.RESUBMIT_YES_BUTTON)
+            self.resubmit_order()
             assert ui_end_user_po == end_user_po.upper(), "End user PO mismatched"
             assert ui_reseller_po == reseller_po.upper(), "Reseller PO mismatched"
             return True
@@ -2152,8 +2154,7 @@ class X4ASalesOrdersPage(BasePage):
             self.do_click_by_locator(self.EDIT_CHECK_ICON)
             time.sleep(2)
             self.logger.info("Clicked on order line check icon")
-            # self.do_click_by_locator(self.RESUBMIT_ORDER_BUTTON)
-            # self.do_click_by_locator(self.RESUBMIT_YES_BUTTON)
+            # self.resubmit_order()
             return True
         except Exception as e:
             self.logger.error(
@@ -2268,7 +2269,6 @@ class X4ASalesOrdersPage(BasePage):
     def order_status_validate(self, status):
         try:
             self.driver.refresh()
-            self.driver.refresh()
             if self.get_element_text(self.ORDER_DETAILS_STATUS) == status:
                 self.logger.info("Order status is validated successfully")
                 return True
@@ -2329,3 +2329,17 @@ class X4ASalesOrdersPage(BasePage):
         except Exception as e:
             self.logger.error('Exception occurred while validating toast notification ' + str(e))
             return False
+
+    def resubmit_order(self):
+        try:
+            self.do_click_by_locator(self.RESUBMIT_ORDER_BUTTON)
+            popup_message = self.get_element_text(self.RESUBMIT_ORDER_POPUP_MESSAGE)
+            assert popup_message == "Are you sure to resubmit order?", "Resubmit popup message did not match"
+            self.do_click_by_locator(self.RESUBMIT_YES_BUTTON)
+            self.do_check_visibility(self.RESUBMIT_STATUS_TITLE)
+            resubmit_status = self.get_element_text(self.RESUBMIT_ORDER_POPUP_MESSAGE)
+            assert resubmit_status == "Order resubmitted successfully", "Resubmit failed"
+            self.do_click_by_locator(self.CLOSE_RESUBMIT_POPUP)
+        except Exception as e:
+            self.logger.error('Exception occurred while resubmitting order ' + str(e))
+            raise e
