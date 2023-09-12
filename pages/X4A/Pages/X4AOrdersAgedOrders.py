@@ -669,7 +669,7 @@ class X4AAgedOrdersPage(BasePage):
                 customer_name_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='customerName']")
                 try:
-                    ui_customer_name = self.get_element_text(customer_name_xpath)
+                    ui_customer_name = self.get_element_text_for_filter(customer_name_xpath)
                     self.logger.info("Fetched ui customer name " + str(ui_customer_name))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
@@ -739,7 +739,7 @@ class X4AAgedOrdersPage(BasePage):
                 order_type_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='orderTypeName']")
                 try:
-                    ui_order_type = self.get_element_text(order_type_xpath)
+                    ui_order_type = self.get_element_text_for_filter(order_type_xpath)
                     self.logger.info("Fetched ui order type " + str(ui_order_type))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
@@ -786,7 +786,7 @@ class X4AAgedOrdersPage(BasePage):
                 order_status_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='orderStatus']")
                 try:
-                    ui_order_status = self.get_element_text(order_status_xpath)
+                    ui_order_status = self.get_element_text_for_filter(order_status_xpath)
                     self.logger.info("Fetched ui order status " + str(ui_order_status))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
@@ -832,7 +832,7 @@ class X4AAgedOrdersPage(BasePage):
                 order_value_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='orderTotalValue']")
                 try:
-                    order_value = float(self.get_element_text(order_value_xpath))
+                    order_value = float(self.get_element_text_for_filter(order_value_xpath))
                     self.logger.info("Fetched ui order value " + str(order_value))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
@@ -907,9 +907,9 @@ class X4AAgedOrdersPage(BasePage):
                 order_status_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='orderStatus']")
                 try:
-                    ui_bcn_account = self.get_element_text(bcn_account_xpath)
-                    ui_vendor_name = self.get_element_text(vendor_name_xpath)
-                    ui_order_status = self.get_element_text(order_status_xpath)
+                    ui_bcn_account = self.get_element_text_for_filter(bcn_account_xpath)
+                    ui_vendor_name = self.get_element_text_for_filter(vendor_name_xpath)
+                    ui_order_status = self.get_element_text_for_filter(order_status_xpath)
                     self.logger.info("Fetched ui bcn, vendor and order status " + str(ui_bcn_account) + "," + str(ui_vendor_name) + "," + str(ui_order_status))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
@@ -918,7 +918,7 @@ class X4AAgedOrdersPage(BasePage):
                     self.logger.info("Multiple vendors present")
                     multiple_vendor_link_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='"+str(i)+"']/div/div/button[contains(text(), 'Multiple Vendors')]")
                     self.do_click_by_locator(multiple_vendor_link_xpath)
-                    popup_vendor_names = self.get_element_text(self.MULTIPLE_VENDOR_LINK)
+                    popup_vendor_names = self.get_element_text_for_filter(self.MULTIPLE_VENDOR_LINK)
                     self.do_click_by_locator(self.LINK_CLOSE_BUTTON)
                     if vendor_name not in popup_vendor_names:
                         raise Exception("vendor name mismatched")
@@ -1034,7 +1034,7 @@ class X4AAgedOrdersPage(BasePage):
             for i in range(1, 13):
                 column_xpath = "//div[@class='MuiDataGrid-row'] [@data-id='0']/div[@data-colindex='" + str(i) + "']"
                 column_element = (By.XPATH, column_xpath)
-                column_data = self.get_element_text(column_element)
+                column_data = self.get_element_text_for_filter(column_element)
                 column_name = self.do_get_attribute(column_element, 'data-field')
                 if column_name == 'ingramPartNumbers':
                     if "..." in column_data:
@@ -1061,7 +1061,7 @@ class X4AAgedOrdersPage(BasePage):
         row_index = 0
         try:
             time.sleep(2)
-            max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
+            max_rows = self.get_element_text_for_filter(self.ITEMS_PER_PAGE)
             table = self.driver.find_element(By.XPATH, self.AGED_ORDER_TABLE)
             for i in range(int(max_rows)):
                 if i > 0 and i % 2 == 0:
@@ -1076,7 +1076,7 @@ class X4AAgedOrdersPage(BasePage):
             for i in range(1, 13):
                 column_xpath = "//div[@class='MuiDataGrid-row'] [@data-id='" + str(row_index) + "']/div[@data-colindex='" + str(i) + "']"
                 column_element = (By.XPATH, column_xpath)
-                column_data = self.get_element_text(column_element)
+                column_data = self.get_element_text_for_filter(column_element)
                 column_name = self.do_get_attribute(column_element, 'data-field')
                 if column_name == 'ingramPartNumbers':
                     if "..." in column_data:
@@ -1110,7 +1110,7 @@ class X4AAgedOrdersPage(BasePage):
                     self.scroll_down(e)
                 xpath = (By.XPATH, "//*[@id='modal-modal-description']/div/div/div/div[2]/div[2]/div/div/div//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]")
                 try:
-                    sku = self.get_element_text(xpath)
+                    sku = self.get_element_text_for_filter(xpath)
                 except:
                     self.logger.info("There are only %s skus", str(i-1))
                     break
