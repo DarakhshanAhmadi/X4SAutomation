@@ -1367,3 +1367,75 @@ class ValidateSalesOrdersData:
             self.logger.error("Error while verifying success toast notification")
             self.logger.exception(e)
             return False
+
+    def validate_cancel_single_line_item(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.mark_for_cancel_single_line_item():
+                self.logger.info("Failed to click on mark for cancel for single line item")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "mark_for_cancel_single_line_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully clicked on mark for cancel for single line item")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "mark_for_cancel_single_line_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while clicking on mark for cancel for single line item")
+            self.logger.exception(e)
+            return False
+
+    def validate_order_line_edit_button_not_active(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.order_line_edit_button_verify():
+                self.logger.info("Failed to verify order line and edit button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "order_line_edit_btn_verify_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified order line and edit button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "order_line_edit_btn_verify_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while verifying order line and edit button")
+            self.logger.exception(e)
+            return False
+
+    def validate_resubmit_order_click(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.resubmit_order():
+                self.logger.info("Failed to click on resubmit order")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "resubmit_order_button_click_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully clicked on resubmit order button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "resubmit_order_button_click_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while clicking resubmit order button")
+            self.logger.exception(e)
+            return False
+
+    def validate_cancelled_order_not_visible(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.cancelled_order_not_visible_test():
+                self.logger.info("Failed to validate cancelled order line not visible")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "cancelled_order_line_not_visible_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully validated cancelled order not visible")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "cancelled_order_line_not_visible_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating cancelled order line")
+            self.logger.exception(e)
+            return False

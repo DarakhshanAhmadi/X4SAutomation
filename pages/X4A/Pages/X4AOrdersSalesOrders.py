@@ -1,12 +1,14 @@
 import random
 import time
+from datetime import datetime, date, timedelta
+
+from selenium.webdriver import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
+
 from CommonUtilities.baseSet.BasePage import BasePage
 from CommonUtilities.parse_config import ParseConfigFile
-from selenium.webdriver import ActionChains, Keys
-from datetime import datetime, date, timedelta
 from CommonUtilities.readProperties import ReadConfig
-from selenium.webdriver.common.action_chains import ActionChains
 
 
 class X4ASalesOrdersPage(BasePage):
@@ -113,8 +115,12 @@ class X4ASalesOrdersPage(BasePage):
     ORDER_VALUE_HEADER = (By.XPATH, "//*[@class='TopArea']/div[2]/div[1]")
     ORDER_TYPE_HEADER = (By.XPATH, "//*[@class='TopArea']/div[2]/div[3]")
     RESUBMIT_ORDER_BUTTON = (By.XPATH, "//*[text()='Resubmit Order']")
-    RESUBMIT_ORDER_POPUP_MESSAGE = (By.ID, "alert-dialog-description")
+    RESUBMIT_ORDER_POPUP_MESSAGE = (By.XPATH, "//*[@id='alert-dialog-description']")
     RESUBMIT_YES_BUTTON = (By.XPATH, "//button[text()='Yes, Resubmit Order']")
+    MORE_OPTIONS_MENU = (By.XPATH, "(//*[@data-testid='MoreVertOutlinedIcon'])[1]")
+    MARK_FOR_CANCEL = (By.XPATH, "(//*[text()='Mark for cancel'])[1]")
+    EDIT_PENCIL_ICON = "(//*[@data-testid='EditOutlinedIcon'])[1]//parent::button"
+    ORDER_LINE_DESC = (By.XPATH, "((//*[contains(@class, 'MuiDataGrid-row')])[1]//child::strong)[1]")
     RESUBMIT_STATUS_TITLE = (By.XPATH, "//h2[text()='Order resubmission status']")
     CLOSE_RESUBMIT_POPUP = (By.XPATH, "//*[@data-testid='CloseIcon']")
     """Order Details tab-Reference numbers"""
@@ -2357,6 +2363,42 @@ class X4ASalesOrdersPage(BasePage):
             self.logger.error('Exception occurred while validating toast notification ' + str(e))
             return False
 
+    def mark_for_cancel_single_line_item(self):
+        try:
+            order_lines = self.get_all_elements(self.ORDER_LINES)
+            if len(order_lines) > 0:
+                global order_desc
+                order_desc = self.get_element_text(self.ORDER_LINE_DESC)
+                self.logger.info(order_desc)
+                self.do_click_by_locator(self.MORE_OPTIONS_MENU)
+                order_line_options_xpath = (By.XPATH, "(//li[@role='menuitem'])")
+                order_line_options = self.get_all_elements(order_line_options_xpath)
+                self.logger.info(len(order_line_options))
+                mark_for_cancel_elements = []
+                for ele in order_line_options:
+                    if ele.text == 'Mark for cancel':
+                        mark_for_cancel_elements.append(ele)
+                self.do_click_by_locator(mark_for_cancel_elements[-1])
+                self.logger.info("Clicked on mark for cancel for single line item")
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on mark for cancel for single line item ' + str(e))
+            return False
+
+    def order_line_edit_button_verify(self):
+        try:
+            pencil_icon = self.driver.find_element(By.XPATH, self.EDIT_PENCIL_ICON)
+            if not self.is_element_enabled(pencil_icon):
+                self.logger.info("Single line item is greyed out and edit button is also not active")
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error('Exception occurred while validating order line and edit button ' + str(e))
+            return False
+
     def resubmit_order(self):
         try:
             self.do_click_by_locator(self.RESUBMIT_ORDER_BUTTON)
@@ -2367,7 +2409,21 @@ class X4ASalesOrdersPage(BasePage):
             resubmit_status = self.get_element_text(self.RESUBMIT_ORDER_POPUP_MESSAGE)
             assert resubmit_status == "Order resubmitted successfully", "Resubmit failed"
             self.do_click_by_locator(self.CLOSE_RESUBMIT_POPUP)
+            self.logger.info("Successfully resubmitted order")
+            return True
         except Exception as e:
             self.logger.error('Exception occurred while resubmitting order ' + str(e))
-            raise e
+            return False
 
+    def cancelled_order_not_visible_test(self):
+        try:
+            self.logger.info((By.XPATH, "//*[text()='" + order_desc + "']").__str__())
+            element = (By.XPATH, "//*[text()='"+order_desc+"']")
+            if not self.do_check_visibility(element):
+                self.logger.info("Cancelled order is not visible")
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error('Exception occurred while validating order line is not visible ' + str(e))
+            return False
