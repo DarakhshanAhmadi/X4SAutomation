@@ -2148,7 +2148,7 @@ class X4ASalesOrdersPage(BasePage):
             self.do_send_keys(self.ORDER_LINE_SPECIAL_BID_NUMBER, special_bid)
             time.sleep(3)
             self.do_send_keys(self.ORDER_LINE_SPECIAL_BID_NUMBER, special_bid)
-            time.sleep(7)
+            time.sleep(5)
             self.do_send_keys(self.ORDER_LINE_UNIT_PRICE, unit_price)
             self.do_send_keys(self.ORDER_LINE_UNIT_PRICE, unit_price)
             element = "//*[@data-id='0']//*[@role='cell' and @data-field='unitWeight']"
