@@ -36,7 +36,9 @@ filter_order_status String,
 modify_reference_details_data_errors_order_id String,
 modify_shipping_notes_data_errors_order_id String,
 modify_vmf_details_data_errors_order_id String,
-modify_end_user_details_data_errors_order_id String
+modify_end_user_details_data_errors_order_id String,
+end_user_po String,
+edit_order_lines String
 );
 
 CREATE TABLE IF NOT EXISTS x4a_user_data(
@@ -46,4 +48,20 @@ Associate_Name String,
 Associate_Email String,
 Associate_Roles String,
 Associate_countries String
+);
+
+CREATE TABLE IF NOT EXISTS x4a_bulk_order_data(
+id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+feature_file_name String NOT NULL,
+Scenario  String,
+Operator_ID  String,
+Country_Code String,
+Customer_Branch_and_Number String,
+Reseller_PO  String,
+Carrier_Code  String,
+Order_Type    String,
+Header_Comment_1 String,
+Header_Comment_2 String,
+Ingram_SKU String,
+Qty String
 );

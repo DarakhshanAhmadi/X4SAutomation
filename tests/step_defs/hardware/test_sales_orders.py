@@ -148,6 +148,26 @@ def test_filter_by_created_on():
 def test_cancel_order():
     pass
 
+@scenario("features/hardware/sales_orders.feature", "Validate Update and cancel for end user po and reseller po")
+def test_update_end_user_po_and_reseller_po():
+    pass
+
+
+@scenario("features/hardware/sales_orders.feature", "Validate ACOP field")
+def test_validate_acop_field():
+    pass
+
+
+@scenario("features/hardware/sales_orders.feature", "Validate Update and Cancel for edit order line")
+def test_validate_update_order_line():
+    pass
+
+
+@scenario("features/hardware/sales_orders.feature", "Validate unmark cancel order line")
+def test_unmark_order_lines():
+    pass
+
+
 @scenario("features/hardware/sales_orders.feature", "logout X4A")
 def test_logout_x4a():
     pass
@@ -336,6 +356,7 @@ def click_on_im_order_number(init_driver):
     feature_file_name = "sales_orders"
     validate_sales_orers = ValidateSalesOrdersData(init_driver)
     try:
+        logger.info("click")
         if not validate_sales_orers.click_on_im_order_num(feature_file_name):
             raise Exception("Failed to click on searched IM order number")
     except Exception as e:
@@ -952,6 +973,132 @@ def validate_filter_by_order_value_results(init_driver):
         raise e
 
 
+@then(parsers.parse('Validate Update end user po and reseller po'))
+def validate_update_end_user_po_and_reseller_po(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        end_user_po = input_order_data.get("end_user_po")
+        reseller_po = input_order_data.get("reseller_po")
+        if not validate_sales_orders.do_validate_update_end_user_po_and_reseller_po(end_user_po, reseller_po, feature_file_name, screen_shot):
+            raise Exception("Failed to Validate update for end user po and reseller po")
+    except Exception as e:
+        logger.error("Not able to Validate update for end user po and reseller po %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate Cancel update of end user po and reseller po'))
+def validate_cancel_update_of_end_user_po_and_reseller_po(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        end_user_po = input_order_data.get("end_user_po")
+        reseller_po = input_order_data.get("reseller_po")
+        if not validate_sales_orders.do_validate_cancel_update_of_end_user_po_and_reseller_po(end_user_po, reseller_po, feature_file_name, screen_shot):
+            raise Exception("Failed to Validate Cancel update for end user po and reseller po")
+    except Exception as e:
+        logger.error("Not able to Validate Cancel update for end user po and reseller po %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate ACOP field is present and has valid value'))
+def validate_acop_field(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.do_validate_acop_field(feature_file_name, screen_shot):
+            raise Exception("Failed to Validate ACOP field")
+    except Exception as e:
+        logger.error("Not able to Validate ACOP field %s", e)
+        raise e
+
+
+@when(parsers.parse('Check if the order is editable'))
+def check_if_order_is_editable(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.validate_order_status_to_edit(feature_file_name, screen_shot):
+            raise Exception("Failed to check if order is editable")
+    except Exception as e:
+        logger.error("Not able to check if order is editable %s", e)
+        raise e
+
+
+@then(parsers.parse('Update order line and validate it'))
+def update_order_line_and_validate(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+                db_file_path, feature_file_name)
+        special_bid = input_order_data.get('edit_order_lines').split(",")[0]
+        unit_price = input_order_data.get('edit_order_lines').split(",")[1]
+        quantity = input_order_data.get('edit_order_lines').split(",")[2]
+
+        if not validate_sales_orders.update_order_line_and_validate_data(special_bid, unit_price, quantity, feature_file_name, screen_shot):
+            raise Exception("Failed to update order line")
+    except Exception as e:
+        logger.error("Not able to update order line %s", e)
+        raise e
+
+
+@then(parsers.parse('Cancel order line changes and validate it'))
+def update_order_line_and_validate(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+                db_file_path, feature_file_name)
+        special_bid = input_order_data.get('edit_order_lines').split(",")[0]
+        unit_price = input_order_data.get('edit_order_lines').split(",")[1]
+        quantity = input_order_data.get('edit_order_lines').split(",")[2]
+        if not validate_sales_orders.cancel_order_line_changes_and_validate_data(special_bid, unit_price, quantity, feature_file_name, screen_shot):
+            raise Exception("Failed to cancel order line changes")
+    except Exception as e:
+        logger.error("Not able to update order line %s", e)
+        raise e
+
+
+@when(parsers.parse('Click on three dots and check that the options are correct'))
+def validate_order_lines_option(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.validate_options_on_order_lines(feature_file_name, screen_shot):
+            raise Exception("Failed to cancel order line changes")
+    except Exception as e:
+        logger.error("Not able to update order line %s", e)
+        raise e
+
+
+@then(parsers.parse('Click on mark for cancel for order lines'))
+def click_mark_for_cancel(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.click_on_mark_for_cancel(feature_file_name, screen_shot):
+            raise Exception("Failed to click on mark for cancel")
+    except Exception as e:
+        logger.error("Not able to click on mark for cancel %s", e)
+        raise e
+
+
+@then(parsers.parse('Click on Unmark for cancel order line'))
+def click_unmark_for_cancel(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.click_on_unmark_for_cancel(feature_file_name, screen_shot):
+            raise Exception("Failed to click on unmark for cancel")
+    except Exception as e:
+        logger.error("Not able to click on unmark for cancel %s", e)
+        raise e
+
 @when(parsers.parse('Verify order status is "{status}"'))
 def verify_order_status(init_driver, status):
     feature_file_name = "sales_orders"
@@ -1022,6 +1169,7 @@ def verify_success_notification(init_driver):
     except Exception as e:
         logger.error("Error while verifying success toast notification %s", e)
         raise e
+
 
 # We are blocking because filter is applied for all columns.
 

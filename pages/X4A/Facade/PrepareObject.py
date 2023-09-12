@@ -33,7 +33,8 @@ class PrepareObject:
                                             test_data.get("ModifyReferenceDetailsDataErrorOrderID"),
                                             test_data.get("ModifyShippingNotesDataErrorOrderID"),
                                             test_data.get("ModifyVMFDetailsDataErrorOrderID"),
-                                            test_data.get("ModifyEndUserDetailsDataErrorOrderID"))
+                                            test_data.get("ModifyEndUserDetailsDataErrorOrderID"), test_data.get("EndUserPO"),
+                                            test_data.get("EditOrderLines"))
         return x4a_input_order_obj
 
     def prepare_x4a_user_data_obj(self, test_data):
@@ -58,3 +59,4 @@ class PrepareObject:
                                                    test_data.get("Ingram_SKU"),
                                                    test_data.get("Qty"))
         return x4a_bulk_order_data_obj
+
