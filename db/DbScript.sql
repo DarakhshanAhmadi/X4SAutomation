@@ -49,3 +49,19 @@ Associate_Email String,
 Associate_Roles String,
 Associate_countries String
 );
+
+CREATE TABLE IF NOT EXISTS x4a_bulk_order_data(
+id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+feature_file_name String NOT NULL,
+Scenario  String,
+Operator_ID  String,
+Country_Code String,
+Customer_Branch_and_Number String,
+Reseller_PO  String,
+Carrier_Code  String,
+Order_Type    String,
+Header_Comment_1 String,
+Header_Comment_2 String,
+Ingram_SKU String,
+Qty String
+);
