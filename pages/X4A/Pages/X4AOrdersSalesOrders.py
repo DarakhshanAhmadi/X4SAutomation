@@ -1742,9 +1742,8 @@ class X4ASalesOrdersPage(BasePage):
                     self.logger.info("Multiple vendors present")
                     multiple_vendor_link_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='"+str(i)+"']/div/div/button[contains(text(), 'Multiple Vendors')]")
                     self.do_click_by_locator(multiple_vendor_link_xpath)
-                    popup_vendor_names = self.get_element_text(self.MULTIPLE_VENDOR_LINK)
-                    self.do_click_by_locator(self.LINK_CLOSE_BUTTON)
-                    if vendor_name not in popup_vendor_names:
+                    vendor_list = self.get_multiple_vendor_data()
+                    if vendor_name not in vendor_list:
                         raise Exception("Vendor name mismatched")
                 else:
                     self.logger.info("Single vendor present")
@@ -1752,6 +1751,28 @@ class X4ASalesOrdersPage(BasePage):
         except Exception as e:
             self.logger.error("Exception occurred verifying Vendor Name" + str(e))
             raise e
+
+    def get_multiple_vendor_data(self):
+        vendor_list = []
+        try:
+            self.logger.info("Getting the multiple vendors")
+            for i in range(1, 100):
+                s = "//*[@id='modal-modal-description']/div/div/div/div[2]/div[2]/div"
+                e = self.driver.find_element(By.XPATH, s)
+                xpath = (By.XPATH, "//*[@id='modal-modal-description']/div/div/div/div[2]/div[2]/div/div/div/div[@data-id=" + str(i) + "]")
+                try:
+                    vendor = self.get_element_text_for_filter(xpath)
+                except:
+                    self.logger.info("There are only %s skus", str(i-1))
+                    break
+                vendor_list.append(vendor)
+                if i % 3 == 0:
+                    self.scroll_down(e)
+            self.do_click_by_locator(self.LINK_CLOSE_BUTTON)
+        except Exception as e:
+            self.logger.error("Error while getting multiple vendor data from link " + str(e))
+            raise e
+        return vendor_list
 
     def filter_by_end_user_name(self, end_user_name):
         try:
@@ -2122,10 +2143,12 @@ class X4ASalesOrdersPage(BasePage):
         try:
             self.do_click_by_locator(self.ORDER_LINE_EDIT_ICON)
             time.sleep(3)
+            self.do_check_visibility(self.EDIT_CHECK_ICON)
+            self.do_check_visibility(self.EDIT_CANCEL_ICON)
             self.do_send_keys(self.ORDER_LINE_SPECIAL_BID_NUMBER, special_bid)
             time.sleep(3)
             self.do_send_keys(self.ORDER_LINE_SPECIAL_BID_NUMBER, special_bid)
-            time.sleep(5)
+            time.sleep(7)
             self.do_send_keys(self.ORDER_LINE_UNIT_PRICE, unit_price)
             self.do_send_keys(self.ORDER_LINE_UNIT_PRICE, unit_price)
             element = "//*[@data-id='0']//*[@role='cell' and @data-field='unitWeight']"
@@ -2135,6 +2158,10 @@ class X4ASalesOrdersPage(BasePage):
             time.sleep(10)
             self.do_click_by_locator(self.ORDER_LINE_QUANTITY)
             self.do_send_keys(self.ORDER_LINE_QUANTITY, quantity)
+
+            element = "//*[@data-id='0']//*[@role='cell' and @data-field='extendedPrice']"
+            special_bid = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(special_bid)
 
             element = "//*[@data-id='0']//*[@role='cell' and @data-field='specialBidNumber']"
             special_bid = self.driver.find_element(By.XPATH, element)
@@ -2154,7 +2181,7 @@ class X4ASalesOrdersPage(BasePage):
             self.do_click_by_locator(self.EDIT_CHECK_ICON)
             time.sleep(2)
             self.logger.info("Clicked on order line check icon")
-            # self.resubmit_order()
+            self.resubmit_order()
             return True
         except Exception as e:
             self.logger.error(
@@ -2343,3 +2370,4 @@ class X4ASalesOrdersPage(BasePage):
         except Exception as e:
             self.logger.error('Exception occurred while resubmitting order ' + str(e))
             raise e
+
