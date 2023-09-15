@@ -7,21 +7,24 @@ Feature: Sales Orders Edit
     Then provide user ID and Password to login
     #And the user traverse to Sales Order menu
 
+  # EDT-10681 # EDT-10685
   @validate_updated_order_details
   Scenario: Validate Updated Order Details
     When search a order with specific IM Order number
     Then Validate the IM Order number is listed
     When Click on searched IM order number
+    When Verify order status is "Customer Hold(IM)"
     And Check if the order is editable
     Then Validate Cancel update of end user po and reseller po
     Then Update end user po and reseller po
     When Click on Order lines tab on Order Details page
     Then Cancel order line changes and validate it
-    Then Update order line
+    Then Update order line special bid unit price and quantity
     Then Click on resubmit order
     Then Validate end user po and reseller po updated
     Then Validate order line changes are updated
 
+  # EDT-10977
   @unmark_for_cancel_order_line
   Scenario: Validate unmark cancel order line
     When Verify order status is "Customer Hold(IM)"
