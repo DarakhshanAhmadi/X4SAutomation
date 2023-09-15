@@ -1061,7 +1061,6 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-
     def do_validate_update_end_user_po_and_reseller_po(self, end_user_po, reseller_po, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
@@ -1151,6 +1150,7 @@ class ValidateSalesOrdersData:
                 self.driver.save_screenshot(
                     self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                     + "_updated_order_line_successfully.png")
+            x4a_sales_order.click_on_order_lines_tab()
             ui_data = x4a_sales_order.get_order_line_data()
             self.logger.info("Validating data for order line")
             calculated_margin = round(((float(unit_price)-float(ui_data['cost']))/float(unit_price)) * 100, 2)
@@ -1158,7 +1158,7 @@ class ValidateSalesOrdersData:
             assert str(unit_price) == str(ui_data['unit_price']), "Unit price mismatched"
             assert str(quantity) == str(ui_data['quantity']), "Quantity mismatched"
             assert str(calculated_margin) == str(ui_data['margin']), "Margin Mismatched"
-            # assert int(ui_data['quantity']) == (int(ui_data['quantity_confirmed']) + int(ui_data['quantity_backordered'])), "Quantity calculation mismatched"
+            assert int(ui_data['quantity']) == (int(ui_data['quantity_confirmed']) + int(ui_data['quantity_backordered'])), "Quantity calculation mismatched"
             return True
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
@@ -1173,6 +1173,9 @@ class ValidateSalesOrdersData:
     def cancel_order_line_changes_and_validate_data(self, special_bid, unit_price, quantity, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
+            ui_data_initial = x4a_sales_order.get_order_line_data()
+            self.driver.refresh()
+            x4a_sales_order.click_on_order_lines_tab()
             if (x4a_sales_order.update_order_line(special_bid, unit_price,quantity) & x4a_sales_order.click_order_line_edit_cancel_icon()):
                 self.logger.info(
                     "Successfully cancelled updated the order line")
@@ -1181,12 +1184,12 @@ class ValidateSalesOrdersData:
                     + "_cancel_updated_order_line_successfully.png")
             ui_data = x4a_sales_order.get_order_line_data()
             self.logger.info("Validating data for order line")
-            calculated_margin = round(((float(unit_price)-float(ui_data['cost']))/float(unit_price)) * 100, 2)
-            assert str(special_bid) != str(ui_data['special_bid']), "Special bid matched"
-            assert str(unit_price) != str(ui_data['unit_price']), "Unit price matched"
-            assert str(quantity) != str(ui_data['quantity']), "Quantity matched"
-            assert str(calculated_margin) != str(ui_data['margin']), "Margin matched"
-            # assert int(ui_data['quantity']) == (int(ui_data['quantity_confirmed']) + int(ui_data['quantity_backordered'])), "Quantity calculation mismatched"
+            # calculated_margin = round(((float(unit_price)-float(ui_data['cost']))/float(unit_price)) * 100, 2)
+            assert str(ui_data_initial['special_bid']) == str(ui_data['special_bid']), "Special bid not matched"
+            assert str(ui_data_initial['unit_price']) == str(ui_data['unit_price']), "Unit price not matched"
+            assert str(ui_data_initial['quantity']) == str(ui_data['quantity']), "Quantity not matched"
+            assert str(ui_data_initial['margin']) == str(ui_data['margin']), "Margin not matched"
+            assert (int(ui_data_initial['quantity_confirmed']) + int(ui_data_initial['quantity_backordered'])) == (int(ui_data['quantity_confirmed']) + int(ui_data['quantity_backordered'])), "Quantity calculation mismatched"
             return True
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
@@ -1197,7 +1200,6 @@ class ValidateSalesOrdersData:
                 "Error while updating order line")
             self.logger.exception(e)
             return False
-
 
     def validate_options_on_order_lines(self, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
@@ -1228,6 +1230,7 @@ class ValidateSalesOrdersData:
                 self.driver.save_screenshot(
                     self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                     + "_mark_for_cancel_clicked_successfully.png")
+                self.do_cl
                 return True
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
@@ -1362,5 +1365,77 @@ class ValidateSalesOrdersData:
                 return True
         except Exception as e:
             self.logger.error("Error while verifying success toast notification")
+            self.logger.exception(e)
+            return False
+
+    def validate_cancel_single_line_item(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.mark_for_cancel_single_line_item():
+                self.logger.info("Failed to click on mark for cancel for single line item")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "mark_for_cancel_single_line_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully clicked on mark for cancel for single line item")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "mark_for_cancel_single_line_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while clicking on mark for cancel for single line item")
+            self.logger.exception(e)
+            return False
+
+    def validate_order_line_edit_button_not_active(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.order_line_edit_button_verify():
+                self.logger.info("Failed to verify order line and edit button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "order_line_edit_btn_verify_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified order line and edit button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "order_line_edit_btn_verify_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while verifying order line and edit button")
+            self.logger.exception(e)
+            return False
+
+    def validate_resubmit_order_click(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.resubmit_order():
+                self.logger.info("Failed to click on resubmit order")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "resubmit_order_button_click_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully clicked on resubmit order button")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "resubmit_order_button_click_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while clicking resubmit order button")
+            self.logger.exception(e)
+            return False
+
+    def validate_cancelled_order_not_visible(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.cancelled_order_not_visible_test():
+                self.logger.info("Failed to validate cancelled order line not visible")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "cancelled_order_line_not_visible_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully validated cancelled order not visible")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "cancelled_order_line_not_visible_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating cancelled order line")
             self.logger.exception(e)
             return False
