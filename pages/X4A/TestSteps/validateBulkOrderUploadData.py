@@ -75,10 +75,10 @@ class ValidateBulkOrderUploadData:
             self.logger.exception(e)
             return False
 
-    def verify_bulk_order_upload_page(self, feature_file_name, screen_shot):
+    def verify_bulk_order_update_page(self, feature_file_name, screen_shot):
         x4a_bulk_order_upload = X4ABulkOrderUploadPage(self.driver)
         try:
-            x4a_bulk_order_upload.verify_bulk_order_upload_page()
+            x4a_bulk_order_upload.verify_bulk_order_update_page()
             self.logger.info("Successfully verified bulk order upload page")
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                                         + "_bulk_order_upload_clicked_verified.png")
@@ -673,6 +673,40 @@ class ValidateBulkOrderUploadData:
                                   "_review_icon_verified_error.png"
             self.logger.error("Error while verifying review icon " + str(e))
 
+
+    def do_upload_duplicate_file(self, feature_file_name, screen_shot):
+        x4a_bulk_order_upload = X4ABulkOrderUploadPage(self.driver)
+        try:
+
+            x4a_bulk_order_upload.do_upload_duplicate_file()
+            self.logger.info("Successfully selected the duplicate file name")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_file_selected_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_duplicate_file_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_duplicate_file_error.png"
+            self.logger.error("Error while selecting duplicate file")
+            self.logger.exception(e)
+            return False
+
+    def verify_duplicate_file_error_message(self, feature_file_name, screen_shot):
+        x4a_bulk_order_upload = X4ABulkOrderUploadPage(self.driver)
+        try:
+            x4a_bulk_order_upload.verify_duplicate_file_error_message()
+            self.logger.info("Successfully verified duplicate file error message")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_error_message_verified_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_error_message_verified_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_error_message_verified_error.png"
+            self.logger.error("Error while verifying review icon " + str(e))
+
     def do_uploaded_file_with_null_values(self, feature_file_name, screen_shot, Scenario):
         x4a_bulk_order_upload = X4ABulkOrderUploadPage(self.driver)
         try:
@@ -756,6 +790,23 @@ class ValidateBulkOrderUploadData:
             screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
                                   "_review_icon_verified_error.png"
             self.logger.error("Error while verifying order status " + str(e))
+
+    def verify_bulk_order_upload_page(self, feature_file_name, screen_shot):
+        x4a_bulk_order_upload = X4ABulkOrderUploadPage(self.driver)
+        try:
+            x4a_bulk_order_upload.verify_bulk_order_upload_page()
+            self.logger.info("Successfully verified bulk order upload page")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_bulk_order_upload_clicked_verified.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_bulk_order_upload_verified_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_bulk_order_upload_verified_error.png"
+            self.logger.error("Error while verifying on bulk order upload page")
+            self.logger.exception(e)
+            return False
 
     def logout_x4a_url(self, feature_file_name):
         x4a_bulk_order_upload = X4ABulkOrderUploadPage(self.driver)

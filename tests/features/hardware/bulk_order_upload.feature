@@ -1,7 +1,7 @@
 @bulk_order_upload @regression
 Feature: Bulk Order Upload
 
-  @login
+  @login 
   Scenario: Login to X4A portal
     Given launch chrome browser and open the X4A url
     Then provide user ID and Password to login
@@ -47,13 +47,13 @@ Feature: Bulk Order Upload
 # OMS-186, OMS-187, OMS-193, OMS-191, OMS-1262
   @view_review
   Scenario: View Review Option
-    When filter status with Error found
+    When filter status with "Error found"
     Then verify the file upload list for status Error found
-    When filter status with Partially completed
+    When filter status with "Partially completed"
     Then verify the file upload list for status Partially completed
     When review icon clicked and downloaded the order list
     Then verify order page and downloaded order list
-    When filter status with Order placed
+    When filter status with "Order placed"
     Then verify the file upload list for status Order placed
     When view icon clicked and downloaded the order list
     Then verify order page and downloaded order list
@@ -61,18 +61,20 @@ Feature: Bulk Order Upload
 # OMS-188
   @cancel_delete
   Scenario: Cancel delete Option
-    When filter status with Upload in progress
+    When filter status with "Upload in progress"
     Then verify the CANCEL icon
     When CANCEL icon clicked
     Then verify the DELETE icon and status upload cancelled
     When DELETE icon clicked
     Then search with the file name is not present
 
-# OMS-186
+# OMS-186 , OMS-487
   @filter_with_user
   Scenario: filter user Option
     When filter with user
     Then verify the file upload list page filtered with user
+    When upload Duplicate file
+    Then verify Duplicate file error message
 
 # OMS-179
   @error_in_order
@@ -101,6 +103,18 @@ Feature: Bulk Order Upload
     When PLACE ORDERS icon clicked
     Then verify that order is placed
 
+# OMS-487
+  @duplicate_error
+  Scenario: Place Order Option
+    When upload Duplicate file
+    Then verify Duplicate file error message
+
+# OMS-184
+  @bulk_order_upload_page 
+  Scenario: Place Order Option
+    When selected file for review
+    And filter with file name
+    Then verify bulk order upload page
 
   @logout
   Scenario: logout X4A
