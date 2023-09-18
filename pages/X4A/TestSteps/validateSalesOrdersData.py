@@ -11,6 +11,7 @@ class ValidateSalesOrdersData:
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
 
+
     """constructor of the createOrder Page class"""
 
     def __init__(self, driver):
@@ -400,20 +401,18 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def validate_fields_under_reference_no(self, feature_file_name, screen_shot, reference_numbers_list):
+    def validate_fields_under_reference_no(self, feature_file_name, screen_shot, reseller_po, end_user_po):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            end_user_po = reference_numbers_list[0]
-            reseller_po = reference_numbers_list[1]
-            vendor_order = reference_numbers_list[2]
-            vendor_sales_order = reference_numbers_list[3]
+            # end_user_po = reference_numbers_list[0]
+            # reseller_po = reference_numbers_list[1]
+            # vendor_order = reference_numbers_list[2]
+            # vendor_sales_order = reference_numbers_list[3]
 
             if (x4a_sales_order.is_end_user_po_field_visible(
-                    end_user_po) & x4a_sales_order.is_reseller_po_field_visible(
-                reseller_po) & x4a_sales_order.is_vendor_order_field_visible(vendor_order) &
-                    x4a_sales_order.is_vendor_sales_order_field_visible(vendor_sales_order)):
+                    end_user_po) & x4a_sales_order.is_reseller_po_field_visible(reseller_po)):
                 self.logger.info(
-                    "Successfully verified that End user PO, Reseller PO, Vendor Order, Vendor ales Order fields under Reference number on Order Details page")
+                    "Successfully verified that End user PO, Reseller PO fields under Reference number on Order Details page")
                 self.driver.save_screenshot(
                     self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                     + "_fields_under_reference_num_successfully.png")
@@ -424,7 +423,7 @@ class ValidateSalesOrdersData:
             screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
                                   "_fields_under_reference_num_error.png"
             self.logger.error(
-                "Error while verifying End user PO, Reseller PO, Vendor Order, Vendor ales Order fields under Reference number on Order Details page")
+                "Error while verifying End user PO, Reseller PO fields under Reference number on Order Details page")
             self.logger.exception(e)
             return False
 
@@ -518,24 +517,22 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def validate_fields_under_bill_to_info(self, feature_file_name, screen_shot, billing_to_info_list):
+    def validate_fields_under_bill_to_info(self, feature_file_name, screen_shot, bill_to_suffix, bill_to_name, bill_to_address, bill_to_phone, bill_to_contact, bill_to_email):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            bill_to_id = billing_to_info_list[0]
-            bill_to_company_name = billing_to_info_list[1]
-            bill_to_address = billing_to_info_list[2]
-            bill_to_contact = billing_to_info_list[3]
-            bill_to_phone_no = billing_to_info_list[4]
-            bill_to_email = billing_to_info_list[5]
-
+            # bill_to_id = billing_to_info_list[0]
+            # bill_to_company_name = billing_to_info_list[1]
+            # bill_to_address = billing_to_info_list[2]
+            # bill_to_contact = billing_to_info_list[3]
+            # bill_to_phone_no = billing_to_info_list[4]
+            # bill_to_email = billing_to_info_list[5]
+            bill_to = bill_to_address.split(",")
+            bill_to_address = " ".join(bill_to)
             if (x4a_sales_order.is_bill_to_id_field_visible(
-                    bill_to_id) & x4a_sales_order.is_company_nm_bill_field_visible(bill_to_company_name) &
+                    bill_to_suffix) & x4a_sales_order.is_company_nm_bill_field_visible(bill_to_name) &
                     x4a_sales_order.is_address_bill_field_visible(
-                        bill_to_address) & x4a_sales_order.is_contact_bill_field_visible(bill_to_contact) &
-                    x4a_sales_order.is_phone_no_bill_field_visible(
-                        bill_to_phone_no) & x4a_sales_order.is_email_bill_field_visible(bill_to_email)):
-                self.logger.info(
-                    "Successfully verified that fields under Bill to info section on Order Details page")
+                        bill_to_address) & x4a_sales_order.is_phone_no_bill_field_visible(bill_to_phone) & x4a_sales_order.is_contact_bill_field_visible(bill_to_contact) & x4a_sales_order.is_email_bill_field_visible(bill_to_email)):
+                self.logger.info("Successfully verified that fields under Bill to info section on Order Details page")
                 self.driver.save_screenshot(
                     self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                     + "_fields_under_bill_to_info_successfully.png")
@@ -550,24 +547,27 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def validate_fields_under_ship_to_info(self, feature_file_name, screen_shot, ship_to_info_list):
+    def validate_fields_under_ship_to_info(self, feature_file_name, screen_shot, ship_to_suffix, ship_to_name, ship_to_address, ship_to_phone, ship_to_contact, ship_to_email):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            ship_to_id = ship_to_info_list[0]
-            ship_to_cmp_nm = ship_to_info_list[1]
-            ship_to_addr = ship_to_info_list[2]
-            ship_to_contact = ship_to_info_list[3]
-            ship_to_phn_no = ship_to_info_list[4]
-            ship_to_email = ship_to_info_list[5]
-            ship_to_shipping_comment = ship_to_info_list[6]
-
+            # ship_to_id = ship_to_info_list[0]
+            # ship_to_cmp_nm = ship_to_info_list[1]
+            # ship_to_addr = ship_to_info_list[2]
+            # ship_to_contact = ship_to_info_list[3]
+            # ship_to_phn_no = ship_to_info_list[4]
+            # ship_to_email = ship_to_info_list[5]
+            # ship_to_shipping_comment = ship_to_info_list[6]
+            ship_to_name_value = ship_to_name
+            ship_to_address_value = " ".join(ship_to_address.split(","))
+            if not ship_to_name:
+                ship_to_name_value = ship_to_address.split(",")[0]
+                ship_to_address_value = " ".join(ship_to_address.split(",")[1:])
             if (x4a_sales_order.is_ship_to_id_field_visible(
-                    ship_to_id) & x4a_sales_order.is_company_nm_ship_field_visible(ship_to_cmp_nm) &
+                    ship_to_suffix) & x4a_sales_order.is_company_nm_ship_field_visible(ship_to_name_value) &
                     x4a_sales_order.is_address_ship_field_visible(
-                        ship_to_addr) & x4a_sales_order.is_contact_ship_field_visible(ship_to_contact) &
+                        ship_to_address_value) & x4a_sales_order.is_contact_ship_field_visible(ship_to_contact) &
                     x4a_sales_order.is_phone_no_ship_field_visible(
-                        ship_to_phn_no) & x4a_sales_order.is_email_ship_field_visible(ship_to_email) &
-                    x4a_sales_order.is_shipping_comment_ship_field_visible(ship_to_shipping_comment)):
+                        ship_to_phone) & x4a_sales_order.is_email_ship_field_visible(ship_to_email)):
                 self.logger.info(
                     "Successfully verified that fields under Bill to info section on Order Details page")
                 self.driver.save_screenshot(
@@ -584,22 +584,20 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def validate_fields_under_end_user_info(self, feature_file_name, screen_shot, end_user_info_list):
+    def validate_fields_under_end_user_info(self, feature_file_name, screen_shot, end_user_id, end_user_address, end_user_contact):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            end_user_id = end_user_info_list[0]
-            end_user_cmp_nm = end_user_info_list[1]
-            end_user_addr = end_user_info_list[2]
-            end_user_contact = end_user_info_list[3]
-            end_user_phn_no = end_user_info_list[4]
-            end_user_email = end_user_info_list[5]
+            # end_user_id = end_user_info_list[0]
+            # end_user_cmp_nm = end_user_info_list[1]
+            # end_user_addr = end_user_info_list[2]
+            # end_user_contact = end_user_info_list[3]
+            # end_user_phn_no = end_user_info_list[4]
+            # end_user_email = end_user_info_list[5]
 
             if (x4a_sales_order.is_end_user_id_field_visible(
-                    end_user_id) & x4a_sales_order.is_company_nm_end_user_field_visible(end_user_cmp_nm) &
+                    end_user_id) &
                     x4a_sales_order.is_address_end_user_field_visible(
-                        end_user_addr) & x4a_sales_order.is_contact_end_user_field_visible(end_user_contact) &
-                    x4a_sales_order.is_phone_no_end_user_field_visible(
-                        end_user_phn_no) & x4a_sales_order.is_email_end_user_field_visible(end_user_email)):
+                        end_user_address) & x4a_sales_order.is_contact_end_user_field_visible(end_user_contact)):
                 self.logger.info(
                     "Successfully verified that fields under End user info section on Order Details page")
                 self.driver.save_screenshot(

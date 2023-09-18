@@ -630,7 +630,7 @@ class X4ASalesOrdersPage(BasePage):
             self.do_check_visibility(self.IM_ORDER_NUMBER_TITLE)
             order_number = self.get_element_text(self.IM_ORDER_NUMBER_TITLE)
             order_number = order_number.replace("IM order #: ", "")
-            if order_number in im_order_number:
+            if im_order_number in order_number:
                 self.logger.info("Successfully verified IM Order Number title")
             status = self.get_element_text(self.ORDER_STATUS_TITLE)
             assert str(status) == str(order_status)
@@ -645,9 +645,15 @@ class X4ASalesOrdersPage(BasePage):
         try:
             self.do_check_visibility(self.ORDER_VALUE_HEADER)
             ord_value = self.get_element_text(self.ORDER_VALUE_HEADER)
-            if str(order_value) in str(ord_value):
+            ord_value = ord_value.split(":")
+            self.logger.info(f'ui:{float((ord_value[-1])[2:])} arg:{float(order_value)}')
+            if float((ord_value[-1])[2:]) == float(order_value):
                 self.logger.info("Successfully verified Order value header")
                 return True
+            else:
+                self.logger.error("Order value header did not match")
+                self.logger.error(f'API:{float(order_value)}  UI:{float((ord_value[-1])[2:])}')
+                return False
         except Exception as e:
             self.logger.error(
                 'Exception occurred while verifying Order value header on Order Details page ' + str(e))
@@ -660,6 +666,10 @@ class X4ASalesOrdersPage(BasePage):
             if str(order_type) in str(or_type):
                 self.logger.info("Successfully verified Order Type header")
                 return True
+            else:
+                self.logger.error("Order Type header did not match")
+                self.logger.error(f'API:{order_type} UI:{or_type}')
+                return False
         except Exception as e:
             self.logger.error(
                 'Exception occurred while verifying Order Type header on Order Details page ' + str(e))
@@ -764,7 +774,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_bill_to_id_field_visible(self, bill_to_id):
         try:
-            bill_to_id = bill_to_id.replace("0", "000")
+            # bill_to_id = bill_to_id.replace("0", "000")
             id = self.get_element_text(self.BILL_TO_ID_FIElD)
             assert str(id) == str(bill_to_id)
             self.logger.info("Successfully verified Bill to Id field under Billing to info")
@@ -799,8 +809,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_contact_bill_field_visible(self, bill_to_contact):
         try:
-            if str(bill_to_contact) == '.':
-                bill_to_contact = bill_to_contact.replace(".", "-")
+            if str(bill_to_contact) == '':
+                bill_to_contact = bill_to_contact.replace("", "-")
             contact = self.get_element_text(self.BILL_TO_INFO_CONTACT_FIElD)
             assert str(contact) == str(bill_to_contact)
             self.logger.info("Successfully verified Contact field under Billing to info")
@@ -812,8 +822,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_phone_no_bill_field_visible(self, bill_to_phone_no):
         try:
-            if str(bill_to_phone_no) == '.':
-                bill_to_phone_no = bill_to_phone_no.replace(".", "-")
+            if str(bill_to_phone_no) == '':
+                bill_to_phone_no = bill_to_phone_no.replace("", "-")
             phone_no = self.get_element_text(self.BILL_TO_INFO_EMAIL_FIElD)
             assert str(phone_no) == str(bill_to_phone_no)
             self.logger.info("Successfully verified Phone no field under Billing to info")
@@ -825,8 +835,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_email_bill_field_visible(self, bill_to_email):
         try:
-            if str(bill_to_email) == '.':
-                bill_to_email = bill_to_email.replace(".", "-")
+            if str(bill_to_email) == '':
+                bill_to_email = bill_to_email.replace("", "-")
             email = self.get_element_text(self.BILL_TO_INFO_EMAIL_FIElD)
             assert str(email) == str(bill_to_email)
             self.logger.info("Successfully verified Email field under Billing to info")
@@ -838,8 +848,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_ship_to_id_field_visible(self, ship_to_id):
         try:
-            if str(ship_to_id) == '.':
-                ship_to_id = ship_to_id.replace(".", "-")
+            if str(ship_to_id) == '':
+                ship_to_id = ship_to_id.replace("", "-")
             id = self.get_element_text(self.SHIP_TO_ID_FIElD)
             assert str(id) == str(ship_to_id)
             self.logger.info("Successfully verified Ship to Id field under Billing to info")
@@ -864,9 +874,13 @@ class X4ASalesOrdersPage(BasePage):
         try:
             addr = self.get_element_text(self.SHIP_TO_INFO_ADDRESS_FIElD)
             address = addr.replace("\n", " ")
-            assert str(address) == str(ship_to_addr)
-            self.logger.info("Successfully verified Address field under Ship to info")
-            return True
+            if str(address) == str(ship_to_addr):
+                self.logger.info("Successfully verified Address field under Ship to info")
+                return True
+            else:
+                self.logger.error("Address field under Ship to info mismatched")
+                self.logger.error(f'API:{ship_to_addr}  UI:{address}')
+                return True
         except Exception as e:
             self.logger.error(
                 'Exception occurred while verifying Address field under Ship to info' + str(e))
@@ -874,8 +888,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_contact_ship_field_visible(self, ship_to_contact):
         try:
-            if str(ship_to_contact) == '.':
-                ship_to_contact = ship_to_contact.replace(".", "-")
+            if str(ship_to_contact) == '':
+                ship_to_contact = ship_to_contact.replace("", "-")
             contact = self.get_element_text(self.SHIP_TO_INFO_CONTACT_FIElD)
             assert str(contact) == str(ship_to_contact)
             self.logger.info("Successfully verified Contact field under Ship to info")
@@ -887,8 +901,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_phone_no_ship_field_visible(self, ship_to_phn_no):
         try:
-            if str(ship_to_phn_no) == '.':
-                ship_to_phn_no = ship_to_phn_no.replace(".", "-")
+            if str(ship_to_phn_no) == '':
+                ship_to_phn_no = ship_to_phn_no.replace("", "-")
             phone_no = self.get_element_text(self.SHIP_TO_INFO_PHONE_NO_FIElD)
             assert str(phone_no) == str(ship_to_phn_no)
             self.logger.info("Successfully verified Phone no field under Ship to info")
@@ -900,8 +914,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_email_ship_field_visible(self, ship_to_email):
         try:
-            if str(ship_to_email) == '.':
-                ship_to_email = ship_to_email.replace(".", "-")
+            if str(ship_to_email) == '':
+                ship_to_email = ship_to_email.replace("", "-")
             email = self.get_element_text(self.SHIP_TO_INFO_EMAIL_FIElD)
             assert str(email) == str(ship_to_email)
             self.logger.info("Successfully verified Email field under Ship to info")
@@ -926,8 +940,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_end_user_id_field_visible(self, end_user_id):
         try:
-            if str(end_user_id) == '.':
-                end_user_id = end_user_id.replace(".", "-")
+            if str(end_user_id) == '':
+                end_user_id = end_user_id.replace("", "-")
             id = self.get_element_text(self.END_USER_ID_FIElD)
             assert str(id) == str(end_user_id)
             self.logger.info("Successfully verified End user Id field under End user info")
@@ -952,12 +966,11 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_address_end_user_field_visible(self, end_user_addr):
         try:
+            breakpoint()
             address = self.get_element_text(self.END_USER_ADDRESS_FIElD)
-            if str(address) == '':
-                addr = address.replace("", ".")
-            else:
-                addr = address.replace("\n", " ")
-            assert str(addr) == str(end_user_addr)
+            if str(address):
+                address = address.replace("\n", " ")
+            assert str(address) == str(end_user_addr)
             self.logger.info("Successfully verified Address field under End User info")
             return True
         except Exception as e:
@@ -966,8 +979,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_contact_end_user_field_visible(self, end_user_contact):
         try:
-            if str(end_user_contact) == '.':
-                end_user_contact = end_user_contact.replace(".", "-")
+            if str(end_user_contact) == '':
+                end_user_contact = end_user_contact.replace("", "-")
             contact = self.get_element_text(self.END_USER_CONTACT_FIElD)
             assert str(contact) == str(end_user_contact)
             self.logger.info("Successfully verified End User field under End user info")

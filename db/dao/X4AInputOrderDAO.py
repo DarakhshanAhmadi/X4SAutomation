@@ -40,7 +40,8 @@ class X4AInputOrderDAO(BaseTest):
                                 x4a_input_order.modify_shipping_notes_data_errors_order_id,
                                 x4a_input_order.modify_vmf_details_data_errors_order_id,
                                 x4a_input_order.modify_end_user_details_data_errors_order_id,
-                                x4a_input_order.end_user_po,x4a_input_order.edit_order_line))
+                                x4a_input_order.end_user_po,x4a_input_order.edit_order_line, x4a_input_order.order_entry_channel,
+                                x4a_input_order.order_date))
                 connection.commit()
         except Error as e:
             self.logger.error("Exception occurred while trying to insert the input data into x4a_input_order table "

@@ -6,8 +6,8 @@ class SqlConstant:
                                        "serial_numbers, additional_attributes, fraud_cancel_order_confirmation_id, fraud_reprocess_order_confirmation_id," \
                                        " data_errors_resubmit_order_confirmation_id, reseller_name, end_user_name, created_on, filter_order_type, filter_order_status," \
                                        "modify_reference_details_data_errors_order_id, modify_shipping_notes_data_errors_order_id, modify_vmf_details_data_errors_order_id, " \
-                                       "modify_end_user_details_data_errors_order_id, end_user_po, edit_order_lines)" \
-                                       "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                       "modify_end_user_details_data_errors_order_id, end_user_po, edit_order_lines, order_entry_channel, order_date)" \
+                                       "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
     X4A_GET_IM_ORDER_NUMBER_BY_FEATURE_FILE_NAME_SQL_QUERY = "SELECT im_order_number FROM x4a_input_order where feature_file_name =?"
 
@@ -56,3 +56,18 @@ class SqlConstant:
     X4A_UPDATE_MODIFY_VMF_DETAILS_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY = "Update x4a_input_order set modify_vmf_details_data_errors_order_id = ? where feature_file_name= ?"
 
     X4A_UPDATE_MODIFY_END_USER_DETAILS_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY = "Update x4a_input_order set modify_end_user_details_data_errors_order_id = ? where feature_file_name= ?"
+
+    X4A_SALES_ORDER_DETAILS_INSERT_SQL_QUERY = "INSERT INTO x4a_sales_order_details(" \
+                                       "feature_file_name, order_entry_channel, im_order_number, order_type, reseller_po, end_user_po, order_status, order_value, currency_code, terms_code," \
+                                       "ship_from_warehouse_id, warehouse_name, carrier_code, ship_to_suffix, ship_to_name, ship_to_address, ship_to_phone, ship_to_contact, ship_to_email, " \
+                                       "bill_to_suffix, bill_to_name, bill_to_address, bill_to_phone, bill_to_contact, bill_to_email, end_user_id, end_user_address, end_user_contact)" \
+                                       "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?)"
+
+    X4A_SALES_ORDER_LINES_INSERT_SQL_QUERY = "INSERT INTO x4a_sales_order_lines(" \
+                                             "im_order_number, line_number, line_status, im_part_number, vpn, description, is_acop_applied, unit_weight, unit_price, extended_price, extended_cost," \
+                                             "quantity, quantity_confirmed, quantity_backordered, special_bid_number, serial_numbers, sales_order_details_tbl_id)" \
+                                            "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+
+    X4A_SALES_ORDER_DETAILS_GET_ID_SQL_QUERY = "SELECT id from x4a_sales_order_details where im_order_number = ?"
+
+    X4A_SALES_ORDER_DETAILS_GET_ORDER_DETAILS_SQL_QUERY = "SELECT * FROM x4a_sales_order_details where im_order_number=?"
