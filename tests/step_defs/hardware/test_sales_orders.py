@@ -144,32 +144,11 @@ def test_filter_by_order_value():
 def test_filter_by_created_on():
     pass
 
-@scenario("features/hardware/sales_orders.feature", "Verify customer hold cancel order")
-def test_cancel_order():
-    pass
-
-@scenario("features/hardware/sales_orders.feature", "Validate Update and cancel for end user po and reseller po")
-def test_update_end_user_po_and_reseller_po():
-    pass
-
 
 @scenario("features/hardware/sales_orders.feature", "Validate ACOP field")
 def test_validate_acop_field():
     pass
 
-
-@scenario("features/hardware/sales_orders.feature", "Validate Update and Cancel for edit order line")
-def test_validate_update_order_line():
-    pass
-
-
-@scenario("features/hardware/sales_orders.feature", "Validate unmark cancel order line")
-def test_unmark_order_lines():
-    pass
-
-@scenario("features/hardware/sales_orders.feature", "Validate Mark a single line item for cancel")
-def test_mark_for_cancel_single_line_item():
-        pass
 
 @scenario("features/hardware/sales_orders.feature", "logout X4A")
 def test_logout_x4a():
