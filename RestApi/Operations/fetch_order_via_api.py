@@ -43,7 +43,7 @@ class FetchOrderViaApi:
             json_data = self.common_json.update_json_object(json_data, "servicerequest", "orderdetailrequest", "orderdate", order_date)
             # update order number
             json_data = self.common_json.update_json_object(json_data, "servicerequest", "orderdetailrequest", "ordernumber", im_order_number)
-            self.logger.info("Json Body: ", json_data)
+            self.logger.info("Json Body: " + str(json_data))
             response = requests.post(sales_order_base_url, auth=authentication, json=json_data, headers=headers)
 
             order_details_json_data = response.json()
@@ -110,7 +110,7 @@ class FetchOrderViaApi:
                 unit_weight = obj["unitweight"]
                 unit_price = obj["unitprice"]
                 extended_price = obj["extendedprice"]
-                extended_cost = obj["adjustedcost"]
+                cost = obj["adjustedcost"]
                 quantity = obj["requestedquantity"]
                 quantity_confirmed = obj["confirmedquantity"]
                 quantity_backordered = obj["backorderquantity"]
@@ -119,7 +119,7 @@ class FetchOrderViaApi:
                 order_number = re.findall("^.{2}\-.{5}", im_order_number)[0]
                 sales_order_details_tbl_id = X4ASalesOrderDetailsDbManagementService().get_id_by_im_order_number(self.db_file_path, order_number)
                 sales_order_lines_obj = X4ASalesOrderLine(im_order_number, line_number, line_status, im_part_number, vpn, description, is_acop_applied, unit_weight,
-                                                          unit_price, extended_price, extended_cost, quantity, quantity_confirmed, quantity_backordered, serial_numbers,
+                                                          unit_price, extended_price, cost, quantity, quantity_confirmed, quantity_backordered, serial_numbers,
                                                           special_bid_number, sales_order_details_tbl_id)
                 sales_order_lines_list.append(sales_order_lines_obj)
         X4ASalesOrderLinesDbManagementService().save_sales_order_lines_data(self.db_file_path, sales_order_lines_list)

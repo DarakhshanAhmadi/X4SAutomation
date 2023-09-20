@@ -8,6 +8,7 @@ from CommonUtilities.readProperties import ReadConfig
 from RestApi.Operations.fetch_order_via_api import FetchOrderViaApi
 from db.service.X4AInputOrderDbManagementService import X4AInputOrderDbManagementService
 from db.service.X4ASalesOrderDetailsDbManagementService import X4ASalesOrderDetailsDbManagementService
+from db.service.X4ASalesOrderLinesDbManagementService import X4ASalesOrderLinesDbManagementService
 from pages.X4A.Facade.PrepareObject import PrepareObject
 from pages.X4A.TestSteps.validateSalesOrdersData import ValidateSalesOrdersData
 from tests.step_defs.hardware.test_apitest import base_test
@@ -56,6 +57,11 @@ def test_reference_number_fields_data_validation():
     pass
 
 
+@scenario("features/hardware/sales_order_details.feature", "Carrier code validation")
+def test_carrier_code_data_validation():
+    pass
+
+
 @scenario("features/hardware/sales_order_details.feature", "Bill to info fields data validation")
 def test_bill_to_fields_data_validation():
     pass
@@ -70,10 +76,10 @@ def test_ship_to_fields_data_validation():
 def test_end_user_fields_data_validation():
     pass
 
-#
-# @scenario("features/hardware/sales_order_details.feature", "Order lines tab fields data validation")
-# def test_order_lines_fields_data_validation():
-#     pass
+
+@scenario("features/hardware/sales_order_details.feature", "Order lines tab fields data validation")
+def test_order_lines_fields_data_validation():
+    pass
 #
 #
 # @scenario("features/hardware/sales_order_details.feature", "Serial number header data validation")
@@ -453,11 +459,13 @@ def fields_under_order_lines_tab(init_driver):
     try:
         input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
             db_file_path, feature_file_name)
-        order_lines_tab_info = input_order_data.get("order_lines_tab")
-        order_lines_tab_info_list = list(order_lines_tab_info.split(","))
-        logger.info(order_lines_tab_info_list)
+        im_order_number = input_order_data.get("im_order_number")
+        order_number = re.findall("^.{2}\-.{5}", im_order_number)[0]
+        order_lines = X4ASalesOrderLinesDbManagementService().get_order_lines_data(db_file_path, order_number)
+        sales_order_details = sales_order_details_srv_obj.get_order_details(db_file_path, order_number)
+        currency_code = sales_order_details.get("currency_code")
         if not validate_sales_orders.validate_fields_under_order_lines_tab(feature_file_name, screen_shot,
-                                                                          order_lines_tab_info_list):
+                                                                          order_lines, currency_code):
             raise Exception("Failed to verify fields under Order lines on Order Details page")
     except Exception as e:
         logger.error("Error while verify the fields under Order lines section on Order Details page %s", e)
@@ -536,3 +544,19 @@ def logout_x4a_url(init_driver):
         raise e
 
 
+@then(parsers.parse('Validate carrier code'))
+def validate_carrier_code(init_driver):
+    feature_file_name = "sales_order_details"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        im_order_number = input_order_data.get("im_order_number")
+        order_number = re.findall("^.{2}\-.{5}", im_order_number)[0]
+        sales_order_details = sales_order_details_srv_obj.get_order_details(db_file_path, order_number)
+        carrier_code = sales_order_details.get("carrier_code")
+        if not validate_sales_orders.validate_carrier_code(feature_file_name, carrier_code):
+            raise Exception("Failed to Validate carrier code")
+    except Exception as e:
+        logger.error("Not able to Validate carrier code %s", e)
+        raise e

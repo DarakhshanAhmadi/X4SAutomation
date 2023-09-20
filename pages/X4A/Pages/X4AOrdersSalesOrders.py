@@ -130,6 +130,7 @@ class X4ASalesOrdersPage(BasePage):
     POPUP_RESELLER_PO_TEXTBOX = (By.ID, "reference-details-edit-customer-number")
     REFERENCE_NUMBERS_END_USER_PO = (By.XPATH, "//*[@id='tablayout-tabpanel-0']/div/div/div/div/div[1]/div/div[1]/div[2]/strong")
     REFERENCE_NUMBERS_RESELLER_PO = (By.XPATH, "//*[@id='tablayout-tabpanel-0']/div/div/div/div/div[1]/div/div[2]/div[2]/strong")
+    CARRIER_CODE_FIELD = (By.XPATH, "//*[@id='tablayout-tabpanel-0']/div/div/div/div/div[2]/div/div/div/div[2]")
 
     """Biiling tab-Bill to info"""
 
@@ -723,6 +724,17 @@ class X4ASalesOrdersPage(BasePage):
         except Exception as e:
             self.logger.error(
                 'Exception occurred while verifying Vendor sales order field under Reference number ' + str(e))
+            return False
+
+    def is_carrier_code_visible(self, carrier_code):
+        try:
+            ui_carrier_code = self.get_element_text(self.CARRIER_CODE_FIELD)
+            assert str(ui_carrier_code) == str(carrier_code)
+            self.logger.info("Successfully verified carrier code field")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying carrier code field' + str(e))
             return False
 
     def click_on_billing_tab(self):
@@ -2384,3 +2396,57 @@ class X4ASalesOrdersPage(BasePage):
             self.logger.error('Exception occurred while resubmitting order ' + str(e))
             raise e
 
+    def fetch_order_lines(self):
+        order_lines_list = []
+        try:
+            order_lines = self.get_all_elements(self.ORDER_LINES)
+            for i in range(len(order_lines)):
+                order_line = {}
+                order_line['line_number'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='ingramOrderLineNumber']"))
+                order_line['order_line_status'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='lineStatus']"))
+                order_line['order_line_acop'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='isAcopApplied']"))
+                order_line['order_line_description'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='partDescription']/div/div[1]/strong"))
+                order_line['order_line_vpn'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='partDescription']/div/div/span[1]"))
+                order_line['order_line_im_part'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='partDescription']/div/div/span[2]"))
+                order_line['order_line_spl_bid'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='specialBidNumber']/input"), 'value')
+                order_line['order_line_unit_price'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='unitPrice']/input"), 'value')
+                order_line['order_line_extended_price'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='extendedPrice']"))
+
+                element = "//*[@data-id='0']//*[@role='cell' and @data-field='cost']"
+                unit_weight = self.driver.find_element(By.XPATH, element)
+                self.scroll_horizontally(unit_weight)
+
+                order_line['order_line_cost'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='cost']"))
+                order_line['order_line_extended_cost'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='extendedCost']"))
+                order_line['order_line_margin'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='margin']"))
+                order_line['order_line_currency_code'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='currencyCode']"))
+
+                element = "//*[@data-id='0']//*[@role='cell' and @data-field='currencyCode']"
+                unit_weight = self.driver.find_element(By.XPATH, element)
+                self.scroll_horizontally(unit_weight)
+
+                # scroll till quantity back ordered column
+                time.sleep(10)
+                order_line['order_line_quantity'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='quantityOrdered']/input"), 'value')
+                order_line['order_line_quantity_confirmed'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='quantityConfirmed']"))
+                order_line['order_line_quantity_backordered'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='quantityBackOrdered']"))
+
+                order_lines_list.append(order_line)
+                self.logger.info(order_lines_list)
+                element = "//*[@data-id='0']//*[@role='cell' and @data-field='extendedPrice']"
+                unit_weight = self.driver.find_element(By.XPATH, element)
+                self.scroll_horizontally(unit_weight)
+                time.sleep(2)
+
+                element = "//*[@data-id='0']//*[@role='cell' and @data-field='isAcopApplied']"
+                unit_weight = self.driver.find_element(By.XPATH, element)
+                self.scroll_horizontally(unit_weight)
+                time.sleep(2)
+
+                element = "//*[@data-id='0']//*[@role='cell' and @data-field='ingramOrderLineNumber']"
+                unit_weight = self.driver.find_element(By.XPATH, element)
+                self.scroll_horizontally(unit_weight)
+            return order_lines_list
+        except Exception as e:
+            self.logger.error('Exception occurred while fetching order_lines ' + str(e))
+            raise e

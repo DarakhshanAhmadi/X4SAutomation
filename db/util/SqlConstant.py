@@ -64,10 +64,12 @@ class SqlConstant:
                                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?)"
 
     X4A_SALES_ORDER_LINES_INSERT_SQL_QUERY = "INSERT INTO x4a_sales_order_lines(" \
-                                             "im_order_number, line_number, line_status, im_part_number, vpn, description, is_acop_applied, unit_weight, unit_price, extended_price, extended_cost," \
+                                             "im_order_number, line_number, line_status, im_part_number, vpn, description, is_acop_applied, unit_weight, unit_price, extended_price, cost," \
                                              "quantity, quantity_confirmed, quantity_backordered, special_bid_number, serial_numbers, sales_order_details_tbl_id)" \
                                             "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
     X4A_SALES_ORDER_DETAILS_GET_ID_SQL_QUERY = "SELECT id from x4a_sales_order_details where im_order_number = ?"
 
     X4A_SALES_ORDER_DETAILS_GET_ORDER_DETAILS_SQL_QUERY = "SELECT * FROM x4a_sales_order_details where im_order_number=?"
+
+    X4A_SALES_ORDER_LINES_DETAILS_FETCH_SQL_QUERY = "SELECT * from x4a_sales_order_lines where sales_order_details_tbl_id in (select id from x4a_sales_order_details where im_order_number=?)"

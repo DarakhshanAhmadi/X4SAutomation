@@ -614,59 +614,69 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def validate_fields_under_order_lines_tab(self, feature_file_name, screen_shot, order_lines_tab_info_list):
+    def validate_fields_under_order_lines_tab(self, feature_file_name, screen_shot, order_lines_tab_info_list, currency_code):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            order_line = order_lines_tab_info_list[0]
-            order_line_status = order_lines_tab_info_list[1]
-            order_line_description = order_lines_tab_info_list[2]
-            order_line_vpn_no = order_lines_tab_info_list[3]
-            order_line_im_part = order_lines_tab_info_list[4]
-            order_line_special_bid_no = order_lines_tab_info_list[5]
-            order_line_unit_price = order_lines_tab_info_list[6]
-            order_line_extended_price = order_lines_tab_info_list[7]
-            order_line_cost = order_lines_tab_info_list[8]
-            order_line_extended_cost = order_lines_tab_info_list[9]
-            order_line_margin = order_lines_tab_info_list[10]
-            order_line_currency_code = order_lines_tab_info_list[11]
-            order_line_quantity = order_lines_tab_info_list[12]
-            order_line_quantity_confirmed = order_lines_tab_info_list[13]
-            order_line_quantity_backordered = order_lines_tab_info_list[14]
-            Order_line_notes = order_lines_tab_info_list[15]
+            # order_line = order_lines_tab_info_list[0]
+            # order_line_status = order_lines_tab_info_list[1]
+            # order_line_description = order_lines_tab_info_list[2]
+            # order_line_vpn_no = order_lines_tab_info_list[3]
+            # order_line_im_part = order_lines_tab_info_list[4]
+            # order_line_special_bid_no = order_lines_tab_info_list[5]
+            # order_line_unit_price = order_lines_tab_info_list[6]
+            # order_line_extended_price = order_lines_tab_info_list[7]
+            # order_line_cost = order_lines_tab_info_list[8]
+            # order_line_extended_cost = order_lines_tab_info_list[9]
+            # order_line_margin = order_lines_tab_info_list[10]
+            # order_line_currency_code = order_lines_tab_info_list[11]
+            # order_line_quantity = order_lines_tab_info_list[12]
+            # order_line_quantity_confirmed = order_lines_tab_info_list[13]
+            # order_line_quantity_backordered = order_lines_tab_info_list[14]
+            # Order_line_notes = order_lines_tab_info_list[15]
 
-            if (x4a_sales_order.is_order_line_field_visible(order_line) &
-                    x4a_sales_order.is_order_line_status_field_visible(
-                        order_line_status) & x4a_sales_order.is_order_line_description_field_visible(
-                        order_line_description) &
-                    x4a_sales_order.is_contact_vpn_no_field_visible(order_line_vpn_no) &
-                    x4a_sales_order.is_order_line_im_part_field_visible(
-                        order_line_im_part) & x4a_sales_order.is_order_line_special_bid_field_visible(
-                        order_line_special_bid_no) &
-                    x4a_sales_order.is_order_line_unit_price_field_visible(
-                        order_line_unit_price) & x4a_sales_order.is_order_line_extended_price_field_visible(
-                        order_line_extended_price) &
-                    x4a_sales_order.is_order_line_cost_field_visible(
-                        order_line_cost) & x4a_sales_order.is_order_line_ext_cost_field_visible(
-                        order_line_extended_cost) &
-                    x4a_sales_order.is_order_line_margin_field_visible(
-                        order_line_margin) & x4a_sales_order.is_order_line_currency_code_field_visible(
-                        order_line_currency_code) &
-                    x4a_sales_order.is_order_line_quantity_field_visible(order_line_quantity) &
-                    x4a_sales_order.is_order_line_qty_confirmed_field_visible(
-                        order_line_quantity_confirmed) & x4a_sales_order.is_order_line_qty_backordered_field_visible(
-                        order_line_quantity_backordered) &
-                    x4a_sales_order.is_order_line_notes_field_visible(Order_line_notes)):
+            # if (x4a_sales_order.is_order_line_field_visible(order_line) &
+            #         x4a_sales_order.is_order_line_status_field_visible(
+            #             order_line_status) & x4a_sales_order.is_order_line_description_field_visible(
+            #             order_line_description) &
+            #         x4a_sales_order.is_contact_vpn_no_field_visible(order_line_vpn_no) &
+            #         x4a_sales_order.is_order_line_im_part_field_visible(
+            #             order_line_im_part) & x4a_sales_order.is_order_line_special_bid_field_visible(
+            #             order_line_special_bid_no) &
+            #         x4a_sales_order.is_order_line_unit_price_field_visible(
+            #             order_line_unit_price) & x4a_sales_order.is_order_line_extended_price_field_visible(
+            #             order_line_extended_price) &
+            #         x4a_sales_order.is_order_line_cost_field_visible(
+            #             order_line_cost) & x4a_sales_order.is_order_line_ext_cost_field_visible(
+            #             order_line_extended_cost) &
+            #         x4a_sales_order.is_order_line_margin_field_visible(
+            #             order_line_margin) & x4a_sales_order.is_order_line_currency_code_field_visible(
+            #             order_line_currency_code) &
+            #         x4a_sales_order.is_order_line_quantity_field_visible(order_line_quantity) &
+            #         x4a_sales_order.is_order_line_qty_confirmed_field_visible(
+            #             order_line_quantity_confirmed) & x4a_sales_order.is_order_line_qty_backordered_field_visible(
+            #             order_line_quantity_backordered) &
+            #         x4a_sales_order.is_order_line_notes_field_visible(Order_line_notes)):
+                ui_order_lines = x4a_sales_order.fetch_order_lines()
+                for ui_line in ui_order_lines:
+                    line_flag = False
+                    for line in order_lines_tab_info_list:
+                        if ui_line['line_number'] == line['line_number']:
+                            self.logger.info(f'validating data of order line {ui_line["line_number"]}')
+                            line_flag = True
+                            self.validate_order_line_data(ui_line, line, currency_code)
+                    if not line_flag:
+                        raise Exception(f'API data missing for {ui_line["line_number"]}')
                 self.logger.info(
                     "Successfully verified that fields under Order lines tab on Order Details page")
                 self.driver.save_screenshot(
                     self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
-                    + "_fields_under_end_user_info_successfully.png")
+                    + "_order_lines_validated_successfully.png")
                 return True
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
-                                        "_fields_under_order_lines_atb_error.png")
+                                        "_order_lines_validation_error.png")
             screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                                  "_fields_under_order_lines_tab_error.png"
+                                  "_order_lines_validation_error.png"
             self.logger.error(
                 "Error while verifying fields under Order lines tab on Order Details page")
             self.logger.exception(e)
@@ -1228,7 +1238,6 @@ class ValidateSalesOrdersData:
                 self.driver.save_screenshot(
                     self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                     + "_mark_for_cancel_clicked_successfully.png")
-                self.do_cl
                 return True
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
@@ -1363,5 +1372,101 @@ class ValidateSalesOrdersData:
                 return True
         except Exception as e:
             self.logger.error("Error while verifying success toast notification")
+            self.logger.exception(e)
+            return False
+
+    def validate_carrier_code(self, feature_file_name, carrier_code):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.is_carrier_code_visible(carrier_code):
+                self.logger.info("Failed to verify carrier code")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "success_validating_carrier_code_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified carrier code")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "carrier_code_verified_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while verifying carrier code")
+            self.logger.exception(e)
+            return False
+
+    def validate_order_line_data(self, ui_data, api_data, currency_code):
+        try:
+            self.logger.info("Verifying order line status")
+            if ui_data['order_line_status'] != api_data['line_status']:
+                self.logger.error(f'Order line status mismatched\n UI: {ui_data["order_line_status"]}  API: {api_data["line_status"]}')
+
+            self.logger.info("Verifying order line acop")
+            if ui_data['order_line_acop'][:1] != api_data['is_acop_applied']:
+                self.logger.error(
+                    f'Order line acop mismatched\n UI: {ui_data["order_line_acop"]}  API: {api_data["is_acop_applied"]}')
+
+            self.logger.info("Verifying order line currency")
+            if ui_data['order_line_currency_code'] != currency_code:
+                self.logger.error(
+                    f'Order line currency mismatched\n UI: {ui_data["order_line_currency_code"]}  API: {currency_code}')
+
+            self.logger.info("Verifying order line IM part")
+            if ui_data['order_line_im_part'].split(":")[-1].strip() != api_data['im_part_number']:
+                self.logger.error(
+                    f'Order line IM part mismatched\n UI: {ui_data["order_line_im_part"]}  API: {api_data["im_part_number"]}')
+
+            self.logger.info("Verifying order line VPN")
+            if ui_data['order_line_vpn'].split(":")[-1].strip() != api_data['vpn']:
+                self.logger.error(
+                    f'Order line VPN mismatched\n UI: {ui_data["order_line_vpn"]}  API: {api_data["vpn"]}')
+
+            self.logger.info("Verifying order line Description")
+            if ui_data['order_line_description'] != api_data['description'].strip():
+                self.logger.error(
+                    f'Order line Description mismatched\n UI: {ui_data["order_line_description"]}  API: {api_data["description"]}')
+
+            self.logger.info("Verifying order line unit price")
+            if ui_data['order_line_unit_price'] != str(api_data['unit_price']):
+                self.logger.error(
+                    f'Order line unit price mismatched\n UI: {ui_data["order_line_unit_price"]}  API: {api_data["unit_price"]}')
+
+            self.logger.info("Verifying order line extended price")
+            if ui_data['order_line_extended_price'] != str(api_data['extended_price']):
+                self.logger.error(
+                    f'Order line extended price mismatched\n UI: {ui_data["order_line_extended_price"]}  API: {api_data["extended_price"]}')
+
+            self.logger.info("Verifying order line special bid")
+            if ui_data['order_line_spl_bid'] != api_data['special_bid_number']:
+                self.logger.error(
+                    f'Order line special bid mismatched\n UI: {ui_data["order_line_spl_bid"]}  API: {api_data["special_bid_number"]}')
+
+            self.logger.info("Verifying order line cost")
+            if ui_data['order_line_cost'] != str(api_data['cost']):
+                self.logger.error(
+                    f'Order line cost mismatched\n UI: {ui_data["order_line_extended_cost"]}  API: {api_data["extended_cost"]}')
+
+            self.logger.info("Verifying order line quantity")
+            if ui_data['order_line_quantity'] != str(api_data['quantity']):
+                self.logger.error(
+                    f'Order line quantity mismatched\n UI: {ui_data["order_line_quantity"]}  API: {api_data["quantity"]}')
+
+            self.logger.info("Verifying order line quantity confirmed")
+            if ui_data['order_line_quantity_confirmed'] != str(api_data['quantity_confirmed']):
+                self.logger.error(
+                    f'Order line quantity confirmed mismatched\n UI: {ui_data["order_line_quantity_confirmed"]}  API: {api_data["quantity_confirmed"]}')
+
+            self.logger.info("Verifying order line quantity backordered")
+            if ui_data['order_line_quantity_backordered'] != str(api_data['quantity_backordered']):
+                self.logger.error(
+                    f'Order line quantity backordered mismatched\n UI: {ui_data["order_line_quantity_backordered"]}  API: {api_data["quantity_backordered"]}')
+
+            self.logger.info("Verifying order line margin")
+            margin = str(
+                round(((float(api_data['unit_price']) - float(api_data['cost'])) / float(api_data['unit_price'])) * 100,
+                      2))
+            if ui_data['order_line_margin'] != margin:
+                self.logger.error(
+                    f'Order line margin mismatched\n UI: {ui_data["order_line_margin"]}  Calculated: {margin}')
+        except Exception as e:
+            self.logger.error("Error while verifying order line data")
             self.logger.exception(e)
             return False

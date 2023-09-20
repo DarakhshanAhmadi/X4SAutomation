@@ -5,7 +5,7 @@ Feature: Sales Order Details
   Scenario: sales order details check
     Given fetch sales order details via api
 
-  @login
+  @login @l1
   Scenario: Login to X4A portal
     Given launch chrome browser and open the X4A url
     Then provide user ID and Password to login
@@ -49,6 +49,11 @@ Feature: Sales Order Details
     When Click on Order Details tab on Order Details page
     Then Validate fields under reference number section
 
+  @carrier_code
+  Scenario: Carrier code validation
+    When Click on Order Details tab on Order Details page
+    Then Validate carrier code
+
   # EDT-8489
   @bill_to_info_fields_data
   Scenario: Bill to info fields data validation
@@ -68,10 +73,10 @@ Feature: Sales Order Details
     Then Validate fields under End user info section
 
   #  # EDT-8489
-#  @order_lines_tab_fields_data
-#  Scenario: Order lines tab fields data validation
-#    When Click on Order lines tab on Order Details page
-#    Then Validate fields under Order lines tab
+  @order_lines_tab_fields_data
+  Scenario: Order lines tab fields data validation
+    When Click on Order lines tab on Order Details page
+    Then Validate fields under Order lines tab
 #
 #  # EDT-8489
 #  @serial_number_header_fields_data
