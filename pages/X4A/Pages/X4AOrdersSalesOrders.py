@@ -123,13 +123,14 @@ class X4ASalesOrdersPage(BasePage):
     ORDER_LINE_DESC = (By.XPATH, "((//*[contains(@class, 'MuiDataGrid-row')])[1]//child::strong)[1]")
     RESUBMIT_STATUS_TITLE = (By.XPATH, "//h2[text()='Order resubmission status']")
     CLOSE_RESUBMIT_POPUP = (By.XPATH, "//*[@data-testid='CloseIcon']")
+    SCROLL = (By.XPATH, "(//*[contains(@class, 'virtualScroller')])[3]")
     """Order Details tab-Reference numbers"""
 
     END_USER_PO_FIELD = (By.XPATH, "//*[text()='End user PO:']/parent::div/div[@class='fieldValue']/strong")
     RESELLER_PO_FIELD = (By.XPATH, "//*[text()='Reseller PO:']/parent::div/div[@class='fieldValue']/strong")
     VENDOR_ORDER_FIELD = (By.XPATH, "//*[text()='Vendor order:']/parent::div/div[@class='fieldValue']/strong")
     VENDOR_SALES_ORDER_FIELD = (By.XPATH, "//*[text()='Vendor sales order:']/parent::div/div[@class='fieldValue']/strong")
-    REFERENCE_NUMBER_EDIT_ICON = (By.XPATH, "//*[@id='tablayout-tabpanel-0']/div/div/div/div/div[1]/*[@data-testid='ModeEditOutlineOutlinedIcon']")
+    REFERENCE_NUMBER_EDIT_ICON = (By.XPATH, "//*[@data-testid='ModeEditOutlineOutlinedIcon']")
     POPUP_CANCEL_BUTTON = (By.XPATH, "//button[text()='Cancel']")
     POPUP_UPDATE_BUTTON = (By.XPATH, "//button[text()='Update']")
     POPUP_END_USER_TEXTBOX = (By.ID, "reference-details-po-number")
@@ -203,7 +204,7 @@ class X4ASalesOrdersPage(BasePage):
     ORDER_LINE_CURRENCY_CODE = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='currencyCode']")
     ORDER_LINE_PAYMENT_TERMS = (By.XPATH, "//*[@role='cell' and @data-field='paymentTerms']")
     ORDER_LINE_QUANTITY = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityOrdered']")
-    ORDER_LINE_QUANTITY_TEXT = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityOrdered']//input")
+    ORDER_LINE_QUANTITY_TEXT = (By.XPATH, "(//*[@data-field='quantityOrdered'])[2]//input")
     ORDER_LINE_QUANTITY_CONFIRMED = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityConfirmed']")
     ORDER_LINE_QUANTITY_BACKORDERED = (
         By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityBackOrdered']")
@@ -2088,17 +2089,26 @@ class X4ASalesOrdersPage(BasePage):
             self.logger.error("Exception occurred while cancelling edit of end user po and reseller po" + str(e))
             raise e
 
-    def validate_update_end_user_po_and_reseller_po(self, end_user_po, reseller_po):
+    def do_update_end_user_po_and_reseller_po(self, end_user_po, reseller_po):
         try:
             self.update_end_user_po_and_reseller_po(end_user_po, reseller_po)
+            global ui_end_user_po, ui_reseller_po
             ui_end_user_po = self.get_element_text(self.REFERENCE_NUMBERS_END_USER_PO)
             ui_reseller_po = self.get_element_text(self.REFERENCE_NUMBERS_RESELLER_PO)
-            self.resubmit_order()
+            self.logger.info(ui_reseller_po)
+            self.logger.info(ui_end_user_po)
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred while updating end user po and reseller po" + str(e))
+            return False
+
+    def test_end_user_po_and_reseller_po_updated(self, end_user_po, reseller_po):
+        try:
             assert ui_end_user_po == end_user_po.upper(), "End user PO mismatched"
             assert ui_reseller_po == reseller_po.upper(), "Reseller PO mismatched"
             return True
         except Exception as e:
-            self.logger.error("Exception occurred while validating update of end user po and reseller po" + str(e))
+            self.logger.error("Exception occurred while validating end user po and reseller po" + str(e))
             return False
 
     def validate_cancel_end_user_po_and_reseller_po(self, end_user_po, reseller_po):
@@ -2161,7 +2171,7 @@ class X4ASalesOrdersPage(BasePage):
             unit_weight = self.driver.find_element(By.XPATH, element)
             self.scroll_horizontally(unit_weight)
             # scroll till quantity
-            time.sleep(10)
+            time.sleep(20)
             self.do_click_by_locator(self.ORDER_LINE_QUANTITY)
             self.do_send_keys(self.ORDER_LINE_QUANTITY, quantity)
 
@@ -2187,7 +2197,6 @@ class X4ASalesOrdersPage(BasePage):
             self.do_click_by_locator(self.EDIT_CHECK_ICON)
             time.sleep(2)
             self.logger.info("Clicked on order line check icon")
-            self.resubmit_order()
             return True
         except Exception as e:
             self.logger.error(
@@ -2221,10 +2230,8 @@ class X4ASalesOrdersPage(BasePage):
             element = "//*[@data-id='0']//*[@role='cell' and @data-field='currencyCode']"
             unit_weight = self.driver.find_element(By.XPATH, element)
             self.scroll_horizontally(unit_weight)
-
             # scroll till quantity back order
             time.sleep(10)
-
             order_line_data['quantity'] = self.do_get_attribute(self.ORDER_LINE_QUANTITY_TEXT,'value')
             order_line_data['quantity_confirmed'] = self.get_element_text(self.ORDER_LINE_QUANTITY_CONFIRMED)
             order_line_data['quantity_backordered'] = self.get_element_text(self.ORDER_LINE_QUANTITY_BACKORDERED)
