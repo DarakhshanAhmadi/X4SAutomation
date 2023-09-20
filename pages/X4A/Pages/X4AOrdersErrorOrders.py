@@ -168,6 +168,140 @@ class X4AErrorOrdersPage(BasePage):
     VMF_SHIP_CONTACT_EMAIL = (By.XPATH, "//*[text()='shipctacemail']/following-sibling::div")
     VMF_RESELLER_CONTACT_EMAIL = (By.XPATH, "//*[text()='resellerctacemail']/following-sibling::div")
 
+    """End User Details"""
+
+    END_USER_DETAILS_EDIT_BUTTON = (
+        By.XPATH, "//*[text()='End user details']/*[@data-testid='ModeEditOutlineOutlinedIcon']")
+    EDIT_END_USER_DETAILS_POPUP_TITLE = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/H2")
+    END_USER_DETAILS_CANCEL_BUTTON = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/../../div[3]/button[1]")
+    END_USER_DETAILS_SAVE_BUTTON = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/../../div[3]/button[2]")
+    END_USER_DETAILS_ClOSE_ICON_BUTTON = (By.XPATH, "//*[@data-testid='CloseIcon']")
+    END_USER_SEARCH_BOX = (By.XPATH, "//*[@placeholder='Search Company']")
+    ADD_NEW_END_USER_LINK = (By.XPATH, "//*[text()='Add New End User']/button")
+    SEARCHED_END_USER_TITLE_LIST = (
+        By.XPATH, "//*[@aria-labelledby='Selected-card-group-label']/div/div/div/div/div[2]/div/h3")
+    SAVE_BUTTON_DISABLE = (By.XPATH,
+                           "//button[@class='MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButtonBase-root Mui-disabled  css-1i25qo9-MuiButtonBase-root-MuiButton-root'']")
+    SELECTED_END_USER_EDIT_BUTTON = (By.XPATH, "//*[@data-testid='EditOutlinedIcon']")
+    SAVE_BUTTON_ENABLE = (By.XPATH,
+                          "//button[@class='MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButtonBase-root  css-1i25qo9-MuiButtonBase-root-MuiButton-root']")
+    READ_ONLY_END_USER_ID_SUFFIX = (By.XPATH,
+                                    "//*[@id='end-user-id']/parent::div[@class='MuiInputBase-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl css-zzmosa-MuiInputBase-root']")
+    READY_ONLY_COMPANY_NAME = (By.XPATH,
+                               "//*[@id='company-name']/parent::div[@class='MuiInputBase-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl css-zzmosa-MuiInputBase-root']")
+    READ_ONLY_ADDRESS_LINE_1 = (By.XPATH,
+                                "//*[@id='address-line-1']/parent::div[@class='MuiInputBase-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl css-zzmosa-MuiInputBase-root']")
+    READ_ONLY_ADDRESS_LINE_2 = (By.XPATH,
+                                "//*[@id='address-line-2']/parent::div[@class='MuiInputBase-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl css-zzmosa-MuiInputBase-root']")
+    READ_ONLY_CITY = (By.XPATH,
+                      "//*[@id='city']/parent::div[@class='MuiInputBase-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl css-zzmosa-MuiInputBase-root']")
+    READ_ONLY_STATE = (By.XPATH,
+                       "//*[@id='state']/parent::div[@class='MuiInputBase-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl css-zzmosa-MuiInputBase-root']")
+    READ_ONLY_ZIP_CODE = (By.XPATH,
+                          "//*[@id='zip-code']/parent::div[@class='MuiInputBase-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl css-zzmosa-MuiInputBase-root']")
+    READ_ONLY_COUNTRY = (By.XPATH,
+                         "//*[@id='country']/parent::div[@class='MuiInputBase-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl css-zzmosa-MuiInputBase-root']")
+
+    DEFAULT_SELECTED_THE_CHECKBOX_BILLING_AND_TECHNICAL_CONTACT = (By.XPATH,
+                                                                   "//*[text()='The billing & technical contact is the same as the primary contact']/parent::label/span/input[@checked]")
+    PHONE_NUMBER_TEXTBOX = (By.XPATH, "//*[@id='phone-number' and @aria-invalid='false']")
+    NAME_TEXTBOX = (By.XPATH, "//*[@id='ContactName' and @aria-invalid='false']")
+    EMAIL_TEXTBOX = (By.XPATH, "//*[@id='email' and @aria-invalid='false']")
+    SELECTED_END_USER_COMPANY_NAME = (By.XPATH, "//*[@data-testid='EditOutlinedIcon']/parent::button/../h3")
+    SELECTED_END_USER_CONTACT_NAME = (By.XPATH, "//*[@data-testid='EditOutlinedIcon']/parent::button/parent::div/../h6")
+    SELECTED_END_USER_PHONE_NUMBER = (
+        By.XPATH, "//*[@data-testid='EditOutlinedIcon']/parent::button/parent::div/../p[1]")
+    SELECTED_END_USER_EMAIL = (By.XPATH, "//*[@data-testid='EditOutlinedIcon']/parent::button/parent::div/../p[2]")
+    SELECTED_END_USER_ADDRESS_1 = (By.XPATH, "//*[@data-testid='EditOutlinedIcon']/parent::button/parent::div/../p[3]")
+    SELECTED_END_USER_ADDRESS_2 = (By.XPATH, "//*[@data-testid='EditOutlinedIcon']/parent::button/parent::div/../p[7]")
+    SELECTED_END_USER_ID = (By.XPATH, "//*[@data-testid='EditOutlinedIcon']/parent::button/parent::div/../p[9]")
+    END_USER_COMPANY_NAME = (By.XPATH, "//*[text()='Company name:']/parent::div/div[@class='fieldValue']/strong")
+    END_USER_CONTACT_NAME = (By.XPATH, "//*[text()='Contact:']/parent::div/div[@class='fieldValue']/strong")
+    END_USER_EMAIL = (By.XPATH, "//*[text()='Email:']/parent::div/div[@class='fieldValue']/strong")
+    END_USER_PHONE_NUMBER = (By.XPATH, "//*[text()='Phone Number:']/parent::div/div[@class='fieldValue']/strong")
+    END_USER_ADDRESS_1 = (By.XPATH, "//*[text()='Address:']/parent::div/div/p[1]")
+    END_USER_ADDRESS_2 = (By.XPATH, "//*[text()='Address:']/parent::div/div/p[5]")
+    END_USER_ID = (By.XPATH, "//*[text()='End User ID(Suffix):']/parent::div/following-sibling::div/strong")
+    EDIT_END_USER_CANCEL_BUTTON = (By.XPATH, "//*[text()='Add']/preceding::button[1][text()='Cancel']")
+    ADDITIONAL_INFO_EDIT_BUTTON = (
+        By.XPATH, "//*[text()='Additional info']/parent::div/*[@data-testid='ModeEditOutlineOutlinedIcon']")
+    ADD_BUTTON = (By.XPATH, "//button[text()='Add']")
+    EDIT_END_USER_CONTACT_NAME_REQUIRED_MESSAGE = (By.XPATH, "//*[text()='Name']/following-sibling::span")
+    EDIT_END_USER_PHONE_NUMBER_REQUIRED_MESSAGE = (By.XPATH, "//*[text()='Phone Number']/following-sibling::span")
+    EDIT_END_USER_EMAIL_REQUIRED_MESSAGE = (By.XPATH, "//*[text()='Email']/following-sibling::span")
+
+    """Add New End User"""
+
+    EDIT_ADD_NEW_END_USER_POPUP_TITLE = (By.XPATH, "//*[@data-testid='CloseOutlinedIcon']/parent::button/../p")
+    ADD_NEW_END_USER_ClOSE_ICON_BUTTON = (By.XPATH, "//*[@data-testid='CloseOutlinedIcon']")
+    ADD_NEW_END_USER_CANCEL_BUTTON = (By.XPATH, "//*[@data-testid='CloseOutlinedIcon']/../../../div[3]/button[1]")
+    ADD_NEW_END_USER_COMPANY_NAME_LABEL = (By.XPATH, "//*[text()='Company Name']")
+    ADD_NEW_END_USER_COMPANY_NAME_TEXTBOX = (
+        By.XPATH, "//*[text()='Company Name']/following-sibling::div/input[@placeholder='Enter company name']")
+    ADD_NEW_END_USER_CONTACT_NAME_LABEL = (By.XPATH, "//*[text()='Contact Name ']")
+    ADD_NEW_END_USER_CONTACT_NAME_TEXTBOX = (
+        By.XPATH, "//*[text()='Contact Name ']/following-sibling::div/input[@placeholder='Enter contact name']")
+    ADD_NEW_END_USER_EMAIL_LABEL = (By.XPATH, "//*[text()='Email']")
+    ADD_NEW_END_USER_EMAIL_TEXTBOX = (
+        By.XPATH, "//*[text()='Email']/following-sibling::div/input[@placeholder='Enter email']")
+    ADD_NEW_END_USER_PHONE_NUMBER_LABEL = (By.XPATH, "//*[text()='Phone Number']")
+    ADD_NEW_END_USER_PHONE_NUMBER_TEXTBOX = (
+        By.XPATH, "//*[text()='Phone Number']/following-sibling::div/input[@placeholder='Enter phone number']")
+    ADD_NEW_END_USER_ADDRESS_LINE_1_LABEL = (By.XPATH, "//*[text()='Address Line 1']")
+    ADD_NEW_END_USER_ADDRESS_LINE_1_TEXTBOX = (
+        By.XPATH, "//*[text()='Address Line 1']/following-sibling::div/input[@placeholder='Enter adress line 1']")
+    ADD_NEW_END_USER_ADDRESS_LINE_2_LABEL = (By.XPATH, "//*[text()='Address Line 2']")
+    ADD_NEW_END_USER_ADDRESS_LINE_2_TEXTBOX = (
+        By.XPATH, "//*[text()='Address Line 2']/following-sibling::div/input[@placeholder='Enter adress line 2']")
+    ADD_NEW_END_USER_CITY_LABEL = (By.XPATH, "//*[text()='City']")
+    ADD_NEW_END_USER_CITY_TEXTBOX = (
+        By.XPATH, "//*[text()='City']/following-sibling::div/input[@placeholder='Enter city']")
+    ADD_NEW_END_USER_STATE_LABEL = (By.XPATH, "//*[text()='State']")
+    ADD_NEW_END_USER_STATE_DROPDOWN = (
+        By.XPATH, "//*[text()='State']/following-sibling::div/div[text()='Select state']")
+    ADD_NEW_END_USER_COUNTRY_LABEL = (By.XPATH, "//*[text()='Country']")
+    ADD_NEW_END_USER_COUNTRY_DROPDOWN = (
+        By.XPATH, "//*[text()='Country']/following-sibling::div/div[text()='Select country']")
+    ADD_NEW_END_USER_ZIP_CODE_LABEL = (By.XPATH, "//*[text()='Zip Code']")
+    ADD_NEW_END_USER_ZIP_CODE_TEXTBOX = (
+        By.XPATH, "//*[text()='Zip Code']/following-sibling::div/input[@placeholder='Enter zip code']")
+    SELECT_UNITED_STATE = (By.XPATH, "//*[text()='United States']")
+    SELECT_STATE_CALIFORNIA = (By.XPATH, "//*[text()='California']")
+    ADD_NEW_END_USER_ADD_BUTTON = (By.XPATH, "//*[@data-testid='CloseOutlinedIcon']/../../../div[3]/button[2]")
+    USER_ADDED_SUCCESSFUL_MESSAGE = (
+        By.XPATH, "//*[@data-testid='SuccessOutlinedIcon']/parent::div/following-sibling::div[1]")
+    BILLING_AND_TECHNICAL_CONTACT_CHECKED_AND_DISABLED = (By.XPATH,
+                                                          "//*[text()='The billing & technical contact is the same as the primary contact']/parent::label/span/input[@checked and @disabled]")
+    BILLING_AND_TECHNICAL_CONTACT_CHECKBOX = (
+        By.XPATH, "/html/body/div[3]/div[3]/div/div[2]/div[2]/div/label/span[1]/input")
+    BILLING_AND_TECHNICAL_CONTACT_UNCHECK_CHECKBOX = (By.XPATH, "//*[@data-testid='CheckBoxOutlineBlankIcon']")
+
+    """Billing Address"""
+
+    BILLING_ADDRESS_EDIT_BUTTON = (
+        By.XPATH, "//*[text()='Billing address']/parent::div/*[@data-testid='ModeEditOutlineOutlinedIcon']")
+    EDIT_BILLING_ADDRESS_POPUP_TITLE = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/h2")
+    EDIT_BILLING_ADDRESS_SEARCH_AREA_WITH_PLACEHOLDER = (By.XPATH, "//*[@placeholder='Search Suffix']")
+    EDIT_BILLING_ADDRESS_POPUP_CLOSE_ICON = (By.XPATH, "//*[@data-testid='CloseIcon']")
+    EDIT_BILLING_ADDRESS_POPUP_DISABLED_SAVE_BUTTON = (By.XPATH, "//*[text()='Save' and @disabled]")
+    EDIT_BILLING_ADDRESS_POPUP_CANCEL_BUTTON = (By.XPATH, "//button[text()='Cancel']")
+    BILLING_ADDRESS_NO_RECORDS_FOUND_MESSAGE = (
+        By.XPATH, "//*[text()='No records found matching your search criteria']")
+    BILLING_ADDRESS_SUFFIX = (By.XPATH, "//*[@aria-labelledby='Selected-card-group-label']//div/div/div[5]/p")
+    EDIT_BILLING_ADDRESS_POPUP_ENABLED_SAVE_BUTTON = (By.XPATH, "//*[text()='Save']")
+    SELECTED_BILLING_ADDRESS_NAME = (
+        By.XPATH, "//*[@aria-labelledby='Selected-card-group-label']//div/div/div/div/div[1]/h3")
+    SELECTED_BILLING_ADDRESS = (By.XPATH, "//*[@aria-labelledby='Selected-card-group-label']//div/div/div/div/div[2]/p")
+    SELECTED_BILLING_ADDRESS_COUNTRY = (
+        By.XPATH, "//*[@aria-labelledby='Selected-card-group-label']//div/div/div/div/div[3]/p")
+    SELECTED_BILLING_ADDRESS_PHONE_NUMBER = (
+        By.XPATH, "//*[@aria-labelledby='Selected-card-group-label']//div/div/div/div/div[4]/p")
+    SELECTED_BILLING_ADDRESS_SUFFIX = (
+        By.XPATH, "//*[text()='Billing address']/parent::div/following-sibling::div/div[1]/div[2]")
+    BILLING_ADDRESS_NAME = (
+        By.XPATH, "//*[text()='Billing address']/parent::div/following-sibling::div/div[2]/div[1]/strong")
+    BILLING_ADDRESS = (By.XPATH, "//*[text()='Billing address']/parent::div/following-sibling::div/div[2]/div[5]")
+
     def go_to_error_orders(self):
         try:
             self.do_click_by_locator(self.SALES_MENU)
@@ -222,7 +356,7 @@ class X4AErrorOrdersPage(BasePage):
             self.do_click_by_locator(self.CANCEL_BUTTON)
             self.logger.info("Successfully clicked on cancel button")
         except Exception as e:
-            self.logger.eror('Exception occurred while clicking on cancel button ' + str(e))
+            self.logger.error('Exception occurred while clicking on cancel button ' + str(e))
             raise e
 
     def do_verify_cancel_order_popup(self):
@@ -385,7 +519,7 @@ class X4AErrorOrdersPage(BasePage):
             self.logger.info("Successfully clicked on Reprocess Order button")
             return True
         except Exception as e:
-            self.logger.eror('Exception occurred while clicking on Reprocess Order button ' + str(e))
+            self.logger.error('Exception occurred while clicking on Reprocess Order button ' + str(e))
             return False
 
     def do_verify_reprocess_order_popup(self):
@@ -483,7 +617,7 @@ class X4AErrorOrdersPage(BasePage):
             self.logger.info("Successfully clicked on Cancel Order button")
             return True
         except Exception as e:
-            self.logger.eror('Exception occurred while clicking on Cancel Order button ' + str(e))
+            self.logger.error('Exception occurred while clicking on Cancel Order button ' + str(e))
             return False
 
     def do_verify_fraud_cancel_order_popup(self):
@@ -581,7 +715,7 @@ class X4AErrorOrdersPage(BasePage):
             self.logger.info("Successfully clicked on Resubmit Order button")
             return True
         except Exception as e:
-            self.logger.eror('Exception occurred while clicking on Resubmit Order button ' + str(e))
+            self.logger.error('Exception occurred while clicking on Resubmit Order button ' + str(e))
             return False
 
     def verify_content_of_resubmit_order_popup(self):
@@ -1325,6 +1459,430 @@ class X4AErrorOrdersPage(BasePage):
                     reseller_contact_email != vmf_reseller_contact_email):
                 self.logger.info(
                     "Successfully verified that modified VMF shipcontactphone, shipcontactemail and resellercontactemail data is not updated after click on Cancel button")
+                self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def do_verify_end_user_details_edit_icon(self):
+        try:
+            time.sleep(3)
+            self.do_check_availability(self.END_USER_DETAILS_EDIT_BUTTON)
+            self.do_check_availability(self.ADDITIONAL_INFO_EDIT_BUTTON)
+            self.do_check_visibility(self.END_USER_DETAILS_EDIT_BUTTON)
+            return True
+        except Exception as e:
+            return False
+
+    def verify_contents_of_edit_end_user_details(self):
+        try:
+            self.do_click_by_locator(self.END_USER_DETAILS_EDIT_BUTTON)
+            edit_end_user_details_title = 'Edit end user details'
+            edit_end_user_details_cancel_button = 'Cancel'
+            edit_end_user_details_save_button = 'Save'
+
+            assert edit_end_user_details_title in self.get_element_text(
+                self.EDIT_END_USER_DETAILS_POPUP_TITLE), "Edit End User Details Title not present"
+
+            cancel = self.get_element_text(self.END_USER_DETAILS_CANCEL_BUTTON)
+            assert edit_end_user_details_cancel_button in self.get_element_text(
+                self.END_USER_DETAILS_CANCEL_BUTTON), "End User CANCEL button is not present"
+
+            assert edit_end_user_details_save_button in self.get_element_text(
+                self.END_USER_DETAILS_SAVE_BUTTON), "End User SAVE button is not present"
+
+            self.do_check_visibility(self.END_USER_DETAILS_ClOSE_ICON_BUTTON)
+            self.do_check_visibility(self.END_USER_SEARCH_BOX)
+            self.do_check_visibility(self.ADD_NEW_END_USER_LINK)
+            self.logger.info(
+                "Successfully verified Edit END User Details Popup title, CANCEL, SAVE button, X icon, Search box, Add new end user link on popup")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_all_addr_matching_with_entered_text(self):
+        try:
+            time.sleep(3)
+            count = 0
+            search_text = "test"
+            self.do_clear_textfield(self.END_USER_SEARCH_BOX)
+            self.do_send_keys(self.END_USER_SEARCH_BOX, search_text)
+            actions = ActionChains(self.driver)
+            actions.send_keys(Keys.ENTER)
+            actions.perform()
+            end_user_title_list = self.get_all_elements(self.SEARCHED_END_USER_TITLE_LIST)
+            for element in range(len(end_user_title_list)):
+                end_user_title = end_user_title_list[element].text
+                print(end_user_title.lower())
+                title = end_user_title.lower()
+                if search_text in title:
+                    self.logger.info(f'Searching End User {title} match with search text')
+                    count = count + 1
+                if count == len(end_user_title_list):
+                    return True
+        except Exception as e:
+            return False
+
+    def do_verify_edit_button_and_save_button_enable(self, end_user_with_suffix):
+        try:
+            self.do_clear_textfield(self.END_USER_SEARCH_BOX)
+            self.do_send_keys(self.END_USER_SEARCH_BOX, end_user_with_suffix)
+            actions = ActionChains(self.driver)
+            actions.send_keys(Keys.ENTER)
+            actions.perform()
+            time.sleep(5)
+            element = "/html/body/div[2]/div[3]/div/div[2]/div/div/div/div/div/div/div[1]/span/input"
+            search_end_user_with_suffix = self.driver.find_element(By.XPATH, element)
+            search_end_user_with_suffix.click()
+            self.do_check_visibility(self.SELECTED_END_USER_EDIT_BUTTON)
+            self.do_check_visibility(self.SAVE_BUTTON_ENABLE)
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_selected_end_user_info_on_order_details_page(self):
+        try:
+            selected_end_user_company_name = self.get_element_text(self.SELECTED_END_USER_COMPANY_NAME)
+            selected_end_user_contact = self.get_element_text(self.SELECTED_END_USER_CONTACT_NAME)
+            selected_end_user_email = self.get_element_text(self.SELECTED_END_USER_EMAIL)
+            selected_end_user_phone_no = self.get_element_text(self.SELECTED_END_USER_PHONE_NUMBER)
+            selected_end_user_addr1 = self.get_element_text(self.SELECTED_END_USER_ADDRESS_1)
+            selected_end_user_addr2 = self.get_element_text(self.SELECTED_END_USER_ADDRESS_2)
+            selected_end_user_id = self.get_element_text(self.SELECTED_END_USER_ID)
+            selected_end_ur_id = selected_end_user_id.replace("Suffix : ", "")
+
+            self.do_click_by_locator(self.SAVE_BUTTON_ENABLE)
+
+            end_user_company_name = self.get_element_text(self.END_USER_COMPANY_NAME)
+            end_user_contact = self.get_element_text(self.END_USER_CONTACT_NAME)
+            end_user_email = self.get_element_text(self.END_USER_EMAIL)
+            end_user_phone_no = self.get_element_text(self.END_USER_PHONE_NUMBER)
+            end_user_addr1 = self.get_element_text(self.END_USER_ADDRESS_1)
+            end_user_addr2 = self.get_element_text(self.END_USER_ADDRESS_2)
+            end_user_id = self.get_element_text(self.END_USER_ID)
+
+            if ((selected_end_user_company_name == end_user_company_name) & (
+                    selected_end_user_contact == end_user_contact) &
+                    (selected_end_user_email == end_user_email) & (selected_end_user_phone_no == end_user_phone_no) &
+                    (selected_end_user_addr1 == end_user_addr1) & (selected_end_user_addr2 == end_user_addr2) &
+                    (selected_end_ur_id == end_user_id)):
+                self.logger.info(
+                    "Successfully Verified selected end user information should get displayed on order details page")
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def do_verify_contents_of_selected_end_user_with_suffix_edit_popup(self):
+        try:
+            self.do_click_by_locator(self.SELECTED_END_USER_EDIT_BUTTON)
+            self.do_check_visibility(self.READ_ONLY_END_USER_ID_SUFFIX)
+            self.do_check_visibility(self.READY_ONLY_COMPANY_NAME)
+            self.do_check_visibility(self.NAME_TEXTBOX)
+            self.do_check_visibility(self.PHONE_NUMBER_TEXTBOX)
+            self.do_check_visibility(self.EMAIL_TEXTBOX)
+            self.do_check_visibility(self.READ_ONLY_ADDRESS_LINE_1)
+            self.do_check_visibility(self.READ_ONLY_ADDRESS_LINE_2)
+            self.do_check_visibility(self.READ_ONLY_CITY)
+            self.do_check_visibility(self.READ_ONLY_STATE)
+            self.do_check_visibility(self.READ_ONLY_ZIP_CODE)
+            self.do_check_visibility(self.READ_ONLY_COUNTRY)
+            self.do_check_availability(self.DEFAULT_SELECTED_THE_CHECKBOX_BILLING_AND_TECHNICAL_CONTACT)
+            return True
+        except Exception as e:
+            return False
+
+    def do_validate_message_for_mandatory_fields(self):
+        try:
+            self.do_clear_textfield(self.NAME_TEXTBOX)
+            self.do_send_keys(self.NAME_TEXTBOX, '')
+
+            self.do_clear_textfield(self.PHONE_NUMBER_TEXTBOX)
+            self.do_send_keys(self.PHONE_NUMBER_TEXTBOX, '')
+
+            self.do_clear_textfield(self.EMAIL_TEXTBOX)
+            self.do_send_keys(self.EMAIL_TEXTBOX, '')
+
+            time.sleep(3)
+            self.do_click_by_locator(self.ADD_BUTTON)
+
+            contact_name_required_message = "Contact Name is required"
+            phone_number_required_message = "Phone Number is required"
+            email_required_message = "Email is required"
+
+            assert contact_name_required_message in self.get_element_text(
+                self.EDIT_END_USER_CONTACT_NAME_REQUIRED_MESSAGE), "Contact name is required message not present"
+
+            assert phone_number_required_message in self.get_element_text(
+                self.EDIT_END_USER_PHONE_NUMBER_REQUIRED_MESSAGE), "Contact name is required message not present"
+
+            assert email_required_message in self.get_element_text(
+                self.EDIT_END_USER_EMAIL_REQUIRED_MESSAGE), "Email is required message not present"
+
+            self.do_click_by_locator(self.EDIT_END_USER_CANCEL_BUTTON)
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_modified_end_user_info_on_order_details_page(self, end_user):
+        try:
+            self.do_click_by_locator(self.END_USER_DETAILS_EDIT_BUTTON)
+            self.do_clear_textfield(self.END_USER_SEARCH_BOX)
+            self.do_send_keys(self.END_USER_SEARCH_BOX, end_user)
+            actions = ActionChains(self.driver)
+            actions.send_keys(Keys.ENTER)
+            actions.perform()
+            time.sleep(5)
+            element = "/html/body/div[2]/div[3]/div/div[2]/div/div/div/div/div/div/div[1]/span/input"
+            search_end_user = self.driver.find_element(By.XPATH, element)
+            search_end_user.click()
+            self.do_click_by_locator(self.SELECTED_END_USER_EDIT_BUTTON)
+
+            char_count = 3
+            modified_name = "Testing" + ''.join(random.choices(string.ascii_lowercase, k=char_count))
+            print("The randomly generated string is : " + str(modified_name))  # print the random data
+            self.do_send_keys(self.NAME_TEXTBOX, modified_name)
+
+            num_count = 10
+            modified_phone_number = ''.join(random.choices(string.digits, k=num_count))
+            print("The randomly generated number is : " + str(modified_phone_number))  # print the random data
+            self.do_send_keys(self.PHONE_NUMBER_TEXTBOX, modified_phone_number)
+
+            alphabet_count = 5
+            modified_email = "test." + ''.join(
+                random.choices(string.ascii_lowercase, k=alphabet_count)) + "@ingrammicro.com"
+            print("The randomly generated String is : " + str(modified_email))  # print the random data
+            self.do_send_keys(self.EMAIL_TEXTBOX, modified_email)
+
+            self.do_click_by_locator(self.ADD_BUTTON)
+
+            self.do_click_by_locator(self.SAVE_BUTTON_ENABLE)
+
+            end_user_contact = self.get_element_text(self.END_USER_CONTACT_NAME)
+            end_user_email = self.get_element_text(self.END_USER_EMAIL)
+            end_user_phone_no = self.get_element_text(self.END_USER_PHONE_NUMBER)
+
+            if ((modified_name == end_user_contact) &
+                    (modified_email == end_user_email) & (modified_phone_number == end_user_phone_no)):
+                self.logger.info(
+                    "Successfully Verified Modified end user information should get displayed on order details page")
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def verify_contents_of_edit_add_new_end_user(self):
+        try:
+            self.do_click_by_locator(self.END_USER_DETAILS_EDIT_BUTTON)
+            self.do_click_by_locator(self.ADD_NEW_END_USER_LINK)
+            edit_add_new_end_user_title = 'Add New End User'
+            edit_add_new_end_user_cancel_button = 'Cancel'
+            edit_add_new_end_user_add_button = 'Add'
+
+            assert edit_add_new_end_user_title in self.get_element_text(
+                self.EDIT_ADD_NEW_END_USER_POPUP_TITLE), "Edit Add New End User Title not present"
+
+            assert edit_add_new_end_user_cancel_button in self.get_element_text(
+                self.ADD_NEW_END_USER_CANCEL_BUTTON), "Add New End User CANCEL button is not present"
+
+            assert edit_add_new_end_user_add_button in self.get_element_text(
+                self.ADD_BUTTON), "Add New End User Add button is not present"
+
+            self.do_check_visibility(self.ADD_NEW_END_USER_ClOSE_ICON_BUTTON)
+
+            self.do_check_visibility(self.ADD_NEW_END_USER_COMPANY_NAME_LABEL)
+            self.do_check_visibility(self.ADD_NEW_END_USER_COMPANY_NAME_TEXTBOX)
+
+            self.do_check_visibility(self.ADD_NEW_END_USER_CONTACT_NAME_LABEL)
+            self.do_check_visibility(self.ADD_NEW_END_USER_CONTACT_NAME_TEXTBOX)
+
+            self.do_check_visibility(self.ADD_NEW_END_USER_EMAIL_LABEL)
+            self.do_check_visibility(self.ADD_NEW_END_USER_EMAIL_TEXTBOX)
+
+            self.do_check_visibility(self.ADD_NEW_END_USER_PHONE_NUMBER_LABEL)
+            self.do_check_visibility(self.ADD_NEW_END_USER_PHONE_NUMBER_TEXTBOX)
+
+            self.do_check_visibility(self.ADD_NEW_END_USER_ADDRESS_LINE_1_LABEL)
+            self.do_check_visibility(self.ADD_NEW_END_USER_ADDRESS_LINE_1_TEXTBOX)
+
+            self.do_check_visibility(self.ADD_NEW_END_USER_ADDRESS_LINE_2_LABEL)
+            self.do_check_visibility(self.ADD_NEW_END_USER_ADDRESS_LINE_2_TEXTBOX)
+
+            self.do_check_visibility(self.ADD_NEW_END_USER_CITY_LABEL)
+            self.do_check_visibility(self.ADD_NEW_END_USER_CITY_TEXTBOX)
+
+            self.do_check_visibility(self.ADD_NEW_END_USER_STATE_LABEL)
+            self.do_check_visibility(self.ADD_NEW_END_USER_STATE_DROPDOWN)
+
+            self.do_check_visibility(self.ADD_NEW_END_USER_COUNTRY_LABEL)
+            self.do_check_visibility(self.ADD_NEW_END_USER_COUNTRY_DROPDOWN)
+
+            self.do_check_visibility(self.ADD_NEW_END_USER_ZIP_CODE_LABEL)
+            self.do_check_visibility(self.ADD_NEW_END_USER_ZIP_CODE_TEXTBOX)
+
+            self.logger.info(
+                "Successfully verified Edit Add New End User Details Popup content")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_add_new_user_with_valid_data(self):
+        try:
+            company_name = "Automation " + ''.join(random.choices(string.ascii_lowercase, k=3))
+            print("The randomly generated string is : " + str(company_name))  # print the random data
+            self.do_send_keys(self.ADD_NEW_END_USER_COMPANY_NAME_TEXTBOX, company_name)
+
+            contact_name = "Test " + ''.join(random.choices(string.ascii_lowercase, k=2))
+            print("The randomly generated number is : " + str(contact_name))  # print the random data
+            self.do_send_keys(self.ADD_NEW_END_USER_CONTACT_NAME_TEXTBOX, contact_name)
+
+            modified_email = "test." + ''.join(random.choices(string.ascii_lowercase, k=5)) + "@ingrammicro.com"
+            print("The randomly generated String is : " + str(modified_email))  # print the random data
+            self.do_send_keys(self.ADD_NEW_END_USER_EMAIL_TEXTBOX, modified_email)
+
+            phone_number = ''.join(random.choices(string.digits, k=10))
+            print("The randomly generated number is : " + str(phone_number))  # print the random data
+            self.do_send_keys(self.ADD_NEW_END_USER_PHONE_NUMBER_TEXTBOX, phone_number)
+
+            self.do_send_keys(self.ADD_NEW_END_USER_ADDRESS_LINE_1_TEXTBOX, "A-202 4th floor")
+
+            self.do_send_keys(self.ADD_NEW_END_USER_ADDRESS_LINE_2_TEXTBOX, "Wisconsin State Highways 29")
+
+            self.do_send_keys(self.ADD_NEW_END_USER_CITY_TEXTBOX, "Slab City")
+
+            self.do_click_by_locator(self.ADD_NEW_END_USER_COUNTRY_DROPDOWN)
+            self.do_click_by_locator(self.SELECT_UNITED_STATE)
+
+            self.do_click_by_locator(self.ADD_NEW_END_USER_STATE_DROPDOWN)
+            time.sleep(2)
+            self.do_click_by_locator(self.SELECT_STATE_CALIFORNIA)
+
+            self.do_send_keys(self.ADD_NEW_END_USER_ZIP_CODE_TEXTBOX, "92233")
+
+            self.do_click_by_locator(self.ADD_NEW_END_USER_ADD_BUTTON)
+
+            successful_msg = "User has been added successfully!"
+            assert successful_msg in self.get_element_text(
+                self.USER_ADDED_SUCCESSFUL_MESSAGE), "User has been added successfully! message not present"
+
+            self.do_send_keys(self.END_USER_SEARCH_BOX, company_name)
+            actions = ActionChains(self.driver)
+            actions.send_keys(Keys.ENTER)
+            actions.perform()
+            time.sleep(5)
+            element = "/html/body/div[2]/div[3]/div/div[2]/div/div/div/div/div/div/div[1]/span/input"
+            search_end_user = self.driver.find_element(By.XPATH, element)
+            search_end_user.click()
+            self.logger.info("Successfully User able to select end user")
+            self.do_click_by_locator(self.SELECTED_END_USER_EDIT_BUTTON)
+            self.do_check_availability(self.BILLING_AND_TECHNICAL_CONTACT_CHECKED_AND_DISABLED)
+            self.logger.info(
+                "Successfully Verified that the end user ERP type is I and The billing & technical contact is the same as the primary contact checkbox is Checked and Disabled")
+            self.do_click_by_locator(self.EDIT_END_USER_CANCEL_BUTTON)
+            self.do_click_by_locator(self.END_USER_DETAILS_ClOSE_ICON_BUTTON)
+            self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+            return True
+        except Exception as e:
+            return False
+
+    def verify_contents_of_edit_billing_address(self):
+        try:
+            time.sleep(3)
+            self.do_click_by_locator(self.BILLING_SHIPPING_TAB)
+            self.do_click_by_locator(self.BILLING_ADDRESS_EDIT_BUTTON)
+            edit_billing_address_title = 'Edit Billing Address'
+
+            assert edit_billing_address_title in self.get_element_text(
+                self.EDIT_BILLING_ADDRESS_POPUP_TITLE), "Edit Billing Address Title not present"
+
+            self.do_check_visibility(self.EDIT_BILLING_ADDRESS_SEARCH_AREA_WITH_PLACEHOLDER)
+            self.do_check_visibility(self.EDIT_BILLING_ADDRESS_POPUP_CANCEL_BUTTON)
+            self.do_check_visibility(self.EDIT_BILLING_ADDRESS_POPUP_CLOSE_ICON)
+            self.do_check_visibility(self.EDIT_BILLING_ADDRESS_POPUP_DISABLED_SAVE_BUTTON)
+            self.logger.info(
+                "Successfully verified Edit Billing Address Popup title, Search Area with Placeholder, X icon, Cancel and Save Disabled button on popup")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_order_details_page_after_click_on_x_icon(self):
+        try:
+            self.do_click_by_locator(self.EDIT_BILLING_ADDRESS_POPUP_CLOSE_ICON)
+            self.do_check_visibility(self.ORDER_DETAILS_PAGE)
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_order_details_page_after_click_on_cancel_button(self):
+        try:
+            self.do_click_by_locator(self.BILLING_ADDRESS_EDIT_BUTTON)
+            self.do_click_by_locator(self.EDIT_BILLING_ADDRESS_POPUP_CANCEL_BUTTON)
+            self.do_check_visibility(self.ORDER_DETAILS_PAGE)
+            return True
+        except Exception as e:
+            return False
+
+    def do_search_with_special_character(self):
+        try:
+            self.do_click_by_locator(self.BILLING_ADDRESS_EDIT_BUTTON)
+            self.do_click_by_locator(self.EDIT_BILLING_ADDRESS_SEARCH_AREA_WITH_PLACEHOLDER)
+            self.do_send_keys(self.EDIT_BILLING_ADDRESS_SEARCH_AREA_WITH_PLACEHOLDER, '^%^&')
+            self.do_check_visibility(self.BILLING_ADDRESS_NO_RECORDS_FOUND_MESSAGE)
+            return True
+        except Exception as e:
+            return False
+
+    def do_search_with_valid_suffix(self):
+        try:
+            suffix = '117'
+            self.do_clear_textfield(self.EDIT_BILLING_ADDRESS_SEARCH_AREA_WITH_PLACEHOLDER)
+            self.do_send_keys(self.EDIT_BILLING_ADDRESS_SEARCH_AREA_WITH_PLACEHOLDER, suffix)
+            billing_add_suffix = self.get_element_text(self.BILLING_ADDRESS_SUFFIX)
+            bill_addr_suffix = billing_add_suffix.replace("Suffix:\n", "")
+            if suffix == bill_addr_suffix:
+                self.logger.info("Successfully Billing Address Details get loaded in popup")
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def do_select_searched_addr_and_save_button_enabled(self):
+        try:
+            time.sleep(5)
+            element = "/html/body/div[2]/div[3]/div/div/div[3]/div/div/div/div/div/div/span/input"
+            search_billing_address = self.driver.find_element(By.XPATH, element)
+            search_billing_address.click()
+            self.do_check_visibility(self.EDIT_BILLING_ADDRESS_POPUP_ENABLED_SAVE_BUTTON)
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_selected_billing_addr_on_order_details_page(self):
+        try:
+            selected_billing_addr_name = self.get_element_text(self.SELECTED_BILLING_ADDRESS_NAME)
+            selected_address = self.get_element_text(self.SELECTED_BILLING_ADDRESS)
+            selected_address_country = self.get_element_text(self.SELECTED_BILLING_ADDRESS_COUNTRY)
+            selected_address_phone = self.get_element_text(self.SELECTED_BILLING_ADDRESS_PHONE_NUMBER)
+            selected_suffix = self.get_element_text(self.BILLING_ADDRESS_SUFFIX)
+            selected_bill_addr_suffix = selected_suffix.replace("Suffix:\n", "")
+
+            self.do_click_by_locator(self.EDIT_BILLING_ADDRESS_POPUP_ENABLED_SAVE_BUTTON)
+
+            selected_billing_address = selected_address + ' ' + selected_address_country
+            self.logger.info(f'Billing Address: {selected_billing_address}')
+
+            billing_address_suffix = self.get_element_text(self.SELECTED_BILLING_ADDRESS_SUFFIX)
+            billing_address_name = self.get_element_text(self.BILLING_ADDRESS_NAME)
+            billing_address = self.get_element_text(self.BILLING_ADDRESS)
+
+            if (selected_bill_addr_suffix == billing_address_suffix) & (
+                    selected_billing_addr_name == billing_address_name) & (
+                    selected_billing_address in billing_address) & (selected_address_phone in billing_address):
                 return True
             else:
                 return False
