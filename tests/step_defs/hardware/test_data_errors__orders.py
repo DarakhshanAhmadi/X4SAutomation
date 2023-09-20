@@ -104,6 +104,31 @@ def test_updated_vmf_data_should_get_display_on_order_details_page():
     pass
 
 
+@scenario("features/hardware/data_errors_orders.feature", "Verify End User Details Edit popup content")
+def test_end_user_details_edit_popup_content():
+    pass
+
+
+@scenario("features/hardware/data_errors_orders.feature", "Searching End User")
+def test_searching_end_user():
+    pass
+
+
+@scenario("features/hardware/data_errors_orders.feature", "Verify Add New End User Edit popup content")
+def test_add_new_end_user_edit_popup_content():
+    pass
+
+
+@scenario("features/hardware/data_errors_orders.feature", "Verify Billing Address Edit popup content")
+def test_billing_address_edit_popup_content():
+    pass
+
+
+@scenario("features/hardware/data_errors_orders.feature", "Verify billing address search with suffix")
+def test_verify_billing_address_search_with_suffix():
+    pass
+
+
 @scenario("features/hardware/data_errors_orders.feature", "logout X4A")
 def test_logout_x4a():
     pass
@@ -871,4 +896,298 @@ def verify_modified_vmf_data_not_updated_after_click_on_cancel_data(init_driver)
     except Exception as e:
         logger.error(
             "Error while Verifying modified VMF data should not get updated on order details page after click on Cancel button %s",
+            e)
+
+
+@given(parsers.parse('the error order is created via api for End User Details'))
+def create_order_for_end_user_details(init_driver):
+    feature_file_name = "data_errors_orders"
+    data_create_obj = DataCreationViaApi(init_driver)
+    order_management_srv_obj = X4AInputOrderDbManagementService()
+    try:
+        confirmation_id = data_create_obj.post_request_for_error_order_create()
+        logger.info(f'Confirmation ID: {confirmation_id}')
+        if not len(confirmation_id) == 0:
+            order_management_srv_obj.save_confirmation_id_for_end_user_details_in_db(db_file_path, feature_file_name,
+                                                                                     confirmation_id)
+        else:
+            raise Exception('Confirmation Id is empty')
+    except Exception as e:
+        logger.error("Not able create the Data error order %s", e)
+        raise e
+
+
+@when(parsers.parse('Search and Select the Data Errors Order for End User Details'))
+def search_select_data_errors_order_record_for_end_user_details(init_driver):
+    feature_file_name = "data_errors_orders"
+    create_order_steps = ValidateErrorOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        confirmation_id = input_order_data.get("modify_end_user_details_data_errors_order_id")
+        if not create_order_steps.search_and_select_data_errors_order(feature_file_name, confirmation_id):
+            raise Exception("Failed to select Data error order")
+    except Exception as e:
+        logger.error("Error while selecting Data error order first record %s", e)
+        raise e
+
+
+@then(parsers.parse('Verify that Edit icon should display beside End User Details'))
+def end_user_details_edit_icon_visible(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.is_end_user_details_edit_icon_visible(feature_file_name):
+            raise Exception("Failed to verify that Edit icon display beside End User Details")
+    except Exception as e:
+        logger.error("Error while verify that Edit icon display beside End User Details %s", e)
+        raise e
+
+
+@then(parsers.parse('Verify contents of Edit End User Details popup'))
+def verify_contents_of_edit_end_user_details_popup(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_contents_of_edit_end_user_details(feature_file_name):
+            raise Exception("Failed to verify contents of Edit End User Details popup")
+    except Exception as e:
+        logger.error("Error while verifying contents of Edit End User Details popup %s", e)
+
+
+@then(parsers.parse('Verify that all address matching with entered text should get displayed'))
+def verify_that_all_address_matching_with_entered_text_displayed(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_all_addr_matching_with_entered_text(feature_file_name):
+            raise Exception("Failed to Verify all address matching with entered text should get displayed")
+    except Exception as e:
+        logger.error("Error while Verifing all address matching with entered text should get displayed %s", e)
+
+
+@then(parsers.parse(
+    'Select the end user with suffix and verify that Edit icon should display for user and Save button should get enabled'))
+def select_the_any_end_user_with_suffix_verify_edit_button_display_and_save_button_should_get_enabled(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        end_user_with_suffix = 'EVREST_DS010'
+        if not validate_error_orders_data.do_verify_edit_button_and_save_button_enable(feature_file_name,
+                                                                                       end_user_with_suffix):
+            raise Exception(
+                "Failed to Select the end user with suffix and verify that Edit icon should display for user and Save button should get enabled")
+    except Exception as e:
+        logger.error(
+            "Error while Select the end user with suffix and verify that Edit icon should display for user and Save button should get enabled %s",
+            e)
+
+
+@then(parsers.parse(
+    'Click on Save Button and Verify that selected end user information should get displayed on order details page'))
+def verify_selected_end_user_information_should_get_displayed_on_order_details_page(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_selected_end_user_info_on_order_details_page(feature_file_name):
+            raise Exception(
+                "Failed to Click on Save Button and Verify that selected end user information should get displayed on order details page")
+    except Exception as e:
+        logger.error(
+            "Error while Click on Save Button and Verify that selected end user information should get displayed on order details page %s",
+            e)
+
+
+@then(parsers.parse('Verify contents of selected end user with suffix edit popup'))
+def verify_contents_of_selected_end_user_with_suffix_edit_popup(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_contents_of_selected_end_user_with_suffix_edit_popup(
+                feature_file_name):
+            raise Exception("Failed to verify contents of selected end user with suffix edit popup")
+    except Exception as e:
+        logger.error("Error while verifying contents of selected end user with suffix edit popup %s", e)
+
+
+@then(parsers.parse(
+    'Modify Name, Phone Number, Email and Click on Add button then Verify that updated end user information should display on order details page'))
+def modify_name_phone_number_email_verify_that_updated_end_user_information_should_display_on_order_details_page(
+        init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        end_user = 'EVREST_DS010'
+        if not validate_error_orders_data.do_verify_modified_end_user_info_on_order_details_page(feature_file_name,
+                                                                                                 end_user):
+            raise Exception(
+                "Failed to modify Name, Phone Number, Email and Click on Add button then Verify that updated end user information should display on order details page")
+    except Exception as e:
+        logger.error(
+            "Error while modifying Name Phone Number Email and Click on Add button then Verify that updated end user information should display on order details page %s",
+            e)
+
+
+@when(parsers.parse(
+    'Remove the data from Name, Phone Number, Email and Click on Add button then Validation required message should display'))
+def remove_the_data_from_name_phone_number_email_and_click_on_add_button_then_validate_required_message_should_display(
+        init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_validate_message_for_mandatory_fields(feature_file_name):
+            raise Exception(
+                "Failed to Remove the data from Name, Phone Number, Email and Click on Add button then Validate required message should display")
+    except Exception as e:
+        logger.error(
+            "Error while Clicking on Add button without giving any values and validating message should display for all mandatory fields %s",
+            e)
+
+
+@then(parsers.parse('Verify contents of Edit Add New End User popup'))
+def verify_contents_of_edit_add_new_end_user_popup(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_contents_of_edit_add_new_end_user(feature_file_name):
+            raise Exception("Failed to Verify contents of Edit Add New End User popup")
+    except Exception as e:
+        logger.error("Error while verifying contents of Edit Add New End User popup %s", e)
+
+
+@then(parsers.parse(
+    'Verify that added new end user should display and user should able to select it and checkbox is disable'))
+def verify_that_added_new_user_should_display_and_user_should_able_to_select_it(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_add_new_user_with_valid_data(feature_file_name):
+            raise Exception("Failed to Verify that added new user should display and user should able to select it")
+    except Exception as e:
+        logger.error("Error while verifying that added new user should display and user should able to select it %s", e)
+
+
+@given(parsers.parse('the error order is created via api for Billing Address'))
+def create_order_for_billing_address_details(init_driver):
+    feature_file_name = "data_errors_orders"
+    data_create_obj = DataCreationViaApi(init_driver)
+    order_management_srv_obj = X4AInputOrderDbManagementService()
+    try:
+        confirmation_id = data_create_obj.post_request_for_error_order_create()
+        logger.info(f'Confirmation ID: {confirmation_id}')
+        if not len(confirmation_id) == 0:
+            order_management_srv_obj.save_confirmation_id_for_billing_address_details_in_db(db_file_path,
+                                                                                            feature_file_name,
+                                                                                            confirmation_id)
+        else:
+            raise Exception('Confirmation Id is empty')
+    except Exception as e:
+        logger.error("Not able create the Data error order %s", e)
+        raise e
+
+
+@when(parsers.parse('Search and Select the Data Errors Order for Billing Address'))
+def search_select_data_errors_order_record_for_billing_address(init_driver):
+    feature_file_name = "data_errors_orders"
+    create_order_steps = ValidateErrorOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        confirmation_id = input_order_data.get("modify_billing_address_data_errors_order_id")
+        if not create_order_steps.search_and_select_data_errors_order(feature_file_name, confirmation_id):
+            raise Exception("Failed to select Data error order")
+    except Exception as e:
+        logger.error("Error while selecting Data error order first record %s", e)
+        raise e
+
+
+@then(parsers.parse('Verify contents of Edit Billing Address popup'))
+def verify_contents_of_edit_billing_address_popup(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_contents_of_edit_billing_address(feature_file_name):
+            raise Exception("Failed to verify contents of Edit Billing Address popup")
+    except Exception as e:
+        logger.error("Error while verifying contents of Edit Billing Address popup %s", e)
+
+
+@when(parsers.parse('Click on X icon on popup and Verify that Order Details page should display'))
+def click_on_x_icon_on_pop_and_verify_that_order_details_page_should_display(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_order_details_page_after_click_on_x_icon(feature_file_name):
+            raise Exception("Failed to Click on X icon on popup and Verify that Order Details page should display")
+    except Exception as e:
+        logger.error("Error while Clicking on X icon on popup and Verify that Order Details page should display %s", e)
+
+
+@when(parsers.parse('Click on Cancel button on popup and Verify that Order Details page should display'))
+def click_on_cancel_button_on_pop_and_verify_that_order_details_page_should_display(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_order_details_page_after_click_on_cancel_button(feature_file_name):
+            raise Exception(
+                "Failed to Click on Cancel button on popup and Verify that Order Details page should display")
+    except Exception as e:
+        logger.error(
+            "Error while Clicking on Cancel button on popup and Verify that Order Details page should display %s", e)
+
+
+@when(
+    parsers.parse('Search with special characters then No records found matching your search criteria should display'))
+def search_with_special_characters_then_no_records_found_matching_your_search_criteria_should_display(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_search_with_special_character(feature_file_name):
+            raise Exception(
+                "Failed to search with special characters then No records found matching your search criteria should display")
+    except Exception as e:
+        logger.error(
+            "Error while Searching with special characters then No records found matching your search criteria should display %s",
+            e)
+
+
+@when(parsers.parse('Search with valid Suffix and then Billing address details should get loaded in popup'))
+def search_with_valid_suffix_and_then_billing_address_details_should_get_loaded_in_popup(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_search_with_valid_suffix(feature_file_name):
+            raise Exception(
+                "Failed to Search with valid Suffix and then Billing address details should get loaded in popup")
+    except Exception as e:
+        logger.error(
+            "Error while Searching with valid Suffix and then Billing address details should get loaded in popup %s",
+            e)
+
+
+@when(parsers.parse('Select the searched address and then Save button should get enabled on selecting address'))
+def select_the_searched_address_and_then_save_button_should_get_enabled_on_selecting_address(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_select_searched_addr_and_save_button_enabled(feature_file_name):
+            raise Exception(
+                "Failed to Select the searched address and then Save button should get enabled on selecting address")
+    except Exception as e:
+        logger.error(
+            "Error while Selecting the searched address and then Save button should get enabled on selecting address %s",
+            e)
+
+
+@then(parsers.parse('Verify that selected billing address should get displayed on Order details page'))
+def verify_that_selected_billing_address_should_get_displayed_on_order_details_page(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_selected_billing_addr_on_order_details_page(feature_file_name):
+            raise Exception(
+                "Failed to Verify that selected billing address should get displayed on Order details page")
+    except Exception as e:
+        logger.error(
+            "Error while Verifying that selected billing address should get displayed on Order details page %s",
             e)
