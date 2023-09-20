@@ -1883,6 +1883,7 @@ class X4AErrorOrdersPage(BasePage):
             if (selected_bill_addr_suffix == billing_address_suffix) & (
                     selected_billing_addr_name == billing_address_name) & (
                     selected_billing_address in billing_address) & (selected_address_phone in billing_address):
+                self.do_click_by_locator(self.ERROR_ORDER_PAGE)
                 return True
             else:
                 return False
