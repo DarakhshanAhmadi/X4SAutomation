@@ -5,7 +5,7 @@ Feature: Sales Orders
   Scenario: Login to X4A portal
     Given launch chrome browser and open the X4A url
     Then provide user ID and Password to login
-#    And the user traverse to Sales Order menu
+    And the user traverse to Sales Order menu
 
   # EDT-8452/OMS-877
   @all_column_on_sales_orders_page
@@ -277,6 +277,20 @@ Feature: Sales Orders
     Then Cancel the order
     Then Verify success toast notification is displayed
     When Verify order status is "VOIDED"
+
+  # EDT-10971
+  @cancel_single_line_item
+  Scenario: Validate Mark a single line item for cancel
+    When search a order with specific IM Order number
+    Then Validate the IM Order number is listed
+    When Click on searched IM order number
+    When Verify order status is "Customer Hold(IM)"
+    And Click on Order lines tab on Order Details page
+    Then Click on mark for cancel for single line item
+    Then Verify order line and edit button will not be active
+    Then Click on resubmit order
+    When Click on Order lines tab on Order Details page
+    Then Verify cancelled order line is not visible
 
   @logout
   Scenario: logout X4A
