@@ -29,7 +29,7 @@ class FetchOrderViaApi:
              "partdescription2", "isacopapplied",
              "unitweight", "unitprice", "extendedprice", "adjustedcost", "requestedquantity", "confirmedquantity",
              "backorderquantity",
-             "specialbidnumber"] #"serialnumberdetails"
+             "specialbidnumber"] 
 
     def post_request_for_sales_order_detail_fetch(self, im_order_number, order_date):
         try:
@@ -49,7 +49,7 @@ class FetchOrderViaApi:
             order_details_json_data = response.json()
             self.logger.info(response.status_code)
             assert response.status_code == 200
-            status_code = self.common_json.read_json_data(order_details_json_data, "serviceresponse", "responsepreamble",
+            status_code = self.common_json.read_sub_section_json_data(order_details_json_data, "serviceresponse", "responsepreamble",
                                                          "statuscode")
             assert status_code == '200', "status code is not 200 in response json"
             return order_details_json_data
@@ -59,33 +59,33 @@ class FetchOrderViaApi:
 
     def extract_order_details_data_and_save_in_db(self, json_data, feature_file_name):
         sales_order_details_list = []
-        order_entry_channel = self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "entrymethoddescription")
-        im_order_number = self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "ordernumber")
-        order_type = self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "ordertype")
-        reseller_po = self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "customerordernumber")
-        end_user_po = self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "enduserponumber")
-        order_status = self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "orderstatus")
-        order_value = self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "ordertotalvalue")
-        currency_code = self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "currencycode")
-        terms_code = self.extract_terms_code(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "extendedspecs"))
-        ship_from_warehouse_id = self.extract_ship_from_details(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "lines"), "shipfromwarehouseid")
-        warehouse_name = self.extract_ship_from_details(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "lines"), "warehousename")
-        carrier_code = self.extract_ship_from_details(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "lines"), "carriercode")
-        ship_to_suffix = self.common_json.read_json_data1(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"), "suffix")
-        ship_to_name = self.common_json.read_json_data1(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"), "name")
-        ship_to_address = self.format_address(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"))
-        ship_to_phone = self.common_json.read_json_data1(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"), "phonenumber")
-        ship_to_contact = self.common_json.read_json_data1(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"), "attention")
-        ship_to_email = self.common_json.read_json_data1(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"), "email")
-        bill_to_suffix = self.common_json.read_json_data1(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "billtoaddress"), "suffix")
-        bill_to_name = self.common_json.read_json_data1(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "billtoaddress"), "name")
-        bill_to_address = self.format_address(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "billtoaddress"))
-        bill_to_phone = self.common_json.read_json_data1(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "billtoaddress"), "phonenumber")
-        bill_to_contact = self.common_json.read_json_data1(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "billtoaddress"), "mobilenumber")
-        bill_to_email = self.common_json.read_json_data1(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "billtoaddress"), "email")
-        end_user_id = self.common_json.read_json_data1(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "enduserinfo"), "enduserid")
-        end_user_address = self.common_json.read_json_data1(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "enduserinfo"), "addressid")
-        end_user_contact = self.common_json.read_json_data1(self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "enduserinfo"), "contactid")
+        order_entry_channel = self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "entrymethoddescription")
+        im_order_number = self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "ordernumber")
+        order_type = self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "ordertype")
+        reseller_po = self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "customerordernumber")
+        end_user_po = self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "enduserponumber")
+        order_status = self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "orderstatus")
+        order_value = self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "ordertotalvalue")
+        currency_code = self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "currencycode")
+        terms_code = self.extract_terms_code(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "extendedspecs"))
+        ship_from_warehouse_id = self.extract_ship_from_details(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "lines"), "shipfromwarehouseid")
+        warehouse_name = self.extract_ship_from_details(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "lines"), "warehousename")
+        carrier_code = self.extract_ship_from_details(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "lines"), "carriercode")
+        ship_to_suffix = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"), "suffix")
+        ship_to_name = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"), "name")
+        ship_to_address = self.format_address(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"))
+        ship_to_phone = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"), "phonenumber")
+        ship_to_contact = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"), "attention")
+        ship_to_email = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"), "email")
+        bill_to_suffix = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "billtoaddress"), "suffix")
+        bill_to_name = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "billtoaddress"), "name")
+        bill_to_address = self.format_address(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "billtoaddress"))
+        bill_to_phone = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "billtoaddress"), "phonenumber")
+        bill_to_contact = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "billtoaddress"), "mobilenumber")
+        bill_to_email = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "billtoaddress"), "email")
+        end_user_id = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "enduserinfo"), "enduserid")
+        end_user_address = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "enduserinfo"), "addressid")
+        end_user_contact = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "enduserinfo"), "contactid")
         sales_order_details_obj = X4ASalesOrderDetails(feature_file_name,order_entry_channel, im_order_number, order_type, reseller_po, end_user_po,
                                                        order_status, order_value, currency_code, terms_code, ship_from_warehouse_id, warehouse_name, carrier_code,
                                                        ship_to_suffix, ship_to_name, ship_to_address, ship_to_phone, ship_to_contact, ship_to_email, bill_to_suffix, bill_to_name, bill_to_address, bill_to_phone, bill_to_contact,
@@ -95,7 +95,7 @@ class FetchOrderViaApi:
 
     def extract_order_lines_and_save_to_db(self, json_data):
         sales_order_lines_list = []
-        order_lines = self.common_json.read_json_data(json_data, "serviceresponse", "orderdetailresponse", "lines")
+        order_lines = self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "lines")
         self.logger.info(order_lines)
         for obj in order_lines:
             if obj["partnumber"]:

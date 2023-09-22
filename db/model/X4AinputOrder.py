@@ -3,7 +3,7 @@ class X4AInputOrder:
                  order_value, reference_numbers, billing_to_info, ship_to_info, end_user_info, order_lines_tab, serial_numbers, additional_attributes,
                 fraud_cancel_order_confirmation_id, fraud_reprocess_order_confirmation_id, data_errors_resubmit_order_confirmation_id, reseller_name,
                  end_user_name, created_on, filter_order_type, filter_order_status,modify_reference_details_data_errors_order_id, modify_shipping_notes_data_errors_order_id, modify_vmf_details_data_errors_order_id,
-                 modify_end_user_details_data_errors_order_id, end_user_po, edit_order_lines, order_entry_channel, order_date):
+                 modify_end_user_details_data_errors_order_id, end_user_po, edit_order_lines):
 
         self.feature_file_name = feature_file_name
         self.reseller_bcn = reseller_bcn
@@ -38,7 +38,5 @@ class X4AInputOrder:
         self.modify_end_user_details_data_errors_order_id = modify_end_user_details_data_errors_order_id
         self.end_user_po = end_user_po
         self.edit_order_line = edit_order_lines
-        self.order_entry_channel = order_entry_channel
-        self.order_date = order_date
 
 

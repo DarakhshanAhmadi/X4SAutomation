@@ -19,14 +19,14 @@ class common_json_ops():
         except Exception as e:
             raise e
 
-    def read_json_data(self, json_data, section, sub_section, sub_section_variable):
+    def read_sub_section_json_data(self, json_data, section, sub_section, sub_section_variable):
         try:
             data = json_data[section][sub_section][sub_section_variable]
             return data
         except Exception as e:
             raise e
 
-    def read_json_data1(self, json_data, section):
+    def read_json_data(self, json_data, section):
         try:
             data = json_data[section]
             return data

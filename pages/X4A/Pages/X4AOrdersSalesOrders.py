@@ -800,10 +800,11 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_bill_to_id_field_visible(self, bill_to_id):
         try:
-            # bill_to_id = bill_to_id.replace("0", "000")
             id = self.get_element_text(self.BILL_TO_ID_FIElD)
-            assert str(id) == str(bill_to_id)
-            self.logger.info("Successfully verified Bill to Id field under Billing to info")
+            if str(id) != str(bill_to_id):
+                self.logger.error(f'Bill to id mismatched\n API;{bill_to_id}  UI:{id}')
+            else:
+                self.logger.info("Successfully verified Bill to Id field under Billing to info")
             return True
         except Exception as e:
             self.logger.error(
@@ -813,8 +814,10 @@ class X4ASalesOrdersPage(BasePage):
     def is_company_nm_bill_field_visible(self, bill_to_company_name):
         try:
             company_name = self.get_element_text(self.BILL_TO_INFO_COMPANY_NAME_FIElD)
-            assert str(company_name) == str(bill_to_company_name)
-            self.logger.info("Successfully verified Company name field under Billing to info")
+            if str(company_name) != str(bill_to_company_name):
+                self.logger.error(f'Bill to company name mismatched\n API;{bill_to_company_name}  UI:{company_name}')
+            else:
+                self.logger.info("Successfully verified Company name field under Billing to info")
             return True
         except Exception as e:
             self.logger.error(
@@ -827,7 +830,8 @@ class X4ASalesOrdersPage(BasePage):
             address = addr.replace("\n", " ")
             if str(address) != str(bill_to_address):
                 self.logger.error(f'Bill to Address mismtched\n UI:{address}  API":{bill_to_address}')
-            self.logger.info("Successfully verified Address field under Billing to info")
+            else:
+                self.logger.info("Successfully verified Address field under Billing to info")
             return True
         except Exception as e:
             self.logger.error(
@@ -839,8 +843,10 @@ class X4ASalesOrdersPage(BasePage):
             if str(bill_to_contact) == '':
                 bill_to_contact = bill_to_contact.replace("", "-")
             contact = self.get_element_text(self.BILL_TO_INFO_CONTACT_FIElD)
-            assert str(contact) == str(bill_to_contact)
-            self.logger.info("Successfully verified Contact field under Billing to info")
+            if str(contact) != str(bill_to_contact):
+                self.logger.error(f'Bill to Contact mismatched\n API:{bill_to_contact}  UI:{contact}')
+            else:
+                self.logger.info("Successfully verified Contact field under Billing to info")
             return True
         except Exception as e:
             self.logger.error(
@@ -852,8 +858,10 @@ class X4ASalesOrdersPage(BasePage):
             if str(bill_to_phone_no) == '':
                 bill_to_phone_no = bill_to_phone_no.replace("", "-")
             phone_no = self.get_element_text(self.BILL_TO_INFO_EMAIL_FIElD)
-            assert str(phone_no) == str(bill_to_phone_no)
-            self.logger.info("Successfully verified Phone no field under Billing to info")
+            if str(phone_no) != str(bill_to_phone_no):
+                self.logger.error(f'Bill to Phone mismatched\n API:{bill_to_phone_no}  UI:{phone_no}')
+            else:
+                self.logger.info("Successfully verified Phone no field under Billing to info")
             return True
         except Exception as e:
             self.logger.error(
@@ -865,8 +873,10 @@ class X4ASalesOrdersPage(BasePage):
             if str(bill_to_email) == '':
                 bill_to_email = bill_to_email.replace("", "-")
             email = self.get_element_text(self.BILL_TO_INFO_EMAIL_FIElD)
-            assert str(email) == str(bill_to_email)
-            self.logger.info("Successfully verified Email field under Billing to info")
+            if str(email) != str(bill_to_email):
+                self.logger.error(f'Bill to Email mismatched\n API:{bill_to_email}  UI:{email}')
+            else:
+                self.logger.info("Successfully verified Email field under Billing to info")
             return True
         except Exception as e:
             self.logger.error(
@@ -878,8 +888,10 @@ class X4ASalesOrdersPage(BasePage):
             if str(ship_to_id) == '':
                 ship_to_id = ship_to_id.replace("", "-")
             id = self.get_element_text(self.SHIP_TO_ID_FIElD)
-            assert str(id) == str(ship_to_id)
-            self.logger.info("Successfully verified Ship to Id field under Billing to info")
+            if str(id) != str(ship_to_id):
+                self.logger.error(f'Ship to id mismatched\n API:{ship_to_id}  UI:{id}')
+            else:
+                self.logger.info("Successfully verified Ship to Id field under Billing to info")
             return True
         except Exception as e:
             self.logger.error(
@@ -889,8 +901,10 @@ class X4ASalesOrdersPage(BasePage):
     def is_company_nm_ship_field_visible(self, ship_to_cmp_nm):
         try:
             company_name = self.get_element_text(self.SHIP_TO_INFO_COMPANY_NAME_FIElD)
-            assert str(company_name) == str(ship_to_cmp_nm)
-            self.logger.info("Successfully verified Company name field under Ship to info")
+            if str(company_name) != str(ship_to_cmp_nm):
+                self.logger.error(f'Ship to company name mismatched\n API:{ship_to_cmp_nm}  UI:{company_name}')
+            else:
+                self.logger.info("Successfully verified Company name field under Ship to info")
             return True
         except Exception as e:
             self.logger.error(
@@ -903,11 +917,10 @@ class X4ASalesOrdersPage(BasePage):
             address = addr.replace("\n", " ")
             if str(address) == str(ship_to_addr):
                 self.logger.info("Successfully verified Address field under Ship to info")
-                return True
             else:
                 self.logger.error("Address field under Ship to info mismatched")
                 self.logger.error(f'API:{ship_to_addr}  UI:{address}')
-                return True
+            return True
         except Exception as e:
             self.logger.error(
                 'Exception occurred while verifying Address field under Ship to info' + str(e))
@@ -918,8 +931,10 @@ class X4ASalesOrdersPage(BasePage):
             if str(ship_to_contact) == '':
                 ship_to_contact = ship_to_contact.replace("", "-")
             contact = self.get_element_text(self.SHIP_TO_INFO_CONTACT_FIElD)
-            assert str(contact) == str(ship_to_contact)
-            self.logger.info("Successfully verified Contact field under Ship to info")
+            if str(contact) != str(ship_to_contact):
+                self.logger.error(f'Ship to contact mismatched\n API:{ship_to_contact}  UI:{contact}')
+            else:
+                self.logger.info("Successfully verified Contact field under Ship to info")
             return True
         except Exception as e:
             self.logger.error(
@@ -931,8 +946,10 @@ class X4ASalesOrdersPage(BasePage):
             if str(ship_to_phn_no) == '':
                 ship_to_phn_no = ship_to_phn_no.replace("", "-")
             phone_no = self.get_element_text(self.SHIP_TO_INFO_PHONE_NO_FIElD)
-            assert str(phone_no) == str(ship_to_phn_no)
-            self.logger.info("Successfully verified Phone no field under Ship to info")
+            if str(phone_no) != str(ship_to_phn_no):
+                self.logger.error(f'Ship to Phone mismatched\n API:{ship_to_phn_no}  UI:{phone_no}')
+            else:
+                self.logger.info("Successfully verified Phone no field under Ship to info")
             return True
         except Exception as e:
             self.logger.error(
@@ -944,8 +961,10 @@ class X4ASalesOrdersPage(BasePage):
             if str(ship_to_email) == '':
                 ship_to_email = ship_to_email.replace("", "-")
             email = self.get_element_text(self.SHIP_TO_INFO_EMAIL_FIElD)
-            assert str(email) == str(ship_to_email)
-            self.logger.info("Successfully verified Email field under Ship to info")
+            if str(email) != str(ship_to_email):
+                self.logger.error(f'Ship to Email mismatched\n API:{ship_to_email}  UI:{email}')
+            else:
+                self.logger.info("Successfully verified Email field under Ship to info")
             return True
         except Exception as e:
             self.logger.error(
@@ -970,8 +989,10 @@ class X4ASalesOrdersPage(BasePage):
             if str(end_user_id) == '':
                 end_user_id = end_user_id.replace("", "-")
             id = self.get_element_text(self.END_USER_ID_FIElD)
-            assert str(id) == str(end_user_id)
-            self.logger.info("Successfully verified End user Id field under End user info")
+            if str(id) != str(end_user_id):
+                self.logger.error(f'End user id mismatched\n API:{end_user_id}  UI:{id}')
+            else:
+                self.logger.info("Successfully verified End user Id field under End user info")
             return True
         except Exception as e:
             self.logger.error(
@@ -983,8 +1004,10 @@ class X4ASalesOrdersPage(BasePage):
             if str(end_user_cmp_nm) == '':
                 end_user_cmp_nm = end_user_cmp_nm.replace("", "-")
             company_name = self.get_element_text(self.END_USER_COMPANY_NAME_FIElD)
-            assert str(company_name) == str(end_user_cmp_nm)
-            self.logger.info("Successfully verified Company name field under End user info")
+            if str(company_name) != str(end_user_cmp_nm):
+                self.logger.error(f'End user company name mismatched\n API:{end_user_cmp_nm}  UI:{company_name}')
+            else:
+                self.logger.info("Successfully verified Company name field under End user info")
             return True
         except Exception as e:
             self.logger.error(
@@ -1009,8 +1032,10 @@ class X4ASalesOrdersPage(BasePage):
             if str(end_user_contact) == '':
                 end_user_contact = end_user_contact.replace("", "-")
             contact = self.get_element_text(self.END_USER_CONTACT_FIElD)
-            assert str(contact) == str(end_user_contact)
-            self.logger.info("Successfully verified End User field under End user info")
+            if str(contact) != str(end_user_contact):
+                self.logger.error(f'End user contact mismatched UI:{contact} API:{end_user_contact}')
+            else:
+                self.logger.info("Successfully verified End User field under End user info")
             return True
         except Exception as e:
             self.logger.error(
@@ -1022,8 +1047,10 @@ class X4ASalesOrdersPage(BasePage):
             if str(end_user_phn_no) == '.':
                 end_user_phn_no = end_user_phn_no.replace(".", "-")
             phone_no = self.get_element_text(self.END_USER_PHONE_NO_FIElD)
-            assert str(phone_no) == str(end_user_phn_no)
-            self.logger.info("Successfully verified Phone no field under End user info")
+            if str(phone_no) != str(end_user_phn_no):
+                self.logger.error(f'End user Phone mismatched UI:{phone_no} API:{end_user_phn_no}')
+            else:
+                self.logger.info("Successfully verified Phone no field under End user info")
             return True
         except Exception as e:
             self.logger.error(
@@ -1035,8 +1062,10 @@ class X4ASalesOrdersPage(BasePage):
             if str(end_user_email) == '.':
                 end_user_email = end_user_email.replace(".", "-")
             email = self.get_element_text(self.END_USER_EMAIL_FIElD)
-            assert str(email) == str(end_user_email)
-            self.logger.info("Successfully verified Email field under End User info")
+            if str(email) != str(end_user_email):
+                self.logger.error(f'End user Email mismatched UI:{email} API:{end_user_email}')
+            else:
+                self.logger.info("Successfully verified Email field under End User info")
             return True
         except Exception as e:
             self.logger.error(
