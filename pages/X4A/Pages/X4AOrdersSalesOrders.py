@@ -2456,12 +2456,12 @@ class X4ASalesOrdersPage(BasePage):
                 order_line['order_line_spl_bid'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='specialBidNumber']/input"), 'value')
                 order_line['order_line_unit_price'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='unitPrice']/input"), 'value')
                 order_line['order_line_extended_price'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='extendedPrice']"))
+                order_line['order_line_cost'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='cost']"))
 
                 element = "//*[@data-id='0']//*[@role='cell' and @data-field='cost']"
                 unit_weight = self.driver.find_element(By.XPATH, element)
                 self.scroll_horizontally(unit_weight)
 
-                order_line['order_line_cost'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='cost']"))
                 order_line['order_line_extended_cost'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='extendedCost']"))
                 order_line['order_line_margin'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='margin']"))
                 order_line['order_line_currency_code'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='currencyCode']"))
