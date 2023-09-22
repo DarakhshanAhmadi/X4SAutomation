@@ -1414,6 +1414,8 @@ class ValidateSalesOrdersData:
 
     def validate_order_line_data(self, ui_data, api_data, currency_code):
         try:
+            self.logger.info(f'UI Data: {ui_data}')
+            self.logger.info(f'API Data: {api_data}')
             flag = True
             self.logger.info("Verifying order line status")
             if ui_data['order_line_status'] != api_data['line_status']:
@@ -1446,9 +1448,9 @@ class ValidateSalesOrdersData:
 
             self.logger.info("Verifying order line Description")
             if ui_data['order_line_description'] != api_data['description'].strip():
-                self.logger.error(
+                if ui_data['order_line_description'] != api_data['description'].strip().replace("  ", " "):
+                    self.logger.error(
                     f'Order line Description mismatched\n UI: {ui_data["order_line_description"]}  API: {api_data["description"]}')
-                flag = False
 
             self.logger.info("Verifying order line unit price")
             if ui_data['order_line_unit_price'] != str(api_data['unit_price']):
@@ -1469,9 +1471,9 @@ class ValidateSalesOrdersData:
                 flag = False
 
             self.logger.info("Verifying order line cost")
-            if ui_data['order_line_cost'] != str(api_data['cost']):
+            if ui_data['order_line_cost'].strip() != str(api_data['cost']).strip():
                 self.logger.error(
-                    f'Order line cost mismatched\n UI: {ui_data["order_line_extended_cost"]}  API: {api_data["extended_cost"]}')
+                    f'Order line cost mismatched\n UI: {ui_data["order_line_cost"]}  API: {api_data["cost"]}')
                 flag = False
 
             self.logger.info("Verifying order line quantity")

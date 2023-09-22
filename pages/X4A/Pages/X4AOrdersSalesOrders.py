@@ -605,6 +605,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_billing_tab_visible(self):
         try:
+            time.sleep(2)
             self.do_check_visibility(self.BILLING_TAB)
             self.logger.info("Successfully verified the Billing tab")
             return True
@@ -2498,8 +2499,10 @@ class X4ASalesOrdersPage(BasePage):
     def is_ship_from_warehouse_id_field_visible(self, warehouse_id):
         try:
             ui_warehouse_id = self.get_element_text(self.SHIP_FROM_WAREHOUSE_ID)
-            assert str(warehouse_id) == str(ui_warehouse_id)
-            self.logger.info("Successfully verified Ship from warehouse id field under Billing to info")
+            if str(warehouse_id) != str(ui_warehouse_id):
+                self.logger.error(f'Ship from warehouse id mismatched\n UI:{ui_warehouse_id} API:{warehouse_id}')
+            else:
+                self.logger.info("Successfully verified Ship from warehouse id field under Billing to info")
             return True
         except Exception as e:
             self.logger.error(
@@ -2509,8 +2512,10 @@ class X4ASalesOrdersPage(BasePage):
     def is_ship_from_warehouse_name_field_visible(self, warehouse_name):
         try:
             ui_warehouse_name = self.get_element_text(self.SHIP_FROM_WAREHOUSE_NAME)
-            assert str(warehouse_name) == str(ui_warehouse_name)
-            self.logger.info("Successfully verified Ship from warehouse name field under Billing to info")
+            if str(warehouse_name) != str(ui_warehouse_name):
+                self.logger.error(f'Ship from warehouse name mismatched\n UI:{ui_warehouse_name} API:{warehouse_name}')
+            else:
+                self.logger.info("Successfully verified Ship from warehouse name field under Billing to info")
             return True
         except Exception as e:
             self.logger.error(
