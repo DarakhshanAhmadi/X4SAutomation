@@ -65,6 +65,22 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
+    def click_on_sales_orders_list_page(self, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            x4a_sales_order.go_to_sales_orders_list_page()
+            self.logger.info("Successfully clicked on sales order")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_sales_order_clicked_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_sales_order_clicking_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_sales_order_clicking_error.png"
+            self.logger.error("Error while clicking on sales order")
+            self.logger.exception(e)
+            return False
 
     """ This method filters order by feature file name and returns order data """
 
@@ -656,6 +672,7 @@ class ValidateSalesOrdersData:
             #             order_line_quantity_confirmed) & x4a_sales_order.is_order_line_qty_backordered_field_visible(
             #             order_line_quantity_backordered) &
             #         x4a_sales_order.is_order_line_notes_field_visible(Order_line_notes)):
+                status_flag = True
                 ui_order_lines = x4a_sales_order.fetch_order_lines()
                 for ui_line in ui_order_lines:
                     line_flag = False
@@ -663,7 +680,9 @@ class ValidateSalesOrdersData:
                         if ui_line['line_number'] == line['line_number']:
                             self.logger.info(f'validating data of order line {ui_line["line_number"]}')
                             line_flag = True
-                            self.validate_order_line_data(ui_line, line, currency_code)
+                            flag = self.validate_order_line_data(ui_line, line, currency_code)
+                            if not flag:
+                                status_flag = False
                     if not line_flag:
                         raise Exception(f'API data missing for {ui_line["line_number"]}')
                 self.logger.info(
@@ -671,7 +690,7 @@ class ValidateSalesOrdersData:
                 self.driver.save_screenshot(
                     self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                     + "_order_lines_validated_successfully.png")
-                return True
+                return status_flag
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
                                         "_order_lines_validation_error.png")
@@ -1395,69 +1414,83 @@ class ValidateSalesOrdersData:
 
     def validate_order_line_data(self, ui_data, api_data, currency_code):
         try:
+            flag = True
             self.logger.info("Verifying order line status")
             if ui_data['order_line_status'] != api_data['line_status']:
                 self.logger.error(f'Order line status mismatched\n UI: {ui_data["order_line_status"]}  API: {api_data["line_status"]}')
+                flag = False
 
             self.logger.info("Verifying order line acop")
             if ui_data['order_line_acop'][:1] != api_data['is_acop_applied']:
                 self.logger.error(
                     f'Order line acop mismatched\n UI: {ui_data["order_line_acop"]}  API: {api_data["is_acop_applied"]}')
+                flag = False
 
             self.logger.info("Verifying order line currency")
             if ui_data['order_line_currency_code'] != currency_code:
                 self.logger.error(
                     f'Order line currency mismatched\n UI: {ui_data["order_line_currency_code"]}  API: {currency_code}')
+                flag = False
 
             self.logger.info("Verifying order line IM part")
             if ui_data['order_line_im_part'].split(":")[-1].strip() != api_data['im_part_number']:
                 self.logger.error(
                     f'Order line IM part mismatched\n UI: {ui_data["order_line_im_part"]}  API: {api_data["im_part_number"]}')
+                flag = False
 
             self.logger.info("Verifying order line VPN")
             if ui_data['order_line_vpn'].split(":")[-1].strip() != api_data['vpn']:
                 self.logger.error(
                     f'Order line VPN mismatched\n UI: {ui_data["order_line_vpn"]}  API: {api_data["vpn"]}')
+                flag = False
 
             self.logger.info("Verifying order line Description")
             if ui_data['order_line_description'] != api_data['description'].strip():
                 self.logger.error(
                     f'Order line Description mismatched\n UI: {ui_data["order_line_description"]}  API: {api_data["description"]}')
+                flag = False
 
             self.logger.info("Verifying order line unit price")
             if ui_data['order_line_unit_price'] != str(api_data['unit_price']):
                 self.logger.error(
                     f'Order line unit price mismatched\n UI: {ui_data["order_line_unit_price"]}  API: {api_data["unit_price"]}')
+                flag = False
 
             self.logger.info("Verifying order line extended price")
             if ui_data['order_line_extended_price'] != str(api_data['extended_price']):
                 self.logger.error(
                     f'Order line extended price mismatched\n UI: {ui_data["order_line_extended_price"]}  API: {api_data["extended_price"]}')
+                flag = False
 
             self.logger.info("Verifying order line special bid")
             if ui_data['order_line_spl_bid'] != api_data['special_bid_number']:
                 self.logger.error(
                     f'Order line special bid mismatched\n UI: {ui_data["order_line_spl_bid"]}  API: {api_data["special_bid_number"]}')
+                flag = False
 
             self.logger.info("Verifying order line cost")
             if ui_data['order_line_cost'] != str(api_data['cost']):
                 self.logger.error(
                     f'Order line cost mismatched\n UI: {ui_data["order_line_extended_cost"]}  API: {api_data["extended_cost"]}')
+                flag = False
 
             self.logger.info("Verifying order line quantity")
             if ui_data['order_line_quantity'] != str(api_data['quantity']):
                 self.logger.error(
                     f'Order line quantity mismatched\n UI: {ui_data["order_line_quantity"]}  API: {api_data["quantity"]}')
+                flag = False
 
             self.logger.info("Verifying order line quantity confirmed")
             if ui_data['order_line_quantity_confirmed'] != str(api_data['quantity_confirmed']):
                 self.logger.error(
                     f'Order line quantity confirmed mismatched\n UI: {ui_data["order_line_quantity_confirmed"]}  API: {api_data["quantity_confirmed"]}')
+                flag = False
 
             self.logger.info("Verifying order line quantity backordered")
             if ui_data['order_line_quantity_backordered'] != str(api_data['quantity_backordered']):
                 self.logger.error(
                     f'Order line quantity backordered mismatched\n UI: {ui_data["order_line_quantity_backordered"]}  API: {api_data["quantity_backordered"]}')
+                flag = False
 
             self.logger.info("Verifying order line margin")
             margin = str(
@@ -1466,7 +1499,28 @@ class ValidateSalesOrdersData:
             if ui_data['order_line_margin'] != margin:
                 self.logger.error(
                     f'Order line margin mismatched\n UI: {ui_data["order_line_margin"]}  Calculated: {margin}')
+            return flag
         except Exception as e:
             self.logger.error("Error while verifying order line data")
+            self.logger.exception(e)
+            return False
+
+    def validate_fields_under_ship_from_info(self, feature_file_name, screen_shot, warehouse_id, warehouse_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if (x4a_sales_order.is_ship_from_warehouse_id_field_visible(
+                    warehouse_id) & x4a_sales_order.is_ship_from_warehouse_name_field_visible(warehouse_name)):
+                self.logger.info("Successfully verified that fields under Ship from info section on Billing tab")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_ship_from_verified_successfully.png")
+                return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_ship_from_info_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_ship_from_info_error.png"
+            self.logger.error(
+                "Error while verifying fields under Ship from info section on Billing tab")
             self.logger.exception(e)
             return False

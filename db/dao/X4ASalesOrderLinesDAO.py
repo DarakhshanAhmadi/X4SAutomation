@@ -46,10 +46,8 @@ class X4ASalesOrderLinesDAO(BaseTest):
             cursor = connection.cursor()
 
             cursor.execute(SqlConstant.X4A_SALES_ORDER_LINES_DETAILS_FETCH_SQL_QUERY, [str(im_order_number)])
-            order_test_case_lines= cursor.fetchall()
-            self.logger.info(order_test_case_lines)
+            order_test_case_lines = cursor.fetchall()
             order_lines_json = [dict(ix) for ix in order_test_case_lines]
-            self.logger.info(order_lines_json)
         except Error as e:
             self.logger.error("Exception occurred while trying to fetch test case record from x4a_sales_order_lines table "
                               + str(e))

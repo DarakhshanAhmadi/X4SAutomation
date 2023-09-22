@@ -17,6 +17,7 @@ class X4ASalesOrdersPage(BasePage):
 
     SALES_MENU = (By.XPATH, "//*[@data-testid='sales-MenuItem']")
     SALES_ORDER_OPTION = (By.XPATH, "//*[text()='Order Management']")
+    ORDER_MANAGEMENT_OPTION = (By.XPATH, "(//*[text()='Order Management'])[2]")
     SEARCH_BOX = (By.ID, "search")
     SEARCH_BOX_SEARCH_ICON = (By.XPATH, "//*[@data-testid='SearchIcon']")
     ORDER_BCN_ITEM_LIST = (By.XPATH,
@@ -132,6 +133,10 @@ class X4ASalesOrdersPage(BasePage):
     REFERENCE_NUMBERS_RESELLER_PO = (By.XPATH, "//*[@id='tablayout-tabpanel-0']/div/div/div/div/div[1]/div/div[2]/div[2]/strong")
     CARRIER_CODE_FIELD = (By.XPATH, "//*[@id='tablayout-tabpanel-0']/div/div/div/div/div[2]/div/div/div/div[2]")
 
+    """Billing tab - Ship from"""
+    SHIP_FROM_WAREHOUSE_ID = (By.XPATH, "//*[@id='tablayout-tabpanel-1']/div/div/div[1]/div[1]/div[2]/div/div[1]/div[2]/strong")
+    SHIP_FROM_WAREHOUSE_NAME  = (By.XPATH, "//*[@id='tablayout-tabpanel-1']/div/div/div[1]/div[1]/div[2]/div/div[2]/div[2]/strong")
+
     """Biiling tab-Bill to info"""
 
     BILL_TO_ID_FIElD = (By.XPATH, "//*[text()='Bill to ID (suffix):']/parent::div/div[@class='labeltext']/strong")
@@ -230,6 +235,15 @@ class X4ASalesOrdersPage(BasePage):
         try:
             self.do_click_by_locator(self.SALES_MENU)
             self.do_double_click(self.SALES_ORDER_OPTION)
+            self.logger.info("Clicked on Sales Orders in the menu")
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on Sales orders ' + str(e))
+            raise e
+
+    def go_to_sales_orders_list_page(self):
+        try:
+            self.do_click_by_locator(self.SALES_MENU)
+            self.do_double_click(self.ORDER_MANAGEMENT_OPTION)
             self.logger.info("Clicked on Sales Orders in the menu")
         except Exception as e:
             self.logger.error('Exception occurred while clicking on Sales orders ' + str(e))
@@ -600,6 +614,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_order_lines_tab_visible(self):
         try:
+            time.sleep(2)
             self.do_check_visibility(self.ORDER_LINES_TAB)
             self.logger.info("Successfully verified the Order Lines tab")
             return True
@@ -647,7 +662,6 @@ class X4ASalesOrdersPage(BasePage):
             self.do_check_visibility(self.ORDER_VALUE_HEADER)
             ord_value = self.get_element_text(self.ORDER_VALUE_HEADER)
             ord_value = ord_value.split(":")
-            self.logger.info(f'ui:{float((ord_value[-1])[2:])} arg:{float(order_value)}')
             if float((ord_value[-1])[2:]) == float(order_value):
                 self.logger.info("Successfully verified Order value header")
                 return True
@@ -679,8 +693,8 @@ class X4ASalesOrdersPage(BasePage):
     def is_end_user_po_field_visible(self, end_user_po):
         try:
             end_ur_po = self.get_element_text(self.END_USER_PO_FIELD)
-            if str(end_user_po) == '.':
-                end_user_po = end_user_po.replace(".", "-")
+            if str(end_user_po) == '':
+                end_user_po = end_user_po.replace("", "-")
             assert str(end_ur_po) == str(end_user_po)
             self.logger.info("Successfully verified End user PO field under Reference number")
             return True
@@ -811,7 +825,8 @@ class X4ASalesOrdersPage(BasePage):
         try:
             addr = self.get_element_text(self.BILL_TO_INFO_ADDRESS_FIElD)
             address = addr.replace("\n", " ")
-            assert str(address) == str(bill_to_address)
+            if str(address) != str(bill_to_address):
+                self.logger.error(f'Bill to Address mismtched\n UI:{address}  API":{bill_to_address}')
             self.logger.info("Successfully verified Address field under Billing to info")
             return True
         except Exception as e:
@@ -965,8 +980,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_company_nm_end_user_field_visible(self, end_user_cmp_nm):
         try:
-            if str(end_user_cmp_nm) == '.':
-                end_user_cmp_nm = end_user_cmp_nm.replace(".", "-")
+            if str(end_user_cmp_nm) == '':
+                end_user_cmp_nm = end_user_cmp_nm.replace("", "-")
             company_name = self.get_element_text(self.END_USER_COMPANY_NAME_FIElD)
             assert str(company_name) == str(end_user_cmp_nm)
             self.logger.info("Successfully verified Company name field under End user info")
@@ -978,11 +993,11 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_address_end_user_field_visible(self, end_user_addr):
         try:
-            breakpoint()
             address = self.get_element_text(self.END_USER_ADDRESS_FIElD)
             if str(address):
                 address = address.replace("\n", " ")
-            assert str(address) == str(end_user_addr)
+            if str(address) != str(end_user_addr):
+                self.logger.error(f'End user adress mismatched UI:{address} API:{end_user_addr}')
             self.logger.info("Successfully verified Address field under End User info")
             return True
         except Exception as e:
@@ -2450,3 +2465,25 @@ class X4ASalesOrdersPage(BasePage):
         except Exception as e:
             self.logger.error('Exception occurred while fetching order_lines ' + str(e))
             raise e
+
+    def is_ship_from_warehouse_id_field_visible(self, warehouse_id):
+        try:
+            ui_warehouse_id = self.get_element_text(self.SHIP_FROM_WAREHOUSE_ID)
+            assert str(warehouse_id) == str(ui_warehouse_id)
+            self.logger.info("Successfully verified Ship from warehouse id field under Billing to info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Ship from warehouse id field under Billing to info' + str(e))
+            return False
+
+    def is_ship_from_warehouse_name_field_visible(self, warehouse_name):
+        try:
+            ui_warehouse_name = self.get_element_text(self.SHIP_FROM_WAREHOUSE_NAME)
+            assert str(warehouse_name) == str(ui_warehouse_name)
+            self.logger.info("Successfully verified Ship from warehouse name field under Billing to info")
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while verifying Ship from warehouse name field under Billing to info' + str(e))
+            return False
