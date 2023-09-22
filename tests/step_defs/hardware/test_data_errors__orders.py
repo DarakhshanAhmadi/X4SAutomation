@@ -129,6 +129,18 @@ def test_verify_billing_address_search_with_suffix():
     pass
 
 
+@scenario("features/hardware/data_errors_orders.feature",
+          "Verify that order resubmitted successfully after click on Mark for Cancel option")
+def test_verify_that_order_resubmitted_successfully_after_click_on_mark_for_cancel_option():
+    pass
+
+
+@scenario("features/hardware/data_errors_orders.feature",
+          "Verify that At least one order line is required to resubmit the order message")
+def test_verify_that_at_least_one_order_line_is_required_to_resubmit_the_order_message():
+    pass
+
+
 @scenario("features/hardware/data_errors_orders.feature", "logout X4A")
 def test_logout_x4a():
     pass
@@ -1190,4 +1202,147 @@ def verify_that_selected_billing_address_should_get_displayed_on_order_details_p
     except Exception as e:
         logger.error(
             "Error while Verifying that selected billing address should get displayed on Order details page %s",
+            e)
+
+
+@given(parsers.parse('the error order is created via api for Order Line'))
+def create_order_for_order_line(init_driver):
+    feature_file_name = "data_errors_orders"
+    data_create_obj = DataCreationViaApi(init_driver)
+    order_management_srv_obj = X4AInputOrderDbManagementService()
+    try:
+        confirmation_id = data_create_obj.post_request_for_error_order_create()
+        logger.info(f'Confirmation ID: {confirmation_id}')
+        if not len(confirmation_id) == 0:
+            order_management_srv_obj.save_confirmation_id_for_order_line_in_db(db_file_path,
+                                                                               feature_file_name,
+                                                                               confirmation_id)
+        else:
+            raise Exception('Confirmation Id is empty')
+    except Exception as e:
+        logger.error("Not able create the Data error order %s", e)
+        raise e
+
+
+@when(parsers.parse('Search and Select the Data Errors Order for Order Line'))
+def search_select_data_errors_order_record_for_order_line(init_driver):
+    feature_file_name = "data_errors_orders"
+    create_order_steps = ValidateErrorOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        confirmation_id = input_order_data.get("order_line_data_errors_order_id")
+        if not create_order_steps.search_and_select_data_errors_order(feature_file_name, confirmation_id):
+            raise Exception("Failed to select Data error order")
+    except Exception as e:
+        logger.error("Error while selecting Data error order first record %s", e)
+        raise e
+
+
+@then(parsers.parse('Verify that remove icon should display for order line'))
+def verify_that_remove_icon_should_display_for_order_line(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_order_line_remove_icon(feature_file_name):
+            raise Exception(
+                "Failed to Verify that remove icon should display for order line")
+    except Exception as e:
+        logger.error(
+            "Error while Verifying that remove icon should display for order line %s",
+            e)
+
+
+@when(parsers.parse(
+    'Click on Mark for Cancel option and Verify line should grey out and should not allow further edit operations'))
+def click_on_mark_for_cancel_option_and_verify_line_should_grey_out_and_should_not_allow_further_edit_operations(
+        init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_click_on_mark_for_cancel_and_line_not_editable(feature_file_name):
+            raise Exception(
+                "Failed to Click on Mark for Cancel option and Verify line should grey out and should not allow further edit operations")
+    except Exception as e:
+        logger.error(
+            "Error while Clicking on Mark for Cancel option and Verify line should grey out and should not allow further edit operations %s",
+            e)
+
+
+@when(parsers.parse(
+    'Click on Unmark for Cancel option and Verify line should become enable and it should allow edit operations'))
+def click_on_mark_for_cancel_option_and_verify_line_should_grey_out_and_should_not_allow_further_edit_operations(
+        init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_click_on_unmark_for_cancel_and_line_is_editable(feature_file_name):
+            raise Exception(
+                "Failed to Click on Unmark for Cancel option and Verify line should become enable and it should allow edit operations")
+    except Exception as e:
+        logger.error(
+            "Error while Clicking on Unmark for Cancel option and Verify line should become enable and it should allow edit operations %s",
+            e)
+
+
+@then(parsers.parse('Verify that Order should get resubmitted succesfully after cancel the Order line'))
+def verify_that_order_should_get_resubmitted_succesfully_after_cancel_the_order_line(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_order_resubmitted_successfully(feature_file_name):
+            raise Exception(
+                "Failed to Verify that Order should get resubmitted succesfully after cancel the Order line")
+    except Exception as e:
+        logger.error(
+            "Error while Verifying that Order should get resubmitted succesfully after cancel the Order line %s",
+            e)
+
+
+@when(parsers.parse(
+    'Click on Mark for Cancel option from dropdown and Verify line should grey out'))
+def click_on_mark_for_cancel_option_from_dropdown_and_verify_line_should_grey_out(
+        init_driver):
+    init_driver.refresh()
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_click_on_mark_for_cancel_from_dropdown_and_line_grey_out(
+                feature_file_name):
+            raise Exception(
+                "Failed to Click on Mark for Cancel option from dropdown and Verify line should grey out")
+    except Exception as e:
+        logger.error(
+            "Error while Clicking on Mark for Cancel option from dropdown and Verify line should grey out %s",
+            e)
+
+
+@when(parsers.parse(
+    'Click on Unmark for Cancel option from dropdown and Verify line should get enable'))
+def click_on_unmark_for_cancel_option_from_dropdown_and_verify_line_should_get_unable(
+        init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_click_on_unmark_for_cancel_from_dropdown_and_line_get_unable(
+                feature_file_name):
+            raise Exception(
+                "Failed to Click on Unmark for Cancel option from dropdown and Verify line should get enable")
+    except Exception as e:
+        logger.error(
+            "Error while Clicking on Unmark for Cancel option from dropdown and Verify line should get enable %s",
+            e)
+
+
+@then(parsers.parse('Verify that At least one order line is required to resubmit the order message'))
+def verify_that_at_least_one_order_line_is_required_to_resubmit_the_order_message(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_atleast_one_order_line_required_message(feature_file_name):
+            raise Exception(
+                "Failed to Verify that At least one order line is required to resubmit the order message")
+    except Exception as e:
+        logger.error(
+            "Error while Verifying At least one order line is required to resubmit the order message %s",
             e)

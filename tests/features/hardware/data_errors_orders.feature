@@ -174,6 +174,24 @@ Feature: Data Errors Orders
     And Select the searched address and then Save button should get enabled on selecting address
     Then Verify that selected billing address should get displayed on Order details page
 
+  # OMS-29
+  @order_line_remove_icon
+  Scenario: Verify that order resubmitted successfully after click on Mark for Cancel option
+    Given the error order is created via api for Order Line
+    When Search and Select the Data Errors Order for Order Line
+    Then Verify that remove icon should display for order line
+    When Click on Mark for Cancel option and Verify line should grey out and should not allow further edit operations
+    And Click on Unmark for Cancel option and Verify line should become enable and it should allow edit operations
+    Then Verify that Order should get resubmitted succesfully after cancel the Order line
+
+  # OMS-29
+  @order_line_mark_for_dropdown
+  Scenario: Verify that At least one order line is required to resubmit the order message
+    When Click on Mark for Cancel option from dropdown and Verify line should grey out
+    And Click on Unmark for Cancel option from dropdown and Verify line should get enable
+    Then Verify that At least one order line is required to resubmit the order message
+
+
   @logout
   Scenario: logout X4A
     Given logout the X4A url

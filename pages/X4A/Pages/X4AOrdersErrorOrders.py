@@ -302,6 +302,19 @@ class X4AErrorOrdersPage(BasePage):
         By.XPATH, "//*[text()='Billing address']/parent::div/following-sibling::div/div[2]/div[1]/strong")
     BILLING_ADDRESS = (By.XPATH, "//*[text()='Billing address']/parent::div/following-sibling::div/div[2]/div[5]")
 
+    """Order Lines Tab"""
+
+    ORDER_LINE_TAB = (By.XPATH, "//div[text()='Order lines']")
+    ORDER_LINE_REMOVE_ICON = (By.XPATH, "//div[@data-id='1']/div[2]/button/*[@data-testid='MoreVertOutlinedIcon']")
+    ORDER_LINE_MARK_FOR_CANCEL_OPTION = (By.XPATH, "//*[text()='Mark for cancel']")
+    GRAY_OUT_ORDER_LINE = (By.XPATH, "//*[@class='custom-selected-row MuiDataGrid-row']")
+    ORDER_LINE_UNMARK_FOR_CANCEL_OPTION = (By.XPATH, "//*[text()='Unmark for cancel']")
+    ORDER_LINE_ENABLE = (By.XPATH, "//*[@class='MuiDataGrid-row']")
+    RESUBMIITED_ORDER_SUCCESSFULLY = (By.XPATH, "//div[text()='Order has been successfully resubmitted.']")
+    MARK_FOR_DROPDOWN = (By.XPATH, "//*[@id='newOptions']")
+    ORDER_LINE_ENABLED = (By.XPATH, "//*[@class='MuiDataGrid-row Mui-selected']")
+    AT_LEAST_ONE_ORDER_LINE_REQUIRED_MESSAGE = (By.XPATH, "//div[text()='At least one order line is required to resubmit the order']")
+
     def go_to_error_orders(self):
         try:
             self.do_click_by_locator(self.SALES_MENU)
@@ -1889,3 +1902,80 @@ class X4AErrorOrdersPage(BasePage):
                 return False
         except Exception as e:
             return False
+
+    def do_verify_order_line_remove_icon(self):
+        try:
+            time.sleep(3)
+            self.do_click_by_locator(self.ORDER_LINE_TAB)
+            self.do_check_visibility(self.ORDER_LINE_REMOVE_ICON)
+            return True
+        except Exception as e:
+            return False
+
+    def do_click_on_mark_for_cancel_and_line_not_editable(self):
+        try:
+            time.sleep(3)
+            self.do_click_by_locator(self.ORDER_LINE_REMOVE_ICON)
+            self.do_click_by_locator(self.ORDER_LINE_MARK_FOR_CANCEL_OPTION)
+            self.do_check_visibility(self.GRAY_OUT_ORDER_LINE)
+            return True
+        except Exception as e:
+            return False
+
+    def do_click_on_unmark_for_cancel_and_line_is_editable(self):
+        try:
+            time.sleep(2)
+            self.do_click_by_locator(self.ORDER_LINE_REMOVE_ICON)
+            self.do_click_by_locator(self.ORDER_LINE_UNMARK_FOR_CANCEL_OPTION)
+            self.do_check_visibility(self.ORDER_LINE_ENABLE)
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_order_resubmitted_successfully(self):
+        try:
+            time.sleep(3)
+            self.do_click_by_locator(self.ORDER_LINE_REMOVE_ICON)
+            self.do_click_by_locator(self.ORDER_LINE_MARK_FOR_CANCEL_OPTION)
+            self.do_click_by_locator(self.DATA_ERRORS_RESUBMIT_ORDER_BUTTON)
+            self.do_click_by_locator(self.YES_RESUBMIT_ORDER_BUTTON)
+            self.do_check_visibility(self.RESUBMIITED_ORDER_SUCCESSFULLY)
+            return True
+        except Exception as e:
+            return False
+
+    def do_click_on_mark_for_cancel_from_dropdown_and_line_grey_out(self):
+        try:
+            time.sleep(3)
+            self.do_click_by_locator(self.ORDER_LINE_TAB)
+            element = "//*[@id='tablayout-tabpanel-2']/div/div/div/div[2]/div[2]/div/div/div/div/div[1]/span/input"
+            order_line_checkbox = self.driver.find_element(By.XPATH, element)
+            order_line_checkbox.click()
+            self.do_click_by_locator(self.MARK_FOR_DROPDOWN)
+            self.do_click_by_locator(self.ORDER_LINE_MARK_FOR_CANCEL_OPTION)
+            self.do_check_visibility(self.GRAY_OUT_ORDER_LINE)
+            return True
+        except Exception as e:
+            return False
+
+    def do_click_on_unmark_for_cancel_from_dropdownn_and_line_get_unable(self):
+        try:
+            self.do_click_by_locator(self.MARK_FOR_DROPDOWN)
+            self.do_click_by_locator(self.ORDER_LINE_UNMARK_FOR_CANCEL_OPTION)
+            self.do_check_visibility(self.ORDER_LINE_ENABLE)
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_atleast_one_order_line_required_message(self):
+        try:
+            self.do_click_by_locator(self.MARK_FOR_DROPDOWN)
+            self.do_click_by_locator(self.ORDER_LINE_MARK_FOR_CANCEL_OPTION)
+            self.do_click_by_locator(self.DATA_ERRORS_RESUBMIT_ORDER_BUTTON)
+            self.do_click_by_locator(self.YES_RESUBMIT_ORDER_BUTTON)
+            self.do_check_visibility(self.AT_LEAST_ONE_ORDER_LINE_REQUIRED_MESSAGE)
+            self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+            return True
+        except Exception as e:
+            return False
+
