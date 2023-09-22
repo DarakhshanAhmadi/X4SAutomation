@@ -35,7 +35,8 @@ class PrepareObject:
                                             test_data.get("ModifyVMFDetailsDataErrorOrderID"),
                                             test_data.get("ModifyEndUserDetailsDataErrorOrderID"), test_data.get("EndUserPO"),
                                             test_data.get("EditOrderLines"),
-                                            test_data.get("ModifyBillingAddressDataErrorOrderID"))
+                                            test_data.get("ModifyBillingAddressDataErrorOrderID"),
+                                            test_data.get("OrderLineDataErrorOrderID"))
         return x4a_input_order_obj
 
     def prepare_x4a_user_data_obj(self, test_data):
