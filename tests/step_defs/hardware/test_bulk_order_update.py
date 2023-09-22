@@ -135,11 +135,11 @@ def click_on_bulk_order_upload_menu(init_driver):
 
 
 @then(parsers.parse('verify bulk order update page'))
-def verify_bulk_order_upload_page(init_driver):
+def verify_bulk_order_update_page(init_driver):
     feature_file_name = "bulk_order_upload"
     bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
     try:
-        if not bulk_order_upload_steps.verify_bulk_order_upload_page(feature_file_name, screen_shot):
+        if not bulk_order_upload_steps.verify_bulk_order_update_page(feature_file_name, screen_shot):
             raise Exception("Failed to verify bulk order upload page")
     except Exception as e:
         logger.error("Error while verifying bulk order upload page %s" + str(e))
@@ -381,44 +381,44 @@ def verify_bulk_order_page(init_driver):
         raise e
 
 
-@when(parsers.parse('filter status with Partially completed'))
-def do_select_partially_complete_status(init_driver):
+@when(parsers.parse('filter status with "{status}"'))
+def do_select_partially_complete_status(init_driver, status):
     feature_file_name = "bulk_order_upload"
     bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
     try:
 
-        if not bulk_order_upload_steps.do_select_status(feature_file_name, screen_shot, 'Partially complete'):
-            raise Exception("Failed to select Partially complete status")
+        if not bulk_order_upload_steps.do_select_status(feature_file_name, screen_shot, status):
+            raise Exception("Failed to select "+ status + " status")
     except Exception as e:
-        logger.error("Error while selecting Partially complete status %s" + str(e))
+        logger.error("Error while selecting "+ status + " status %s" + str(e))
         raise e
 
 
-@when(parsers.parse('filter status with Error found'))
-def do_select_error_found_status(init_driver):
-    feature_file_name = "bulk_order_upload"
-    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
-    try:
-
-        if not bulk_order_upload_steps.do_select_status(feature_file_name, screen_shot, 'Error found'):
-            raise Exception("Failed to select Error found status")
-    except Exception as e:
-        logger.error("Error while selecting Error found status %s" + str(e))
-        raise e
-
-
-@when(parsers.parse('filter status with Order placed'))
-def do_select_order_placed_status(init_driver):
-    feature_file_name = "bulk_order_upload"
-    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
-    try:
-
-        if not bulk_order_upload_steps.do_select_status(feature_file_name, screen_shot, 'Order placed'):
-            raise Exception("Failed to select Order placed status")
-    except Exception as e:
-        logger.error("Error while selecting Order placed status %s" + str(e))
-        raise e
-
+# @when(parsers.parse('filter status with Error found'))
+# def do_select_error_found_status(init_driver):
+#     feature_file_name = "bulk_order_upload"
+#     bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+#     try:
+#
+#         if not bulk_order_upload_steps.do_select_status(feature_file_name, screen_shot, 'Error found'):
+#             raise Exception("Failed to select Error found status")
+#     except Exception as e:
+#         logger.error("Error while selecting Error found status %s" + str(e))
+#         raise e
+#
+#
+# @when(parsers.parse('filter status with Order placed'))
+# def do_select_order_placed_status(init_driver):
+#     feature_file_name = "bulk_order_upload"
+#     bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+#     try:
+#
+#         if not bulk_order_upload_steps.do_select_status(feature_file_name, screen_shot, 'Order placed'):
+#             raise Exception("Failed to select Order placed status")
+#     except Exception as e:
+#         logger.error("Error while selecting Order placed status %s" + str(e))
+#         raise e
+#
 
 @when(parsers.parse('filter with file name'))
 def do_select_file_name_search(init_driver):
@@ -505,31 +505,31 @@ def verify_downloaded_order_list(init_driver):
         raise e
 
 
-@when(parsers.parse('filter status with Upload in progress'))
-def do_select_upload_in_progress_status(init_driver):
-    feature_file_name = "bulk_order_upload"
-    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
-    try:
-
-        if not bulk_order_upload_steps.do_select_status(feature_file_name, screen_shot, 'Upload in progress'):
-            raise Exception("Failed to select Upload in progress status")
-    except Exception as e:
-        logger.error("Error while selecting Upload in progress status %s" + str(e))
-        raise e
-
-
-@when(parsers.parse('filter status with ready to place'))
-def do_select_ready_to_place_status(init_driver):
-    feature_file_name = "bulk_order_upload"
-    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
-    try:
-
-        if not bulk_order_upload_steps.do_select_status(feature_file_name, screen_shot, 'Ready to place'):
-            raise Exception("Failed to select Ready to place status")
-    except Exception as e:
-        logger.error("Error while selecting Ready to place status %s" + str(e))
-        raise e
-
+# @when(parsers.parse('filter status with Upload in progress'))
+# def do_select_upload_in_progress_status(init_driver):
+#     feature_file_name = "bulk_order_upload"
+#     bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+#     try:
+#
+#         if not bulk_order_upload_steps.do_select_status(feature_file_name, screen_shot, 'Upload in progress'):
+#             raise Exception("Failed to select Upload in progress status")
+#     except Exception as e:
+#         logger.error("Error while selecting Upload in progress status %s" + str(e))
+#         raise e
+#
+#
+# @when(parsers.parse('filter status with ready to place'))
+# def do_select_ready_to_place_status(init_driver):
+#     feature_file_name = "bulk_order_upload"
+#     bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+#     try:
+#
+#         if not bulk_order_upload_steps.do_select_status(feature_file_name, screen_shot, 'Ready to place'):
+#             raise Exception("Failed to select Ready to place status")
+#     except Exception as e:
+#         logger.error("Error while selecting Ready to place status %s" + str(e))
+#         raise e
+#
 
 @then(parsers.parse('verify the CANCEL icon'))
 def verify_cancel_icon(init_driver):
@@ -664,6 +664,31 @@ def verify_user_name(init_driver):
         raise e
 
 
+@when(parsers.parse('upload Duplicate file'))
+def do_upload_duplicate_file(init_driver):
+    feature_file_name = "bulk_order_upload"
+    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+    try:
+
+        if not bulk_order_upload_steps.do_upload_duplicate_file(feature_file_name, screen_shot):
+            raise Exception("Failed to select duplicate file")
+    except Exception as e:
+        logger.error("Error while selecting Ready to place status %s" + str(e))
+        raise e
+
+
+@then(parsers.parse('verify Duplicate file error message'))
+def verify_duplicate_file_error_message(init_driver):
+    feature_file_name = "bulk_order_upload"
+    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+    try:
+        if not bulk_order_upload_steps.verify_duplicate_file_error_message(feature_file_name, screen_shot):
+            raise Exception("Failed to verify review icon")
+    except Exception as e:
+        logger.error("Error while verifying review icon %s" + str(e))
+        raise e
+
+
 @when(parsers.parse('upload file with one feild as Null value'))
 def do_uploaded_file_with_one_null_values(init_driver):
     feature_file_name = "bulk_order_upload"
@@ -774,6 +799,18 @@ def verify_error_message_with_three_null_values(init_driver):
             raise Exception("Failed to verify error message")
     except Exception as e:
         logger.error("Error while verifying error message %s" + str(e))
+        raise e
+
+
+@then(parsers.parse('verify bulk order upload page'))
+def verify_bulk_order_upload_page(init_driver):
+    feature_file_name = "bulk_order_upload"
+    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+    try:
+        if not bulk_order_upload_steps.verify_bulk_order_upload_page(feature_file_name, screen_shot):
+            raise Exception("Failed to verify bulk order upload page")
+    except Exception as e:
+        logger.error("Error while verifying bulk order upload page %s" + str(e))
         raise e
 
 

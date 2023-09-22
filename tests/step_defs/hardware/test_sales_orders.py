@@ -144,27 +144,9 @@ def test_filter_by_order_value():
 def test_filter_by_created_on():
     pass
 
-@scenario("features/hardware/sales_orders.feature", "Verify customer hold cancel order")
-def test_cancel_order():
-    pass
-
-@scenario("features/hardware/sales_orders.feature", "Validate Update and cancel for end user po and reseller po")
-def test_update_end_user_po_and_reseller_po():
-    pass
-
 
 @scenario("features/hardware/sales_orders.feature", "Validate ACOP field")
 def test_validate_acop_field():
-    pass
-
-
-@scenario("features/hardware/sales_orders.feature", "Validate Update and Cancel for edit order line")
-def test_validate_update_order_line():
-    pass
-
-
-@scenario("features/hardware/sales_orders.feature", "Validate unmark cancel order line")
-def test_unmark_order_lines():
     pass
 
 
@@ -1170,6 +1152,53 @@ def verify_success_notification(init_driver):
         logger.error("Error while verifying success toast notification %s", e)
         raise e
 
+
+@then(parsers.parse("Click on mark for cancel for single line item"))
+def cancel_single_line_item(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.validate_cancel_single_line_item(feature_file_name):
+            raise Exception("Failed to click on mark for cancel for single line item")
+    except Exception as e:
+        logger.error("Error while clicking on mark for cancel for single line item %s", e)
+        raise e
+
+
+@then(parsers.parse("Verify order line and edit button will not be active"))
+def verify_order_line_edit_button_not_active(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.validate_order_line_edit_button_not_active(feature_file_name):
+            raise Exception("Failed to verify order line and edit button")
+    except Exception as e:
+        logger.error("Error while verifying order line and edit button %s", e)
+        raise e
+
+
+@then(parsers.parse("Click on resubmit order"))
+def click_resubmit_order(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.validate_resubmit_order_click(feature_file_name):
+            raise Exception("Failed to click on resubmit order button")
+    except Exception as e:
+        logger.error("Error while clicking on resubmit order button %s", e)
+        raise e
+
+
+@then(parsers.parse("Verify cancelled order line is not visible"))
+def verify_cancelled_order_line_not_visible(init_driver):
+    feature_file_name = "sales_orders"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.validate_cancelled_order_not_visible(feature_file_name):
+            raise Exception("Failed to verify cancelled order line")
+    except Exception as e:
+        logger.error("Error while verifying cancelled order line %s", e)
+        raise e
 
 # We are blocking because filter is applied for all columns.
 

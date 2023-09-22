@@ -1,12 +1,14 @@
 import random
 import time
+from datetime import datetime, date, timedelta
+
+from selenium.webdriver import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
+
 from CommonUtilities.baseSet.BasePage import BasePage
 from CommonUtilities.parse_config import ParseConfigFile
-from selenium.webdriver import ActionChains, Keys
-from datetime import datetime, date, timedelta
 from CommonUtilities.readProperties import ReadConfig
-from selenium.webdriver.common.action_chains import ActionChains
 
 
 class X4ASalesOrdersPage(BasePage):
@@ -113,14 +115,22 @@ class X4ASalesOrdersPage(BasePage):
     ORDER_VALUE_HEADER = (By.XPATH, "//*[@class='TopArea']/div[2]/div[1]")
     ORDER_TYPE_HEADER = (By.XPATH, "//*[@class='TopArea']/div[2]/div[3]")
     RESUBMIT_ORDER_BUTTON = (By.XPATH, "//*[text()='Resubmit Order']")
+    RESUBMIT_ORDER_POPUP_MESSAGE = (By.XPATH, "//*[@id='alert-dialog-description']")
     RESUBMIT_YES_BUTTON = (By.XPATH, "//button[text()='Yes, Resubmit Order']")
+    MORE_OPTIONS_MENU = (By.XPATH, "(//*[@data-testid='MoreVertOutlinedIcon'])[1]")
+    MARK_FOR_CANCEL = (By.XPATH, "(//*[text()='Mark for cancel'])[1]")
+    EDIT_PENCIL_ICON = "(//*[@data-testid='EditOutlinedIcon'])[1]//parent::button"
+    ORDER_LINE_DESC = (By.XPATH, "((//*[contains(@class, 'MuiDataGrid-row')])[1]//child::strong)[1]")
+    RESUBMIT_STATUS_TITLE = (By.XPATH, "//h2[text()='Order resubmission status']")
+    CLOSE_RESUBMIT_POPUP = (By.XPATH, "//*[@data-testid='CloseIcon']")
+    SCROLL = (By.XPATH, "(//*[contains(@class, 'virtualScroller')])[3]")
     """Order Details tab-Reference numbers"""
 
     END_USER_PO_FIELD = (By.XPATH, "//*[text()='End user PO:']/parent::div/div[@class='fieldValue']/strong")
     RESELLER_PO_FIELD = (By.XPATH, "//*[text()='Reseller PO:']/parent::div/div[@class='fieldValue']/strong")
     VENDOR_ORDER_FIELD = (By.XPATH, "//*[text()='Vendor order:']/parent::div/div[@class='fieldValue']/strong")
     VENDOR_SALES_ORDER_FIELD = (By.XPATH, "//*[text()='Vendor sales order:']/parent::div/div[@class='fieldValue']/strong")
-    REFERENCE_NUMBER_EDIT_ICON = (By.XPATH, "//*[@id='tablayout-tabpanel-0']/div/div/div/div/div[1]/*[@data-testid='ModeEditOutlineOutlinedIcon']")
+    REFERENCE_NUMBER_EDIT_ICON = (By.XPATH, "//*[@data-testid='ModeEditOutlineOutlinedIcon']")
     POPUP_CANCEL_BUTTON = (By.XPATH, "//button[text()='Cancel']")
     POPUP_UPDATE_BUTTON = (By.XPATH, "//button[text()='Update']")
     POPUP_END_USER_TEXTBOX = (By.ID, "reference-details-po-number")
@@ -194,7 +204,7 @@ class X4ASalesOrdersPage(BasePage):
     ORDER_LINE_CURRENCY_CODE = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='currencyCode']")
     ORDER_LINE_PAYMENT_TERMS = (By.XPATH, "//*[@role='cell' and @data-field='paymentTerms']")
     ORDER_LINE_QUANTITY = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityOrdered']")
-    ORDER_LINE_QUANTITY_TEXT = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityOrdered']//input")
+    ORDER_LINE_QUANTITY_TEXT = (By.XPATH, "(//*[@data-field='quantityOrdered'])[2]//input")
     ORDER_LINE_QUANTITY_CONFIRMED = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityConfirmed']")
     ORDER_LINE_QUANTITY_BACKORDERED = (
         By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityBackOrdered']")
@@ -1739,9 +1749,8 @@ class X4ASalesOrdersPage(BasePage):
                     self.logger.info("Multiple vendors present")
                     multiple_vendor_link_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='"+str(i)+"']/div/div/button[contains(text(), 'Multiple Vendors')]")
                     self.do_click_by_locator(multiple_vendor_link_xpath)
-                    popup_vendor_names = self.get_element_text(self.MULTIPLE_VENDOR_LINK)
-                    self.do_click_by_locator(self.LINK_CLOSE_BUTTON)
-                    if vendor_name not in popup_vendor_names:
+                    vendor_list = self.get_multiple_vendor_data()
+                    if vendor_name not in vendor_list:
                         raise Exception("Vendor name mismatched")
                 else:
                     self.logger.info("Single vendor present")
@@ -1749,6 +1758,28 @@ class X4ASalesOrdersPage(BasePage):
         except Exception as e:
             self.logger.error("Exception occurred verifying Vendor Name" + str(e))
             raise e
+
+    def get_multiple_vendor_data(self):
+        vendor_list = []
+        try:
+            self.logger.info("Getting the multiple vendors")
+            for i in range(1, 100):
+                s = "//*[@id='modal-modal-description']/div/div/div/div[2]/div[2]/div"
+                e = self.driver.find_element(By.XPATH, s)
+                xpath = (By.XPATH, "//*[@id='modal-modal-description']/div/div/div/div[2]/div[2]/div/div/div/div[@data-id=" + str(i) + "]")
+                try:
+                    vendor = self.get_element_text_for_filter(xpath)
+                except:
+                    self.logger.info("There are only %s skus", str(i-1))
+                    break
+                vendor_list.append(vendor)
+                if i % 3 == 0:
+                    self.scroll_down(e)
+            self.do_click_by_locator(self.LINK_CLOSE_BUTTON)
+        except Exception as e:
+            self.logger.error("Error while getting multiple vendor data from link " + str(e))
+            raise e
+        return vendor_list
 
     def filter_by_end_user_name(self, end_user_name):
         try:
@@ -2058,18 +2089,26 @@ class X4ASalesOrdersPage(BasePage):
             self.logger.error("Exception occurred while cancelling edit of end user po and reseller po" + str(e))
             raise e
 
-    def validate_update_end_user_po_and_reseller_po(self, end_user_po, reseller_po):
+    def do_update_end_user_po_and_reseller_po(self, end_user_po, reseller_po):
         try:
             self.update_end_user_po_and_reseller_po(end_user_po, reseller_po)
+            global ui_end_user_po, ui_reseller_po
             ui_end_user_po = self.get_element_text(self.REFERENCE_NUMBERS_END_USER_PO)
             ui_reseller_po = self.get_element_text(self.REFERENCE_NUMBERS_RESELLER_PO)
-            self.do_click_by_locator(self.RESUBMIT_ORDER_BUTTON)
-            self.do_click_by_locator(self.RESUBMIT_YES_BUTTON)
+            self.logger.info(ui_reseller_po)
+            self.logger.info(ui_end_user_po)
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred while updating end user po and reseller po" + str(e))
+            return False
+
+    def test_end_user_po_and_reseller_po_updated(self, end_user_po, reseller_po):
+        try:
             assert ui_end_user_po == end_user_po.upper(), "End user PO mismatched"
             assert ui_reseller_po == reseller_po.upper(), "Reseller PO mismatched"
             return True
         except Exception as e:
-            self.logger.error("Exception occurred while validating update of end user po and reseller po" + str(e))
+            self.logger.error("Exception occurred while validating end user po and reseller po" + str(e))
             return False
 
     def validate_cancel_end_user_po_and_reseller_po(self, end_user_po, reseller_po):
@@ -2120,6 +2159,8 @@ class X4ASalesOrdersPage(BasePage):
         try:
             self.do_click_by_locator(self.ORDER_LINE_EDIT_ICON)
             time.sleep(3)
+            self.do_check_visibility(self.EDIT_CHECK_ICON)
+            self.do_check_visibility(self.EDIT_CANCEL_ICON)
             self.do_send_keys(self.ORDER_LINE_SPECIAL_BID_NUMBER, special_bid)
             time.sleep(3)
             self.do_send_keys(self.ORDER_LINE_SPECIAL_BID_NUMBER, special_bid)
@@ -2130,9 +2171,13 @@ class X4ASalesOrdersPage(BasePage):
             unit_weight = self.driver.find_element(By.XPATH, element)
             self.scroll_horizontally(unit_weight)
             # scroll till quantity
-            time.sleep(10)
+            time.sleep(20)
             self.do_click_by_locator(self.ORDER_LINE_QUANTITY)
             self.do_send_keys(self.ORDER_LINE_QUANTITY, quantity)
+
+            element = "//*[@data-id='0']//*[@role='cell' and @data-field='extendedPrice']"
+            special_bid = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(special_bid)
 
             element = "//*[@data-id='0']//*[@role='cell' and @data-field='specialBidNumber']"
             special_bid = self.driver.find_element(By.XPATH, element)
@@ -2152,8 +2197,6 @@ class X4ASalesOrdersPage(BasePage):
             self.do_click_by_locator(self.EDIT_CHECK_ICON)
             time.sleep(2)
             self.logger.info("Clicked on order line check icon")
-            # self.do_click_by_locator(self.RESUBMIT_ORDER_BUTTON)
-            # self.do_click_by_locator(self.RESUBMIT_YES_BUTTON)
             return True
         except Exception as e:
             self.logger.error(
@@ -2187,10 +2230,8 @@ class X4ASalesOrdersPage(BasePage):
             element = "//*[@data-id='0']//*[@role='cell' and @data-field='currencyCode']"
             unit_weight = self.driver.find_element(By.XPATH, element)
             self.scroll_horizontally(unit_weight)
-
             # scroll till quantity back order
             time.sleep(10)
-
             order_line_data['quantity'] = self.do_get_attribute(self.ORDER_LINE_QUANTITY_TEXT,'value')
             order_line_data['quantity_confirmed'] = self.get_element_text(self.ORDER_LINE_QUANTITY_CONFIRMED)
             order_line_data['quantity_backordered'] = self.get_element_text(self.ORDER_LINE_QUANTITY_BACKORDERED)
@@ -2268,7 +2309,6 @@ class X4ASalesOrdersPage(BasePage):
     def order_status_validate(self, status):
         try:
             self.driver.refresh()
-            self.driver.refresh()
             if self.get_element_text(self.ORDER_DETAILS_STATUS) == status:
                 self.logger.info("Order status is validated successfully")
                 return True
@@ -2328,4 +2368,69 @@ class X4ASalesOrdersPage(BasePage):
                 return False
         except Exception as e:
             self.logger.error('Exception occurred while validating toast notification ' + str(e))
+            return False
+
+    def mark_for_cancel_single_line_item(self):
+        try:
+            order_lines = self.get_all_elements(self.ORDER_LINES)
+            if len(order_lines) > 0:
+                global order_desc
+                order_desc = self.get_element_text(self.ORDER_LINE_DESC)
+                self.logger.info(order_desc)
+                self.do_click_by_locator(self.MORE_OPTIONS_MENU)
+                order_line_options_xpath = (By.XPATH, "(//li[@role='menuitem'])")
+                order_line_options = self.get_all_elements(order_line_options_xpath)
+                self.logger.info(len(order_line_options))
+                mark_for_cancel_elements = []
+                for ele in order_line_options:
+                    if ele.text == 'Mark for cancel':
+                        mark_for_cancel_elements.append(ele)
+                self.do_click_by_locator(mark_for_cancel_elements[-1])
+                self.logger.info("Clicked on mark for cancel for single line item")
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on mark for cancel for single line item ' + str(e))
+            return False
+
+    def order_line_edit_button_verify(self):
+        try:
+            pencil_icon = self.driver.find_element(By.XPATH, self.EDIT_PENCIL_ICON)
+            if not self.is_element_enabled(pencil_icon):
+                self.logger.info("Single line item is greyed out and edit button is also not active")
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error('Exception occurred while validating order line and edit button ' + str(e))
+            return False
+
+    def resubmit_order(self):
+        try:
+            self.do_click_by_locator(self.RESUBMIT_ORDER_BUTTON)
+            popup_message = self.get_element_text(self.RESUBMIT_ORDER_POPUP_MESSAGE)
+            assert popup_message == "Are you sure to resubmit order?", "Resubmit popup message did not match"
+            self.do_click_by_locator(self.RESUBMIT_YES_BUTTON)
+            self.do_check_visibility(self.RESUBMIT_STATUS_TITLE)
+            resubmit_status = self.get_element_text(self.RESUBMIT_ORDER_POPUP_MESSAGE)
+            assert resubmit_status == "Order resubmitted successfully", "Resubmit failed"
+            self.do_click_by_locator(self.CLOSE_RESUBMIT_POPUP)
+            self.logger.info("Successfully resubmitted order")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while resubmitting order ' + str(e))
+            return False
+
+    def cancelled_order_not_visible_test(self):
+        try:
+            self.logger.info((By.XPATH, "//*[text()='" + order_desc + "']").__str__())
+            element = (By.XPATH, "//*[text()='"+order_desc+"']")
+            if not self.do_check_visibility(element):
+                self.logger.info("Cancelled order is not visible")
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error('Exception occurred while validating order line is not visible ' + str(e))
             return False

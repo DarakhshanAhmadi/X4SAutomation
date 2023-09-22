@@ -8,7 +8,7 @@ Feature: Data Errors Orders
     Then provide user ID and Password to login
     When the user traverse to Error Order menu
 
-  #  EDT-9280/OMS-784
+  # EDT-9280/OMS-784
   @resubmit_order_popup
   Scenario: Verify resubmit order popup
     Given the error order is created via api
@@ -21,7 +21,7 @@ Feature: Data Errors Orders
     When Click on Review button
     Then Verify Order Details page opened
 
-  #  EDT-9280/OMS-784
+  # EDT-9280/OMS-784
   @after_resubmitted_order_not_present_in_error_data_list
   Scenario: Verify Order not present in list after successfully resubmitted
     When Resubmit Order Button clicked
@@ -113,8 +113,8 @@ Feature: Data Errors Orders
     When Click on Filter icon
     And Select any option from Order Entry Method dropdown list
     Then Data in grid should get updated as per selected Order Entry Method filter if no data found for selected value No orders found message should display
-#    When Select any option from Country dropdown list
-#    Then Data in grid should get updated as per selected country filter if no data found for selected value No orders found message should display
+    When Select any option from Country dropdown list
+    Then Data in grid should get updated as per selected country filter if no data found for selected value No orders found message should display
 
   # OMS-43
   @vmf_details_edit_popup
@@ -132,6 +132,47 @@ Feature: Data Errors Orders
     Then Enter valid data for Attribute value fields save it then Verify Saved data should get display in order details page
     And Verify that VMF entered data should not get saved after click on X icon
     And Verify that modified VMF data should not get updated on order details page after click on Cancel button
+
+  # OMS-782
+  @end_user_details_edit_popup
+  Scenario: Verify End User Details Edit popup content
+    Given the error order is created via api for End User Details
+    When Search and Select the Data Errors Order for End User Details
+    Then Verify that Edit icon should display beside End User Details
+    And Verify contents of Edit End User Details popup
+
+  # OMS-782
+  @search_end_user
+  Scenario: Searching End User
+    Then Verify that all address matching with entered text should get displayed
+    And Select the end user with suffix and verify that Edit icon should display for user and Save button should get enabled
+    And Verify contents of selected end user with suffix edit popup
+    When Remove the data from Name, Phone Number, Email and Click on Add button then Validation required message should display
+    Then Click on Save Button and Verify that selected end user information should get displayed on order details page
+    And Modify Name, Phone Number, Email and Click on Add button then Verify that updated end user information should display on order details page
+
+  # OMS-782
+  @add_new_end_user_edit_popup
+  Scenario: Verify Add New End User Edit popup content
+    Then Verify contents of Edit Add New End User popup
+    And Verify that added new end user should display and user should able to select it and checkbox is disable
+
+  # OMS-33
+  @billing_address_edit_popup
+  Scenario: Verify Billing Address Edit popup content
+    Given the error order is created via api for Billing Address
+    When Search and Select the Data Errors Order for Billing Address
+    Then Verify contents of Edit Billing Address popup
+    When Click on X icon on popup and Verify that Order Details page should display
+    And Click on Cancel button on popup and Verify that Order Details page should display
+
+  # OMS-33
+  @search_billing_address
+  Scenario: Verify billing address search with suffix
+    When Search with special characters then No records found matching your search criteria should display
+    And Search with valid Suffix and then Billing address details should get loaded in popup
+    And Select the searched address and then Save button should get enabled on selecting address
+    Then Verify that selected billing address should get displayed on Order details page
 
   @logout
   Scenario: logout X4A
