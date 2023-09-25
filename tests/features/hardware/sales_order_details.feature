@@ -7,6 +7,7 @@ Feature: Sales Order Details
     Then provide user ID and Password to login
     And the user traverse to Sales Order menu
 
+  #EDT - 10799, EDT-8489, EDT-8332, EDT-8329
   @fetch_order_details
   Scenario Outline: sales order details check
     Given fetch sales order details via api for <order_id> of type <order_type> created on <order_date> via <entry_channel>
