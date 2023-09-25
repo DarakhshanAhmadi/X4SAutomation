@@ -293,3 +293,12 @@ class BasePage:
     def get_element_text_for_filter(self, by_locator):
         element = WebDriverWait(self.driver, self.TIMEOUT_LESSER).until(EC.visibility_of_element_located(by_locator))
         return element.text
+
+    """Function to verify whether WebElement is enabled or not"""
+    def is_element_enabled(self, element):
+        if element.is_enabled():
+            return True
+        else:
+            return False
+
+
