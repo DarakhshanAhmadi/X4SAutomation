@@ -485,8 +485,22 @@ def fields_under_ship_from_info_section(init_driver):
         warehouse_id = sales_order_details.get("ship_from_warehouse_id")
         warehouse_name = sales_order_details.get("warehouse_name")
         if not validate_sales_orders.validate_fields_under_ship_from_info(feature_file_name, screen_shot,
-                                                                       warehouse_id, warehouse_name):
+                                                                            warehouse_id, warehouse_name):
             raise Exception("Failed to verify fields under Ship from info section on Order Details page")
     except Exception as e:
         logger.error("Error while verify the fields under Ship from info section on Order Details page %s", e)
         raise e
+
+
+@then(parsers.parse('Validate ACOP field is present and has valid value'))
+def validate_acop_field(init_driver):
+    feature_file_name = "sales_order_details"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.do_validate_acop_field(feature_file_name, screen_shot):
+            raise Exception("Failed to Validate ACOP field")
+    except Exception as e:
+        logger.error("Not able to Validate ACOP field %s", e)
+        raise e
+
+

@@ -153,14 +153,6 @@ Feature: Sales Orders
     When Filter by Created On
     Then Validate the Created On is listed
 
-  # EDT - 10799
-  @verify_ACOP_field
-  Scenario: Validate ACOP field
-    When search a order with specific IM Order number
-    Then Validate the IM Order number is listed
-    When Click on searched IM order number
-    And Click on Order lines tab on Order Details page
-    Then Validate ACOP field is present and has valid value
 
   @logout
   Scenario: logout X4A

@@ -36,6 +36,7 @@ Feature: Sales Order Details
     Then Validate fields under End user info section
     When Click on Order lines tab on Order Details page
     Then Validate fields under Order lines tab
+    Then Validate ACOP field is present and has valid value
     Examples:
     |order_id   |order_date|entry_channel|order_type|
     |20-VNH2Q-11|2023-09-21|X4C          |Stock     |

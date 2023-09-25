@@ -446,6 +446,13 @@ class X4ASalesOrdersPage(BasePage):
     def do_validate_created_on_ascending_on_pages(self, page1, page2, feature_file_name):
         try:
             time.sleep(3)
+            element = "//div[@data-id=0]/div[@data-colindex=6]"
+            order_value_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(order_value_element)
+            element = "//div[@class='MuiDataGrid-row'] [@data-id='1']/div[@data-field='orderCreateDate']"
+            created_on_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(created_on_element)
+            self.do_check_visibility(self.CREATED_ON)
             if self.do_validate_created_on_ascending(page1):
                 self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                                             + "_validate_created_on_date_ascending_successfully.png")
@@ -472,13 +479,6 @@ class X4ASalesOrdersPage(BasePage):
     def do_validate_created_on_ascending(self, page_number):
         try:
             time.sleep(3)
-            element = "//div[@data-id=0]/div[@data-colindex=6]"
-            order_value_element = self.driver.find_element(By.XPATH, element)
-            self.scroll_horizontally(order_value_element)
-            element = "//div[@class='MuiDataGrid-row'] [@data-id='1']/div[@data-field='orderCreateDate']"
-            created_on_element = self.driver.find_element(By.XPATH, element)
-            self.scroll_horizontally(created_on_element)
-            self.do_check_visibility(self.CREATED_ON)
             self.go_to_page(page_number)
 
             created_on_date = self.get_element_text(self.CREATED_ON_FIRST_VALUE)
@@ -781,6 +781,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def click_on_order_lines_tab(self):
         try:
+            time.sleep(2)
             self.do_click_by_locator(self.ORDER_LINES_TAB)
             self.logger.info("Successfully Clicked Order lines tab")
             return True
