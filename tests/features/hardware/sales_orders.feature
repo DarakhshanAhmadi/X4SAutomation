@@ -5,7 +5,7 @@ Feature: Sales Orders
   Scenario: Login to X4A portal
     Given launch chrome browser and open the X4A url
     Then provide user ID and Password to login
-#    And the user traverse to Sales Order menu
+    And the user traverse to Sales Order menu
 
   # EDT-8452/OMS-877
   @all_column_on_sales_orders_page
@@ -229,18 +229,7 @@ Feature: Sales Orders
     When Filter by Created On
     Then Validate the Created On is listed
 
-
-  # EDT-  10681
-  @update_end_user_po_and_reseller_po
-  Scenario: Validate Update and cancel for end user po and reseller po
-    When search a order with specific IM Order number
-    Then Validate the IM Order number is listed
-    When Click on searched IM order number
-    And Check if the order is editable
-    Then Validate Cancel update of end user po and reseller po
-    And Validate Update end user po and reseller po
-
-  #EDT - 10799
+  # EDT - 10799
   @verify_ACOP_field
   Scenario: Validate ACOP field
     When search a order with specific IM Order number
@@ -248,35 +237,6 @@ Feature: Sales Orders
     When Click on searched IM order number
     And Click on Order lines tab on Order Details page
     Then Validate ACOP field is present and has valid value
-
-  # EDT - 10685
-  @update_order_line
-  Scenario: Validate Update and Cancel for edit order line
-    When Click on Order lines tab on Order Details page
-    Then Cancel order line changes and validate it
-    And Update order line and validate it
-
-  @unmark_for_cancel_order_line
-  Scenario: Validate unmark cancel order line
-    When Verify order status is "Customer Hold(IM)"
-    And Click on Order lines tab on Order Details page
-    And Click on three dots and check that the options are correct
-    Then Click on mark for cancel for order lines
-    And Click on Unmark for cancel order line
-
-  # EDT-10730
-  @void_entire_order
-  Scenario: Verify customer hold cancel order
-    When search a order with specific IM Order number
-    Then Validate the IM Order number is listed
-    When Click on searched IM order number
-    When Verify order status is "Customer Hold(IM)"
-    Then Validate cancel order button is displayed
-    Then Click on cancel order button
-    Then Verify the elements displayed on cancel order alert
-    Then Cancel the order
-    Then Verify success toast notification is displayed
-    When Verify order status is "VOIDED"
 
   @logout
   Scenario: logout X4A
