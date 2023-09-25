@@ -420,8 +420,6 @@ class ValidateSalesOrdersData:
     def validate_fields_under_reference_no(self, feature_file_name, screen_shot, reseller_po, end_user_po):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            # end_user_po = reference_numbers_list[0]
-            # reseller_po = reference_numbers_list[1]
             # vendor_order = reference_numbers_list[2]
             # vendor_sales_order = reference_numbers_list[3]
 
@@ -536,12 +534,6 @@ class ValidateSalesOrdersData:
     def validate_fields_under_bill_to_info(self, feature_file_name, screen_shot, bill_to_suffix, bill_to_name, bill_to_address, bill_to_phone, bill_to_contact, bill_to_email):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            # bill_to_id = billing_to_info_list[0]
-            # bill_to_company_name = billing_to_info_list[1]
-            # bill_to_address = billing_to_info_list[2]
-            # bill_to_contact = billing_to_info_list[3]
-            # bill_to_phone_no = billing_to_info_list[4]
-            # bill_to_email = billing_to_info_list[5]
             bill_to = bill_to_address.split(",")
             bill_to_address = " ".join(bill_to)
             if (x4a_sales_order.is_bill_to_id_field_visible(
@@ -566,12 +558,6 @@ class ValidateSalesOrdersData:
     def validate_fields_under_ship_to_info(self, feature_file_name, screen_shot, ship_to_suffix, ship_to_name, ship_to_address, ship_to_phone, ship_to_contact, ship_to_email):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            # ship_to_id = ship_to_info_list[0]
-            # ship_to_cmp_nm = ship_to_info_list[1]
-            # ship_to_addr = ship_to_info_list[2]
-            # ship_to_contact = ship_to_info_list[3]
-            # ship_to_phn_no = ship_to_info_list[4]
-            # ship_to_email = ship_to_info_list[5]
             # ship_to_shipping_comment = ship_to_info_list[6]
             ship_to_name_value = ship_to_name
             ship_to_address_value = " ".join(ship_to_address.split(","))
@@ -603,10 +589,7 @@ class ValidateSalesOrdersData:
     def validate_fields_under_end_user_info(self, feature_file_name, screen_shot, end_user_id, end_user_address, end_user_contact):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            # end_user_id = end_user_info_list[0]
             # end_user_cmp_nm = end_user_info_list[1]
-            # end_user_addr = end_user_info_list[2]
-            # end_user_contact = end_user_info_list[3]
             # end_user_phn_no = end_user_info_list[4]
             # end_user_email = end_user_info_list[5]
 
@@ -633,48 +616,12 @@ class ValidateSalesOrdersData:
     def validate_fields_under_order_lines_tab(self, feature_file_name, screen_shot, order_lines_tab_info_list, currency_code):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            # order_line = order_lines_tab_info_list[0]
-            # order_line_status = order_lines_tab_info_list[1]
-            # order_line_description = order_lines_tab_info_list[2]
-            # order_line_vpn_no = order_lines_tab_info_list[3]
-            # order_line_im_part = order_lines_tab_info_list[4]
-            # order_line_special_bid_no = order_lines_tab_info_list[5]
-            # order_line_unit_price = order_lines_tab_info_list[6]
-            # order_line_extended_price = order_lines_tab_info_list[7]
-            # order_line_cost = order_lines_tab_info_list[8]
-            # order_line_extended_cost = order_lines_tab_info_list[9]
-            # order_line_margin = order_lines_tab_info_list[10]
-            # order_line_currency_code = order_lines_tab_info_list[11]
-            # order_line_quantity = order_lines_tab_info_list[12]
-            # order_line_quantity_confirmed = order_lines_tab_info_list[13]
-            # order_line_quantity_backordered = order_lines_tab_info_list[14]
-            # Order_line_notes = order_lines_tab_info_list[15]
-
-            # if (x4a_sales_order.is_order_line_field_visible(order_line) &
-            #         x4a_sales_order.is_order_line_status_field_visible(
-            #             order_line_status) & x4a_sales_order.is_order_line_description_field_visible(
-            #             order_line_description) &
-            #         x4a_sales_order.is_contact_vpn_no_field_visible(order_line_vpn_no) &
-            #         x4a_sales_order.is_order_line_im_part_field_visible(
-            #             order_line_im_part) & x4a_sales_order.is_order_line_special_bid_field_visible(
-            #             order_line_special_bid_no) &
-            #         x4a_sales_order.is_order_line_unit_price_field_visible(
-            #             order_line_unit_price) & x4a_sales_order.is_order_line_extended_price_field_visible(
-            #             order_line_extended_price) &
-            #         x4a_sales_order.is_order_line_cost_field_visible(
-            #             order_line_cost) & x4a_sales_order.is_order_line_ext_cost_field_visible(
-            #             order_line_extended_cost) &
-            #         x4a_sales_order.is_order_line_margin_field_visible(
-            #             order_line_margin) & x4a_sales_order.is_order_line_currency_code_field_visible(
-            #             order_line_currency_code) &
-            #         x4a_sales_order.is_order_line_quantity_field_visible(order_line_quantity) &
-            #         x4a_sales_order.is_order_line_qty_confirmed_field_visible(
-            #             order_line_quantity_confirmed) & x4a_sales_order.is_order_line_qty_backordered_field_visible(
-            #             order_line_quantity_backordered) &
-            #         x4a_sales_order.is_order_line_notes_field_visible(Order_line_notes)):
                 status_flag = True
                 ui_order_lines = x4a_sales_order.fetch_order_lines()
+                self.logger.info(f'API Data List: {order_lines_tab_info_list}')
+                self.logger.info(f'UI Data List: {ui_order_lines}')
                 for ui_line in ui_order_lines:
+                    self.logger.info(f'validating data of UI order line {ui_line["line_number"]}')
                     line_flag = False
                     for line in order_lines_tab_info_list:
                         if ui_line['line_number'] == line['line_number']:

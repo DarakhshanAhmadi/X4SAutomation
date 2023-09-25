@@ -2447,6 +2447,7 @@ class X4ASalesOrdersPage(BasePage):
             order_lines = self.get_all_elements(self.ORDER_LINES)
             for i in range(len(order_lines)):
                 order_line = {}
+                time.sleep(3)
                 order_line['line_number'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='ingramOrderLineNumber']"))
                 order_line['order_line_status'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='lineStatus']"))
                 order_line['order_line_acop'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='isAcopApplied']"))

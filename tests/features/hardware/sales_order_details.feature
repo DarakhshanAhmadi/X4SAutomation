@@ -39,9 +39,11 @@ Feature: Sales Order Details
     Examples:
     |order_id   |order_date|entry_channel|order_type|
     |20-VNH2Q-11|2023-09-21|X4C          |Stock     |
-    |20-VNH5M-11|2023-09-21|X4C          |Stock     |
-    |20-VNH5T-11|2023-09-21|X4C          |Stock     |
     |20-VNH4H-11|2023-09-21|X4C          |Direct    |
+    |20-VN9TB-11|2023-09-04|IM360        |Stock     |
+    |20-VNDGX-11|2023-09-08|IM360        |Direct    |
+    |20-VNDH1-11|2023-09-08|API Simpli   |Stock     |
+
 
 #
 #  # EDT-8489

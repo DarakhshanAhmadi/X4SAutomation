@@ -1,7 +1,6 @@
 import re
 
 from pytest_bdd import scenario, parsers, when, then, given
-from CommonUtilities import readWriteTestData
 from CommonUtilities.parse_config import ParseConfigFile
 from CommonUtilities.file_operations import logger
 from CommonUtilities.readProperties import ReadConfig
@@ -9,9 +8,7 @@ from RestApi.Operations.fetch_order_via_api import FetchOrderViaApi
 from db.service.X4AInputOrderDbManagementService import X4AInputOrderDbManagementService
 from db.service.X4ASalesOrderDetailsDbManagementService import X4ASalesOrderDetailsDbManagementService
 from db.service.X4ASalesOrderLinesDbManagementService import X4ASalesOrderLinesDbManagementService
-from pages.X4A.Facade.PrepareObject import PrepareObject
 from pages.X4A.TestSteps.validateSalesOrdersData import ValidateSalesOrdersData
-from tests.step_defs.hardware.test_apitest import base_test
 
 parse_config_json = ParseConfigFile()
 screen_shot = {"path": " "}
