@@ -9,20 +9,34 @@ Feature: Sales Orders Edit
 
   # EDT-10681 # EDT-10685
   @validate_updated_order_details
-  Scenario: Validate Updated Order Details
-    When search a order with specific IM Order number
-    Then Validate the IM Order number is listed
+  Scenario Outline: Validate Updated Order Details
+    When search a order with specific IM Order number <order_no>
+    Then Validate the IM Order number <order_no> is listed
     When Click on searched IM order number
-    When Verify order status is "Customer Hold(IM)"
-    And Check if the order is editable
+    When Verify order status falls under edit category
     Then Validate Cancel update of end user po and reseller po
     Then Update end user po and reseller po
+    When Click on Billing tab on Order Details page
+    Then Cancel ship to and end user info details and validate
+    Then Update ship to and end user info
     When Click on Order lines tab on Order Details page
     Then Cancel order line changes and validate it
     Then Update order line special bid unit price and quantity
     Then Click on resubmit order
     Then Validate end user po and reseller po updated
+    When Click on Billing tab on Order Details page
+    Then Validate ship to and end user info updated
+    When Click on Order lines tab on Order Details page
     Then Validate order line changes are updated
+    Then Click on order management link
+    Examples:
+    | order_no    |
+    | 20-VN9TB-11 |
+    | 20-VNDGX-11 |
+    | 20-VNDDW    |
+    | 20-VNDGZ-11 |
+    | 20-VNDH1-11 |
+    | 20-VNDH4-11 |
 
   # EDT-10977
   @unmark_for_cancel_order_line

@@ -160,6 +160,7 @@ class X4ASalesOrdersPage(BasePage):
 
     """Biiling tab-Ship to info"""
 
+    SHIP_TO_INFO_EDIT_ICON = (By.XPATH, "//*[@class='shipToId']//*[@data-testid='ModeEditOutlineOutlinedIcon']")
     SHIP_TO_ID_FIElD = (By.XPATH, "//*[text()='Ship to ID (suffix):']/parent::div/div[@class='labeltext']/strong")
     SHIP_TO_INFO_CONTACT_FIElD = (
         By.XPATH, "//*[@class='shipToId']//*[text()='Contact:']/parent::div/div[@class='labeltext']/strong")
@@ -174,9 +175,14 @@ class X4ASalesOrdersPage(BasePage):
         "//*[@class='shipToId']//*[text()='Shipping comments:']/parent::div/div[@class='labeltext']/div/strong")
     SHIP_TO_INFO_ADDRESS_FIElD = (
         By.XPATH, "//*[@class='shipToId']//*[text()='Address:']/parent::div/div[@class='field'][1]")
+    SHIP_TO_EDIT_SEARCH_BAR = (By.XPATH, "//input[@id='outlined-basic']")
+    SHIP_TO_SHIPPING_ADD_SELECT = (By.XPATH, "//input[@name='selectedCard']//parent::span")
+    SHIP_TO_INFO_CANCEL_BTN = (By.XPATH, "//*[text()='Cancel']")
+    SAVE_BTN = (By.XPATH, "//*[text()='Save']")
 
     """Biiling tab-End user info"""
 
+    END_USER_INFO_EDIT_ICON = (By.XPATH, "//*[@class='endUserId']//*[@data-testid='ModeEditOutlineOutlinedIcon']")
     END_USER_ID_FIElD = (By.XPATH, "//*[text()='End user ID (suffix):']/parent::div/div[@class='labeltext']/strong")
     END_USER_COMPANY_NAME_FIElD = (
         By.XPATH, "//*[@class='endUserId']//*[text()='Company name:']/parent::div/div[@class='labeltext']/strong")
@@ -188,6 +194,8 @@ class X4ASalesOrdersPage(BasePage):
         By.XPATH, "//*[@class='endUserId']//*[text()='Phone number:']/parent::div/div[@class='labeltext']/strong")
     END_USER_EMAIL_FIElD = (
         By.XPATH, "//*[@class='endUserId']//*[text()='Email:']/parent::div/div[@class='labeltext']/strong")
+    END_USER_EDIT_SEARCH_BAR = (By.XPATH, "//*[@id='outlined-basic']")
+    END_USER_EDIT_ADD_SELECT = (By.XPATH, "//input[@name='selectedCard']//parent::span")
 
     """Order Lines tab """
 
@@ -2166,8 +2174,6 @@ class X4ASalesOrdersPage(BasePage):
             global ui_end_user_po, ui_reseller_po
             ui_end_user_po = self.get_element_text(self.REFERENCE_NUMBERS_END_USER_PO)
             ui_reseller_po = self.get_element_text(self.REFERENCE_NUMBERS_RESELLER_PO)
-            self.logger.info(ui_reseller_po)
-            self.logger.info(ui_end_user_po)
             return True
         except Exception as e:
             self.logger.error("Exception occurred while updating end user po and reseller po" + str(e))
@@ -2194,6 +2200,104 @@ class X4ASalesOrdersPage(BasePage):
             return True
         except Exception as e:
             self.logger.error("Exception occurred while validating cancel update of end user po and reseller po" + str(e))
+            return False
+
+    def cancel_shipto_enduser_info_and_validate(self, shipto_id, enduser_companyname):
+        try:
+            shiptoid_before_cancel = self.get_element_text(self.SHIP_TO_ID_FIElD)
+            companyname_before_cancel = self.get_element_text(self.SHIP_TO_INFO_COMPANY_NAME_FIElD)
+            address_before_cancel = self.get_element_text(self.SHIP_TO_INFO_ADDRESS_FIElD)
+            final_address_before_cancel = address_before_cancel.replace('\n', ' ')
+            self.do_click_by_locator(self.SHIP_TO_INFO_EDIT_ICON)
+            self.do_send_keys(self.SHIP_TO_EDIT_SEARCH_BAR, shipto_id)
+            self.driver.find_element(By.XPATH, "//input[@id='outlined-basic']").send_keys(Keys.ENTER)
+            self.do_click_by_locator(self.SHIP_TO_SHIPPING_ADD_SELECT)
+            self.do_click_by_locator(self.SHIP_TO_INFO_CANCEL_BTN)
+            shiptoid_after_cancel = self.get_element_text(self.SHIP_TO_ID_FIElD)
+            companyname_after_cancel = self.get_element_text(self.SHIP_TO_INFO_COMPANY_NAME_FIElD)
+            address_after_cancel = self.get_element_text(self.SHIP_TO_INFO_ADDRESS_FIElD)
+            final_address_after_cancel = address_after_cancel.replace('\n', ' ')
+            assert shiptoid_before_cancel == shiptoid_after_cancel, "Ship to ID mismatched"
+            assert companyname_before_cancel == companyname_after_cancel, "Company name mismatched"
+            assert final_address_before_cancel == final_address_after_cancel, "Address mismatched"
+
+            enduser_id_before_cancel = self.get_element_text(self.END_USER_ID_FIElD)
+            enduser_contact_before_cancel = self.get_element_text(self.END_USER_CONTACT_FIElD)
+            enduser_companyname_before_cancel = self.get_element_text(self.END_USER_COMPANY_NAME_FIElD)
+            enduser_phonenumber_before_cancel = self.get_element_text(self.END_USER_PHONE_NO_FIElD)
+            enduser_address_before_cancel = self.get_element_text(self.END_USER_ADDRESS_FIElD)
+            enduser_final_address_before_cancel = enduser_address_before_cancel.replace('\n', ' ')
+            enduser_email_before_cancel = self.get_element_text(self.END_USER_EMAIL_FIElD)
+            self.do_click_by_locator(self.END_USER_INFO_EDIT_ICON)
+            self.do_send_keys(self.END_USER_EDIT_SEARCH_BAR, enduser_companyname)
+            self.driver.find_element(By.XPATH, "//input[@id='outlined-basic']").send_keys(Keys.ENTER)
+            self.do_click_by_locator(self.END_USER_EDIT_ADD_SELECT)
+            self.do_click_by_locator(self.SHIP_TO_INFO_CANCEL_BTN)
+            enduser_id_after_cancel = self.get_element_text(self.END_USER_ID_FIElD)
+            enduser_contact_after_cancel = self.get_element_text(self.END_USER_CONTACT_FIElD)
+            enduser_companyname_after_cancel = self.get_element_text(self.END_USER_COMPANY_NAME_FIElD)
+            enduser_phonenumber_after_cancel = self.get_element_text(self.END_USER_PHONE_NO_FIElD)
+            enduser_address_after_cancel = self.get_element_text(self.END_USER_ADDRESS_FIElD)
+            enduser_final_address_after_cancel = enduser_address_after_cancel.replace('\n', ' ')
+            enduser_email_after_cancel = self.get_element_text(self.END_USER_EMAIL_FIElD)
+            assert enduser_id_before_cancel == enduser_id_after_cancel, "EndUser ID mismatched"
+            assert enduser_contact_before_cancel == enduser_contact_after_cancel, "EndUser contact mismatched"
+            assert enduser_companyname_before_cancel == enduser_companyname_after_cancel, "EndUser company name mismatched"
+            assert enduser_phonenumber_before_cancel == enduser_phonenumber_after_cancel, "EndUser phone number mismatched"
+            assert enduser_final_address_before_cancel == enduser_final_address_after_cancel, "EndUser address mismatched"
+            assert enduser_email_before_cancel == enduser_email_after_cancel, "EndUser email mismatched"
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred while cancelling shipto and end user info update" + str(e))
+            return False
+
+    def update_shipto_enduser_info(self, shipto_id, enduser_companyname):
+        try:
+            self.do_click_by_locator(self.SHIP_TO_INFO_EDIT_ICON)
+            self.do_send_keys(self.SHIP_TO_EDIT_SEARCH_BAR, shipto_id)
+            self.driver.find_element(By.XPATH, "//input[@id='outlined-basic']").send_keys(Keys.ENTER)
+            self.do_click_by_locator(self.SHIP_TO_SHIPPING_ADD_SELECT)
+            self.do_click_by_locator(self.SAVE_BTN)
+            global shiptoid_updated, companyname_updated, address_after_updated, final_address_updated
+            shiptoid_updated = self.get_element_text(self.SHIP_TO_ID_FIElD)
+            companyname_updated = self.get_element_text(self.SHIP_TO_INFO_COMPANY_NAME_FIElD)
+            address_after_updated = self.get_element_text(self.SHIP_TO_INFO_ADDRESS_FIElD)
+            final_address_updated = address_after_updated.replace('\n', ' ')
+
+            self.do_click_by_locator(self.END_USER_INFO_EDIT_ICON)
+            self.do_send_keys(self.END_USER_EDIT_SEARCH_BAR, enduser_companyname)
+            self.driver.find_element(By.XPATH, "//input[@id='outlined-basic']").send_keys(Keys.ENTER)
+            self.do_click_by_locator(self.END_USER_EDIT_ADD_SELECT)
+            self.do_click_by_locator(self.SAVE_BTN)
+            global enduser_id_updated, enduser_contact_updated, enduser_companyname_updated, enduser_phonenumber_updated, enduser_final_address_updated, enduser_email_updated
+            enduser_id_updated = self.get_element_text(self.END_USER_ID_FIElD)
+            enduser_contact_updated = self.get_element_text(self.END_USER_CONTACT_FIElD)
+            enduser_companyname_updated = self.get_element_text(self.END_USER_COMPANY_NAME_FIElD)
+            enduser_phonenumber_updated = self.get_element_text(self.END_USER_PHONE_NO_FIElD)
+            enduser_address_updated = self.get_element_text(self.END_USER_ADDRESS_FIElD)
+            enduser_final_address_updated = enduser_address_updated.replace('\n', ' ')
+            enduser_email_updated = self.get_element_text(self.END_USER_EMAIL_FIElD)
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred while updating shipto and end user info update" + str(e))
+            return False
+
+    def shipto_enduser_info_validation(self, shipto_id, shipto_companyname, shipto_address,
+                                       enduser_id, enduser_contact, enduser_companyname,
+                                       enduser_phonenumber, enduser_address, enduser_email):
+        try:
+            assert shiptoid_updated == shipto_id, "Ship to ID mismatched"
+            assert companyname_updated == shipto_companyname, "Company name mismatched"
+            assert final_address_updated == shipto_address, "Address mismatched"
+            assert enduser_id_updated == enduser_id, "EndUser ID mismatched"
+            assert enduser_contact_updated == enduser_contact, "EndUser contact mismatched"
+            assert enduser_companyname_updated == enduser_companyname, "EndUser company name mismatched"
+            assert enduser_phonenumber_updated == enduser_phonenumber, "EndUser phone number mismatched"
+            assert enduser_final_address_updated == enduser_address, "EndUser address mismatched"
+            assert enduser_email_updated == enduser_email, "EndUser email mismatched"
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred while validating shipto and end user info update" + str(e))
             return False
 
     def validate_acop_field(self):
@@ -2226,6 +2330,7 @@ class X4ASalesOrdersPage(BasePage):
                 'Exception occurred while verifying order status in order details page ' + str(e))
             return False
 
+    # Here the horizontal scrolling is not working
     def update_order_line(self, special_bid, unit_price, quantity):
         try:
             self.do_click_by_locator(self.ORDER_LINE_EDIT_ICON)
@@ -2238,21 +2343,22 @@ class X4ASalesOrdersPage(BasePage):
             time.sleep(5)
             self.do_send_keys(self.ORDER_LINE_UNIT_PRICE, unit_price)
             self.do_send_keys(self.ORDER_LINE_UNIT_PRICE, unit_price)
-            element = "//*[@data-id='0']//*[@role='cell' and @data-field='unitWeight']"
-            unit_weight = self.driver.find_element(By.XPATH, element)
-            self.scroll_horizontally(unit_weight)
+            # element = "//*[@data-id='0']//*[@role='cell' and @data-field='unitWeight']"
+            # unit_weight = self.driver.find_element(By.XPATH, element)
+            # self.scroll_horizontally(unit_weight)
             # scroll till quantity
             time.sleep(20)
             self.do_click_by_locator(self.ORDER_LINE_QUANTITY)
             self.do_send_keys(self.ORDER_LINE_QUANTITY, quantity)
+            time.sleep(10)
 
-            element = "//*[@data-id='0']//*[@role='cell' and @data-field='extendedPrice']"
-            special_bid = self.driver.find_element(By.XPATH, element)
-            self.scroll_horizontally(special_bid)
-
-            element = "//*[@data-id='0']//*[@role='cell' and @data-field='specialBidNumber']"
-            special_bid = self.driver.find_element(By.XPATH, element)
-            self.scroll_horizontally(special_bid)
+            # element = "//*[@data-id='0']//*[@role='cell' and @data-field='extendedPrice']"
+            # special_bid = self.driver.find_element(By.XPATH, element)
+            # self.scroll_horizontally(special_bid)
+            #
+            # element = "//*[@data-id='0']//*[@role='cell' and @data-field='specialBidNumber']"
+            # special_bid = self.driver.find_element(By.XPATH, element)
+            # self.scroll_horizontally(special_bid)
             # scroll till edit/cancel icon
             time.sleep(10)
 
@@ -2285,6 +2391,7 @@ class X4ASalesOrdersPage(BasePage):
                 'Exception occurred while clicking on edit cancel icon ' + str(e))
             return False
 
+    # Here the horizontal scrolling is not working
     def get_order_line_data(self):
         order_line_data = {}
         try:
@@ -2301,6 +2408,7 @@ class X4ASalesOrdersPage(BasePage):
             element = "//*[@data-id='0']//*[@role='cell' and @data-field='currencyCode']"
             unit_weight = self.driver.find_element(By.XPATH, element)
             self.scroll_horizontally(unit_weight)
+
             # scroll till quantity back order
             time.sleep(10)
             order_line_data['quantity'] = self.do_get_attribute(self.ORDER_LINE_QUANTITY_TEXT,'value')
@@ -2387,6 +2495,29 @@ class X4ASalesOrdersPage(BasePage):
                 return False
         except Exception as e:
             self.logger.error('Exception occurred while Click on Billing tab ' + str(e))
+            return False
+
+    def order_status_edit_category_validate(self):
+        try:
+            status = self.get_element_text(self.ORDER_DETAILS_STATUS)
+            order_status = ['Order Hold(IM)', 'Customer Hold(IM)', 'Order Hold(IM)', 'In Progress(IM)',
+                            'In Progress(IM)']
+            if status in order_status:
+                self.logger.info("Order is editable")
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying order status ' + str(e))
+            return False
+
+    def click_order_management_link(self):
+        try:
+            self.do_click_by_locator(self.SALES_ORDER_OPTION)
+            self.logger.info("Successfully clicked On order management link")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on order management link ' + str(e))
             return False
 
     def verify_cancel_order_button(self):
