@@ -1,0 +1,13 @@
+{
+  "servicerequest": {
+    "orderdetailrequest": {
+      "extendedspecs": null,
+      "orderdate": "2023-09-04",
+      "ordernumber": "20-VN9TB-11"
+    },
+    "requestpreamble": {
+      "customernumber": "20-222222",
+      "isocountrycode": "US"
+    }
+  }
+}

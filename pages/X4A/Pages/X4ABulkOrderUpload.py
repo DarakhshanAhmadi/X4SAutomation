@@ -57,9 +57,11 @@ class X4ABulkOrderUploadPage(BasePage):
     READY_TO_PLACE_STATUS = (By.XPATH, "//span[@class='MuiTypography-root MuiTypography-smalltextregular css-16ksqyg-MuiTypography-root']")
     TEXT_AREA = (By.XPATH, "//*[@data-testid='SearchBar']/div/input")
     ACTION_ICON = (By.XPATH, "//div[@aria-rowindex='4']/div[@data-field='actions']")
+    SEARCHED_ACTION_ICON = (By.XPATH, "//div[@aria-rowindex='2']/div[@data-field='actions']")
     LIST_FILE_NAME = (By.XPATH, "//div[@aria-rowindex='4']/div[@data-field='fileName']")
     SEARCHED_FILE_NAME = (By.XPATH, "//div[@aria-rowindex='2']/div[@data-field='fileName']")
     SEARCHED_USER_NAME = (By.XPATH, "//div[@aria-rowindex='2']/div[@data-field='createdBy']")
+    SEARCHED_DATE = (By.XPATH, "//div[@aria-rowindex='2']/div[@data-field='createdOn']")
     REVIEW_ACTION_ICON = (By.XPATH, "//*[text()=' Review']")
     VIEW_ACTION_ICON = (By.XPATH, "//*[text()='View']")
     CANCEL_ACTION_ICON = (By.XPATH, "//*[text()=' Cancel']")
@@ -85,10 +87,12 @@ class X4ABulkOrderUploadPage(BasePage):
     DISCARD_BUTTON =  (By.XPATH, "//button[text() ='Discard changes']")
     APPLY_BUTTON =  (By.XPATH, "//button[text() ='Apply']")
     EXPANDABLE_ICON = (By.XPATH,"//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']")
+    DUPLICATE_ERROR_MESSAGE  = (By.XPATH,"//div[@class='MuiAlert-message css-acap47-MuiAlert-message']")
     DOWNLOADED_ORDER_LIST_BUTTON = (By.XPATH, "//button[text()='Download order list']")
     SEARCH_MSG = (By.XPATH, "//h2[text()='Add a bulk order!']")
     BULK_ORDER_UPLOAD_LINK = (By.XPATH, "//a[@aria-label='Bulk order upload']")
-
+    ITEMS_PER_PAGE = (By.XPATH, "//div[@class='MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-d2iqo8-MuiSelect-select-MuiInputBase-input']")
+    BULK_ORDER_TABLE = "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-uw2ren-MuiDataGrid-virtualScrollerRenderZone']"
     LOGOUT = (By.XPATH, "//*[text()='LogOut']")
 
     def go_to_bulk_order_upload(self):
@@ -102,7 +106,7 @@ class X4ABulkOrderUploadPage(BasePage):
             self.logger.error('Exception occurred while clicking on Bulk Order Upload ' + str(e))
             raise e
 
-    def verify_bulk_order_upload_page(self):
+    def verify_bulk_order_update_page(self):
         try:
             assert 'Bulk order upload' in self.get_element_text(self.BULK_ORDER_UPLOAD_TEXT), "Bulk Order Upload Title not present"
             assert 'Upload file' in self.get_element_text(self.UPLOAD_FILE_BUTTON), "Bulk Order Upload Title not present"
@@ -204,14 +208,7 @@ class X4ABulkOrderUploadPage(BasePage):
             self.go_to_bulk_order_upload()
             bulk_order_file_name = self.update_input_sheet(4)
             self.click_upload_file()
-            self.do_click_by_locator(self.BROWSE_BUTTON)
-            time.sleep(3)
-            keyboard = Controller()
-            keyboard.type(self.system_path + "\\TestData\\" + bulk_order_file_name)
-            keyboard.press(Key.enter)
-            keyboard.release(Key.enter)
-            time.sleep(1)
-            
+            self.select_file(bulk_order_file_name)
 
         except Exception as e:
             self.logger.error('Exception occurred while selecting file ' + str(e))
@@ -249,6 +246,7 @@ class X4ABulkOrderUploadPage(BasePage):
         try:
             global order_file_name
             order_file_name = self.update_input_sheet(4)
+            self.click_upload_file()
             self.select_file(order_file_name)
             
             self.do_click_by_locator(self.REVIEW_BUTTON)
@@ -301,7 +299,7 @@ class X4ABulkOrderUploadPage(BasePage):
             
             assert 'Place orders' in self.get_element_text(self.PLACE_ORDER_BUTTON), "Place Order button not present"
             assert 'Ready to place' in self.get_element_text(self.READY_TO_PLACE_STATUS), "status is not correct"
-            self.do_click_by_locator(self.BULK_ORDER_UPLOAD_LINK)
+
 
             self.logger.info("verified that upload file popup")
             time.sleep(1)
@@ -312,7 +310,7 @@ class X4ABulkOrderUploadPage(BasePage):
 
     def do_select_file_name_search(self):
         try:
-            
+            self.do_click_by_locator(self.BULK_ORDER_UPLOAD_LINK)
             bulk_order_file_name = order_file_name.split(".xlsx")
             self.do_click_by_locator(self.DROPDOWN_MENU)
             self.do_click_by_locator(self.FILE_NAME_OPTION)
@@ -368,7 +366,6 @@ class X4ABulkOrderUploadPage(BasePage):
     def verify_review_icon(self, status):
         try:
             #
-            
             self.search_file_name(status_file_name)
             assert 'Review' in self.get_element_text(self.REVIEW_ACTION_ICON), "Review icon not present"
             assert status_file_name in self.get_element_text(self.SEARCHED_FILE_NAME), "file name not present"
@@ -383,7 +380,6 @@ class X4ABulkOrderUploadPage(BasePage):
     def verify_view_icon(self, status):
         try:
             #
-            
             self.search_file_name(status_file_name)
             assert 'View' in self.get_element_text(self.VIEW_ACTION_ICON), "View icon not present"
             assert status_file_name in self.get_element_text(self.SEARCHED_FILE_NAME), "file name not present"
@@ -553,6 +549,44 @@ class X4ABulkOrderUploadPage(BasePage):
             self.logger.error('Exception occurred while verifying user name ' + str(e))
             raise e
 
+    def do_upload_duplicate_file(self):
+        try:
+            global order_file_name
+            order_file_name = self.update_input_sheet(4)
+            self.go_to_bulk_order_upload()
+            self.click_upload_file()
+            self.select_file(order_file_name)
+            self.logger.info("selected the file to upload ")
+            self.do_click_by_locator(self.REVIEW_BUTTON)
+            self.logger.info("file review done ")
+            time.sleep(5)
+            self.go_to_bulk_order_upload()
+            self.click_upload_file()
+            self.select_file(order_file_name)
+            self.logger.info("selected the file to upload ")
+            self.do_click_by_locator(self.REVIEW_BUTTON)
+            # 
+        # status_file_name = self.get_element_text(self.LIST_FILE_NAME)
+
+
+        except Exception as e:
+            self.logger.error('Exception occurred while selecting status ' + str(e))
+            raise e
+
+    def verify_duplicate_file_error_message(self):
+        try:
+            
+            error_message = order_file_name + ' already exists. Please specify unique name.'
+            address = self.get_element_text(self.DUPLICATE_ERROR_MESSAGE).replace("\n", " ")
+
+            assert address in error_message, "file name error present"
+            self.logger.info("verified duplicate file error message ")
+            time.sleep(1)
+
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying user name ' + str(e))
+            raise e
+
     def do_uploaded_file_with_null_values(self, Scenario):
         try:
             self.go_to_bulk_order_upload()
@@ -668,6 +702,30 @@ class X4ABulkOrderUploadPage(BasePage):
             self.logger.error('Exception occurred while verifying error details ' + str(e))
             raise e
 
+    def verify_bulk_order_upload_page(self):
+        try:
+            # self.search_file_name(status_file_name)
+            curr_date = '{dt.month}/{dt.day}/{dt.year}'.format(dt=datetime.date.today())
+            UPLOADED_DATE = self.format_date(self.get_element_text(self.SEARCHED_DATE))
+            # 
+            status_file_name = order_file_name.split(".xlsx")
+            assert status_file_name[0] in self.get_element_text(self.SEARCHED_FILE_NAME), "file name not present"
+            assert "Shyam Tiwari" in self.get_element_text(self.SEARCHED_USER_NAME), "user name not correct"
+            assert 'PLACE ORDERS' in self.get_element_text(self.SEARCHED_ACTION_ICON), "Review icon not present"
+            assert 'Ready to place' in self.get_element_text(self.SEARCHED_FILE_STATUS), "status is not correct"
+            assert curr_date in UPLOADED_DATE, "Uploaded date not present"
+            self.do_select_uploaded_by_option("Shyam Tiwari")
+            
+            # self.go_to_bulk_order_upload()
+            # self.do_select_uploaded_by_option("Shyam Tiwari")
+            self.verify_user_name_in_pages("Shyam Tiwari")
+            self.logger.info("verified that bulk order upload page")
+
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying bulk order detail page ' + str(e))
+            raise e
+
+
     def logout_x4a(self):
         try:
             self.do_click_by_locator(self.USER_DROPDOWN)
@@ -678,13 +736,6 @@ class X4ABulkOrderUploadPage(BasePage):
             self.logger.error('Exception occurred while Logout X4A ' + str(e))
             return False
 
-    def search_file_name(self, file_name):
-        self.go_to_bulk_order_upload()
-        self.do_click_by_locator(self.DROPDOWN_MENU)
-        self.do_click_by_locator(self.FILE_NAME_OPTION)
-        self.do_click_by_locator(self.TEXT_AREA)
-        self.do_send_keys(self.TEXT_AREA, file_name)
-        time.sleep(5)
 
     def update_input_sheet(self, scenario_no):
         
@@ -723,6 +774,7 @@ class X4ABulkOrderUploadPage(BasePage):
             bulk_order_file_name = file_name
             self.do_click_by_locator(self.BROWSE_BUTTON)
             time.sleep(3)
+            # 
             keyboard = Controller()
             keyboard.type(self.system_path + "\\TestData\\" + bulk_order_file_name)
             keyboard.press(Key.enter)
@@ -732,4 +784,78 @@ class X4ABulkOrderUploadPage(BasePage):
         except Exception as e:
             self.logger.error('Exception occurred while selecting file ' + str(e))
             raise e
+
+    def get_pagination_first_and_last_page(self):
+        try:
+            time.sleep(2)
+            pages = self.get_all_elements(self.PAGINATION_PAGES)
+            first_page_number = int(pages[0].text)
+            last_page_number = int(pages[-1].text)
+            return first_page_number, last_page_number
+        except Exception as e:
+            self.logger.erro("Exception while getting pagination first and last page")
+            raise e
+
+    def get_random_page(self, first, last):
+        try:
+            if last > 10:
+                return random.randint(2, 10)
+            elif last <= 10:
+                return random.randint(first + 1, last - 1)
+        except Exception as e:
+            self.logger.error("Exception while generating random number" + str(e))
+            raise e
+
+    def verify_user_name_in_pages(self, user_name):
+        try:
+            # self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("Verifying user name in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.verify_user_name_quick_search(user_name)
+            
+            if first_page_number != last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
+                    self.logger.info("Verifying user name in page %s", str(random_page))
+                    self.do_select_uploaded_by_option(user_name)
+                    self.go_to_page(random_page)
+                    self.verify_user_name_quick_search(user_name)
+                self.logger.info("Verifying vendor name in page %s", str(last_page_number))
+                self.do_select_uploaded_by_option(user_name)
+                self.go_to_page(last_page_number)
+                time.sleep(4)
+                self.verify_user_name_quick_search(user_name)
+            self.logger.info("Successfully verified vendor name")
+        except Exception as e:
+            self.logger.error("Exception occurred verifying the vendor name quick search" + str(e))
+            raise e
+
+
+    def verify_user_name_quick_search(self, user_name):
+        try:
+            self.logger.info("Verifying the user name in table")
+            max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
+            self.logger.info("Max items per page: " + max_rows)
+            for i in range(int(max_rows)):
+                if i > 0 and i % 2 == 0:
+                    table = self.driver.find_element(By.XPATH, self.BULK_ORDER_TABLE)
+                    self.scroll_down(table)
+                    time.sleep(2)
+                self.logger.info("Fetching user name")
+                user_name_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
+                    i) + "']/div[@data-field='createdBy']")
+                try:
+                    ui_user_name = self.get_element_text(user_name_xpath)
+                    self.logger.info("Fetched ui user name :" + str(ui_user_name))
+                except:
+                    self.logger.info("There are only " + str(i) + " rows in table")
+                    break
+
+                assert ui_user_name.strip() == user_name.strip(), "user Name mismatched"
+            self.do_click_by_locator(self.CLOSE_ICON)
+        except Exception as e:
+            self.logger.error("Exception occurred verifying the vendor name quick search" + str(e))
+            raise e
+
 

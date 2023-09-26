@@ -7,6 +7,7 @@ from CommonUtilities.parse_json_common import common_json_ops
 
 class DataCreationViaApi:
     logger = LogGenerator.logGen()
+    common_json = common_json_ops()
 
     def __init__(self, driver):
         self.driver = driver
@@ -16,7 +17,7 @@ class DataCreationViaApi:
         path = ".\\RestApi\\Resources\\data_error_order_payload.json"
         self.logger.info("post url: " + error_order_base_url)
         headers = apiHeaderParam.headers
-        data = common_json_ops.read_json_file(self, path)
+        data = self.common_json.read_json_file(path)
         self.logger.info(data)
         response = requests.post(error_order_base_url, json=data, headers=headers)
         json_data = response.json()
