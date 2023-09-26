@@ -1582,3 +1582,22 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
+    def do_validate_payment_terms_code(self, feature_file_name, screen_shot, payment_terms):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.validate_payment_terms_code(payment_terms):
+                self.logger.error("Failed to validate payment terms code")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_payment_term_error.png")
+                screen_shot[
+                    "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_payment_term_error.png"
+                return False
+            else:
+                self.logger.info("Successfully validated Payment term code")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name + "_validated_payment_term_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating Payment term code")
+            self.logger.exception(e)
+            return False

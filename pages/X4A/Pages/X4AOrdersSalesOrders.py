@@ -233,6 +233,9 @@ class X4ASalesOrdersPage(BasePage):
     ROLLSWITCH_VALUE = (By.XPATH, "//div[text()='rollswitch']//following-sibling::div[@data-field='attributeValue']")
     ADDITION_ATTRIBUTE_CLOSE_BUTTON = (By.XPATH, "//button[text()='Close']")
 
+    """" Additional Attributes Tab """
+    TERMS_CODE = (By.XPATH, "//*[@id='panel1bh-content']/div/div/div/div/div[2]/div[2]/div/div/div/div[1]/div[2]")
+
     """constructor of the Login Page c`lass"""
 
     def __init__(self, driver):
@@ -2586,4 +2589,14 @@ class X4ASalesOrdersPage(BasePage):
                 return False
         except Exception as e:
             self.logger.error('Exception occurred while validating order line is not visible ' + str(e))
+            return False
+
+    def validate_payment_terms_code(self, payment_terms_code):
+        try:
+            terms_code = self.get_element_text(self.TERMS_CODE)
+            assert str(payment_terms_code) == terms_code, "Payment terms code mismatched"
+            self.logger.info("Successfully validated Payment terms code")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while validating payment terms code' + str(e))
             return False
