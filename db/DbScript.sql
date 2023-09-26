@@ -39,7 +39,8 @@ modify_vmf_details_data_errors_order_id String,
 modify_end_user_details_data_errors_order_id String,
 end_user_po String,
 edit_order_lines String,
-modify_billing_address_data_errors_order_id String
+modify_billing_address_data_errors_order_id String,
+order_line_data_errors_order_id Sting
 );
 
 CREATE TABLE IF NOT EXISTS x4a_user_data(
@@ -65,4 +66,60 @@ Header_Comment_1 String,
 Header_Comment_2 String,
 Ingram_SKU String,
 Qty String
+);
+
+
+CREATE TABLE IF NOT EXISTS x4a_sales_order_details(
+id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+feature_file_name String NOT NULL,
+order_entry_channel String,
+im_order_number String,
+order_type String,
+reseller_po String,
+end_user_po String,
+order_status String,
+order_value TEXT,
+currency_code String,
+terms_code String,
+ship_from_warehouse_id String,
+warehouse_name String,
+carrier_code String,
+ship_to_suffix TEXT,
+ship_to_name String,
+ship_to_address String,
+ship_to_phone String,
+ship_to_contact String,
+ship_to_email String,
+bill_to_suffix TEXT,
+bill_to_name String,
+bill_to_address String,
+bill_to_phone String,
+bill_to_contact String,
+bill_to_email String,
+end_user_id String,
+end_user_address String,
+end_user_contact String
+);
+
+
+CREATE TABLE IF NOT EXISTS x4a_sales_order_lines(
+id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+im_order_number String,
+line_number TEXT,
+line_status String,
+im_part_number String,
+vpn String,
+description String,
+is_acop_applied String,
+unit_weight String,
+unit_price String,
+extended_price String,
+cost String,
+quantity String,
+quantity_confirmed String,
+quantity_backordered String,
+special_bid_number String,
+serial_numbers String,
+sales_order_details_tbl_id String,
+FOREIGN KEY(sales_order_details_tbl_id) REFERENCES x4a_sales_order_details(id)
 );

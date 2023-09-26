@@ -1624,3 +1624,122 @@ class ValidateErrorOrdersData:
         except Exception as e:
             self.logger.exception(e)
             return False
+
+    def do_verify_order_line_remove_icon(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_order_line_remove_icon():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_order_line_remove_icon_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified remove icon should display for order line")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_order_line_remove_icon_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_on_mark_for_cancel_and_line_not_editable(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_on_mark_for_cancel_and_line_not_editable():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_click_on_mark_for_cancel_and_line_not_editable_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Clicked on Mark for Cancel option and Verify line should grey out and should not allow further edit operations")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_on_mark_for_cancel_and_line_not_editable_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_on_unmark_for_cancel_and_line_is_editable(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_on_unmark_for_cancel_and_line_is_editable():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_click_on_unmark_for_cancel_and_line_is_editable_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Clicked on Unmark for Cancel option and Verify line should become enable and it should allow edit operations")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_on_unmark_for_cancel_and_line_is_editable_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_order_resubmitted_successfully(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_order_resubmitted_successfully():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_order_resubmitted_successfully_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified that Order should get resubmitted succesfully after cancel the Order line")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_order_resubmitted_successfully_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_on_mark_for_cancel_from_dropdown_and_line_grey_out(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_on_mark_for_cancel_from_dropdown_and_line_grey_out():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_click_on_mark_for_cancel_and_line_not_editable_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Clicked on Mark for Cancel option from dropdown and Verify line should grey out")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_on_mark_for_cancel_from_dropdown_and_line_grey_out_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_on_unmark_for_cancel_from_dropdown_and_line_get_unable(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_on_unmark_for_cancel_from_dropdownn_and_line_get_unable():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_click_on_unmark_for_cancel_and_line_is_editable_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Clicked on Unmark for Cancel option from dropdown and Verify line should get enable")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_on_unmark_for_cancel_from_dropdown_and_line_get_unable_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_atleast_one_order_line_required_message(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_atleast_one_order_line_required_message():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_atleast_one_order_line_required_message_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified that At least one order line is required to resubmit the order message")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_atleast_one_order_line_required_message_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False

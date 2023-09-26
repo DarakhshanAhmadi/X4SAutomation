@@ -41,7 +41,8 @@ class X4AInputOrderDAO(BaseTest):
                                 x4a_input_order.modify_vmf_details_data_errors_order_id,
                                 x4a_input_order.modify_end_user_details_data_errors_order_id,
                                 x4a_input_order.end_user_po,x4a_input_order.edit_order_line,
-                                x4a_input_order.modify_billing_address_data_errors_order_id))
+                                x4a_input_order.modify_billing_address_data_errors_order_id,
+                                x4a_input_order.order_line_data_errors_order_id))
                 connection.commit()
         except Error as e:
             self.logger.error("Exception occurred while trying to insert the input data into x4a_input_order table "
@@ -408,3 +409,22 @@ class X4AInputOrderDAO(BaseTest):
             sql_util.close_connection(connection)
         self.logger.info(
             "Modify Billing Address data errors order id into x4a_input_order table updated successfully into x4a_input_order table")
+
+    def save_confirmation_id_for_order_line_in_db(self, sql_util, feature_file_name,
+                                                        order_line_data_errors_order_id):
+        try:
+            connection = sql_util.get_connection()
+            cursor = connection.cursor()
+            self.logger.info("Updating remove Order Line data errors order id into x4a_input_order table")
+            cursor.execute(
+                SqlConstant.X4A_UPDATE_REMOVE_ORDER_LINE_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY,
+                [order_line_data_errors_order_id, feature_file_name])
+            connection.commit()
+        except Error as e:
+            self.logger.error(
+                "Exception occurred while trying to update remove Order Line data errors order id into x4a_input_order table " + str(
+                    e))
+        finally:
+            sql_util.close_connection(connection)
+        self.logger.info(
+            "Remove Order Line data errors order id into x4a_input_order table updated successfully into x4a_input_order table")

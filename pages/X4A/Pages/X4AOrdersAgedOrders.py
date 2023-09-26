@@ -228,7 +228,7 @@ class X4AAgedOrdersPage(BasePage):
                 vendor_name_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='vendorName']")
                 try:
-                    ui_vendor_name = self.get_element_text(vendor_name_xpath)
+                    ui_vendor_name = self.get_element_text_for_filter(vendor_name_xpath)
                     self.logger.info("Fetched ui vendor name :" + str(ui_vendor_name))
                 except:
                     self.logger.info("There are only " + str(i) + " rows in table")
@@ -286,7 +286,7 @@ class X4AAgedOrdersPage(BasePage):
                 bcn_account_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='customerNumber']")
                 try:
-                    ui_bcn_account = self.get_element_text(bcn_account_xpath)
+                    ui_bcn_account = self.get_element_text_for_filter(bcn_account_xpath)
                     self.logger.info("Fetched ui bcn account :" + str(ui_bcn_account))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
@@ -334,7 +334,7 @@ class X4AAgedOrdersPage(BasePage):
                 bcn_account_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='customerOrderNumber']")
                 try:
-                    ui_customer_po = self.get_element_text(bcn_account_xpath)
+                    ui_customer_po = self.get_element_text_for_filter(bcn_account_xpath)
                     self.logger.info("Fetched ui customer po :" + str(ui_customer_po))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
@@ -406,7 +406,7 @@ class X4AAgedOrdersPage(BasePage):
                 bcn_account_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='orderCreateDate']")
                 try:
-                    ui_customer_po = self.get_element_text(bcn_account_xpath)
+                    ui_customer_po = self.get_element_text_for_filter(bcn_account_xpath)
                     self.logger.info("Fetched ui order date " + str(ui_customer_po))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")
@@ -490,7 +490,7 @@ class X4AAgedOrdersPage(BasePage):
                 last_update_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-id='" + str(
                     i) + "']/div[@data-field='orderUpdateDate']")
                 try:
-                    last_update_date = self.get_element_text(last_update_xpath)
+                    last_update_date = self.get_element_text_for_filter(last_update_xpath)
                     self.logger.info("Fetched ui last update date " + str(last_update_date))
                 except:
                     self.logger.info("There are only " + str(i) + " rows")

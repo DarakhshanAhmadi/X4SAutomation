@@ -15,11 +15,11 @@
   "lines": [
     {
       "customerLineNumber": "001",
-      "globalSkuId": "A300-00JP56",
-      "vendorPartNumber": "F24T454FQN",
+      "globalSkuId": "A300-LE8023",
+      "vendorPartNumber": "GLC-SX-MMD=",
       "quantity": 1,
       "unitPrice": 0,
-      "endUserPoNumber": "testpo",
+      "endUserPoNumber": "EUPO",
       "endUserPrice": 0,
       "carrierCode": "RG",
       "specialPrice": 0,
@@ -32,6 +32,62 @@
         {
           "attributeName": "shipFromWareHouseId",
           "attributeValue": "10"
+        },
+        {
+          "attributeName": "enduserid",
+          "attributeValue": "52262"
+        },
+        {
+          "attributeName": "addresssequencenumber",
+          "attributeValue": "1"
+        },
+        {
+          "attributeName": "contactid",
+          "attributeValue": "18"
+        },
+        {
+          "attributeName": "enduseracopid",
+          "attributeValue": "5715329"
+        }
+      ],
+      "vmfAdditionalAttributes": [],
+      "directShipConfigAttributes": []
+    },
+    {
+      "customerLineNumber": "002",
+      "globalSkuId": "A300-8MZ394",
+      "vendorPartNumber": "CBS350-48P-4G-NA",
+      "quantity": 1,
+      "unitPrice": 0,
+      "endUserPoNumber": "EUPO",
+      "endUserPrice": 0,
+      "carrierCode": "RG",
+      "specialPrice": 0,
+      "aucSelectionCost": 0,
+      "additionalAttributes": [
+        {
+          "attributeName": "gsaflag",
+          "attributeValue": "Y"
+        },
+        {
+          "attributeName": "shipFromWareHouseId",
+          "attributeValue": "10"
+        },
+        {
+          "attributeName": "enduserid",
+          "attributeValue": "52262"
+        },
+        {
+          "attributeName": "addresssequencenumber",
+          "attributeValue": "1"
+        },
+        {
+          "attributeName": "contactid",
+          "attributeValue": "18"
+        },
+        {
+          "attributeName": "enduseracopid",
+          "attributeValue": "5715329"
         }
       ],
       "vmfAdditionalAttributes": [],
