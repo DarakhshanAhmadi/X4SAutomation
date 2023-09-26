@@ -1327,3 +1327,419 @@ class ValidateErrorOrdersData:
         except Exception as e:
             self.logger.exception(e)
             return False
+
+    def is_end_user_details_edit_icon_visible(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_end_user_details_edit_icon():
+                self.logger.error("Failed to verify Edit icon display beside End User Details")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_data_error_end_user_details_edit_icon_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully Verified Edit icon display beside End User Details")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_data_error_end_user_details_edit_icon_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_contents_of_edit_end_user_details(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_contents_of_edit_end_user_details():
+                self.logger.error("Failed to verify contents of Edit End User Details popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_contents_of_edit_vmf_details_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified contents of Edit End User Details popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_contents_of_edit_end_user_details_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_all_addr_matching_with_entered_text(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_all_addr_matching_with_entered_text():
+                self.logger.error("Failed to Verify all address matching with enterd text should get displayed")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_all_addr_matching_with_entered_text_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified all address matching with enterd text should get displayed")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_all_addr_matching_with_entered_text_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_edit_button_and_save_button_enable(self, feature_file_name, end_user_with_suffix):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_edit_button_and_save_button_enable(end_user_with_suffix):
+                self.logger.error(
+                    "Failed to Select the end user with suffix and verify that Edit icon should display for user and Save button should get enabled")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_edit_button_and_save_button_enable_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Selected the end user with suffix and verified Edit icon should display for user and Save button should get enabled")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_edit_button_and_save_button_enable_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_selected_end_user_info_on_order_details_page(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_selected_end_user_info_on_order_details_page():
+                self.logger.error(
+                    "Failed to Click on Save Button and Verify that selected end user information should get displayed on order details page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_selected_end_user_info_on_order_details_page_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Clicked on Save Button and Verified that selected end user information should get displayed on order details page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_selected_end_user_info_on_order_details_page_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_contents_of_selected_end_user_with_suffix_edit_popup(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_contents_of_selected_end_user_with_suffix_edit_popup():
+                self.logger.error("Failed to verify contents of selected end user with suffix edit popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_contents_of_selected_end_user_with_suffix_edit_popup_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified contents of selected end user with suffix edit popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_contents_of_selected_end_user_with_suffix_edit_popup_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_modified_end_user_info_on_order_details_page(self, feature_file_name, end_user):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_modified_end_user_info_on_order_details_page(end_user):
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_modified_end_user_info_on_order_details_page_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Modified Name Phone Number Email and Click on Add button then Verified updated end user information should display on order details page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_modified_end_user_info_on_order_details_page_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_validate_message_for_mandatory_fields(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_validate_message_for_mandatory_fields():
+                self.logger.error("Failed to verify validation message should display for all mandatory fields")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_validate_message_for_mandatory_fields_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified validation message should display for all mandatory fields")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_validate_message_for_mandatory_fields_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_contents_of_edit_add_new_end_user(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_contents_of_edit_add_new_end_user():
+                self.logger.error("Failed to verify contents of Edit Add new end user popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_contents_of_edit_add_new_end_user_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified contents of Add new end user popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_contents_of_edit_add_new_end_user_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_add_new_user_with_valid_data(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_add_new_user_with_valid_data():
+                self.logger.error(
+                    "Failed to verify that added new user should display and user should able to select it")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_add_new_user_with_valid_data_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified that added new user should display and user should able to select it")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_add_new_user_with_valid_data_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_contents_of_edit_billing_address(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_contents_of_edit_billing_address():
+                self.logger.error("Failed to verify contents of Edit Billing Address popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_contents_of_edit_billing_address_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified contents of Edit Billing Address popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_contents_of_edit_billing_address_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_order_details_page_after_click_on_x_icon(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_order_details_page_after_click_on_x_icon():
+                self.logger.error(
+                    "Failed to Click on X icon on popup and Verify that Order Details page should display")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_order_details_page_after_click_on_x_icon_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Clicked on X icon on popup and Verified Order Details page should display")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_order_details_page_after_click_on_x_icon_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_order_details_page_after_click_on_cancel_button(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_order_details_page_after_click_on_cancel_button():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_order_details_page_after_click_on_cancel_button_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Clicked on Cancel button on popup and Verified that Order Details page should display")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_order_details_page_after_click_on_cancel_button_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_search_with_special_character(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_search_with_special_character():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_search_with_special_character_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully searched with special characters then No records found matching your search criteria should display")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_search_with_special_character_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_search_with_valid_suffix(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_search_with_valid_suffix():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_search_with_valid_suffix_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Searched with valid Suffix and then Billing address details should get loaded in popup")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_search_with_valid_suffix_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_select_searched_addr_and_save_button_enabled(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_select_searched_addr_and_save_button_enabled():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_select_searched_addr_and_save_button_enabled_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Selected the searched address and then Save button should get enabled on selecting address")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_select_searched_addr_and_save_button_enabled_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_selected_billing_addr_on_order_details_page(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_selected_billing_addr_on_order_details_page():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_selected_billing_addr_on_order_details_page_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified selected billing address should get displayed on Order details page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_selected_billing_addr_on_order_details_page_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_order_line_remove_icon(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_order_line_remove_icon():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_order_line_remove_icon_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified remove icon should display for order line")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_order_line_remove_icon_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_on_mark_for_cancel_and_line_not_editable(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_on_mark_for_cancel_and_line_not_editable():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_click_on_mark_for_cancel_and_line_not_editable_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Clicked on Mark for Cancel option and Verify line should grey out and should not allow further edit operations")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_on_mark_for_cancel_and_line_not_editable_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_on_unmark_for_cancel_and_line_is_editable(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_on_unmark_for_cancel_and_line_is_editable():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_click_on_unmark_for_cancel_and_line_is_editable_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Clicked on Unmark for Cancel option and Verify line should become enable and it should allow edit operations")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_on_unmark_for_cancel_and_line_is_editable_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_order_resubmitted_successfully(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_order_resubmitted_successfully():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_order_resubmitted_successfully_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified that Order should get resubmitted succesfully after cancel the Order line")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_order_resubmitted_successfully_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_on_mark_for_cancel_from_dropdown_and_line_grey_out(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_on_mark_for_cancel_from_dropdown_and_line_grey_out():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_click_on_mark_for_cancel_and_line_not_editable_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Clicked on Mark for Cancel option from dropdown and Verify line should grey out")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_on_mark_for_cancel_from_dropdown_and_line_grey_out_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_click_on_unmark_for_cancel_from_dropdown_and_line_get_unable(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_click_on_unmark_for_cancel_from_dropdownn_and_line_get_unable():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_click_on_unmark_for_cancel_and_line_is_editable_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Clicked on Unmark for Cancel option from dropdown and Verify line should get enable")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_click_on_unmark_for_cancel_from_dropdown_and_line_get_unable_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_atleast_one_order_line_required_message(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_atleast_one_order_line_required_message():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_atleast_one_order_line_required_message_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified that At least one order line is required to resubmit the order message")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_atleast_one_order_line_required_message_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
