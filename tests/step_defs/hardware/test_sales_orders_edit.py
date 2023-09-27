@@ -139,7 +139,7 @@ def click_on_im_order_number(init_driver):
 
 @when(parsers.parse('Click on Billing tab on Order Details page'))
 def click_on_billing_tab(init_driver):
-    init_driver.refresh()
+    #init_driver.refresh()
     feature_file_name = "sales_orders"
     validate_sales_orers = ValidateSalesOrdersData(init_driver)
     try:
@@ -424,12 +424,12 @@ def verify_order_status(init_driver, status):
         raise e
 
 
-@when(parsers.parse('Verify order status falls under edit category'))
-def order_status_verification(init_driver):
+@when(parsers.parse('Verify order status {status} falls under edit category'))
+def order_status_verification(init_driver, status):
     feature_file_name = "sales_orders_edit"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
-        if not validate_sales_orders.validate_order_status_category(feature_file_name):
+        if not validate_sales_orders.validate_order_status_category(status, feature_file_name):
             raise Exception("Failed to validate order status")
     except Exception as e:
         logger.error("Error while validating order status %s", e)

@@ -1355,10 +1355,10 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def validate_order_status_category(self, feature_file_name):
+    def validate_order_status_category(self, status, feature_file_name):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            if not x4a_sales_order.order_status_edit_category_validate():
+            if not x4a_sales_order.order_status_edit_category_validate(status):
                 self.logger.info("Failed to validate order status")
                 self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
                                             + "_validate_order_status_failed.png")

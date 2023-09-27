@@ -769,7 +769,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def click_on_billing_tab(self):
         try:
-            time.sleep(5)
+            #time.sleep(5)
             self.do_click_by_locator(self.BILLING_TAB)
             self.logger.info("Successfully Clicked Billing tab")
             return True
@@ -2497,9 +2497,8 @@ class X4ASalesOrdersPage(BasePage):
             self.logger.error('Exception occurred while Click on Billing tab ' + str(e))
             return False
 
-    def order_status_edit_category_validate(self):
+    def order_status_edit_category_validate(self, status):
         try:
-            status = self.get_element_text(self.ORDER_DETAILS_STATUS)
             order_status = ['Order Hold(IM)', 'Customer Hold(IM)', 'Order Hold(IM)', 'In Progress(IM)',
                             'In Progress(IM)']
             if status in order_status:
