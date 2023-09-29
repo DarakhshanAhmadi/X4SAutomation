@@ -1166,4 +1166,3 @@ class X4AAgedOrdersPage(BasePage):
         except Exception as e:
             self.logger.error('Exception occurred while validating order is cancelled' + str(e))
             raise e
-g
