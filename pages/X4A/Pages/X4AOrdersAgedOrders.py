@@ -1156,7 +1156,14 @@ class X4AAgedOrdersPage(BasePage):
     def validate_order_is_not_in_list(self, order_number):
         try:
             self.search_im_order_number(order_number)
-            self.do_check_visibility(self.NO_RESULT_TEXT)
+            for retry in range(2):
+                self.do_click_by_locator(self.SEARCH_BUTTON)
+                if self.do_check_visibility(self.NO_RESULT_TEXT):
+                    self.logger.info('order successfully cancelled')
+                    break
+                elif retry == 1:
+                    raise Exception(f'Cancelled order is still in aged order list: {order_number}')
         except Exception as e:
             self.logger.error('Exception occurred while validating order is cancelled' + str(e))
             raise e
+g
