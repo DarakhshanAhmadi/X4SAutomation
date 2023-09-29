@@ -34,13 +34,13 @@ class X4AbulkOrderDataDAO(BaseTest):
         self.logger.info("data inserted successfully into x4a_bulk_order_data table")
 
 
-    def get_scenario_details(self, sql_util):
+    def get_scenario_details(self, sql_util, scenario_no):
         # This method is responsible for fetching bulk order details from bulk_order_data table
         try:
             self.logger.info(f"Fetching bulk order details from bulk order data Table.")
             self.connection = sql_util.get_connection()
             cursor = self.connection.cursor()
-            cursor.execute(SqlConstant.X4A_BULK_ORDER_DATA_BY_FEATURE_FILE_SQL_QUERY)
+            cursor.execute(SqlConstant.X4A_BULK_ORDER_DATA_BY_FEATURE_FILE_SQL_QUERY, [scenario_no])
             bulk_order_data = cursor.fetchall()
             # for record in bulk_order_data:
             #     bulk_order_data = record[0]

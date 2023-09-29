@@ -43,7 +43,7 @@ class SqlConstant:
                                         "Header_Comment_2, Ingram_SKU, Qty)" \
                                         "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
-    X4A_BULK_ORDER_DATA_BY_FEATURE_FILE_SQL_QUERY = "SELECT * from x4a_bulk_order_data"
+    X4A_BULK_ORDER_DATA_BY_FEATURE_FILE_SQL_QUERY = "SELECT * from x4a_bulk_order_data where Scenario=?"
 
     X4A_INPUT_GET_ORDER_TEST_CASE_RECORD_SQL_QUERY = "SELECT * FROM x4a_input_order where feature_file_name=?"
 
