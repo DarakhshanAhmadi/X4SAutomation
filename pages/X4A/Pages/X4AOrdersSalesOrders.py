@@ -2340,31 +2340,20 @@ class X4ASalesOrdersPage(BasePage):
             time.sleep(3)
             self.do_check_visibility(self.EDIT_CHECK_ICON)
             self.do_check_visibility(self.EDIT_CANCEL_ICON)
+            self.do_click_by_locator(self.ORDER_LINE_SPECIAL_BID_NUMBER)
             self.do_send_keys(self.ORDER_LINE_SPECIAL_BID_NUMBER, special_bid)
             time.sleep(3)
-            self.do_send_keys(self.ORDER_LINE_SPECIAL_BID_NUMBER, special_bid)
-            time.sleep(5)
+            self.do_click_by_locator(self.ORDER_LINE_UNIT_PRICE)
             self.do_send_keys(self.ORDER_LINE_UNIT_PRICE, unit_price)
-            self.do_send_keys(self.ORDER_LINE_UNIT_PRICE, unit_price)
-            # element = "//*[@data-id='0']//*[@role='cell' and @data-field='unitWeight']"
-            # unit_weight = self.driver.find_element(By.XPATH, element)
-            # self.scroll_horizontally(unit_weight)
+
             # scroll till quantity
-            time.sleep(20)
+            self.driver.execute_script("document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
+
+            time.sleep(3)
             self.do_click_by_locator(self.ORDER_LINE_QUANTITY)
             self.do_send_keys(self.ORDER_LINE_QUANTITY, quantity)
-            time.sleep(10)
 
-            # element = "//*[@data-id='0']//*[@role='cell' and @data-field='extendedPrice']"
-            # special_bid = self.driver.find_element(By.XPATH, element)
-            # self.scroll_horizontally(special_bid)
-            #
-            # element = "//*[@data-id='0']//*[@role='cell' and @data-field='specialBidNumber']"
-            # special_bid = self.driver.find_element(By.XPATH, element)
-            # self.scroll_horizontally(special_bid)
-            # scroll till edit/cancel icon
-            time.sleep(10)
-
+            self.driver.execute_script("document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             return True
         except Exception as e:
             self.logger.error(
@@ -2402,22 +2391,27 @@ class X4ASalesOrdersPage(BasePage):
             order_line_data['unit_price'] = self.do_get_attribute(self.ORDER_LINE_UNIT_PRICE_TEXT,'value')
 
             element = "//*[@data-id='0']//*[@role='cell' and @data-field='cost']"
-            unit_weight = self.driver.find_element(By.XPATH, element)
-            self.scroll_horizontally(unit_weight)
+            cost = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(cost)
 
+            time.sleep(2)
             order_line_data['cost'] = self.get_element_text(self.ORDER_LINE_COST)
             order_line_data['margin'] = self.get_element_text(self.ORDER_LINE_MARGIN)
 
             element = "//*[@data-id='0']//*[@role='cell' and @data-field='currencyCode']"
-            unit_weight = self.driver.find_element(By.XPATH, element)
-            self.scroll_horizontally(unit_weight)
+            currency_code = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(currency_code)
 
             # scroll till quantity back order
-            time.sleep(10)
+            time.sleep(2)
+            self.driver.execute_script("document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
+
+            time.sleep(2)
             order_line_data['quantity'] = self.do_get_attribute(self.ORDER_LINE_QUANTITY_TEXT,'value')
             order_line_data['quantity_confirmed'] = self.get_element_text(self.ORDER_LINE_QUANTITY_CONFIRMED)
             order_line_data['quantity_backordered'] = self.get_element_text(self.ORDER_LINE_QUANTITY_BACKORDERED)
             self.logger.info(order_line_data)
+            self.driver.execute_script("document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             return order_line_data
         except Exception as e:
             self.logger.error(
@@ -2667,19 +2661,7 @@ class X4ASalesOrdersPage(BasePage):
 
                 order_lines_list.append(order_line)
                 self.logger.info(order_lines_list)
-                element = "//*[@data-id='0']//*[@role='cell' and @data-field='extendedPrice']"
-                unit_weight = self.driver.find_element(By.XPATH, element)
-                self.scroll_horizontally(unit_weight)
-                time.sleep(4)
-
-                element = "//*[@data-id='0']//*[@role='cell' and @data-field='isAcopApplied']"
-                unit_weight = self.driver.find_element(By.XPATH, element)
-                self.scroll_horizontally(unit_weight)
-                time.sleep(2)
-
-                element = "//*[@data-id='0']//*[@role='cell' and @data-field='ingramOrderLineNumber']"
-                unit_weight = self.driver.find_element(By.XPATH, element)
-                self.scroll_horizontally(unit_weight)
+                self.driver.execute_script("document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             return order_lines_list
         except Exception as e:
             self.logger.error('Exception occurred while fetching order_lines ' + str(e))
@@ -2733,3 +2715,38 @@ class X4ASalesOrdersPage(BasePage):
         except Exception as e:
             self.logger.error('Exception occurred while validating payment terms code' + str(e))
             return False
+
+    def get_updated_order_line_data_of_resubmit(self):
+        order_line_data = {}
+        try:
+            order_lines = self.get_all_elements(self.ORDER_LINES)
+            index = len(order_lines) - 1
+            order_line_data['special_bid'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(index) + "]/div[@data-field='specialBidNumber']/input"), 'value')
+            order_line_data['unit_price'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(index) + "]/div[@data-field='unitPrice']/input"), 'value')
+
+            element = "//*[@data-id='0']//*[@role='cell' and @data-field='cost']"
+            cost = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(cost)
+
+            time.sleep(3)
+            order_line_data['cost'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(index) + "]/div[@data-field='cost']"))
+            order_line_data['margin'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(index) + "]/div[@data-field='margin']"))
+
+            element = "//*[@data-id='0']//*[@role='cell' and @data-field='currencyCode']"
+            currency_code = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(currency_code)
+            # scroll till quantity back order
+            time.sleep(2)
+            self.driver.execute_script("document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
+
+            time.sleep(2)
+            order_line_data['quantity'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(index) + "]/div[@data-field='quantityOrdered']/input"), 'value')
+            order_line_data['quantity_confirmed'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(index) + "]/div[@data-field='quantityConfirmed']"))
+            order_line_data['quantity_backordered'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(index) + "]/div[@data-field='quantityBackOrdered']"))
+            self.logger.info(order_line_data)
+            self.driver.execute_script("document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+            return order_line_data
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while clicking on edit cancel icon ' + str(e))
+            raise e

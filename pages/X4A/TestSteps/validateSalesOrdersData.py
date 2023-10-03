@@ -1227,8 +1227,6 @@ class ValidateSalesOrdersData:
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
             ui_data_initial = x4a_sales_order.get_order_line_data()
-            self.driver.refresh()
-            x4a_sales_order.click_on_order_lines_tab()
             if (x4a_sales_order.update_order_line(special_bid, unit_price,quantity) & x4a_sales_order.click_order_line_edit_cancel_icon()):
                 self.logger.info(
                     "Successfully cancelled updated the order line")
@@ -1254,20 +1252,19 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-
     def validate_order_line_changed_updated(self, special_bid, unit_price, quantity, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
             x4a_sales_order.click_on_order_lines_tab()
-            ui_data = x4a_sales_order.get_order_line_data()
+            ui_data = x4a_sales_order.get_updated_order_line_data_of_resubmit()
             self.logger.info("Validating data for order line")
             calculated_margin = round(((float(unit_price) - float(ui_data['cost'])) / float(unit_price)) * 100, 2)
             assert str(special_bid) == str(ui_data['special_bid']), "Special bid mismatched"
             assert str(unit_price) == str(ui_data['unit_price']), "Unit price mismatched"
             assert str(quantity) == str(ui_data['quantity']), "Quantity mismatched"
-            assert str(calculated_margin) == str(ui_data['margin']), "Margin Mismatched"
             assert int(ui_data['quantity']) == (int(ui_data['quantity_confirmed']) + int(
                 ui_data['quantity_backordered'])), "Quantity calculation mismatched"
+            assert str(calculated_margin) == str(ui_data['margin']), "Margin Mismatched"
             return True
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
