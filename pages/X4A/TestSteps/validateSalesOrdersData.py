@@ -1,3 +1,5 @@
+import time
+
 from CommonUtilities.logGeneration import LogGenerator
 from CommonUtilities.parse_config import ParseConfigFile
 from CommonUtilities.readProperties import ReadConfig
@@ -1138,6 +1140,7 @@ class ValidateSalesOrdersData:
     def update_order_line_data(self, special_bid, unit_price, quantity, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
+            time.sleep(10)
             if (x4a_sales_order.update_order_line(special_bid, unit_price,quantity) & x4a_sales_order.click_order_line_edit_check_icon()):
                 self.logger.info(
                     "Successfully updated the order line")
@@ -1152,6 +1155,71 @@ class ValidateSalesOrdersData:
                                   "_update_order_line_error.png"
             self.logger.error(
                 "Error while updating order line")
+            self.logger.exception(e)
+            return False
+
+    def cancel_shipto_enduser_info_and_validate_data(self, shipto_id, enduser_companyname, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if x4a_sales_order.cancel_shipto_enduser_info_and_validate(shipto_id, enduser_companyname):
+                self.logger.info(
+                    "Successfully cancelled shipto enduser info details")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_cancel_shipto_enduser_info_successfully.png")
+                return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_cancel_shipto_enduser_info_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_cancel_shipto_enduser_info_error.png"
+            self.logger.error(
+                "Error while cancelling ship to and enduser info details")
+            self.logger.exception(e)
+            return False
+
+    def update_shipto_enduser_info(self, shipto_id, enduser_companyname, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if x4a_sales_order.update_shipto_enduser_info(shipto_id, enduser_companyname):
+                self.logger.info(
+                    "Successfully saved shipto enduser info details")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_shipto_enduser_info_saved_successfully.png")
+                return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_shipto_enduser_info_save_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_shipto_enduser_info_save_error.png"
+            self.logger.error(
+                "Error while saving ship to and enduser info details")
+            self.logger.exception(e)
+            return False
+
+    def updated_shipto_enduser_info_validate(self, shipto_id, shipto_companyname, shipto_address,
+                                             enduser_id, enduser_contact, enduser_companyname,
+                                             enduser_phonenumber, enduser_address, enduser_email, feature_file_name,
+                                             screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if x4a_sales_order.shipto_enduser_info_validation(shipto_id, shipto_companyname, shipto_address,
+                                                          enduser_id, enduser_contact, enduser_companyname,
+                                                          enduser_phonenumber, enduser_address, enduser_email):
+                self.logger.info(
+                    "Successfully updated shipto enduser info details")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                    + "_shipto_enduser_info_updated_successfully.png")
+                return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_shipto_enduser_info_updated_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_shipto_enduser_info_updated_error.png"
+            self.logger.error(
+                "Error while validating ship to and enduser info details")
             self.logger.exception(e)
             return False
 
@@ -1185,6 +1253,7 @@ class ValidateSalesOrdersData:
                 "Error while updating order line")
             self.logger.exception(e)
             return False
+
 
     def validate_order_line_changed_updated(self, special_bid, unit_price, quantity, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
@@ -1283,6 +1352,42 @@ class ValidateSalesOrdersData:
                 return True
         except Exception as e:
             self.logger.error("Error while validating order status")
+            self.logger.exception(e)
+            return False
+
+    def validate_order_status_category(self, status, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.order_status_edit_category_validate(status):
+                self.logger.info("Failed to validate order status")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_validate_order_status_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully validated order status")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_validate_order_status_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating order status")
+            self.logger.exception(e)
+            return False
+
+    def validate_order_mgmt_click(self, feature_file_name):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            if not x4a_sales_order.click_order_management_link():
+                self.logger.info("Failed to click on order management link")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_validate_order_management_link_click_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully click on order management link")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_validate_order_management_link_click_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while clicking on order management link")
             self.logger.exception(e)
             return False
 

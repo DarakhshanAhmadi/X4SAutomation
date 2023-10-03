@@ -1,7 +1,7 @@
 @bulk_order_upload @regression
 Feature: Bulk Order Upload
 
-  @login 
+  @login
   Scenario: Login to X4A portal
     Given launch chrome browser and open the X4A url
     Then provide user ID and Password to login
@@ -48,13 +48,13 @@ Feature: Bulk Order Upload
   @view_review
   Scenario: View Review Option
     When filter status with "Error found"
-    Then verify the file upload list for status Error found
+    Then verify the file upload list for status "Error found"
     When filter status with "Partially completed"
-    Then verify the file upload list for status Partially completed
+    Then verify the file upload list for status "Partially completed"
     When review icon clicked and downloaded the order list
     Then verify order page and downloaded order list
     When filter status with "Order placed"
-    Then verify the file upload list for status Order placed
+    Then verify the file upload list for status "Order placed"
     When view icon clicked and downloaded the order list
     Then verify order page and downloaded order list
 
@@ -105,16 +105,24 @@ Feature: Bulk Order Upload
 
 # OMS-487
   @duplicate_error
-  Scenario: Place Order Option
+  Scenario: Duplicate error
     When upload Duplicate file
     Then verify Duplicate file error message
 
 # OMS-184
   @bulk_order_upload_page 
-  Scenario: Place Order Option
+  Scenario: Bulk order upload page
     When selected file for review
     And filter with file name
     Then verify bulk order upload page
+
+# OMS-183, OMS-488
+  @multiple_place_order
+  Scenario: Multiple place order
+    When file was selected
+    And clicked on review button
+    And clicked on place order button
+    Then verify multiple bulk order page status
 
   @logout
   Scenario: logout X4A
