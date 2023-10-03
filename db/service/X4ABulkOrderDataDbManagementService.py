@@ -10,7 +10,7 @@ class X4ABulkOrderDataDbManagementService:
         x4a_bulk_order_data_dao = X4AbulkOrderDataDAO()
         return x4a_bulk_order_data_dao.insert_records(sql_util, x4a_user_data_list)
 
-    def get_scenario_details(self, db_path):
+    def get_scenario_details(self, db_path, scenario_no):
         sql_util = SqlUtil(db_path)
         x4a_bulk_order_data_dao = X4AbulkOrderDataDAO()
-        return x4a_bulk_order_data_dao.get_scenario_details(sql_util)
+        return x4a_bulk_order_data_dao.get_scenario_details(sql_util, scenario_no)
