@@ -2527,7 +2527,10 @@ class X4ASalesOrdersPage(BasePage):
                 self.scroll_horizontally(unit_weight)
 
                 # scroll till quantity back ordered column
-                time.sleep(10)
+                time.sleep(3)
+                self.driver.execute_script("document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
+
+                time.sleep(3)
                 order_line['order_line_quantity'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='quantityOrdered']/input"), 'value')
                 order_line['order_line_quantity_confirmed'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='quantityConfirmed']"))
                 order_line['order_line_quantity_backordered'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='quantityBackOrdered']"))
@@ -2537,7 +2540,7 @@ class X4ASalesOrdersPage(BasePage):
                 element = "//*[@data-id='0']//*[@role='cell' and @data-field='extendedPrice']"
                 unit_weight = self.driver.find_element(By.XPATH, element)
                 self.scroll_horizontally(unit_weight)
-                time.sleep(2)
+                time.sleep(4)
 
                 element = "//*[@data-id='0']//*[@role='cell' and @data-field='isAcopApplied']"
                 unit_weight = self.driver.find_element(By.XPATH, element)
