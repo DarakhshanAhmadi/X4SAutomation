@@ -32,15 +32,6 @@ def launch_browser(init_driver):
     prepare_obj = PrepareObject(init_driver)
     feature_file_name = "inventory_management_action_planning"
     try:
-        test_data_order = readWriteTestData.load_excel_to_dictionary(ReadConfig.get_test_data_file(), "Input_Data")
-        filtered_order_data = validate_inventory_inquiry.filtered_orders_by_feature_file(test_data_order, feature_file_name)
-        logger.info(filtered_order_data)
-        for order_index, test_data_order in filtered_order_data.iterrows():
-            x4a_input_order_list.clear()
-            logger.info(test_data_order)
-            x4a_input_order_data = prepare_obj.prepare_x4a_inp_ord_data_obj(test_data_order)
-            x4a_input_order_list.append(x4a_input_order_data)
-            order_management_srv_obj.save_x4a_input_order(db_file_path, x4a_input_order_list)
         environment = parse_config_json.get_data_from_config_json("environment", "environment_type", "config.json")
         logger.info(environment)
         if environment == 'Stage':
