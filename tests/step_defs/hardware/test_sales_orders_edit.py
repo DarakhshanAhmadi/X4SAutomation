@@ -47,13 +47,13 @@ def test_logout_x4a():
 
 @given(parsers.parse('launch chrome browser and open the X4A url'))
 def launch_browser(init_driver):
-    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
     order_management_srv_obj = X4AInputOrderDbManagementService()
     prepare_obj = PrepareObject(init_driver)
     feature_file_name = "sales_orders_edit"
     try:
         test_data_order = readWriteTestData.load_excel_to_dictionary(ReadConfig.get_test_data_file(), "Input_Data")
-        filtered_order_data = validate_sales_orers.filtered_orders_by_feature_file(test_data_order, feature_file_name)
+        filtered_order_data = validate_sales_orders.filtered_orders_by_feature_file(test_data_order, feature_file_name)
         logger.info(filtered_order_data)
         for order_index, test_data_order in filtered_order_data.iterrows():
             x4a_input_order_list.clear()
@@ -76,9 +76,9 @@ def launch_browser(init_driver):
 @then(parsers.parse('provide user ID and Password to login'))
 def login(init_driver):
     feature_file_name = "sales_orders_edit"
-    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
-        validate_sales_orers.login(feature_file_name, screen_shot)
+        validate_sales_orders.login(feature_file_name, screen_shot)
         logger.info("Launched the browser and login to X4A is successfully.")
     except Exception as e:
         logger.error("Not able to Launch the browser and login x4a %s", e)
@@ -88,9 +88,9 @@ def login(init_driver):
 @then(parsers.parse('the user traverse to Sales Order menu'))
 def click_on_sales_orders_menu(init_driver):
     feature_file_name = "sales_orders_edit"
-    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
-        if not validate_sales_orers.click_on_sales_orders(feature_file_name, screen_shot):
+        if not validate_sales_orders.click_on_sales_orders(feature_file_name, screen_shot):
             raise Exception("Failed to click on Sales Orders menu")
     except Exception as e:
         logger.error("Error while clicking on Sales Orders menu %s", e)
@@ -127,10 +127,10 @@ def validate_im_order_number(init_driver, order_no):
 @when(parsers.parse('Click on searched IM order number'))
 def click_on_im_order_number(init_driver):
     feature_file_name = "sales_orders_edit"
-    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
         logger.info("click")
-        if not validate_sales_orers.click_on_im_order_num(feature_file_name):
+        if not validate_sales_orders.click_on_im_order_num(feature_file_name):
             raise Exception("Failed to click on searched IM order number")
     except Exception as e:
         logger.error("Error while click on searched IM order number %s", e)
@@ -141,9 +141,9 @@ def click_on_im_order_number(init_driver):
 def click_on_billing_tab(init_driver):
     #init_driver.refresh()
     feature_file_name = "sales_orders"
-    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
-        if not validate_sales_orers.click_on_billing_tab(feature_file_name):
+        if not validate_sales_orders.click_on_billing_tab(feature_file_name):
             raise Exception("Failed to click on Billing tab on Order Details page")
     except Exception as e:
         logger.error("Error while clicking on Billing tab on Order Details page %s", e)
@@ -154,9 +154,9 @@ def click_on_billing_tab(init_driver):
 def click_on_order_detail_tab(init_driver):
     init_driver.refresh()
     feature_file_name = "sales_orders_edit"
-    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
-        if not validate_sales_orers.click_on_order_details_tab(feature_file_name):
+        if not validate_sales_orders.click_on_order_details_tab(feature_file_name):
             raise Exception("Failed to click on Order Details tab on Order Details page")
     except Exception as e:
         logger.error("Error while clicking on Order Details tab on Order Details page %s", e)
@@ -166,9 +166,9 @@ def click_on_order_detail_tab(init_driver):
 @when(parsers.parse('Click on Order lines tab on Order Details page'))
 def click_on_order_lines_tab(init_driver):
     feature_file_name = "sales_orders_edit"
-    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
-        if not validate_sales_orers.click_on_order_lines_tab(feature_file_name):
+        if not validate_sales_orders.click_on_order_lines_tab(feature_file_name):
             raise Exception("Failed to click on Order Lines tab on Order Details page")
     except Exception as e:
         logger.error("Error while clicking on Order Lines tab on Order Details page %s", e)
@@ -178,9 +178,9 @@ def click_on_order_lines_tab(init_driver):
 @given(parsers.parse('logout the X4A url'))
 def logout_x4a_url(init_driver):
     feature_file_name = "sales_orders_edit"
-    validate_sales_orers = ValidateSalesOrdersData(init_driver)
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
-        validate_sales_orers.logout_x4a_url(feature_file_name)
+        validate_sales_orders.logout_x4a_url(feature_file_name)
         logger.info("Logout X4A url is successfully.")
     except Exception as e:
         logger.error("Not able to logout x4a url %s", e)
