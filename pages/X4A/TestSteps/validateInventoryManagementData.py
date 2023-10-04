@@ -11,6 +11,8 @@ class ValidateInventoryManagementData:
     logger = LogGenerator.logGen()
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
+    top_100_under_performing_sku_table_headers = ['SKU', 'Actions', 'Vendor business manager', 'Vendor name', 'Vendor number', 'MFR Part number', 'Product description', 'Inventory value', 'Improvement opportunity', 'Value on order', 'Actual 121', 'Actual 151', 'Actual 181', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5']
+    country_list = ['AU', 'FR', 'BR', 'MD', 'MX', 'UK']
 
     def __init__(self, driver):
         self.driver = driver
@@ -77,5 +79,31 @@ class ValidateInventoryManagementData:
             screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
                                                             "top_100_underperforming_tab_clicking_error.png"
             self.logger.error("Error while clicking on Top 100 under performing sku tab")
+            self.logger.exception(e)
+            return False
+
+    def validate_top_100_underperforming_sku_table_headers(self, feature_file_name, screen_shot):
+        x4a_inventory_management = X4AInventoryManagementPage(self.driver)
+        try:
+            for country in self.country_list:
+                self.logger.info(f'validating table headers for {country}')
+                table_headers_list = x4a_inventory_management.get_table_headers(country)
+                assert len(self.top_100_under_performing_sku_table_headers) == len(
+                    table_headers_list), "Number of columns mismatched"
+                for column in self.top_100_under_performing_sku_table_headers:
+                    if column not in table_headers_list:
+                        self.logger.error(f'column {column} is missing')
+                        return False
+                self.logger.info(f'successfully validated table headers for {country}')
+            self.logger.info("Successfully validated Top 100 underperforming sku table headers")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "top_100_underperforming_table_headers_validated_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "top_100_underperforming_table_header_validation_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                                            "top_100_underperforming_table_header_validation_error.png"
+            self.logger.error("Error while validating Top 100 underperforming sku table headers")
             self.logger.exception(e)
             return False

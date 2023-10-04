@@ -87,3 +87,15 @@ def click_in_top_100_underperforming_sku(init_driver):
     except Exception as e:
         logger.error("Error while clicking on Top 100 under performing sku tab %s", e)
         raise e
+
+
+@then(parsers.parse('verify the columns in the table are correct'))
+def verify_top_100_underperforming_sku_table_headers(init_driver):
+    feature_file_name = "inventory_management_action_planning"
+    validate_inventory_management = ValidateInventoryManagementData(init_driver)
+    try:
+        if not validate_inventory_management.validate_top_100_underperforming_sku_table_headers(feature_file_name, screen_shot):
+            raise Exception("Failed to validate Top 100 underperforming sku table headers")
+    except Exception as e:
+        logger.error("Error while validating Top 100 underperforming sku table headers %s", e)
+        raise e

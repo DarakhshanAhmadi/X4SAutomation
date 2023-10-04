@@ -10,4 +10,4 @@ Feature: Inventory Management Action Planning
   @verify_column_headers
   Scenario: Verify table columns under top 100 under performing tab
     Given click on top 100 under performing sku
-#     Then verify the columns in the table are correct
+    Then verify the columns in the table are correct
