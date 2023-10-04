@@ -1,7 +1,7 @@
 @bulk_order_upload @regression
 Feature: Bulk Order Upload
 
-  @login
+  @login 
   Scenario: Login to X4A portal
     Given launch chrome browser and open the X4A url
     Then provide user ID and Password to login
@@ -12,7 +12,7 @@ Feature: Bulk Order Upload
   @file_upload_option_and_dialog_box
   Scenario: File Upload option & Dialog Box
     When upload file button clicked
-    Then verify upload file popup
+    Then verify upload file ready popup
 
 # OMS-175
   @file_upload_error
@@ -27,12 +27,12 @@ Feature: Bulk Order Upload
     Then verify template error message
 
 #  OMS-174, OMS-177
-  @file_upload_and_browse_file
+  @file_upload_and_browse_file 
   Scenario: Upload file
-    When file was selected
-    Then verify upload file ready popup
+    When file was selected "4"
+    Then verify select file popup
     When click on delete icon
-    Then verify upload file popup
+    Then verify upload file ready popup
     When selected file for review
     Then verify bulk order page
 
@@ -49,8 +49,8 @@ Feature: Bulk Order Upload
   Scenario: View Review Option
     When filter status with "Error found"
     Then verify the file upload list for status "Error found"
-    When filter status with "Partially completed"
-    Then verify the file upload list for status "Partially completed"
+    When filter status with "Partially complete"
+    Then verify the file upload list for status "Partially complete"
     When review icon clicked and downloaded the order list
     Then verify order page and downloaded order list
     When filter status with "Order placed"
@@ -76,10 +76,10 @@ Feature: Bulk Order Upload
     When upload Duplicate file
     Then verify Duplicate file error message
 
-# OMS-179
+# OMS-179, OMS-180, OMS-195
   @error_in_order
   Scenario: error in order
-    When upload file with one feild as Null value
+    When upload file with one field as Null value
     Then verify the error message with one field as Null value
     When clicked on Discard button
     And upload file with two field as Null value
@@ -92,9 +92,7 @@ Feature: Bulk Order Upload
 # OMS-182, OMS-192
   @place_order
   Scenario: Place Order Option
-    When file was selected
-    Then verify upload file ready popup
-    When click on delete icon
+    When upload file button clicked
     And selected file for review
     Then verify bulk order page
     And verify status as Ready to place and place order button
@@ -104,7 +102,7 @@ Feature: Bulk Order Upload
     Then verify that order is placed
 
 # OMS-487
-  @duplicate_error
+  @duplicate_error 
   Scenario: Duplicate error
     When upload Duplicate file
     Then verify Duplicate file error message
@@ -112,14 +110,15 @@ Feature: Bulk Order Upload
 # OMS-184
   @bulk_order_upload_page 
   Scenario: Bulk order upload page
-    When selected file for review
+    When upload file button clicked
+    And selected file for review
     And filter with file name
     Then verify bulk order upload page
 
-# OMS-183, OMS-488
-  @multiple_place_order
+# OMS-183, OMS-488, OMS-489
+  @multiple_place_order 
   Scenario: Multiple place order
-    When file was selected
+    When file was selected "5"
     And clicked on review button
     And clicked on place order button
     Then verify multiple bulk order page status
