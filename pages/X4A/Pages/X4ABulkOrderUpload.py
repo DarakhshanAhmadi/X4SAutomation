@@ -40,6 +40,7 @@ class X4ABulkOrderUploadPage(BasePage):
     FILE_NAME = (By.XPATH, "//div[@class='MuiBox-root css-1oulfbi']")
     DELETE_ICON = (By.XPATH, "//*[@data-testid='DeleteOutlineIcon']")
     REVIEW_BUTTON = (By.XPATH, "//button[text() = 'Review']")
+    OK_BUTTON = (By.XPATH, "//button[text() = 'Ok']")
     PLACE_ORDER_BUTTON = (By.XPATH, "//button[text() = 'Place orders']")
     FILE_ERROR_MSG = (By.XPATH, "//div[@class='MuiAlert-message css-acap47-MuiAlert-message']")
     TEMPLATE_ERROR_MSG = (By.XPATH, "//div[@class='MuiAlert-message css-acap47-MuiAlert-message']")
@@ -60,7 +61,7 @@ class X4ABulkOrderUploadPage(BasePage):
     TEXT_AREA = (By.XPATH, "//*[@data-testid='SearchBar']/div/input")
     ACTION_ICON = (By.XPATH, "//div[@aria-rowindex='4']/div[@data-field='actions']")
     SEARCHED_ACTION_ICON = (By.XPATH, "//div[@aria-rowindex='2']/div[@data-field='actions']")
-    LIST_FILE_NAME = (By.XPATH, "//div[@aria-rowindex='4']/div[@data-field='fileName']")
+    LIST_FILE_NAME = (By.XPATH, "//div[@aria-rowindex='2']/div[@data-field='fileName']")
     SEARCHED_FILE_NAME = (By.XPATH, "//div[@aria-rowindex='2']/div[@data-field='fileName']")
     SEARCHED_USER_NAME = (By.XPATH, "//div[@aria-rowindex='2']/div[@data-field='createdBy']")
     SEARCHED_DATE = (By.XPATH, "//div[@aria-rowindex='2']/div[@data-field='createdOn']")
@@ -213,12 +214,11 @@ class X4ABulkOrderUploadPage(BasePage):
             self.logger.error('Exception occurred while verifying bulk order upload file error ' + str(e))
             raise e
 
-    def do_select_file(self):
+    def do_select_file(self, scenario_no):
         try:
             global multiple_order_file_name
             self.go_to_bulk_order_upload()
-
-            multiple_order_file_name = self.update_input_sheet(5)
+            multiple_order_file_name = self.update_input_sheet(int(scenario_no))
             self.click_upload_file()
             self.select_file(multiple_order_file_name)
 
@@ -228,7 +228,6 @@ class X4ABulkOrderUploadPage(BasePage):
 
     def verify_selected_file_popup(self):
         try:
-
             upload_file_label_msg = 'Your file is ready to be processed to place orders.'
             address = self.get_element_text(self.UPLOAD_FILE_LABEL).replace("\n", " ")
 
@@ -238,11 +237,11 @@ class X4ABulkOrderUploadPage(BasePage):
             assert 'Cancel' in self.get_element_text(self.CANCEL_BUTTON), "Cancel button not present"
             assert self.is_present(self.DELETE_ICON), "Delete Icon not found"
             assert upload_file_label_msg in address, "label message not present"
-            self.logger.info("verified that upload file popup")
+            self.logger.info("verified that selected file popup")
             time.sleep(1)
 
         except Exception as e:
-            self.logger.error('Exception occurred while verifying upload file popup is closed ' + str(e))
+            self.logger.error('Exception occurred while verifying selecting file popup is closed ' + str(e))
             raise e
 
     def do_delete_file(self):
@@ -251,19 +250,18 @@ class X4ABulkOrderUploadPage(BasePage):
             time.sleep(1)
 
         except Exception as e:
-            self.logger.error('Exception occurred while selecting file ' + str(e))
+            self.logger.error('Exception occurred while deleting file ' + str(e))
             raise e
 
     def do_select_review(self):
         try:
             global order_file_name
-
             order_file_name = self.update_input_sheet(4)
             self.select_file(order_file_name)
             self.do_click_review_button()
 
         except Exception as e:
-            self.logger.error('Exception occurred while clicking review button ' + str(e))
+            self.logger.error('Exception occurred while selecting review button ' + str(e))
             raise e
 
     def do_click_review_button(self):
@@ -297,6 +295,7 @@ class X4ABulkOrderUploadPage(BasePage):
             bulk_order_file_name = order_file_name.split(".xlsx")
             UPLOAD_FILE_NAME = (By.XPATH, "//span[text()='" + str(bulk_order_file_name[0]) + "']")
             self.logger.info("File Name Updated")
+            
             curr_date = '{dt.month}/{dt.day}/{dt.year}'.format(dt=datetime.date.today())
             UPLOADED_DATE = self.format_date(self.get_element_text(self.UPLOADED_DATE))
             self.logger.info("Date updated")
@@ -305,11 +304,11 @@ class X4ABulkOrderUploadPage(BasePage):
             assert curr_date in UPLOADED_DATE, "Uploaded date not current date"
             assert 'Cancel' in self.get_element_text(self.CANCEL_BUTTON), "Cancel button not present"
 
-            self.logger.info("verified that upload file popup")
+            self.logger.info("verified that bulk order page")
             time.sleep(1)
 
         except Exception as e:
-            self.logger.error('Exception occurred while verifying bulk order upload page 1 ' + str(e))
+            self.logger.error('Exception occurred while verifying bulk order upload page ' + str(e))
             raise e
 
     def verify_place_order_button(self):
@@ -318,21 +317,21 @@ class X4ABulkOrderUploadPage(BasePage):
             assert 'Place orders' in self.get_element_text(self.PLACE_ORDER_BUTTON), "Place Order button not present"
             assert 'Ready to place' in self.get_element_text(self.READY_TO_PLACE_STATUS), "status is not correct"
 
-            self.logger.info("verified that upload file popup")
+            self.logger.info("verified that place order button")
             time.sleep(1)
 
         except Exception as e:
             self.logger.error('Exception occurred while verifying Place Order button ' + str(e))
             raise e
 
-    def do_select_file_name_search(self, order_file_name):
+    def do_select_file_name_search(self):
         try:
             self.do_click_by_locator(self.BULK_ORDER_UPLOAD_LINK)
             bulk_order_file_name = order_file_name.split(".xlsx")
             self.do_click_by_locator(self.DROPDOWN_MENU)
             self.do_click_by_locator(self.FILE_NAME_OPTION)
             self.do_click_by_locator(self.TEXT_AREA)
-            self.do_send_keys(self.TEXT_AREA, bulk_order_file_name)
+            self.do_send_keys(self.TEXT_AREA, bulk_order_file_name[0])
             time.sleep(10)
             self.logger.info("Opened the list of desired file name")
 
@@ -343,7 +342,9 @@ class X4ABulkOrderUploadPage(BasePage):
     def do_click_download_template(self):
         try:
             self.go_to_bulk_order_upload()
+            
             self.do_click_by_locator(self.DOWNLOAD_TEMPLATE_BUTTON)
+            time.sleep(5)
             self.logger.info("Clicked on download template button")
 
         except Exception as e:
@@ -354,6 +355,7 @@ class X4ABulkOrderUploadPage(BasePage):
         try:
             for i in range(no_of_files):
                 self.do_click_by_locator(self.DOWNLOAD_TEMPLATE_BUTTON)
+                time.sleep(1)
 
             self.logger.info("Clicked on download template button")
 
@@ -365,7 +367,7 @@ class X4ABulkOrderUploadPage(BasePage):
         try:
             global status_file_name
             self.go_to_bulk_order_upload()
-
+            # 
             self.do_click_by_locator(self.DROPDOWN_MENU)
             self.do_click_by_locator(self.STATUS_OPTION)
             self.do_click_by_locator(self.TEXT_AREA)
@@ -393,6 +395,7 @@ class X4ABulkOrderUploadPage(BasePage):
 
     def verify_view_icon(self, status):
         try:
+            # 
             self.search_file_name(status_file_name)
             assert 'View' in self.get_element_text(self.VIEW_ACTION_ICON), "View icon not present"
             assert status_file_name in self.get_element_text(self.SEARCHED_FILE_NAME), "file name not present"
@@ -540,8 +543,9 @@ class X4ABulkOrderUploadPage(BasePage):
 
     def verify_order_placed(self):
         try:
+            
             self.search_file_name(order_file_name)
-            assert 'Order placed' in self.get_element_text(self.SEARCHED_FILE_STATUS), "Order places status not present"
+            assert 'Order placed' in self.get_element_text(self.SEARCHED_FILE_STATUS), "Order placed status not present"
             assert 'View' in self.get_element_text(self.VIEW_ACTION_ICON), "View icon not present"
             self.logger.info("verified that status is Order placed ")
             time.sleep(2)
@@ -553,6 +557,7 @@ class X4ABulkOrderUploadPage(BasePage):
     def do_select_uploaded_by_option(self, user_name):
         try:
             global status_file_name
+            self.driver.refresh()
             self.go_to_bulk_order_upload()
             self.do_click_by_locator(self.DROPDOWN_MENU)
             self.do_click_by_locator(self.UPLOADED_BY_OPTION)
@@ -568,6 +573,7 @@ class X4ABulkOrderUploadPage(BasePage):
 
     def verify_user_name(self, user_name):
         try:
+            self.driver.refresh()
             self.search_file_name(status_file_name)
             assert status_file_name in self.get_element_text(self.SEARCHED_FILE_NAME), "file name not present"
             assert user_name in self.get_element_text(self.SEARCHED_USER_NAME), "user name not correct"
@@ -596,7 +602,7 @@ class X4ABulkOrderUploadPage(BasePage):
             self.do_click_by_locator(self.REVIEW_BUTTON)
 
         except Exception as e:
-            self.logger.error('Exception occurred while selecting status ' + str(e))
+            self.logger.error('Exception occurred while selecting duplicate file ' + str(e))
             raise e
 
     def verify_duplicate_file_error_message(self):
@@ -605,11 +611,12 @@ class X4ABulkOrderUploadPage(BasePage):
             address = self.get_element_text(self.DUPLICATE_ERROR_MESSAGE).replace("\n", " ")
 
             assert address in error_message, "file name error present"
+            self.do_click_by_locator(self.OK_BUTTON)
             self.logger.info("verified duplicate file error message ")
             time.sleep(1)
 
         except Exception as e:
-            self.logger.error('Exception occurred while verifying user name ' + str(e))
+            self.logger.error('Exception occurred while verifying duplicate file error message ' + str(e))
             raise e
 
     def do_uploaded_file_with_null_values(self, Scenario):
@@ -630,7 +637,7 @@ class X4ABulkOrderUploadPage(BasePage):
     def verify_error_message(self, Scenario_no):
         bulk_order_management_srv_obj = X4ABulkOrderDataDbManagementService()
         db_file_path = ReadConfig.get_db_file_path()
-        scenario_detail_list = bulk_order_management_srv_obj.get_scenario_details(db_file_path)
+        scenario_detail_list = bulk_order_management_srv_obj.get_scenario_details(db_file_path, Scenario_no)
         try:
             match Scenario_no:
                 case '1':
@@ -651,7 +658,7 @@ class X4ABulkOrderUploadPage(BasePage):
                     self.logger.info("verified country code error")
                 case '3':
                     self.logger.info("Verifying reseller po#,carrier code, ingram sku is null")
-
+                    # 
                     assert 'Error found' in self.get_element_text(self.ERROR_ORDER_STATUS)
                     self.do_click_by_locator(self.EDIT_ICON)
 
@@ -660,8 +667,8 @@ class X4ABulkOrderUploadPage(BasePage):
                     self.do_click_by_locator(self.DISCARD_BUTTON)
                     self.do_click_by_locator(self.EXPANDABLE_ICON)
                     self.do_click_by_locator(self.EDIT_BUTTON)
-                    self.do_click_by_locator(self.DISCARD_BUTTON)
                     assert self.do_get_attribute(self.Ingram_SKU_ID, 'value') == '', "Ingram sku ID is not NULL"
+                    self.do_click_by_locator(self.DISCARD_BUTTON)
                     self.logger.info("verified reseller po#,carrier code, ingram sku is null")
                 case _:
                     assert scenario_detail_list[0][3] in self.do_get_attribute(self.OPERATOR_ID,
@@ -704,8 +711,9 @@ class X4ABulkOrderUploadPage(BasePage):
             self.logger.info("reseller po is updated ")
             self.do_click_by_locator(self.CARRIER_CODE_ID)
             self.do_send_keys(self.CARRIER_CODE_ID, 'OT')
-            self.logger.info("Carrier code is updated ")
             self.do_click_by_locator(self.APPLY_BUTTON)
+            self.logger.info("Carrier code is updated ")
+            time.sleep(2)
             self.do_click_by_locator(self.EXPANDABLE_ICON)
             self.do_click_by_locator(self.EDIT_BUTTON)
             self.do_click_by_locator(self.Ingram_SKU_ID)
@@ -777,11 +785,11 @@ class X4ABulkOrderUploadPage(BasePage):
                     assert self.get_element_text(CONFIRMATION_ID) != '', "Confirmation ID is NULL"
                     self.logger.info("status check for order grouping " + self.get_element_text(ORDER_GROUPING))
 
-            self.logger.info("verified that upload file popup")
+            self.logger.info("verified that multiple bulk order upload page")
             time.sleep(1)
 
         except Exception as e:
-            self.logger.error('Exception occurred while verifying bulk order upload page 1 ' + str(e))
+            self.logger.error('Exception occurred while verifying multiple bulk order upload page ' + str(e))
             raise e
 
     def logout_x4a(self):
@@ -796,11 +804,12 @@ class X4ABulkOrderUploadPage(BasePage):
 
     def search_file_name(self, file_name):
         self.go_to_bulk_order_upload()
+        
         bulk_order_file_name = file_name.split(".xlsx")
         self.do_click_by_locator(self.DROPDOWN_MENU)
         self.do_click_by_locator(self.FILE_NAME_OPTION)
         self.do_click_by_locator(self.TEXT_AREA)
-        self.do_send_keys(self.TEXT_AREA, bulk_order_file_name)
+        self.do_send_keys(self.TEXT_AREA, bulk_order_file_name[0])
         time.sleep(15)
 
     def update_input_sheet(self, scenario_no):
@@ -810,9 +819,10 @@ class X4ABulkOrderUploadPage(BasePage):
         db_file_path = ReadConfig.get_db_file_path()
         scenario_detail_list = bulk_order_management_srv_obj.get_scenario_details(db_file_path, scenario_no)
         src = bulk_order_file_name
-        bulk_order_file_name = bulk_order_file_name.split(".xlsx")
-        dst = bulk_order_file_name[0] + str(random.randint(200, 500)) + '.xlsx'
+        curr_date = '{dt.month}{dt.day}{dt.year}{dt.hour}{dt.minute}{dt.second}'.format(dt=datetime.datetime.today())
 
+        bulk_order_file_name = bulk_order_file_name.split(".xlsx")
+        dst = bulk_order_file_name[0] + '_' + curr_date + '.xlsx'
         # Copy File
         shutil.copy(src, dst)
 
@@ -821,26 +831,31 @@ class X4ABulkOrderUploadPage(BasePage):
 
         # open workbook
         sheet = workbook.active
-        for k in range(1, 8):
+        if scenario_no != 5:
             for i in range(1, 11):
-                sheet.cell(row=k + 1, column=i).value = scenario_detail_list[k - 1][i + 2]
+                sheet.cell(row=2, column=i).value = scenario_detail_list[0][i + 2]
+        else:
+            for k in range(1, 8):
+                for i in range(1, 11):
+                    sheet.cell(row=k + 1, column=i).value = scenario_detail_list[k - 1][i + 2]
 
         workbook.save(filename=dst)
-
         dst = dst.split(".\\TestData\\")
-
         return dst[1]
 
     def select_file(self, file_name):
         try:
+
             bulk_order_file_name = file_name
+            
             self.do_click_by_locator(self.BROWSE_BUTTON)
             time.sleep(3)
             keyboard = Controller()
             keyboard.type(self.system_path + "\\TestData\\" + bulk_order_file_name)
             keyboard.press(Key.enter)
             keyboard.release(Key.enter)
-            time.sleep(1)
+            time.sleep(10)
+            
 
         except Exception as e:
             self.logger.error('Exception occurred while selecting file ' + str(e))
