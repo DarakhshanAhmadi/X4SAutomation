@@ -76,6 +76,21 @@ def test_error_in_order():
     pass
 
 
+@scenario("features/hardware/bulk_order_upload.feature", "Duplicate error")
+def test_duplicate_error():
+    pass
+
+
+@scenario("features/hardware/bulk_order_upload.feature", "Bulk order upload page")
+def test_bulk_order_upload_page():
+    pass
+
+
+@scenario("features/hardware/bulk_order_upload.feature", "Multiple place order")
+def test_multiple_place_order():
+    pass
+
+
 @scenario("features/hardware/bulk_order_upload.feature", "logout X4A")
 def test_logout_x4a():
     pass
@@ -88,6 +103,7 @@ def launch_browser(init_driver):
     prepare_obj = PrepareObject(init_driver)
     feature_file_name = "bulk_order_upload"
     try:
+        #
         test_data_order = readWriteTestData.load_excel_to_dictionary(ReadConfig.get_test_data_file(), "Input_Data")
         filtered_order_data = bulk_order_upload_steps.filtered_orders_by_feature_file(test_data_order,
                                                                                       feature_file_name)
@@ -158,7 +174,7 @@ def click_upload_file(init_driver):
         raise e
 
 
-@then(parsers.parse('verify upload file popup'))
+@then(parsers.parse('verify upload file ready popup'))
 def verify_upload_file_popup(init_driver):
     feature_file_name = "bulk_order_upload"
     bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
@@ -218,19 +234,20 @@ def verify_template_error_message(init_driver):
         raise e
 
 
-@when(parsers.parse('file was selected'))
-def do_upload_file(init_driver):
+@when(parsers.parse('file was selected "{scenario_no}"'))
+def do_upload_file(init_driver, scenario_no):
     feature_file_name = "bulk_order_upload"
     bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
     try:
-        if not bulk_order_upload_steps.do_select_file(feature_file_name, screen_shot):
+
+        if not bulk_order_upload_steps.do_select_file(feature_file_name, screen_shot, scenario_no):
             raise Exception("Failed to select file")
     except Exception as e:
         logger.error("Error while selecting file %s" + str(e))
         raise e
 
 
-@then(parsers.parse('verify upload file ready popup'))
+@then(parsers.parse('verify select file popup'))
 def verify_selected_file_popup(init_driver):
     feature_file_name = "bulk_order_upload"
     bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
@@ -261,9 +278,9 @@ def do_select_review(init_driver):
     try:
 
         if not bulk_order_upload_steps.do_select_review(feature_file_name, screen_shot):
-            raise Exception("Failed to click review button")
+            raise Exception("Failed to select review button")
     except Exception as e:
-        logger.error("Error while clicking review button %s" + str(e))
+        logger.error("Error while select review button %s" + str(e))
         raise e
 
 
@@ -289,6 +306,7 @@ def verify_bulk_order_page(init_driver):
     except Exception as e:
         logger.error("Error while verifying bulk order page %s" + str(e))
         raise e
+
 
 
 @when(parsers.parse('download template button clicked'))
@@ -322,7 +340,7 @@ def verify_template_file_downloaded(init_driver):
             raise Exception("File name validation failed")
         logger.info("File verified successfully")
     except Exception as e:
-        logger.error("Failed to validate file name %s" + str(e))
+        logger.error("Failed to validate file name: %s" + str(e))
         raise e
 
 
@@ -368,17 +386,6 @@ def verify_multiple_template_file_downloaded(init_driver):
         logger.error("Failed to validate file name %s" + str(e))
         raise e
 
-
-@then(parsers.parse('verify bulk order page'))
-def verify_bulk_order_page(init_driver):
-    feature_file_name = "bulk_order_upload"
-    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
-    try:
-        if not bulk_order_upload_steps.verify_bulk_order_page(feature_file_name, screen_shot):
-            raise Exception("Failed to verify bulk order page")
-    except Exception as e:
-        logger.error("Error while verifying bulk order page %s" + str(e))
-        raise e
 
 
 @when(parsers.parse('filter status with "{status}"'))
@@ -433,41 +440,29 @@ def do_select_file_name_search(init_driver):
         raise e
 
 
-@then(parsers.parse('verify the file upload list for status Error found'))
-def verify_review_icon(init_driver):
+@then(parsers.parse('verify the file upload list for status "{status}"'))
+def verify_review_icon(init_driver, status):
     feature_file_name = "bulk_order_upload"
     bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
     try:
-        if not bulk_order_upload_steps.verify_review_icon(feature_file_name, screen_shot, 'Error found'):
-            raise Exception("Failed to verify review icon")
+        if not bulk_order_upload_steps.verify_review_icon(feature_file_name, screen_shot, status):
+            raise Exception("Failed to verify review icon for status ", status)
     except Exception as e:
         logger.error("Error while verifying review icon %s" + str(e))
         raise e
 
 
-@then(parsers.parse('verify the file upload list for status Partially completed'))
-def verify_review_icon(init_driver):
-    feature_file_name = "bulk_order_upload"
-    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
-    try:
-        if not bulk_order_upload_steps.verify_review_icon(feature_file_name, screen_shot, 'Partially complete'):
-            raise Exception("Failed to verify file upload list and review icon")
-    except Exception as e:
-        logger.error("Error while verifying file upload list and review icon %s" + str(e))
-        raise e
-
-
-@then(parsers.parse('verify the file upload list for status Order placed'))
-def verify_view_icon(init_driver):
-    feature_file_name = "bulk_order_upload"
-    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
-    try:
-        if not bulk_order_upload_steps.verify_view_icon(feature_file_name, screen_shot, 'Order placed'):
-            raise Exception("Failed to verify file upload list for status Order placed")
-    except Exception as e:
-        logger.error("Error while verifying file upload list and view icon %s" + str(e))
-        raise e
-
+# @then(parsers.parse('verify the file upload list for status "{status}"'))
+# def verify_view_icon(init_driver, status):
+#     feature_file_name = "bulk_order_upload"
+#     bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+#     try:
+#         if not bulk_order_upload_steps.verify_view_icon(feature_file_name, screen_shot, status):
+#             raise Exception("Failed to verify file upload list for status " + status)
+#     except Exception as e:
+#         logger.error("Error while verifying file upload list and view icon %s" + str(e))
+#         raise e
+#
 
 @when(parsers.parse('view icon clicked and downloaded the order list'))
 def do_click_view_icon(init_driver):
@@ -482,11 +477,47 @@ def do_click_view_icon(init_driver):
 
 
 @when(parsers.parse('review icon clicked and downloaded the order list'))
+def do_click_review_icon_and_download_order_list(init_driver):
+    feature_file_name = "bulk_order_upload"
+    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+    try:
+        if not bulk_order_upload_steps.do_click_review_icon_and_download_order_list(feature_file_name, screen_shot):
+            raise Exception("Failed to click review icon and download order list")
+    except Exception as e:
+        logger.error("Error while clicking review icon and download order list %s" + str(e))
+        raise e
+
+
+@when(parsers.parse('review icon clicked'))
 def do_click_review_icon(init_driver):
     feature_file_name = "bulk_order_upload"
     bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
     try:
         if not bulk_order_upload_steps.do_click_review_icon(feature_file_name, screen_shot):
+            raise Exception("Failed to click review icon")
+    except Exception as e:
+        logger.error("Error while clicking review icon %s" + str(e))
+        raise e
+
+
+@when(parsers.parse('clicked on review button'))
+def do_click_review_button(init_driver):
+    feature_file_name = "bulk_order_upload"
+    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+    try:
+        if not bulk_order_upload_steps.do_click_review_button(feature_file_name, screen_shot):
+            raise Exception("Failed to click review icon")
+    except Exception as e:
+        logger.error("Error while clicking review icon %s" + str(e))
+        raise e
+
+
+@when(parsers.parse('clicked on place order button'))
+def do_click_place_order_button(init_driver):
+    feature_file_name = "bulk_order_upload"
+    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+    try:
+        if not bulk_order_upload_steps.do_click_place_order_button(feature_file_name, screen_shot):
             raise Exception("Failed to click review icon")
     except Exception as e:
         logger.error("Error while clicking review icon %s" + str(e))
@@ -560,7 +591,7 @@ def verify_place_order_icon(init_driver):
     feature_file_name = "bulk_order_upload"
     bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
     try:
-        if not bulk_order_upload_steps.verify_place_order_icon(feature_file_name, screen_shot):
+        if not bulk_order_upload_steps.verify_place_orders_icon(feature_file_name, screen_shot):
             raise Exception("Failed to verify place order icon")
     except Exception as e:
         logger.error("Error while verifying place order icon %s" + str(e))
@@ -689,14 +720,14 @@ def verify_duplicate_file_error_message(init_driver):
         raise e
 
 
-@when(parsers.parse('upload file with one feild as Null value'))
+@when(parsers.parse('upload file with one field as Null value'))
 def do_uploaded_file_with_one_null_values(init_driver):
     feature_file_name = "bulk_order_upload"
     bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
     try:
 
         if not bulk_order_upload_steps.do_uploaded_file_with_null_values(feature_file_name, screen_shot, 1):
-            raise Exception("Failed to upload file with Wrong inputs")
+            raise Exception("Failed to upload file with one null value")
     except Exception as e:
         logger.error("Error while uploading file %s" + str(e))
         raise e
@@ -708,9 +739,9 @@ def verify_error_message_with_one_null_values(init_driver):
     bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
     try:
         if not bulk_order_upload_steps.verify_error_message(feature_file_name, screen_shot, '1'):
-            raise Exception("Failed to verify review icon")
+            raise Exception("Failed to verify error message")
     except Exception as e:
-        logger.error("Error while verifying review icon %s" + str(e))
+        logger.error("Error while verifying error message %s" + str(e))
         raise e
 
 
@@ -721,7 +752,7 @@ def do_click_discard_button(init_driver):
     try:
 
         if not bulk_order_upload_steps.do_click_discard_button(feature_file_name, screen_shot):
-            raise Exception("Failed to upload file with Wrong inputs")
+            raise Exception("Failed to click discard button")
     except Exception as e:
         logger.error("Error while uploading file %s" + str(e))
         raise e
@@ -734,7 +765,7 @@ def do_uploaded_file_with_two_null_values(init_driver):
     try:
 
         if not bulk_order_upload_steps.do_uploaded_file_with_null_values(feature_file_name, screen_shot, 2):
-            raise Exception("Failed to upload file with Wrong inputs")
+            raise Exception("Failed to upload file with two null values")
     except Exception as e:
         logger.error("Error while uploading file %s" + str(e))
         raise e
@@ -784,7 +815,7 @@ def do_uploaded_file_with_three_null_values(init_driver):
     try:
 
         if not bulk_order_upload_steps.do_uploaded_file_with_null_values(feature_file_name, screen_shot, 3):
-            raise Exception("Failed to upload file with Wrong inputs")
+            raise Exception("Failed to upload file with 3 null values")
     except Exception as e:
         logger.error("Error while uploading file %s" + str(e))
         raise e
@@ -809,6 +840,18 @@ def verify_bulk_order_upload_page(init_driver):
     try:
         if not bulk_order_upload_steps.verify_bulk_order_upload_page(feature_file_name, screen_shot):
             raise Exception("Failed to verify bulk order upload page")
+    except Exception as e:
+        logger.error("Error while verifying bulk order upload page %s" + str(e))
+        raise e
+
+
+@then(parsers.parse('verify multiple bulk order page status'))
+def verify_multiple_bulk_order_upload_page(init_driver):
+    feature_file_name = "bulk_order_upload"
+    bulk_order_upload_steps = ValidateBulkOrderUploadData(init_driver)
+    try:
+        if not bulk_order_upload_steps.verify_multiple_bulk_order_upload_page(feature_file_name, screen_shot):
+            raise Exception("Failed to verify multiple bulk order page status")
     except Exception as e:
         logger.error("Error while verifying bulk order upload page %s" + str(e))
         raise e
