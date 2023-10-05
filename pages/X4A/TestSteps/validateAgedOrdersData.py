@@ -1,6 +1,8 @@
 import glob
 import os
+import time
 from pathlib import Path
+from pywinauto import application
 
 from CommonUtilities.CSVReader import CSVReader
 from CommonUtilities.logGeneration import LogGenerator
@@ -643,8 +645,12 @@ class ValidateAgedOrdersData:
     def click_on_download(self, feature_file_name, screen_shot):
         x4a_aged_order = X4AAgedOrdersPage(self.driver)
         try:
+            #breakpoint()
             self.logger.info("verifying download")
             x4a_aged_order.click_aged_orders_download()
+            app = application.Application().connect(title_re="Save As", found_index=0)
+            time.sleep(2)
+            app.SaveAs.Button.click()
             self.logger.info("File downloaded successfully")
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                                         + "aged_order_data_downloaded_successfully.png")
@@ -660,6 +666,7 @@ class ValidateAgedOrdersData:
 
     def validate_file_name(self, feature_file_name, screen_shot):
         try:
+            time.sleep(3)
             self.logger.info("Fetching latest downloaded file")
             download_dir = str(os.path.join(Path.home(), "Downloads"))
             self.logger.info("Download directory is " + str(download_dir))
