@@ -504,3 +504,16 @@ def validate_acop_field(init_driver):
         raise e
 
 
+@then(parsers.parse('Validate payment terms code'))
+def validate_payment_terms(init_driver):
+    feature_file_name = "sales_order_details"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        order_number = re.findall("^.{2}\-.{5}", init_driver.im_order_number)[0]
+        sales_order_details = sales_order_details_srv_obj.get_order_details(db_file_path, order_number)
+        payment_terms_code = sales_order_details.get("terms_code")
+        if not validate_sales_orders.do_validate_payment_terms_code(feature_file_name, screen_shot, payment_terms_code):
+            raise Exception("Failed to Validate payment terms code")
+    except Exception as e:
+        logger.error("Not able to Validate payment terms code %s", e)
+        raise e

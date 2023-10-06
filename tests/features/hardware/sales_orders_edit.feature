@@ -5,7 +5,7 @@ Feature: Sales Orders Edit
   Scenario: Login to X4A portal
     Given launch chrome browser and open the X4A url
     Then provide user ID and Password to login
-    #And the user traverse to Sales Order menu
+    And the user traverse to Sales Order menu
 
   # EDT-10681 # EDT-10685 # EDT-10683 # EDT-106
   @validate_updated_order_details
