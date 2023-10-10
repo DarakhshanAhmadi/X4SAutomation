@@ -1,0 +1,90 @@
+{
+    "recordType":"H01",
+    "companyId":"FT",
+    "partnerId":"CA237150",
+    "applicationId":"EDAIXPO",
+    "functionalGroup":"PO",
+    "transactionSetId":"850",
+    "direction":"I",
+    "interchangeControlNumber":"81362",
+    "functionalGroupControlNumber":"81362",
+    "transactionSetControlNumber":"813620001",
+    "dataBankUserRefNumber":"20230908 CA23715                       850",
+    "header02Record":{
+        "recordType":"H02",
+        "orderType":"DS",
+        "poNumber":"312174",
+        "poDate":"20230908",
+        "unitPrice":".00",
+        "buyerName":"ARPIT VERMA",
+        "endUserPoNumber":"16255",
+        "etaDate":"20230912",
+        "numberOfWarehouses":"0",
+        "maxTransitDays":"0"
+    },
+    "header04Record":{
+        "recordType":"H04",
+        "shipToName":"LIVINGSTON INTERNATIONAL",
+        "shipToAttention":"Merelene x 65127 Red",
+        "shiptToAddress":"420 AUDLEY BLVD",
+        "shipToLocation":{
+            "shipToCity":"DELTA",
+            "shipToState":"BC",
+            "shipToZip":"V3M 5S4"
+        },
+        "prcConcessionnbr":"."
+    },
+    "header17Record":{
+        "recordType":"H17",
+        "dynmMsg1":"G16255",
+        "dynmMsg2":"95547700",
+        "dynmMsg3":"16255",
+        "dynmMsg4":"BAL OF ORDER: REF# 955476"
+    },
+    "header06Record":{
+        "recordType":"H06",
+        "billToName":"VAUGHAN DISTRIBUTION CTR"
+    },
+    "header99Record":[{
+        "recordType":"H99",
+        "comment":"EU PO:G16255"
+    },
+    {
+        "recordType":"H99",
+        "comment":"CUST NO:95547700"
+    },
+    {
+        "recordType":"H99",
+        "comment":"BILL TO:16255"
+    },
+    {
+        "recordType":"H99",
+        "comment":"BAL OF ORDER: REF# 955476"
+    }],
+    "detailRecord":[{
+        "recordType":"D01",
+        "lineNumber":"1",
+        "imiPartNumber":"616C1B",
+        "customerPartNumber":"IM616C1B",
+        "quantityOrdered":"1",
+        "itemNumber":"EA",
+        "unitCost":"94.7400",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailReqDelivDate":"20230912",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":".0000",
+        "unitPriceCTO":".0000",
+        "euPPPrcAmt":".0000",
+        "termEndDate-8":"."
+    }],
+    "s01Record":{
+        "recordType":"S01",
+        "totalLines":"1",
+        "hashTotal":"0"
+    }
+}
