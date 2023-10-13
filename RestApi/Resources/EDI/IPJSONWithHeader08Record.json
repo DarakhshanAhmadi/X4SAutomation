@@ -1,0 +1,143 @@
+{
+    "recordType":"H01",
+    "companyId":"FT",
+    "partnerId":"CA145937",
+    "applicationId":"EDAIXPO",
+    "functionalGroup":"PO",
+    "transactionSetId":"850",
+    "direction":"I",
+    "interchangeControlNumber":"1218277",
+    "functionalGroupControlNumber":"1144506",
+    "transactionSetControlNumber":"1536327",
+    "dataBankUserRefNumber":"20231006 CA14593                         850",
+    "header02Record":{
+        "recordType":"H02",
+        "orderType":"DS",
+        "poNumber":"AJD0499",
+        "poDate":"20231006",
+        "contractNumber":"100162",
+        "unitPrice":".00",
+        "buyerName":"NIGEL HARRYCHARRAN",
+        "buyerPhoneNumber":"8664354149",
+        "endUserPoNumber":"100162",
+        "customerOrderNumber":"100162",
+        "numberOfWarehouses":"0",
+        "maxTransitDays":"0",
+        "hideBuyerSwitch":"Y"
+    },
+    "header04Record":{
+        "recordType":"H04",
+        "shipToName":"DELTA ELEVATOR CO. LTD.",
+        "shiptToAddress":"509 MILL STREET",
+        "shipToLocation":{
+            "shipToCity":"KITCHENER",
+            "shipToState":"ON",
+            "shipToZip":"N2G 2Y5",
+            "shipToCountry":"CA"
+        },
+        "shipToContact":"DEREK PETERS",
+        "shiptToPhoneNumber":"5197455789"
+    },
+    "header06Record":{
+        "recordType":"H06",
+        "billToName":"CDW Canada Inc.",
+        "billToAddress":"185 The West Mall",
+        "billToAddress2":"Suite 1700",
+        "billToLocation":{
+            "billToCity":"Etobicoke",
+            "billToState":"ON",
+            "billToZip":"M9C 5L5",
+            "billToCountry":"CA"
+        }
+    },
+    "header08Record":{
+        "recordType":"H08",
+        "buyerContact":"NIGEL HARRYCHARRAN",
+        "buyerPhoneNumber":"8597255789"
+    },
+    "header10Record":{
+        "recordType":"H10",
+        "endUserName":"DELTA ELEVATOR CO. LTD.",
+        "endUserAddress":"509 MILL STREET",
+        "endUserLocation":{
+            "endUserCity":"KITCHENER",
+            "endUserState":"ON",
+            "endUserZip":"N2G 2Y5",
+            "endUserCountry":"CA"
+        },
+        "endUserContact":"DEREK PETERS",
+        "endUserPhoneNumber":"5197455789",
+        "endUserEmail":"DPETERS@DELTA-ELEVATOR.COM"
+    },
+    "header99Record":[{
+        "recordType":"H99",
+        "commQualifier":"HD",
+        "comment":"* * * * *  D R O P  S H I P  * * * * *"
+    },
+    {
+        "recordType":"H99",
+        "commQualifier":"HD",
+        "comment":"SHIP TO:"
+    },
+    {
+        "recordType":"H99",
+        "commQualifier":"HD",
+        "comment":"DELTA ELEVATOR CO. LTD."
+    },
+    {
+        "recordType":"H99",
+        "commQualifier":"HD",
+        "comment":"509 MILL STREET"
+    },
+    {
+        "recordType":"H99",
+        "commQualifier":"HD",
+        "comment":"KITCHENER, ON N2G 2Y5"
+    },
+    {
+        "recordType":"H99",
+        "commQualifier":"HD",
+        "comment":"CANADA"
+    },
+    {
+        "recordType":"H99",
+        "commQualifier":"HD",
+        "comment":"CUSTOMER PO# 100162"
+    },
+    {
+        "recordType":"H99",
+        "commQualifier":"HD",
+        "comment":"CDW ORDER# NPJH306"
+    },
+    {
+        "recordType":"H99",
+        "commQualifier":"HD",
+        "comment":"SHIP VIA CANADA GROUND"
+    }],
+    "detailRecord":[{
+        "recordType":"D01",
+        "lineNumber":"1",
+        "imiPartNumber":"60474W",
+        "customerPartNumber":"3422411",
+        "manufaturerPartNumber":"CP-8851-K9=",
+        "quantityOrdered":"1",
+        "itemNumber":"EA",
+        "unitCost":"438.1600",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"CISCO UC PHONE 8851",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":".0000",
+        "unitPriceCTO":".0000",
+        "euPPPrcAmt":".0000"
+    }],
+    "s01Record":{
+        "recordType":"S01",
+        "totalLines":"1",
+        "hashTotal":"0"
+    }
+}

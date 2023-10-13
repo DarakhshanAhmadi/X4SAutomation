@@ -1,0 +1,74 @@
+{
+    "recordType":"H01",
+    "companyId":"FT",
+    "partnerId":"CA001206",
+    "applicationId":"EDAIXPO",
+    "functionalGroup":"PO",
+    "transactionSetId":"850",
+    "direction":"I",
+    "interchangeControlNumber":"201988463",
+    "functionalGroupControlNumber":"200684675",
+    "transactionSetControlNumber":"1",
+    "dataBankUserRefNumber":"20230907 CA00120 7439517728070501      850",
+    "header02Record":{
+        "recordType":"H02",
+        "orderType":"NE",
+        "poNumber":"7439517728070501",
+        "endCustomerNumber":"530027949142",
+        "poDate":"20230908",
+        "backOrderFlag":"SK",
+        "unitPrice":".00",
+        "buyerPhoneNumber":"613-5995337",
+        "endUserPoNumber":"4014060783",
+        "customerOrderNumber":"743951772",
+        "numberOfWarehouses":"0",
+        "maxTransitDays":"0"
+    },
+    "header04Record":{
+        "recordType":"H04",
+        "shipToName":"KEN LAROCQUE",
+        "shipToAttention":"CIENA CANADA ULC",
+        "shiptToAddress":"5050 INNOVATION DR",
+        "shipToAddress2":"BLDG A",
+        "shipToLocation":{
+            "shipToCity":"OTTAWA",
+            "shipToState":"ON",
+            "shipToZip":"K2K 0J2",
+            "shipToCountry":"CA"
+        },
+        "shiptToPhoneNumber":"613-5995337"
+    },
+    "header10Record":{
+        "recordType":"H10",
+        "endUserEmail":"klarocqu@ciena.com"
+    },
+    "header99Record":[{
+        "recordType":"H99",
+        "comment":"PT - 45"
+    }],
+    "detailRecord":[{
+        "recordType":"D01",
+        "lineNumber":"1",
+        "imiPartNumber":"1862CA",
+        "customerPartNumber":"AB254781",
+        "manufaturerPartNumber":"SRX300",
+        "quantityOrdered":"1",
+        "itemNumber":"EA",
+        "unitCost":"724.4800",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":".0000",
+        "unitPriceCTO":".0000",
+        "euPPPrcAmt":".0000"
+    }],
+    "s01Record":{
+        "recordType":"S01",
+        "totalLines":"1",
+        "hashTotal":"1"
+    }
+}
