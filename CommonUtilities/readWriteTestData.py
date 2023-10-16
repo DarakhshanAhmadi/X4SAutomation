@@ -2,6 +2,7 @@ import datetime
 import json
 import os
 
+import numpy as np
 import pandas
 import pandas as pd
 from openpyxl import load_workbook, Workbook
@@ -61,7 +62,7 @@ def load_excel_to_dictionary(file, work_sheet_name):
         test_data.append(test_data_row)
     return test_data
     """
-    test_data = pd.read_excel(file, sheet_name=work_sheet_name)
+    test_data = pd.read_excel(file, sheet_name=work_sheet_name, dtype=np.object)
     return test_data
 
 
