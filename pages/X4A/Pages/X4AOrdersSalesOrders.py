@@ -772,7 +772,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def click_on_billing_tab(self):
         try:
-            #time.sleep(5)
+            time.sleep(5)
             self.do_click_by_locator(self.BILLING_TAB)
             self.logger.info("Successfully Clicked Billing tab")
             return True

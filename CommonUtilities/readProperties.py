@@ -95,3 +95,8 @@ class ReadConfig:
     def get_controller_test_data_file():
         test_data_file = parse_config_file.get_data_from_config_json("inputFile", "controllerFileName")
         return test_data_file
+
+    @staticmethod
+    def get_inventory_test_data_file():
+        test_data_file = parse_config_file.get_data_from_config_json("inputFile", "inventoryInputFileName")
+        return test_data_file
