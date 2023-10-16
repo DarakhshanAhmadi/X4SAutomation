@@ -1,0 +1,68 @@
+{
+    "recordType":"H01",
+    "companyId":"CA",
+    "partnerId":"CA176136",
+    "applicationId":"EDAIXPO",
+    "functionalGroup":"PO",
+    "transactionSetId":"850",
+    "direction":"I",
+    "interchangeControlNumber":"696883",
+    "functionalGroupControlNumber":"935523",
+    "transactionSetControlNumber":"1",
+    "dataBankUserRefNumber":"20230907 CA17613                       850",
+    "header02Record":{
+        "recordType":"H02",
+        "orderType":"RL",
+        "poNumber":"00894005881146",
+        "poDate":"20230908",
+		"contractNumber":"E2023-98",
+        "carrier":"UPSNCG",
+        "unitPrice":".00",
+        "departmentNumber":"0005263300",
+        "endUserPoNumber":"1058630921",
+        "numberOfWarehouses":"0",
+        "maxTransitDays":"0"
+    },
+    "header04Record":{
+        "recordType":"H04",
+        "shipToName":"Nicole Noriega",
+        "shiptToAddress":"201-15679 104 AVE",
+        "shipToLocation":{
+            "shipToCity":"SURREY",
+            "shipToState":"BC",
+            "shipToZip":"V4N 2H4"
+        },
+        "shipToAddress4":"TEL:6046199010"
+    },
+    "header99Record":[{
+        "recordType":"H99",
+        "comment":"Willowbrea Academy"
+    }],
+    "detailRecord":[{
+        "recordType":"D01",
+        "lineNumber":"1",
+        "imiPartNumber":"245B7W",
+        "customerPartNumber":"4090201",
+        "quantityOrdered":"1",
+        "itemNumber":"EA",
+        "unitCost":"1585.2200",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailReqDelivDate":"20230913",
+        "detailItemDescription1":"MS SURFACE LAPTOP 13IN",
+        "detailItemDescription2":"MS SURFACE LAPTOP 13IN                  I5 8/512GB PLAT 245B7W",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":".0000",
+        "unitPriceCTO":".0000",
+        "euPPPrcAmt":".0000"
+    }],
+    "s01Record":{
+        "recordType":"S01",
+        "totalLines":"1",
+        "hashTotal":"0"
+    }
+}

@@ -1,0 +1,131 @@
+{
+    "recordType":"H01",
+    "companyId":"FT",
+    "partnerId":"CA297086",
+    "applicationId":"EDAIXPO",
+    "functionalGroup":"PO",
+    "transactionSetId":"850",
+    "direction":"I",
+    "interchangeControlNumber":"34065",
+    "functionalGroupControlNumber":"34065",
+    "transactionSetControlNumber":"340650001",
+    "dataBankUserRefNumber":"20230901 CA29708                       850",
+    "header02Record":{
+        "recordType":"H02",
+        "orderType":"NE",
+        "poNumber":"10135841",
+        "poDate":"20230829",
+        "currencyCode":"CAD",
+        "imiCustomerNumber":"40025720",
+        "unitPrice":".00",
+        "departmentNumber":"7I384",
+        "customerVendorNumber":"050503",
+        "requiredShipDate":"20230904",
+        "requiredDeliveryDate":"20230908",
+        "cancelDate":"20231008",
+        "numberOfWarehouses":"0",
+        "maxTransitDays":"0",
+        "terms-9":"0"
+    },
+    "header04Record":{
+        "recordType":"H04",
+        "shipToName":"THE SOURCE WAREHOUSE",
+        "shiptToAddress":"279 BAYVIEW DRIVE",
+        "shipToAddress2":"P.O. BOX 34,000",
+        "shipToLocation":{
+            "shipToCity":"BARRIE",
+            "shipToState":"ON",
+            "shipToZip":"L4M4W5",
+            "shipToCountry":"CA"
+        },
+        "prcConcessionnbr":"."
+    },
+    "header06Record":{
+        "recordType":"H06",
+        "billToName":"THE SOURCE WAREHOUSE",
+        "billToAddress":"279 BAYVIEW DRIVE",
+        "billToAddress2":"P.O. BOX 34,000",
+        "billToLocation":{
+            "billToCity":"BARRIE",
+            "billToState":"ON",
+            "billToZip":"L4M4W5",
+            "billToCountry":"CA"
+        }
+    },
+    "header99Record":[{
+        "recordType":"H99",
+        "comment":"1"
+    },
+    {
+        "recordType":"H99",
+        "comment":"Terms and Conditions: acceptance of purchase order acknowledges terms and condit"
+    }],
+    "detailRecord":[{
+        "recordType":"D01",
+        "lineNumber":"1",
+        "imiPartNumber":"240VVP",
+        "customerPartNumber":"8089265",
+        "upcNumber":"097855158857",
+        "quantityOrdered":"60",
+        "itemNumber":"EA",
+        "unitCost":"119.8800",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"A20 FOR XBOX ONE (GEN 2)",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":".0000",
+        "unitPriceCTO":".0000",
+        "euPPPrcAmt":".0000"
+    },
+    {
+        "recordType":"D01",
+        "lineNumber":"2",
+        "imiPartNumber":"241VVP",
+        "customerPartNumber":"8089264",
+        "upcNumber":"097855158826",
+        "quantityOrdered":"60",
+        "itemNumber":"EA",
+        "unitCost":"119.8800",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"A20 FOR PLAYSTATION (GEN 2)",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":".0000",
+        "unitPriceCTO":".0000",
+        "euPPPrcAmt":".0000"
+    },
+    {
+        "recordType":"D01",
+        "lineNumber":"3",
+        "imiPartNumber":"77190Y",
+        "customerPartNumber":"8043283",
+        "upcNumber":"097855112767",
+        "quantityOrdered":"10",
+        "itemNumber":"EA",
+        "unitCost":"279.9900",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"G29 DRIVING FORCE RACING WHEEL PS4/PS3",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":".0000",
+        "unitPriceCTO":".0000",
+        "euPPPrcAmt":".0000"
+   }],
+    "s01Record":{
+        "recordType":"S01",
+        "totalLines":"3",
+        "hashTotal":"130"
+    }
+}

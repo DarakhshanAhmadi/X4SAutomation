@@ -1,0 +1,70 @@
+{
+    "recordType":"H01",
+    "companyId":"FT",
+    "partnerId":"CA833475",
+    "applicationId":"EDAIXPO",
+    "functionalGroup":"PO",
+    "transactionSetId":"850",
+    "direction":"I",
+    "interchangeControlNumber":"902",
+    "functionalGroupControlNumber":"902",
+    "transactionSetControlNumber":"1",
+    "dataBankUserRefNumber":"20230907 CA83347                       850",
+    "header02Record":{
+        "recordType":"H02",
+        "orderType":"NE",
+        "poNumber":"PCA86921-2575654",
+        "poDate":"20230907",
+        "carrier":"XC",
+        "unitPrice":".00",
+        "requiredShipDate":"20230907",
+        "numberOfWarehouses":"0",
+        "maxTransitDays":"0"
+    },
+    "header04Record":{
+        "recordType":"H04",
+        "shipToName":"RSI Development Canada ULC",
+        "shipToAttention":"Ricky Chan",
+        "shiptToAddress":"68 Outlook Terrace Dr",
+        "shipToLocation":{
+            "shipToCity":"Markham",
+            "shipToState":"ON",
+            "shipToZip":"L6E 1J6",
+            "shipToCountry":"CA"
+        }
+    },
+    "header06Record":{
+        "recordType":"H06",
+        "billToName":"Paragon Micro - Canada",
+        "billToAddress":"2425 Matheson Blvd E #8",
+        "billToLocation":{
+            "billToCity":"Mississauga",
+            "billToState":"ON",
+            "billToZip":"L4W 5K4"
+        }
+    },
+    "detailRecord":[{
+        "recordType":"D01",
+        "lineNumber":"1",
+        "imiPartNumber":"6434DR",
+        "customerPartNumber":"MQ052LL/A",
+        "quantityOrdered":"1",
+        "itemNumber":"EA",
+        "unitCost":"133.4500",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "endUserPrice":"133.50",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":".0000",
+        "unitPriceCTO":".0000",
+        "euPPPrcAmt":".0000"
+    }],
+    "s01Record":{
+        "recordType":"S01",
+        "totalLines":"1",
+        "hashTotal":"0"
+    }
+}
