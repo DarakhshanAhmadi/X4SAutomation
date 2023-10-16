@@ -19,10 +19,11 @@
   "inputFile": {
     "inputFileName": ".\\TestData\\Input_file.xlsx",
     "associateInputFileName": ".\\TestData\\Administration_Input_file.xlsx",
-    "bulkOrderInputFileName": "\\TestData\\Testdata_1_QA.xlsx"
+    "bulkOrderInputFileName": ".\\TestData\\Testdata_1_QA.xlsx",
+    "inventoryInputFileName": ".\\TestData\\Inventory_Testdata.xlsx"
   },
  "x4aStageCredentials": {
-    "x4aBaseUrl": "https://stage.ingrammicro.com/x4a/app/Orders/Sales/OrderManagement",
+    "x4aBaseUrl": "https://stage.ingrammicro.com/x4a/app/home",
     "username": "Svc-CRMTest_QA30Global@ingrammicro.com",
     "enc_password": "6/SM2aH7cXFJFbKL9fbrHQ=="
   },
