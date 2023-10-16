@@ -1,0 +1,100 @@
+{
+    "recordType":"H01",
+    "companyId":"MD",
+    "partnerId":"US384281",
+    "applicationId":"EDAIXPO",
+    "functionalGroup":"PO",
+    "transactionSetId":"850",
+    "direction":"I",
+    "interchangeControlNumber":"42240",
+    "functionalGroupControlNumber":"8807",
+    "transactionSetControlNumber":"1",
+    "dataBankUserRefNumber":"20230919 US38428 0919303OHQG           850",
+    "header02Record":{
+        "recordType":"H02",
+        "orderType":"DS",
+        "poNumber":"0919303OHQG",
+        "poDate":"20230919",
+        "imiCustomerNumber":"41581243",
+        "carrier":"SG",
+        "unitPrice":".00",
+        "buyerName":"MICHELLE TUFANO",
+        "buyerPhoneNumber":"847-205-5200",
+        "endUserPoNumber":"0919303OGAL",
+        "customerVendorNumber":"INGR",
+        "frieghtCode":"12345",
+        "thirdPartyFrieghtAccount":"1859V0",
+        "requiredShipDate":"20230919",
+        "requiredDeliveryDate":"20230919",
+        "numberOfWarehouses":"0",
+        "insideDeliveryFlag":"AS",
+        "maxTransitDays":"0",
+        "PremiumService":"SG"
+    },
+    "header04Record":{
+        "recordType":"H04",
+        "shipToName":"MICHELLE TUFANO",
+        "shiptToAddress":"1360 ABBOTT CT",
+        "shipToAddress2":"35474",
+        "shipToLocation":{
+            "shipToCity":"BUFFALO GROVE",
+            "shipToState":"IL",
+            "shipToCountry":"US",
+            "shipToZip":"60089"
+        }
+    },
+    "header06Record":{
+        "recordType":"H06",
+        "billToName":"MICHELLE TUFANO",
+        "billToAddress":"1360 ABBOTT CT",
+        "billToAddress2":"35474",
+        "billToLocation":{
+            "billToCity":"BUFFALO GROVE",
+            "billToState":"IL",
+            "billToZip":"60089"
+        }
+    },
+    "detailRecord":[{
+        "recordType":"D01",
+        "lineNumber":"1",
+        "customerPartNumber":"194253324034",
+        "upcNumber":"194253324034",
+        "quantityOrdered":"40",
+        "itemNumber":"EA",
+        "unitCost":"152.0000",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"AIRPODS 3RD GEN W/OUT MAGSAFE",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":".0000",
+        "unitPriceCTO":".0000",
+        "euPPPrcAmt":".0000",
+        "d16Record":[{
+            "recordType":"D16",
+            "formCode":"810",
+            "fieldCode":"VN810",
+            "fieldData":"1"
+        },
+        {
+            "recordType":"D16",
+            "formCode":"856",
+            "fieldCode":"REF01",
+            "fieldData":"1"
+        },
+        {
+            "recordType":"D16",
+            "formCode":"945",
+            "fieldCode":"SAPLN",
+            "fieldData":"1"
+        }]
+    }],
+    "s01Record":{
+        "recordType":"S01",
+        "totalLines":"1",
+        "hashTotal":"0"
+    }
+}

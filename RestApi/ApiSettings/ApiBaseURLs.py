@@ -9,3 +9,4 @@ logger.info(api_address)
 
 error_order_base_url = api_address+"/system.webapi.asyncorder/v1/orders"
 order_details_base_url = "https://imservices-qa1-usch01.corporate.ingrammicro.com:9043/ea-api/v1/orderdetails"
+edi_order_url = "https://apixgcp-dev.ingrammicro.com/supplychain/ediorders/any/process/simulate"

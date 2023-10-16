@@ -16,3 +16,9 @@ headers_sales_order_details = {
 }
 
 headers_sales_order_auth = ('APPIMONLINE','APPIMONLINE12345')
+
+headers_edi_data_validation = {
+    "accept": "*",
+    "Content-Type": "application/json",
+    "Authorization": "Basic QVBQU1VQUExZQ0hBSU46QVBQU1VQUExZQ0hBSU4xMjM0NQ=="
+}
