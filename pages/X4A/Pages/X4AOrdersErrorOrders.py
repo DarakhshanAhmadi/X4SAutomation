@@ -2,13 +2,14 @@ import time
 import random
 import string
 import time
+import pandas
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common import keys
 from selenium.webdriver.common.by import By
 from CommonUtilities.baseSet.BasePage import BasePage
 from CommonUtilities.parse_config import ParseConfigFile
 from CommonUtilities.readProperties import ReadConfig
+from datetime import date, timedelta
 
 
 class X4AErrorOrdersPage(BasePage):
@@ -147,6 +148,75 @@ class X4AErrorOrdersPage(BasePage):
         "//*[@class='MuiDataGrid-virtualScrollerContent css-jz7yqw-MuiDataGrid-virtualScrollerContent']/div/div")
     FILTER_CLOSE_ICON = (
         By.XPATH, "//*[text()='Filters']/parent::div/following-sibling::div/button/*[@data-testid='CloseIcon']")
+    LAST_ORDER_ATTEMPT_SECTION_FILTER_PANEL = (By.XPATH, "//*[text()='Last Order Attempt On']")
+    CREATED_ON_SECTION_FILTER_PANEL = (By.XPATH, "//*[text()='Created On']")
+    LAST_ORDER_ATTEMPT_SECTION_FROM_LABEL_WITH_DATE_RANGE_FILTER = (By.XPATH,
+                                                                    "//*[text()='Last Order Attempt On']/../../following-sibling::div//*[text()='From']/parent::div/div/div/div/input[@name='rangePicker']")
+    LAST_ORDER_ATTEMPT_SECTION_TO_LABEL_WITH_DATE_RANGE_FILTER = (By.XPATH,
+                                                                  "//*[text()='Last Order Attempt On']/../../following-sibling::div//*[text()='To']/parent::div/div/div/div/input[@name='rangePicker']")
+    LAST_ORDER_ATTEMPT_SECTION_SELECTED_EXPAND_MORE_BUTTON = (
+        By.XPATH,
+        "//*[text()='Last Order Attempt On']/parent::div/following-sibling::div/*[@data-testid='ExpandMoreIcon']")
+    LAST_ORDER_ATTEMPT_SECTION_SELECTED_ALL_DATES_CHECKBOX = (By.XPATH,
+                                                              "//*[text()='Last Order Attempt On']/parent::div/../following-sibling::div//div/label/span[text()='Select all dates']")
+    LAST_ORDER_ATTEMPT_SECTION_TODAY_CHECKBOX = (By.XPATH,
+                                                 "//*[text()='Last Order Attempt On']/parent::div/../following-sibling::div//div/label/span[text()='Today']")
+    LAST_ORDER_ATTEMPT_SECTION_YESTERDAY_CHECKBOX = (By.XPATH,
+                                                     "//*[text()='Last Order Attempt On']/parent::div/../following-sibling::div//div/label/span[text()='Yesterday']")
+    LAST_ORDER_ATTEMPT_SECTION_SEE_MORE_LESS_BUTTON = (By.XPATH,
+                                                       "//*[text()='Last Order Attempt On']/parent::div/../following-sibling::div//div/button[@data-testid='LastOrderAttempt-SeeMoreLess']")
+    LAST_ORDER_ATTEMPT_SECTION_LAST_WEEK_CHECKBOX = (By.XPATH,
+                                                     "//*[text()='Last Order Attempt On']/parent::div/../following-sibling::div//div/label/span[text()='Last week']")
+    LAST_ORDER_ATTEMPT_SECTION_LAST_30_DAYS_CHECKBOX = (By.XPATH,
+                                                        "//*[text()='Last Order Attempt On']/parent::div/../following-sibling::div//div/label/span[text()='Last 30 days']")
+    CREATED_ON_SECTION_FROM_LABEL_WITH_DATE_RANGE_FILTER = (By.XPATH,
+                                                            "//*[text()='Created On']/../../following-sibling::div//*[text()='From']/parent::div/div/div/div/input[@name='rangePicker']")
+    CREATED_ON_SECTION_SELECTED_EXPAND_MORE_BUTTON = (
+        By.XPATH, "//*[text()='Created On']/parent::div/following-sibling::div/*[@data-testid='ExpandMoreIcon']")
+    CREATED_ON_SECTION_TO_LABEL_WITH_DATE_RANGE_FILTER = (By.XPATH,
+                                                          "//*[text()='Created On']/../../following-sibling::div//*[text()='To']/parent::div/div/div/div/input[@name='rangePicker']")
+    CREATED_ON_SECTION_SELECTED_ALL_DATES_CHECKBOX = (By.XPATH,
+                                                      "//*[text()='Created On']/parent::div/../following-sibling::div//div/label/span[text()='Select all dates']")
+    CREATED_ON_SECTION_TODAY_CHECKBOX = (
+        By.XPATH, "//*[text()='Created On']/parent::div/../following-sibling::div//div/label/span[text()='Today']")
+    CREATED_ON_SECTION_YESTERDAY_CHECKBOX = (
+        By.XPATH, "//*[text()='Created On']/parent::div/../following-sibling::div//div/label/span[text()='Yesterday']")
+    CREATED_ON_SECTION_SEE_MORE_LESS_BUTTON = (By.XPATH,
+                                               "//*[text()='Created On']/parent::div/../following-sibling::div//div/button[@data-testid='createdOn-SeeMoreLess']")
+    CREATED_ON_SECTION_LAST_WEEK_CHECKBOX = (
+        By.XPATH, "//*[text()='Created On']/parent::div/../following-sibling::div//div/label/span[text()='Last week']")
+    CREATED_ON_SECTION_LAST_30_DAYS_CHECKBOX = (
+        By.XPATH,
+        "//*[text()='Created On']/parent::div/../following-sibling::div//div/label/span[text()='Last 30 days']")
+    LAST_ORDER_ATTEMPT_SECTION_FROM_CALENDER_ICON = (By.XPATH,
+                                                     "//*[text()='Last Order Attempt On']/../../following-sibling::div//*[text()='From']/parent::div/div/div/div/div/button[@aria-label='calendar icon button']")
+    LAST_ORDER_ATTEMPT_SECTION_TO_CALENDER_ICON = (By.XPATH,
+                                                   "//*[text()='Last Order Attempt On']/../../following-sibling::div//*[text()='To']/parent::div/div/div/div/div/button[@aria-label='calendar icon button']")
+    LAST_ORDER_ATTEMPT_SECTION_FROM_CURRENT_DATE = (By.XPATH, "//button[@aria-current='date']")
+    LAST_ORDER_ATTEMPT_SECTION_TO_CURRENT_DATE = (By.XPATH, "//button[@aria-current='date']")
+    CREATED_ON_SECTION_FROM_CALENDER_ICON = (By.XPATH,
+                                             "//*[text()='Created On']/../../following-sibling::div//*[text()='From']/parent::div/div/div/div/div/button[@aria-label='calendar icon button']")
+    CREATED_ON_SECTION_TO_CALENDER_ICON = (By.XPATH,
+                                           "//*[text()='Created On']/../../following-sibling::div//*[text()='To']/parent::div/div/div/div/div/button[@aria-label='calendar icon button']")
+    CREATED_ON_SECTION_FROM_CURRENT_DATE = (By.XPATH, "//button[@aria-current='date']")
+    CREATED_ON_SECTION_TO_CURRENT_DATE = (By.XPATH, "//button[@aria-current='date']")
+    LAST_ORDER_ATTEMPT_SECTION_FROM_YESTERDAY_DATE = (
+        By.XPATH, "//button[@aria-current='date']/preceding::button[@role='gridcell'][1]")
+    LAST_ORDER_ATTEMPT_SECTION_FROM_SELECTED_DATE_VALUE = (By.XPATH,
+                                                           "//*[text()='Last Order Attempt On']/../../following-sibling::div//*[text()='From']/parent::div/div/div/div/input[@name='rangePicker']")
+    LAST_ORDER_ATTEMPT_SECTION_TO_SELECTED_DATE_VALUE = (By.XPATH,
+                                                         "//*[text()='Last Order Attempt On']/../../following-sibling::div//*[text()='To']/parent::div/div/div/div/input[@name='rangePicker']")
+    LAST_ORDER_ATTEMPT_DATE_ITEM_ITEM_LIST = (By.XPATH,
+                                              "//*[@class='MuiDataGrid-virtualScrollerRenderZone css-uw2ren-MuiDataGrid-virtualScrollerRenderZone']//div[@data-field='lastOrderAttemptDate']")
+    CREATED_ON_ITEM_LIST = (By.XPATH,
+                            "//*[@class='MuiDataGrid-virtualScrollerRenderZone css-uw2ren-MuiDataGrid-virtualScrollerRenderZone']//div[@data-field='createdOn']")
+    CREATED_ON_SECTION_FROM_YESTERDAY_DATE = (
+        By.XPATH, "//button[@aria-current='date']/preceding::button[@role='gridcell'][1]")
+    CREATED_ON_SECTION_FROM_SELECTED_DATE_VALUE = (By.XPATH,
+                                                   "//*[text()='Created On']/../../following-sibling::div//*[text()='From']/parent::div/div/div/div/input[@name='rangePicker']")
+    CREATED_ON_SECTION_TO_SELECTED_DATE_VALUE = (By.XPATH,
+                                                 "/html/body/div[2]/div[3]/div/div[1]/div[2]/div[5]/div[2]/div/div/div/div/div/div[1]/div[2]/div[2]/div/div/input")
+    TABLE_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-row']")
 
     """VMF Details"""
 
@@ -313,8 +383,20 @@ class X4AErrorOrdersPage(BasePage):
     RESUBMIITED_ORDER_SUCCESSFULLY = (By.XPATH, "//div[text()='Order has been successfully resubmitted.']")
     MARK_FOR_DROPDOWN = (By.XPATH, "//*[@id='newOptions']")
     ORDER_LINE_ENABLED = (By.XPATH, "//*[@class='MuiDataGrid-row Mui-selected']")
-    AT_LEAST_ONE_ORDER_LINE_REQUIRED_MESSAGE = (By.XPATH, "//div[text()='At least one order line is required to resubmit the order']")
-
+    AT_LEAST_ONE_ORDER_LINE_REQUIRED_MESSAGE = (
+        By.XPATH, "//div[text()='At least one order line is required to resubmit the order']")
+    ORDER_LINE_EDIT_ICON = (By.XPATH, "//div[@data-id='1']/div[2]/button/*[@data-testid='EditOutlinedIcon']")
+    ORDER_LINE_UPDATE_ICON = (By.XPATH, "//*[@data-testid='CheckCircleOutlineOutlinedIcon']")
+    ORDER_LINE_CANCEL_ICON = (By.XPATH, "//*[@data-testid='ClearOutlinedIcon']")
+    ORDER_LINE_EDIT_QUANTITY_FIELD = (By.XPATH, "//*[@data-field='quantity']/div/div/input")
+    ORDER_LINE_EDIT_RESELLER_PRICE_FIELD = (By.XPATH, "//*[@data-field='resellerPrice']/div/div/input")
+    ORDER_LINE_EDIT_END_USER_PRICE_FIELD = (By.XPATH, "//*[@data-field='endUserPrice']/div/div/input")
+    ORDER_LINE_EDIT_END_USER_PO_FIELD = (By.XPATH, "//*[@data-field='endUserPoNumber']/div/div/input")
+    ORDER_LINE_QUANTITY_FIELD_TEXT = (By.XPATH, "//div[@data-id='1']//*[@data-field='quantity']/div")
+    ORDER_LINE_RESELLER_PRICE_FIELD_TEXT = (By.XPATH, "//div[@data-id='1']//*[@data-field='resellerPrice']/div")
+    ORDER_LINE_END_USER_PRICE_FIELD_TEXT = (By.XPATH, "//div[@data-id='1']//*[@data-field='endUserPrice']/div")
+    ORDER_LINE_END_USER_PO_FIELD_TEXT = (By.XPATH, "//div[@data-id='1']//*[@data-field='endUserPoNumber']/div")
+    ORDER_DETAILS_TAB = (By.XPATH, "//div[text()='Order details']")
     def go_to_error_orders(self):
         try:
             self.do_click_by_locator(self.SALES_MENU)
@@ -475,12 +557,11 @@ class X4AErrorOrdersPage(BasePage):
 
     def do_cancel_order_success_message(self):
         try:
-
             cancel_order_message = 'Cancelled! order was successfully cancelled.'
             assert cancel_order_message in self.get_element_text(
                 self.CANCEL_ORDER_SUCCESS_MESSAGE), "successfull Cancel Order message not present"
             self.logger.info("order cancelled successfully")
-
+            self.do_click_by_locator(self.ERROR_ORDER_PAGE)
         except Exception as e:
             self.logger.error('Exception occurred while verifying cancel order success message ' + str(e))
             raise e
@@ -900,7 +981,7 @@ class X4AErrorOrdersPage(BasePage):
             end_customer_order_number = "EndCust^OrderNo"
             self.do_send_keys(self.END_CUSTOMER_ORDER_VALUE, end_customer_order_number)
             end_customer_order_invalid_message = self.get_element_text(self.END_CUSTOMER_ORDER_CHAR_COUNT_RATIO_BUTTON)
-            if "End Cusomter order number is invalid" in end_customer_order_invalid_message:
+            if "End Customer order number is invalid" in end_customer_order_invalid_message:
                 self.logger.info("Verified that End customer order number is invalid once add this ^ special character")
                 return True
         except Exception as e:
@@ -1149,7 +1230,7 @@ class X4AErrorOrdersPage(BasePage):
     def do_verify_clear_all_button(self):
         try:
             self.do_click_by_locator(self.SELECT_FIRST_COUNTRY)
-            self.do_check_visibility(self.HEADER_CLEAR_ALL_BUTTON)
+            # self.do_check_visibility(self.HEADER_CLEAR_ALL_BUTTON)
             self.do_check_visibility(self.BITTOM_CLEAR_ALL_BUTTON)
             self.do_click_by_locator(self.BITTOM_CLEAR_ALL_BUTTON)
             return True
@@ -1230,7 +1311,7 @@ class X4AErrorOrdersPage(BasePage):
     def do_select_country(self, country):
         try:
             self.do_click_by_locator(self.FILTER_ICON)
-            self.do_click_by_locator(self.HEADER_CLEAR_ALL_BUTTON)
+            self.do_click_by_locator(self.BITTOM_CLEAR_ALL_BUTTON)
             self.do_click_by_locator(self.FILTER_ICON)
             self.do_click_by_locator(self.COUNTRY_DROPDOWN_BUTTON)
             self.do_click_by_locator(self.COUNTRY_OPTION_SEE_MORE_LESS_BUTTON)
@@ -1255,30 +1336,12 @@ class X4AErrorOrdersPage(BasePage):
 
     def do_verify_update_data_grid_as_per_country_filter(self, country):
         try:
-            message = "No failed orders found."
-            if message == (self.get_element_text(self.NO_FAILED_ORDER_FOUND_MESSAGE)):
+            is_visible = self.do_check_visibility(self.NO_FAILED_ORDER_FOUND_MESSAGE)
+            if is_visible:
                 self.logger.info("Successfully verify updated grid as per country")
             else:
-                element = "//*[text()='Line items']"
-                line_items_element = self.driver.find_element(By.XPATH, element)
-                self.scroll_horizontally(line_items_element)
-
-                element = "//*[text()='Order revenue']"
-                order_revenue_element = self.driver.find_element(By.XPATH, element)
-                self.scroll_horizontally(order_revenue_element)
-
-                element = "//*[text()='Last order attempt date/time']"
-                last_order_attempt_date_element = self.driver.find_element(By.XPATH, element)
-                self.scroll_horizontally(last_order_attempt_date_element)
-                self.scroll_horizontally(last_order_attempt_date_element)
-
-                element = "//*[text()='Days aged']"
-                days_aged_element = self.driver.find_element(By.XPATH, element)
-                self.scroll_horizontally(days_aged_element)
-
-                element = "//*[text()='Retry attempt']"
-                retry_element = self.driver.find_element(By.XPATH, element)
-                self.scroll_horizontally(retry_element)
+                self.driver.execute_script(
+                    "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
 
                 element = "//*[text()='Country']"
                 country_element = self.driver.find_element(By.XPATH, element)
@@ -1298,9 +1361,9 @@ class X4AErrorOrdersPage(BasePage):
                         return False
                 if count == len(country_list):
                     return True
-                self.logger.info(f'Total number of Reseller BCN count is: {count}')
+                self.logger.info(f'Total number of Country  count is: {count}')
         except Exception as e:
-            self.logger.error("Not able to validate reseller bcn")
+            self.logger.error("Not able to validate country")
             return False
 
     def do_click_clear_all_button(self):
@@ -1622,18 +1685,18 @@ class X4AErrorOrdersPage(BasePage):
             time.sleep(3)
             self.do_click_by_locator(self.ADD_BUTTON)
 
-            contact_name_required_message = "Contact Name is required"
-            phone_number_required_message = "Phone Number is required"
-            email_required_message = "Email is required"
+            contact_name_required_message = "Please enter a Contact name"
+            phone_number_required_message = "Please enter a Phone Number"
+            email_required_message = "Please enter a Valid Email Address"
 
             assert contact_name_required_message in self.get_element_text(
-                self.EDIT_END_USER_CONTACT_NAME_REQUIRED_MESSAGE), "Contact name is required message not present"
+                self.EDIT_END_USER_CONTACT_NAME_REQUIRED_MESSAGE), "Please enter a Contact name message not present"
 
             assert phone_number_required_message in self.get_element_text(
-                self.EDIT_END_USER_PHONE_NUMBER_REQUIRED_MESSAGE), "Contact name is required message not present"
+                self.EDIT_END_USER_PHONE_NUMBER_REQUIRED_MESSAGE), "Please enter a Phone Number message not present"
 
             assert email_required_message in self.get_element_text(
-                self.EDIT_END_USER_EMAIL_REQUIRED_MESSAGE), "Email is required message not present"
+                self.EDIT_END_USER_EMAIL_REQUIRED_MESSAGE), "Please enter a Valid Email Address message not present"
 
             self.do_click_by_locator(self.EDIT_END_USER_CANCEL_BUTTON)
             return True
@@ -1979,3 +2042,566 @@ class X4AErrorOrdersPage(BasePage):
         except Exception as e:
             return False
 
+    def do_verify_last_order_attempt_on_section(self):
+        try:
+            self.do_check_visibility(self.LAST_ORDER_ATTEMPT_SECTION_FILTER_PANEL)
+            self.logger.info("Last order attempt on section visible successfully")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_created_on_section(self):
+        try:
+            self.do_check_visibility(self.CREATED_ON_SECTION_FILTER_PANEL)
+            self.logger.info("Created on section visible successfully")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_contents_of_last_order_attempt_on_section(self):
+        try:
+            self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_SELECTED_EXPAND_MORE_BUTTON)
+            self.do_check_visibility(self.LAST_ORDER_ATTEMPT_SECTION_FROM_LABEL_WITH_DATE_RANGE_FILTER)
+            self.do_check_visibility(self.LAST_ORDER_ATTEMPT_SECTION_TO_LABEL_WITH_DATE_RANGE_FILTER)
+            self.do_check_visibility(self.LAST_ORDER_ATTEMPT_SECTION_SELECTED_ALL_DATES_CHECKBOX)
+            self.do_check_visibility(self.LAST_ORDER_ATTEMPT_SECTION_TODAY_CHECKBOX)
+            self.do_check_visibility(self.LAST_ORDER_ATTEMPT_SECTION_YESTERDAY_CHECKBOX)
+            self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_SEE_MORE_LESS_BUTTON)
+            self.do_check_visibility(self.LAST_ORDER_ATTEMPT_SECTION_LAST_WEEK_CHECKBOX)
+            self.do_check_visibility(self.LAST_ORDER_ATTEMPT_SECTION_LAST_30_DAYS_CHECKBOX)
+            self.logger.info("Contents of Last Order Attempt On section visible successfully")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_contents_of_created_on_section(self):
+        try:
+            self.do_click_by_locator(self.CREATED_ON_SECTION_SELECTED_EXPAND_MORE_BUTTON)
+            self.do_check_visibility(self.CREATED_ON_SECTION_FROM_LABEL_WITH_DATE_RANGE_FILTER)
+            self.do_check_visibility(self.CREATED_ON_SECTION_TO_LABEL_WITH_DATE_RANGE_FILTER)
+            self.do_check_visibility(self.CREATED_ON_SECTION_SELECTED_ALL_DATES_CHECKBOX)
+            self.do_check_visibility(self.CREATED_ON_SECTION_TODAY_CHECKBOX)
+            self.do_check_visibility(self.CREATED_ON_SECTION_YESTERDAY_CHECKBOX)
+            self.do_click_by_locator(self.CREATED_ON_SECTION_SEE_MORE_LESS_BUTTON)
+            self.do_check_visibility(self.CREATED_ON_SECTION_LAST_WEEK_CHECKBOX)
+            self.do_check_visibility(self.CREATED_ON_SECTION_LAST_30_DAYS_CHECKBOX)
+            self.logger.info("Contents of Created On section visible successfully")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_last_ord_attempt_on_sec_calender_open_and_able_to_select_date(self):
+        try:
+            self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_FROM_CALENDER_ICON)
+            self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_FROM_CURRENT_DATE)
+            self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_TO_CALENDER_ICON)
+            self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_TO_CURRENT_DATE)
+            self.do_click_by_locator(self.BITTOM_CLEAR_ALL_BUTTON)
+            self.logger.info("Successfully able to select the Last Order Attempt on section date from calender")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_created_on_sec_calender_open_and_able_to_select_date(self):
+        try:
+            self.do_click_by_locator(self.CREATED_ON_SECTION_FROM_CALENDER_ICON)
+            self.do_click_by_locator(self.CREATED_ON_SECTION_FROM_CURRENT_DATE)
+            self.do_click_by_locator(self.CREATED_ON_SECTION_TO_CALENDER_ICON)
+            self.do_click_by_locator(self.CREATED_ON_SECTION_TO_CURRENT_DATE)
+            self.do_click_by_locator(self.BITTOM_CLEAR_ALL_BUTTON)
+            self.logger.info("Successfully able to select the Created on section date from calender")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_last_ord_attempt_on_data_get_filter_as_per_selected_date_range_in_pages(self):
+        try:
+            from_date, to_date = self.filter_by_last_ord_attempt_on_data_to_and_from_as_per_selected_date_range()
+            is_visible = self.do_check_visibility(self.NO_FAILED_ORDER_FOUND_MESSAGE)
+            if is_visible:
+                self.logger.info(
+                    "Successfully verify updated grid as per Last order attempt date/time filtered date range")
+                return True
+            else:
+                first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+                self.logger.info("Verifying updated grid as per Last order attempt date/time filtered date in page %s",
+                                 str(first_page_number))
+                self.go_to_page(first_page_number)
+                self.validate_last_ord_attempt_on_data_as_per_selected_date_range(from_date, to_date)
+                if first_page_number != last_page_number:
+                    if last_page_number != first_page_number + 1:
+                        random_page = self.get_random_page(first_page_number, last_page_number)
+                        self.logger.info(
+                            "Verifying updated grid as perLast order attempt date/time filtered date in page %s",
+                            str(random_page))
+                        from_date, to_date = self.filter_by_last_ord_attempt_on_data_to_and_from_as_per_selected_date_range()
+                        self.go_to_page(random_page)
+                        self.validate_last_ord_attempt_on_data_as_per_selected_date_range(from_date, to_date)
+                    self.logger.info(
+                        "Verifying updated grid as per Last order attempt date/time filtered date in page %s",
+                        str(last_page_number))
+                    from_date, to_date = self.filter_by_last_ord_attempt_on_data_to_and_from_as_per_selected_date_range()
+                    self.go_to_page(last_page_number)
+                    self.validate_last_ord_attempt_on_data_as_per_selected_date_range(from_date, to_date)
+                self.logger.info(
+                    "Successfully verified updated grid as per Last order attempt date/time filtered date range")
+                return True
+        except Exception as e:
+            return False
+
+    def filter_by_last_ord_attempt_on_data_to_and_from_as_per_selected_date_range(self):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.FILTER_ICON)
+            self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_SELECTED_EXPAND_MORE_BUTTON)
+            self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_FROM_CALENDER_ICON)
+            self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_FROM_YESTERDAY_DATE)
+
+            from_date = self.do_get_attribute(self.LAST_ORDER_ATTEMPT_SECTION_FROM_SELECTED_DATE_VALUE, "value")
+            self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_TO_CALENDER_ICON)
+            self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_TO_CURRENT_DATE)
+            to_date = self.do_get_attribute(self.LAST_ORDER_ATTEMPT_SECTION_TO_SELECTED_DATE_VALUE, "value")
+            self.do_click_by_locator(self.APPLY_BUTTON)
+            self.logger.info("Filtered  Last order attempt section from and to date")
+            time.sleep(2)
+            return from_date, to_date
+        except Exception as e:
+            raise e
+
+    def validate_last_ord_attempt_on_data_as_per_selected_date_range(self, from_date, to_date):
+        try:
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
+
+            element = "//*[text()='Last order attempt date/time']"
+            last_order_attempt_date_time_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(last_order_attempt_date_time_element)
+
+            last_order_attempt_date_time_list = self.get_all_elements(self.LAST_ORDER_ATTEMPT_DATE_ITEM_ITEM_LIST)
+            self.logger.info(
+                "length of Last order attempt date/time list %s" % len(last_order_attempt_date_time_list))
+            self.scroll()
+
+            last_order_attempt_date_time_list = self.get_all_elements(self.LAST_ORDER_ATTEMPT_DATE_ITEM_ITEM_LIST)
+            self.logger.info(
+                "length of Last order attempt date/time list %s" % len(last_order_attempt_date_time_list))
+            count = 0
+
+            for last_order_attempt_date_time_item in last_order_attempt_date_time_list:
+                if (str(from_date) in last_order_attempt_date_time_item.text) | (
+                        str(to_date) in last_order_attempt_date_time_item.text):
+                    count = count + 1
+                if count == len(last_order_attempt_date_time_list):
+                    self.logger.info(
+                        "Successfully Verified that Last order attempt date Data should get filtered on selected date ranges")
+                    break
+        except Exception as e:
+            raise e
+
+    def do_verify_created_on_data_get_filter_as_per_selected_date_range_in_pages(self):
+        try:
+            from_date, to_date = self.filter_by_created_on_data_to_and_from_as_per_selected_date_range()
+            is_visible = self.do_check_visibility(self.NO_FAILED_ORDER_FOUND_MESSAGE)
+            if is_visible:
+                self.logger.info("Successfully verify updated grid as per Created on filtered date")
+                return True
+            else:
+                first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+                self.logger.info("Verifying updated grid as per Created on filtered date in page %s",
+                                 str(first_page_number))
+                self.go_to_page(first_page_number)
+                self.validate_created_on_data_as_per_selected_date_range(from_date, to_date)
+                if first_page_number != last_page_number:
+                    if last_page_number != first_page_number + 1:
+                        random_page = self.get_random_page(first_page_number, last_page_number)
+                        self.logger.info("Verifying updated grid as per Created on filtered date in page %s",
+                                         str(random_page))
+                        from_date, to_date = self.filter_by_created_on_data_to_and_from_as_per_selected_date_range()
+                        self.go_to_page(random_page)
+                        self.validate_created_on_data_as_per_selected_date_range(from_date, to_date)
+                    self.logger.info("Verifying updated grid as per Created on filtered date in page %s",
+                                     str(last_page_number))
+                    from_date, to_date = self.filter_by_created_on_data_to_and_from_as_per_selected_date_range()
+                    self.go_to_page(last_page_number)
+                self.validate_created_on_data_as_per_selected_date_range(from_date, to_date)
+                self.logger.info("Successfully verified updated grid as per Created on filtered date")
+                return True
+        except Exception as e:
+            return False
+
+    def filter_by_created_on_data_to_and_from_as_per_selected_date_range(self):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.FILTER_ICON)
+            self.do_click_by_locator(self.CREATED_ON_SECTION_SELECTED_EXPAND_MORE_BUTTON)
+            self.do_click_by_locator(self.CREATED_ON_SECTION_FROM_CALENDER_ICON)
+            self.do_click_by_locator(self.CREATED_ON_SECTION_FROM_YESTERDAY_DATE)
+
+            from_date = self.do_get_attribute(self.CREATED_ON_SECTION_FROM_SELECTED_DATE_VALUE, "value")
+            self.do_click_by_locator(self.CREATED_ON_SECTION_TO_CALENDER_ICON)
+            self.do_click_by_locator(self.CREATED_ON_SECTION_TO_CURRENT_DATE)
+            to_date = self.do_get_attribute(self.CREATED_ON_SECTION_TO_SELECTED_DATE_VALUE, "value")
+            self.logger.info("Filtered Created on section from and to date")
+            time.sleep(3)
+            self.do_click_by_locator(self.APPLY_BUTTON)
+            return from_date, to_date
+        except Exception as e:
+            raise e
+
+    def validate_created_on_data_as_per_selected_date_range(self, from_date, to_date):
+        try:
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
+
+            element = "//*[text()='Created on']"
+            created_on_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(created_on_element)
+
+            created_on_list = self.get_all_elements(self.CREATED_ON_ITEM_LIST)
+            self.logger.info("length of Created On list %s" % len(created_on_list))
+            self.scroll()
+
+            created_on_list = self.get_all_elements(self.CREATED_ON_ITEM_LIST)
+            self.logger.info("length of Created On list %s" % len(created_on_list))
+            count = 0
+
+            for created_on_item in created_on_list:
+                if (str(from_date) in created_on_item.text) | (str(to_date) in created_on_item.text):
+                    count = count + 1
+                if count == len(created_on_list):
+                    self.logger.info(
+                        "Successfully Verified that Created On Data should get filtered on selected date ranges")
+                    break
+        except Exception as e:
+            raise e
+
+    def verify_filter_by_last_ord_attempt_on_data_by_selecting_30_days_in_pages(self):
+        try:
+            is_visible = self.do_check_visibility(self.NO_FAILED_ORDER_FOUND_MESSAGE)
+            if is_visible:
+                self.logger.info("Successfully verify updated grid as per Last order attempt filtered date")
+                return True
+            else:
+                first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+                self.logger.info("Verifying Last order attempt date/time data in page %s", str(first_page_number))
+                self.filter_by_last_ord_attempt_on_data_by_selecting_30_days()
+                self.go_to_page(first_page_number)
+                self.validate_last_ord_attempt_on_data()
+                if first_page_number != last_page_number:
+                    if last_page_number != first_page_number + 1:
+                        random_page = self.get_random_page(first_page_number, last_page_number)
+                        self.logger.info("Verifying Last order attempt date/time data in page %s", str(random_page))
+                        self.filter_by_last_ord_attempt_on_data_by_selecting_30_days()
+                        self.go_to_page(random_page)
+                        self.validate_last_ord_attempt_on_data()
+                    self.logger.info("Verifying Last order attempt date/time data in page %s", str(last_page_number))
+                    self.filter_by_last_ord_attempt_on_data_by_selecting_30_days()
+                    self.go_to_page(last_page_number)
+                    self.validate_last_ord_attempt_on_data()
+                self.logger.info("Successfully verified Last order attempt date/time data")
+                return True
+        except Exception as e:
+            self.logger.error("Exception occurred verifying Last order attempt date/time data in table" + str(e))
+            return False
+
+    def filter_by_last_ord_attempt_on_data_by_selecting_30_days(self):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.FILTER_ICON)
+            self.do_click_by_locator(self.BITTOM_CLEAR_ALL_BUTTON)
+            self.do_click_by_locator(self.FILTER_ICON)
+            self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_SELECTED_EXPAND_MORE_BUTTON)
+            self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_SEE_MORE_LESS_BUTTON)
+            self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_LAST_30_DAYS_CHECKBOX)
+            self.do_click_by_locator(self.APPLY_BUTTON)
+            self.logger.info("Filtered Last order attempt section date with Last 30 days")
+            time.sleep(2)
+            return True
+        except Exception as e:
+            return False
+
+    def validate_last_ord_attempt_on_data(self):
+        try:
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
+
+            element = "//*[text()='Last order attempt date/time']"
+            last_order_attempt_date_time_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(last_order_attempt_date_time_element)
+
+            last_order_attempt_date_time_list = self.get_all_elements(self.LAST_ORDER_ATTEMPT_DATE_ITEM_ITEM_LIST)
+            self.logger.info(
+                "length of Last order attempt date/time list %s" % len(last_order_attempt_date_time_list))
+            self.scroll()
+
+            last_order_attempt_date_time_list = self.get_all_elements(self.LAST_ORDER_ATTEMPT_DATE_ITEM_ITEM_LIST)
+            self.logger.info(
+                "length of Last order attempt date/time list %s" % len(last_order_attempt_date_time_list))
+            count = 0
+            start_date = date.today() - timedelta(days=30)
+            end_date = date.today()
+            date_list = pandas.date_range(start_date, end_date + timedelta(days=0), freq='d').strftime(
+                "%m/%d/%Y").tolist()
+            for last_order_attempt_date_time_item in last_order_attempt_date_time_list:
+                dt = last_order_attempt_date_time_item.text
+                last_order_attempt_date_time_item_dt = dt.split(", ")
+
+                if last_order_attempt_date_time_item_dt[0] in date_list:
+                    count = count + 1
+                if count == len(last_order_attempt_date_time_list):
+                    self.logger.info(
+                        "Successfully Verified that Last order attempt date Data should get filtered on selected date ranges")
+                    break
+        except Exception as e:
+            raise e
+
+    def get_pagination_first_and_last_page(self):
+        try:
+            time.sleep(2)
+            pages = self.get_all_elements(self.PAGINATION_PAGES)
+            first_page_number = int(pages[0].text)
+            last_page_number = int(pages[-1].text)
+            return first_page_number, last_page_number
+        except Exception as e:
+            self.logger.erro("Exception while getting pagination first and last page")
+            raise e
+
+    def get_random_page(self, first, last):
+        try:
+            if last > 10:
+                return random.randint(2, 10)
+            elif last <= 10:
+                return random.randint(first + 1, last - 1)
+        except Exception as e:
+            self.logger.error("Exception while generating random number" + str(e))
+            raise e
+
+    def verify_filter_by_created_on_data_by_selecting_30_days_in_pages(self):
+        try:
+            self.filter_by_created_on_data_by_selecting_30_days()
+            is_visible = self.do_check_visibility(self.NO_FAILED_ORDER_FOUND_MESSAGE)
+            if is_visible:
+                self.logger.info("Successfully verify updated grid as per Created on filtered date")
+                return True
+            else:
+                first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+                self.logger.info("Verifying updated grid as per Created on filtered date in page %s",
+                                 str(first_page_number))
+                self.go_to_page(first_page_number)
+                self.validate_created_on_data()
+                if first_page_number != last_page_number:
+                    if last_page_number != first_page_number + 1:
+                        random_page = self.get_random_page(first_page_number, last_page_number)
+                        self.logger.info("Verifying updated grid as per Created on filtered date in page %s",
+                                         str(random_page))
+                        self.filter_by_created_on_data_by_selecting_30_days()
+                        self.go_to_page(random_page)
+                        self.validate_created_on_data()
+                    self.logger.info("Verifying updated grid as per Created on filtered date in page %s",
+                                     str(last_page_number))
+                    self.filter_by_created_on_data_by_selecting_30_days()
+                    self.go_to_page(last_page_number)
+                    self.validate_created_on_data()
+                self.logger.info("Successfully verified updated grid as per Created on filtered date")
+                self.driver.execute_script(
+                    "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+                return True
+        except Exception as e:
+            return False
+
+    def filter_by_created_on_data_by_selecting_30_days(self):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.FILTER_ICON)
+            self.do_click_by_locator(self.BITTOM_CLEAR_ALL_BUTTON)
+            self.do_click_by_locator(self.FILTER_ICON)
+            self.do_click_by_locator(self.CREATED_ON_SECTION_SELECTED_EXPAND_MORE_BUTTON)
+            self.do_click_by_locator(self.CREATED_ON_SECTION_SEE_MORE_LESS_BUTTON)
+            self.do_click_by_locator(self.CREATED_ON_SECTION_LAST_30_DAYS_CHECKBOX)
+            self.do_click_by_locator(self.APPLY_BUTTON)
+            self.logger.info("Filtered Created on section date with Last 30 days")
+            time.sleep(2)
+            return True
+        except Exception as e:
+            return False
+
+    def validate_created_on_data(self):
+        try:
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
+
+            element = "//*[text()='Created on']"
+            created_on_element = self.driver.find_element(By.XPATH, element)
+            self.scroll_horizontally(created_on_element)
+
+            created_on_list = self.get_all_elements(self.CREATED_ON_ITEM_LIST)
+            self.logger.info(
+                "length of Created on list %s" % len(created_on_list))
+            self.scroll()
+
+            created_on_list = self.get_all_elements(self.CREATED_ON_ITEM_LIST)
+            self.logger.info(
+                "length of Created on list %s" % len(created_on_list))
+            count = 0
+            start_date = date.today() - timedelta(days=30)
+            end_date = date.today()
+            date_list = pandas.date_range(start_date, end_date + timedelta(days=0), freq='d').strftime(
+                "%m/%d/%Y").tolist()
+            for created_on_item in created_on_list:
+                dt = created_on_item.text
+                created_on_item_dt = dt.split(", ")
+
+                if created_on_item_dt[0] in date_list:
+                    count = count + 1
+                if count == len(created_on_list):
+                    self.logger.info(
+                        "Successfully Verified that Created on date Data should get filtered on selected date ranges")
+                    break
+        except Exception as e:
+            raise e
+
+    def do_verify_order_line_edit_icon(self):
+        try:
+            time.sleep(3)
+            self.do_click_by_locator(self.ORDER_LINE_TAB)
+            self.do_check_visibility(self.ORDER_LINE_EDIT_ICON)
+            self.logger.info(
+                "Successfully Verified order line Edit icon")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_update_and_cancel_icon(self):
+        try:
+            time.sleep(3)
+            self.do_click_by_locator(self.ORDER_LINE_EDIT_ICON)
+            self.do_check_visibility(self.ORDER_LINE_UPDATE_ICON)
+            self.do_check_visibility(self.ORDER_LINE_CANCEL_ICON)
+            self.logger.info(
+                "Successfully Verified Update and Cancel Button")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_editable_order_line_fields(self):
+        try:
+            time.sleep(3)
+            self.do_check_visibility(self.ORDER_LINE_EDIT_QUANTITY_FIELD)
+            self.do_check_visibility(self.ORDER_LINE_EDIT_RESELLER_PRICE_FIELD)
+            self.do_check_visibility(self.ORDER_LINE_EDIT_END_USER_PRICE_FIELD)
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
+
+            self.do_check_visibility(self.ORDER_LINE_EDIT_END_USER_PO_FIELD)
+            time.sleep(2)
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+            self.logger.info(
+                "Successfully able to edit Quantity, Reseller price, End user price and End user po# fields")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_order_line_updated_data_discarded(self):
+        try:
+            order_line_quantity = "2"
+            self.do_clear_textfield(self.ORDER_LINE_EDIT_QUANTITY_FIELD)
+            self.do_send_keys(self.ORDER_LINE_EDIT_QUANTITY_FIELD, order_line_quantity)
+
+            order_line_reseller_price = "4"
+            self.do_clear_textfield(self.ORDER_LINE_EDIT_RESELLER_PRICE_FIELD)
+            self.do_send_keys(self.ORDER_LINE_EDIT_RESELLER_PRICE_FIELD, order_line_reseller_price)
+
+            order_line_end_user_price = "6"
+            self.do_clear_textfield(self.ORDER_LINE_EDIT_END_USER_PRICE_FIELD)
+            self.do_send_keys(self.ORDER_LINE_EDIT_END_USER_PRICE_FIELD, order_line_end_user_price)
+
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
+
+            order_line_end_user_po = "END_USER_PO"
+            self.do_clear_textfield(self.ORDER_LINE_EDIT_END_USER_PO_FIELD)
+            self.do_send_keys(self.ORDER_LINE_EDIT_END_USER_PO_FIELD, order_line_end_user_po)
+
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+
+            self.do_click_by_locator(self.ORDER_LINE_CANCEL_ICON)
+            self.do_check_visibility(self.ORDER_LINE_EDIT_ICON)
+
+            quantity = self.get_element_text(self.ORDER_LINE_QUANTITY_FIELD_TEXT)
+            reseller_price = self.get_element_text(self.ORDER_LINE_RESELLER_PRICE_FIELD_TEXT)
+            end_user_price = self.get_element_text(self.ORDER_LINE_END_USER_PRICE_FIELD_TEXT)
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
+            end_user_po = self.get_element_text(self.ORDER_LINE_END_USER_PO_FIELD_TEXT)
+
+            if (order_line_quantity != quantity) & (order_line_reseller_price != reseller_price) & (
+                    order_line_end_user_price != end_user_price) & (order_line_end_user_po != end_user_po):
+                self.driver.execute_script(
+                    "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+                self.logger.info(
+                    "Verified that Quantity, Reseller price, End user price and End user po# fields discarded successfully")
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def do_verify_order_line_fields_not_allow_non_numberic_content(self):
+        try:
+            self.do_click_by_locator(self.ORDER_LINE_EDIT_ICON)
+
+            order_line_quantity = "Test_123"
+            self.do_clear_textfield(self.ORDER_LINE_EDIT_QUANTITY_FIELD)
+            self.do_send_keys(self.ORDER_LINE_EDIT_QUANTITY_FIELD, order_line_quantity)
+
+            order_line_reseller_price = "Test_456"
+            self.do_clear_textfield(self.ORDER_LINE_EDIT_RESELLER_PRICE_FIELD)
+            self.do_send_keys(self.ORDER_LINE_EDIT_RESELLER_PRICE_FIELD, order_line_reseller_price)
+
+            order_line_end_user_price = "Test_567"
+            self.do_clear_textfield(self.ORDER_LINE_EDIT_END_USER_PRICE_FIELD)
+            self.do_send_keys(self.ORDER_LINE_EDIT_END_USER_PRICE_FIELD, order_line_end_user_price)
+
+            quantity = self.do_get_attribute(self.ORDER_LINE_EDIT_QUANTITY_FIELD, "value")
+            reseller_price = self.do_get_attribute(self.ORDER_LINE_EDIT_RESELLER_PRICE_FIELD, "value")
+            end_user_price = self.do_get_attribute(self.ORDER_LINE_EDIT_RESELLER_PRICE_FIELD, "value")
+
+            if (order_line_quantity != quantity) & (order_line_reseller_price != reseller_price) & (
+                    order_line_end_user_price != end_user_price):
+                self.logger.info(
+                    "Verified that Quantity, Reseller price, End user price and End user po# fields not allowed non numberic contents")
+                return True
+            else:
+                self.logger.error("Quantity, Reseller price, End user price and End user po# fields allowed non numberic contents")
+                return False
+        except Exception as e:
+            return False
+
+    def do_update_order_line_field_value(self):
+        try:
+            order_line_quantity = "2"
+            self.do_clear_textfield(self.ORDER_LINE_EDIT_QUANTITY_FIELD)
+            self.do_send_keys(self.ORDER_LINE_EDIT_QUANTITY_FIELD, order_line_quantity)
+
+            order_line_reseller_price = "4"
+            self.do_clear_textfield(self.ORDER_LINE_EDIT_RESELLER_PRICE_FIELD)
+            self.do_send_keys(self.ORDER_LINE_EDIT_RESELLER_PRICE_FIELD, order_line_reseller_price)
+
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
+
+            order_line_end_user_po = "END_USER_PO"
+            self.do_clear_textfield(self.ORDER_LINE_EDIT_END_USER_PO_FIELD)
+            self.do_send_keys(self.ORDER_LINE_EDIT_END_USER_PO_FIELD, order_line_end_user_po)
+
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+
+            self.do_click_by_locator(self.ORDER_LINE_UPDATE_ICON)
+            self.do_click_by_locator(self.ORDER_DETAILS_TAB)
+            self.logger.info("Successfully Updated the order line fields value")
+            return True
+        except Exception as e:
+            return False

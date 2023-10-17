@@ -83,15 +83,17 @@ def test_selected_values_get_cleared_from_filter_header():
 def test_data_in_grid_shoul_get_updated_as_per_selected_filter():
     pass
 
-
-@scenario("features/hardware/data_errors_orders.feature", "Verify VMF Details Edit popup content")
-def test_vmf_details_edit_popup_content():
+@scenario("features/hardware/data_errors_orders.feature",
+          "Last order attempt on section should display inside filter panel")
+def test_last_order_attempt_on_section_should_display_inside_filter_panel():
     pass
 
 
-@scenario("features/hardware/data_errors_orders.feature", "Updated VMF data should get display on Order Details page")
-def test_updated_vmf_data_should_get_display_on_order_details_page():
+@scenario("features/hardware/data_errors_orders.feature", "Created on section should display inside filter panel")
+def test_created_on_on_section_should_display_inside_filter_panel():
     pass
+
+
 
 
 @scenario("features/hardware/data_errors_orders.feature", "Verify VMF Details Edit popup content")
@@ -140,6 +142,14 @@ def test_verify_that_order_resubmitted_successfully_after_click_on_mark_for_canc
 def test_verify_that_at_least_one_order_line_is_required_to_resubmit_the_order_message():
     pass
 
+@scenario("features/hardware/data_errors_orders.feature", "Modify existing Order line")
+def test_modify_existing_order_line():
+    pass
+
+
+@scenario("features/hardware/data_errors_orders.feature", "Update Quantity, Reseller price and End User PO value and resubmit the order")
+def test_update_quantity_reseller_price_and_end_user_po_value_and_resubmit_the_order():
+    pass
 
 @scenario("features/hardware/data_errors_orders.feature", "logout X4A")
 def test_logout_x4a():
@@ -622,6 +632,7 @@ def validate_maximum_limit_message(init_driver):
 
 @when(parsers.parse('Click on Filter icon'))
 def click_on_filter_icon(init_driver):
+    init_driver.refresh()
     feature_file_name = "data_errors_orders"
     validate_error_orders_data = ValidateErrorOrdersData(init_driver)
     try:
@@ -819,6 +830,7 @@ def create_order_for_vmf_details(init_driver):
 
 @when(parsers.parse('Search and Select the Data Errors Order for VMF Details'))
 def search_select_data_errors_order_record_for_vmf_details(init_driver):
+    init_driver.refresh()
     feature_file_name = "data_errors_orders"
     create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
@@ -1345,4 +1357,286 @@ def verify_that_at_least_one_order_line_is_required_to_resubmit_the_order_messag
     except Exception as e:
         logger.error(
             "Error while Verifying At least one order line is required to resubmit the order message %s",
+            e)
+
+
+@then(parsers.parse('Verify that Last order attempt on section should display inside filter panel'))
+def verify_that_last_order_attempt_on_section_should_display_inside_filter_panel(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_last_order_attempt_on_section(feature_file_name):
+            raise Exception(
+                "Failed to Verify that Last order attempt on section should display inside filter panel")
+    except Exception as e:
+        logger.error(
+            "Error while Verifying that Last order attempt on section should display inside filter panel %s",
+            e)
+
+
+@then(parsers.parse('Verify that Created on section should display inside filter panel'))
+def verify_that_created_on_section_should_display_inside_filter_panel(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_created_on_section(feature_file_name):
+            raise Exception(
+                "Failed to Verify that Created on section should display inside filter panel")
+    except Exception as e:
+        logger.error(
+            "Error while Verifying that Created on section should display inside filter panel %s",
+            e)
+
+
+@then(parsers.parse('Verify that contents of Last order attempt on section'))
+def verify_that_contents_of_last_order_attempt_on_section(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_contents_of_last_order_attempt_on_section(feature_file_name):
+            raise Exception(
+                "Failed to Verify that contents of Last order attempt on section")
+    except Exception as e:
+        logger.error(
+            "Error while Verify that contents of Last order attempt on section %s",
+            e)
+
+
+@then(parsers.parse('Verify that contents of Created On section'))
+def verify_that_contents_of_created_on_section(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_contents_of_created_on_section(feature_file_name):
+            raise Exception(
+                "Failed to Verify that contents of Created On section")
+    except Exception as e:
+        logger.error(
+            "Error while Verify that contents of Created On section %s",
+            e)
+
+
+@then(
+    parsers.parse('Verify that Last order attempt on section Calendar should open and it should allow date selection'))
+def verify_that_last_order_attempt_on_section_calendar_should_open_and_it_should_allow_date_selection(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_last_ord_attempt_on_sec_calender_open_and_able_to_select_date(
+                feature_file_name):
+            raise Exception(
+                "Failed to Verify that Last order attempt on section Calendar should open and it should allow date selection")
+    except Exception as e:
+        logger.error(
+            "Error while Verify that Last order attempt on section Calendar should open and it should allow date selection %s",
+            e)
+
+
+@then(
+    parsers.parse('Verify that Created On section Calendar should open and it should allow date selection'))
+def verify_that_created_on_section_calendar_should_open_and_it_should_allow_date_selection(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_created_on_sec_calender_open_and_able_to_select_date(
+                feature_file_name):
+            raise Exception(
+                "Failed to Verify that Created On section Calendar should open and it should allow date selection")
+    except Exception as e:
+        logger.error(
+            "Error while Verify that Created On section Calendar should open and it should allow date selection %s",
+            e)
+
+
+@then(
+    parsers.parse(
+        'Select the Last order attempt on section From and To date and Verify that Data should get filtered on selected date ranges'))
+def select_the_last_order_attempts_on_from_and_to_date_and_verify_that_data_should_get_filtered_on_selected_date_ranges(
+        init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_last_ord_attempt_on_data_get_filter_as_per_selected_date_range(
+                feature_file_name):
+            raise Exception(
+                "Failed to Selecting the Last order attempt on section From and To date and Verifying  Data should get filtered on selected date ranges")
+    except Exception as e:
+        logger.error(
+            "Error while Selecting the Last order attempt on section From and To date and Verifying  Data should get filtered on selected date ranges %s",
+            e)
+
+
+@then(
+    parsers.parse(
+        'Select the Created On section From and To date and Verify that Data should get filtered on selected date ranges'))
+def select_the_created_on_from_and_to_date_and_verify_that_data_should_get_filtered_on_selected_date_ranges(
+        init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_created_on_data_get_filter_as_per_selected_date_range(
+                feature_file_name):
+            raise Exception(
+                "Failed to Selecting the Created on section From and To date and Verifying  Data should get filtered on selected date ranges")
+    except Exception as e:
+        logger.error(
+            "Error while Selecting the Created on section From and To date and Verifying  Data should get filtered on selected date ranges %s",
+            e)
+
+
+@then(
+    parsers.parse(
+        'Select last 30 days checkbox from Last order attempt on section and Verify that data should get filtered on selected date ranges'))
+def select_last_30_days_checkbox_from_last_order_attempts_on_section_and_verify_that_data_should_get_filtered_on_selected_date_ranges(
+        init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.verify_filter_by_last_ord_attempt_on_data_by_selecting_30_days_in_pages(
+                feature_file_name):
+            raise Exception(
+                "Failed to Selecting last 30 days checkbox from Last order attempt on section and Verifying  Data should get filtered on selected date ranges")
+    except Exception as e:
+        logger.error(
+            "Error while Selecting last 30 days checkbox from Last order attempt on section and Verifying  Data should get filtered on selected date ranges %s",
+            e)
+
+
+@then(
+    parsers.parse(
+        'Select last 30 days checkbox from Created on section and Verify that data should get filtered on selected date ranges'))
+def select_last_30_days_checkbox_from_created_on_section_and_verify_that_data_should_get_filtered_on_selected_date_ranges(
+        init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.verify_filter_by_created_on_data_by_selecting_30_days_in_pages(
+                feature_file_name):
+            raise Exception(
+                "Failed to Selecting last 30 days checkbox from Created on section and Verifying  Data should get filtered on selected date ranges")
+    except Exception as e:
+        logger.error(
+            "Error while Selecting last 30 days checkbox from Created on section and Verifying  Data should get filtered on selected date ranges %s",
+            e)
+
+
+@given(parsers.parse('the error order is created via api for modify Order Line'))
+def create_order_for_modify_order_line(init_driver):
+    feature_file_name = "data_errors_orders"
+    data_create_obj = DataCreationViaApi(init_driver)
+    order_management_srv_obj = X4AInputOrderDbManagementService()
+    try:
+        confirmation_id = data_create_obj.post_request_for_error_order_create()
+        logger.info(f'Confirmation ID: {confirmation_id}')
+        if not len(confirmation_id) == 0:
+            order_management_srv_obj.save_confirmation_id_for_modify_order_line_in_db(db_file_path,
+                                                                                      feature_file_name,
+                                                                                      confirmation_id)
+        else:
+            raise Exception('Confirmation Id is empty')
+    except Exception as e:
+        logger.error("Not able create the Data error order %s", e)
+        raise e
+
+
+@when(parsers.parse('Search and Select the Data Errors Order for modify Order Line'))
+def search_select_data_errors_order_record_for_modify_order_line(init_driver):
+    init_driver.refresh()
+    feature_file_name = "data_errors_orders"
+    create_order_steps = ValidateErrorOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        confirmation_id = input_order_data.get("modify_order_line_data_errors_order_id")
+        if not create_order_steps.search_and_select_data_errors_order(feature_file_name, confirmation_id):
+            raise Exception("Failed to select Data error order")
+    except Exception as e:
+        logger.error("Error while selecting Data error order first record %s", e)
+        raise e
+
+
+@then(parsers.parse('Verify that Edit Icon should display for each lines'))
+def verify_that_edit_icon_should_display_for_order_line(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_order_line_edit_icon(feature_file_name):
+            raise Exception(
+                "Failed to Verify that Edit Icon should display for each lines")
+    except Exception as e:
+        logger.error(
+            "Error while Verifying that Edit Icon should display for each lines %s",
+            e)
+
+
+@when(parsers.parse('Click on edit icon and Verify that Update and Cancel Icon should display'))
+def click_on_edit_icon_and_verify_that_update_and_cancel_icon_should_display(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_update_and_cancel_icon(feature_file_name):
+            raise Exception(
+                "Failed to Click on edit icon and Verify that Update and Cancel Icon should display")
+    except Exception as e:
+        logger.error(
+            "Error while Clicking on edit icon and Verifying that Update and Cancel Icon should display %s",
+            e)
+
+
+@then(parsers.parse('Verify that Quantity, Reseller price, End user price and End user po# fields become editable'))
+def verify_that_quantity_reseller_price_end_user_price_and_end_user_po_fields_become_editable(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_editable_order_line_fields(feature_file_name):
+            raise Exception(
+                "Failed to Verify that Quantity, Reseller price, End user price and End user po# fields become editable")
+    except Exception as e:
+        logger.error(
+            "Error while Verifying Quantity, Reseller price, End user price and End user po# fields become editable %s",
+            e)
+
+
+@when(parsers.parse('Click on X icon and Verify that updated data should get discarded'))
+def click_on_x_icon_and_verify_that_updated_data_should_get_discarded(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_order_line_updated_data_discarded(feature_file_name):
+            raise Exception(
+                "Failed to Click on X icon and Verify that Updated data should get discarded")
+    except Exception as e:
+        logger.error(
+            "Error while Clicking on X icon and Verify that Updated data should get discarded %s",
+            e)
+
+
+@then(parsers.parse(
+    'Verify that Quantity, Reseller price, End user price and End user po# fields not allow non numeric content'))
+def verify_that_quantity_reseller_price_end_user_price_and_end_user_po_fields_not_allow_non_numeric_content(
+        init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_order_line_fields_not_allow_non_numberic_content(feature_file_name):
+            raise Exception(
+                "Failed to Verify that Quantity, Reseller price, End user price and End user po# fields not allow non numeric content")
+    except Exception as e:
+        logger.error(
+            "Error while Verifying  Quantity, Reseller price, End user price and End user po# fields not allow non numeric content %s",
+            e)
+
+
+@when(parsers.parse('Update the Order line Quantity, Reseller price and End User PO value'))
+def update_the_order_line_quantity_reseller_price_and_end_user_po_value(
+        init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_update_order_line_field_value(feature_file_name):
+            raise Exception(
+                "Failed to Update the Order line Quantity, Reseller price and End User PO value")
+    except Exception as e:
+        logger.error(
+            "Error while Updating the Order line Quantity, Reseller price and End User PO value %s",
             e)

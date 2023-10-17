@@ -116,6 +116,27 @@ Feature: Data Errors Orders
     When Select any option from Country dropdown list
     Then Data in grid should get updated as per selected country filter if no data found for selected value No orders found message should display
 
+  # OMS-2471
+  @filter_panel_last_order_attempt_on_section
+  Scenario: Last order attempt on section should display inside filter panel
+    When Click on Filter icon
+    Then Verify that Last order attempt on section should display inside filter panel
+    And Verify that contents of Last order attempt on section
+    And Verify that Last order attempt on section Calendar should open and it should allow date selection
+    And Select the Last order attempt on section From and To date and Verify that Data should get filtered on selected date ranges
+    And Select last 30 days checkbox from Last order attempt on section and Verify that data should get filtered on selected date ranges
+
+
+  #OMS-2471
+  @filter_panel_created_on_section
+  Scenario: Created on section should display inside filter panel
+    When Click on Filter icon
+    Then Verify that Created on section should display inside filter panel
+    And Verify that contents of Created On section
+    And Verify that Created On section Calendar should open and it should allow date selection
+    And Select the Created On section From and To date and Verify that Data should get filtered on selected date ranges
+    And Select last 30 days checkbox from Created on section and Verify that data should get filtered on selected date ranges
+
   # OMS-43
   @vmf_details_edit_popup
   Scenario: Verify VMF Details Edit popup content
@@ -191,6 +212,26 @@ Feature: Data Errors Orders
     And Click on Unmark for Cancel option from dropdown and Verify line should get enable
     Then Verify that At least one order line is required to resubmit the order message
 
+
+  # OMS-46
+  @update_existing_order_line
+  Scenario: Modify existing Order line
+    Given the error order is created via api for modify Order Line
+    When Search and Select the Data Errors Order for modify Order Line
+    Then Verify that Edit Icon should display for each lines
+    When Click on edit icon and Verify that Update and Cancel Icon should display
+    Then Verify that Quantity, Reseller price, End user price and End user po# fields become editable
+    When Click on X icon and Verify that Updated data should get discarded
+    Then Verify that Quantity, Reseller price, End user price and End user po# fields not allow non numeric content
+
+  # OMS-46
+  @resubmit_updated_existing_order_line
+  Scenario: Update Quantity, Reseller price and End User PO value and resubmit the order
+    When Update the Order line Quantity, Reseller price and End User PO value
+    And Update PO and End customer order number with valid data then validate updated data on order details page
+    And Resubmit Order Button clicked
+    And Click on Resubmit Order Yes button
+    Then Verify that Order has been successfully resubmitted message should display
 
   @logout
   Scenario: logout X4A
