@@ -2069,7 +2069,6 @@ class X4AErrorOrdersPage(BasePage):
             self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_SEE_MORE_LESS_BUTTON)
             self.do_check_visibility(self.LAST_ORDER_ATTEMPT_SECTION_LAST_WEEK_CHECKBOX)
             self.do_check_visibility(self.LAST_ORDER_ATTEMPT_SECTION_LAST_30_DAYS_CHECKBOX)
-
             self.logger.info("Contents of Last Order Attempt On section visible successfully")
             return True
         except Exception as e:
@@ -2163,6 +2162,7 @@ class X4AErrorOrdersPage(BasePage):
             self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_TO_CURRENT_DATE)
             to_date = self.do_get_attribute(self.LAST_ORDER_ATTEMPT_SECTION_TO_SELECTED_DATE_VALUE, "value")
             self.do_click_by_locator(self.APPLY_BUTTON)
+            self.logger.info("Filtered  Last order attempt section from and to date")
             time.sleep(2)
             return from_date, to_date
         except Exception as e:
@@ -2241,6 +2241,7 @@ class X4AErrorOrdersPage(BasePage):
             self.do_click_by_locator(self.CREATED_ON_SECTION_TO_CALENDER_ICON)
             self.do_click_by_locator(self.CREATED_ON_SECTION_TO_CURRENT_DATE)
             to_date = self.do_get_attribute(self.CREATED_ON_SECTION_TO_SELECTED_DATE_VALUE, "value")
+            self.logger.info("Filtered Created on section from and to date")
             time.sleep(3)
             self.do_click_by_locator(self.APPLY_BUTTON)
             return from_date, to_date
@@ -2313,6 +2314,7 @@ class X4AErrorOrdersPage(BasePage):
             self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_SEE_MORE_LESS_BUTTON)
             self.do_click_by_locator(self.LAST_ORDER_ATTEMPT_SECTION_LAST_30_DAYS_CHECKBOX)
             self.do_click_by_locator(self.APPLY_BUTTON)
+            self.logger.info("Filtered Last order attempt section date with Last 30 days")
             time.sleep(2)
             return True
         except Exception as e:
@@ -2417,6 +2419,7 @@ class X4AErrorOrdersPage(BasePage):
             self.do_click_by_locator(self.CREATED_ON_SECTION_SEE_MORE_LESS_BUTTON)
             self.do_click_by_locator(self.CREATED_ON_SECTION_LAST_30_DAYS_CHECKBOX)
             self.do_click_by_locator(self.APPLY_BUTTON)
+            self.logger.info("Filtered Created on section date with Last 30 days")
             time.sleep(2)
             return True
         except Exception as e:
@@ -2571,7 +2574,7 @@ class X4AErrorOrdersPage(BasePage):
                     "Verified that Quantity, Reseller price, End user price and End user po# fields not allowed non numberic contents")
                 return True
             else:
-                self.logger.info("Quantity, Reseller price, End user price and End user po# fields allowed non numberic contents")
+                self.logger.error("Quantity, Reseller price, End user price and End user po# fields allowed non numberic contents")
                 return False
         except Exception as e:
             return False
@@ -2598,6 +2601,7 @@ class X4AErrorOrdersPage(BasePage):
 
             self.do_click_by_locator(self.ORDER_LINE_UPDATE_ICON)
             self.do_click_by_locator(self.ORDER_DETAILS_TAB)
+            self.logger.info("Successfully Updated the order line fields value")
             return True
         except Exception as e:
             return False
