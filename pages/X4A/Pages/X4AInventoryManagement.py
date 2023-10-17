@@ -46,6 +46,21 @@ class X4AInventoryManagementPage(BasePage):
     MFN_PART_NUMBER_VALUES_IN_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='mfrpartnbr']")
     VENDOR_BUSINESS_MANAGER_VALUES_IN_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='vendorbusinessmanager']")
     VENDOR_NAME_VALUES_IN_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='vendorname']")
+    FIRST_ROW_THREE_DOTS = (By.XPATH, "//div[@data-id=0]/div[@data-field='action']/div/div/div/button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']")
+    ADD_OR_EDIT_OPTION = (By.XPATH, "//li[text()='Add / Edit action']")
+    ACTION_POPUP_DROPDOWN_SECTION_LABEL = (By.XPATH, "(//p[@id='alert-dialog-description'])[1]")
+    ACTION_POPUP_COMMENT_SECTION_LABEL = (By.XPATH, "(//p[@id='alert-dialog-description'])[2]")
+    ACTION_POPUP_CANCEL_BUTTON = (By.XPATH, "//button[text()='Cancel']")
+    ACTION_POPUP_SAVE_BUTTON = (By.XPATH, "//button[text()='Save']")
+    ACTION_POPUP_DOWNDOWN = (By.XPATH, "//div[@class='MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary css-pejs30-MuiInputBase-root-MuiOutlinedInput-root']")
+    ACTION_DROPDOWN_OPTIONS = (By.XPATH, "//ul[@class='MuiList-root MuiList-padding MuiMenu-list css-6hp17o-MuiList-root-MuiMenu-list']/li")
+    ACTION_POPUP_COMMENT_TEXT_AREA = (By.XPATH, "//textarea[@id='textarea']")
+    ACTION_POPUP_CLOSE_BUTTON = (By.XPATH, "//button[@aria-label='close']")
+    ACTION_FOR_SKU = (By.XPATH, "//div[@data-id=0]/div[@data-field='action']/div/div/div/div/span/div/div")
+    COMMENT_FOR_SKU = (By.XPATH, "//div[@data-id=0]/div[@data-field='action']/div/div/div[2]/button")
+    ACTION_SAVE_STATUS_POPUP = (By.XPATH, "//div[@class='MuiAlert-message css-acap47-MuiAlert-message']")
+    POPUP_CLOSE_BUTTON = (By.XPATH, "//button[@aria-label='close']")
+    COMMENT_TEXT = (By.XPATH, "//p[@class='MuiTypography-root MuiTypography-body1 css-1c49e4q-MuiTypography-root']")
 
     def go_to_inventory_management_action_planning(self):
         try:
@@ -764,4 +779,55 @@ class X4AInventoryManagementPage(BasePage):
             self.logger.info(len(elements))
         except Exception as e:
             self.logger.error("Exception while fetching improvement opportunity Ascending" + str(e))
+            raise e
+
+    def validate_action_popup_contents(self):
+        action_options = []
+        try:
+            three_dots = self.get_all_elements(self.FIRST_ROW_THREE_DOTS)
+            self.do_click_by_locator(three_dots[-1])
+            self.do_click_by_locator(self.ADD_OR_EDIT_OPTION)
+            action_popup_dropdown_label = self.get_element_text(self.ACTION_POPUP_DROPDOWN_SECTION_LABEL)
+            action_popup_comment_label = self.get_element_text(self.ACTION_POPUP_COMMENT_SECTION_LABEL)
+            comment_textbox_text = self.do_get_attribute(self.ACTION_POPUP_COMMENT_TEXT_AREA, "placeholder")
+            assert action_popup_dropdown_label == 'Please, select what action will be perform *', 'Action popup dropdown label is incorrect'
+            assert action_popup_comment_label == 'What is being done to eliminate underperforming SKUs?', 'Action popup comment label is incorrect'
+            assert comment_textbox_text == 'Input comment (200 character limit)', 'Comment textbox placeholder is incorrect'
+            self.do_check_availability(self.ACTION_POPUP_CANCEL_BUTTON)
+            self.do_check_availability(self.ACTION_POPUP_CANCEL_BUTTON)
+            self.do_click_by_locator(self.ACTION_POPUP_DOWNDOWN)
+            action_dropdown_options = self.get_all_elements(self.ACTION_DROPDOWN_OPTIONS)
+            for action in action_dropdown_options:
+                action_options.append(action.text)
+            self.logger.info(action_options)
+            return action_options
+        except Exception as e:
+            self.logger.error("Exception while validating Action popup contents" + str(e))
+            raise e
+
+    def update_action_and_comment(self, action, comment):
+        try:
+            action_dropdown_options = self.get_all_elements(self.ACTION_DROPDOWN_OPTIONS)
+            for option in action_dropdown_options:
+                if option.text == action:
+                    self.do_click_by_locator(option)
+                    break
+            self.do_send_keys(self.ACTION_POPUP_COMMENT_TEXT_AREA, comment)
+            self.do_click_by_locator(self.ACTION_POPUP_SAVE_BUTTON)
+            self.do_check_availability(self.ACTION_SAVE_STATUS_POPUP)
+            save_status = self.get_element_text(self.ACTION_SAVE_STATUS_POPUP)
+            assert save_status == 'Save Successful', 'Action save status mismatch'
+            self.do_click_by_locator(self.POPUP_CLOSE_BUTTON)
+        except Exception as e:
+            self.logger.error("Exception while updating action and comment" + str(e))
+            raise e
+
+    def get_action_and_comment(self):
+        try:
+            action = self.get_element_text(self.ACTION_FOR_SKU)
+            self.do_click_by_locator(self.COMMENT_FOR_SKU)
+            comment = self.get_element_text(self.COMMENT_TEXT)
+            return action, comment
+        except Exception as e:
+            self.logger.error("Exception while fetching sku action and comment" + str(e))
             raise e
