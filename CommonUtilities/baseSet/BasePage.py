@@ -268,6 +268,10 @@ class BasePage:
             if page_number == last_page_number:
                 self.logger.info("Clicked on last page " + str(last_page_number))
                 pages[-1].click()
+            elif page_number == first_page_number:
+                time.sleep(1)
+                self.logger.info("Clicked on first page " + str(last_page_number))
+                pages[0].click()
             else:
                 for page in range(first_page_number, last_page_number + 1):
                     page_xpath = (By.XPATH, "//div[@data-testid = '" + str(page) + "-page']")
@@ -300,5 +304,4 @@ class BasePage:
             return True
         else:
             return False
-
 
