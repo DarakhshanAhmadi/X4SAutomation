@@ -712,6 +712,7 @@ class X4AInventoryManagementPage(BasePage):
                 self.logger.info("Verifying Actual 151 is Descending in page %s", str(last_page_number))
                 self.go_to_page(last_page_number)
                 self.is_actual_151_descending_order()
+            self.go_to_page(first_page_number)
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             self.logger.info("Successfully verified VActual 151 is Descending")
