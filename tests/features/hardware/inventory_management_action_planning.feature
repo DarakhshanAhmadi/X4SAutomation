@@ -32,3 +32,11 @@ Feature: Inventory Management Action Planning
     And sort value on order and validate data
     And sort actual 121 and validate data
     And sort actual 151 and validate data
+
+  #OMS-54, OMS-57
+  @verify_action_on_sku
+  Scenario: Verify Action on SKU
+    Given filter by sku
+    When validate popup text and action options are correct
+    Then update the action and comment for sku
+    And validate the updated action and comments are reflecting for sku

@@ -133,5 +133,7 @@ sku TEXT,
 mfn_part_number String,
 vendor_business_manager String,
 vendor_name String,
-country String
+country String,
+actions String,
+comment String
 );

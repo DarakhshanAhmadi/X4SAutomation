@@ -70,5 +70,7 @@ class PrepareObject:
                                         test_data.get("MFNPartNumber"),
                                         test_data.get("VendorBusinessManager"),
                                         test_data.get("VendorName"),
-                                        test_data.get("Country"))
+                                        test_data.get("Country"),
+                                        test_data.get("Actions"),
+                                        test_data.get("Comment"))
         return x4a_inventory_data_obj
