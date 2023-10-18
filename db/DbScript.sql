@@ -40,7 +40,8 @@ modify_end_user_details_data_errors_order_id String,
 end_user_po String,
 edit_order_lines String,
 modify_billing_address_data_errors_order_id String,
-order_line_data_errors_order_id Sting
+order_line_data_errors_order_id Sting,
+modify_order_line_data_errors_order_id
 );
 
 CREATE TABLE IF NOT EXISTS x4a_user_data(
@@ -122,4 +123,17 @@ special_bid_number String,
 serial_numbers String,
 sales_order_details_tbl_id String,
 FOREIGN KEY(sales_order_details_tbl_id) REFERENCES x4a_sales_order_details(id)
+);
+
+
+CREATE TABLE IF NOT EXISTS x4a_inventory(
+id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+feature_file_name String NOT NULL,
+sku TEXT,
+mfn_part_number String,
+vendor_business_manager String,
+vendor_name String,
+country String,
+actions String,
+comment String
 );
