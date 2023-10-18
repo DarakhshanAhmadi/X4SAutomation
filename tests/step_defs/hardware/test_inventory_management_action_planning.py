@@ -43,6 +43,21 @@ def test_verify_action_on_sku():
     pass
 
 
+@scenario("features/hardware/inventory_management_action_planning.feature", "Verify table columns under top 100 aging sku tab")
+def test_verify_table_headers():
+    pass
+
+
+@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Filter results for top 100 aging sku")
+def test_verify_filter():
+    pass
+
+
+@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Sort results for top 100 aging sku")
+def test_verify_sort():
+    pass
+
+
 @given(parsers.parse('launch chrome browser and open the X4A url'))
 def launch_browser(init_driver):
     prepare_obj = PrepareObject(init_driver)
@@ -316,4 +331,90 @@ def validate_action_and_comment(init_driver):
             raise Exception("Failed to validate Action and Comment")
     except Exception as e:
         logger.error("Error while validating Action and Comment %s", e)
+        raise e
+
+
+@given(parsers.parse('click on top 100 aging sku tab'))
+def click_in_top_100_aging_sku(init_driver):
+    feature_file_name = "inventory_management_action_planning"
+    validate_inventory_management = ValidateInventoryManagementData(init_driver)
+    try:
+        if not validate_inventory_management.click_on_top_100_aging_sku_tab(feature_file_name, screen_shot):
+            raise Exception("Failed to click on Top 100 aging sku tab")
+    except Exception as e:
+        logger.error("Error while clicking on Top 100 aging sku tab %s", e)
+        raise e
+
+
+@then(parsers.parse('verify the columns in top 100 aging sku table are correct'))
+def verify_top_100_aging_sku_table_headers(init_driver):
+    feature_file_name = "inventory_management_action_planning"
+    validate_inventory_management = ValidateInventoryManagementData(init_driver)
+    try:
+        if not validate_inventory_management.validate_top_100_aging_sku_table_headers(feature_file_name, screen_shot):
+            raise Exception("Failed to validate Top 100 aging sku table headers")
+    except Exception as e:
+        logger.error("Error while validating Top 100 aging sku table headers %s", e)
+        raise e
+
+
+@then(parsers.parse('verify filter options in top 100 aging sku are correct'))
+def verify_top_100_aging_sku_filter_options(init_driver):
+    feature_file_name = "inventory_management_action_planning"
+    validate_inventory_management = ValidateInventoryManagementData(init_driver)
+    try:
+        if not validate_inventory_management.validate_filter_options_for_top_100_aging(feature_file_name, screen_shot):
+            raise Exception("Failed to validate Top 100 aging sku filter options")
+    except Exception as e:
+        logger.error("Error while validating Top 100 aging sku filter options %s", e)
+        raise e
+
+
+@then(parsers.parse('filter by sku and verify data'))
+def validate_filter_by_sku(init_driver):
+    feature_file_name = "inventory_management_action_planning"
+    validate_inventory_management = ValidateInventoryManagementData(init_driver)
+    try:
+        sku = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("aging_sku")
+        if not validate_inventory_management.validate_filter_by_sku(sku, feature_file_name, screen_shot):
+            raise Exception("Failed to validate filter by sku ")
+    except Exception as e:
+        logger.error("Error while validating filter by sku%s", e)
+        raise e
+
+
+@then(parsers.parse('filter by  MFN part number and verify data'))
+def validate_filter_by_sku(init_driver):
+    feature_file_name = "inventory_management_action_planning"
+    validate_inventory_management = ValidateInventoryManagementData(init_driver)
+    try:
+        mfn_part_number = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("aging_mfn_part_number")
+        if not validate_inventory_management.validate_filter_by_mfn_part_number(mfn_part_number, feature_file_name, screen_shot):
+            raise Exception("Failed to validate filter by MFN part number")
+    except Exception as e:
+        logger.error("Error while validating filter by MFN part number %s", e)
+        raise e
+
+
+@given(parsers.parse('validate actual 151 is in descending by default'))
+def actual_151_sort_by_default(init_driver):
+    feature_file_name = "inventory_management_action_planning"
+    validate_inventory_management = ValidateInventoryManagementData(init_driver)
+    try:
+        if not validate_inventory_management.validate_actual_151_is_descending_by_default(feature_file_name, screen_shot):
+            raise Exception("Failed to validate Actual 151 is descending by default in Top 100 Aging table")
+    except Exception as e:
+        logger.error("Error while Actual 151 is descending by default in Top 100 Aging table %s", e)
+        raise e
+
+
+@then(parsers.parse('sort actual 181 and validate data'))
+def validate_sort_actual_181(init_driver):
+    feature_file_name = "inventory_management_action_planning"
+    validate_inventory_management = ValidateInventoryManagementData(init_driver)
+    try:
+        if not validate_inventory_management.validate_sort_for_actual_181(feature_file_name, screen_shot):
+            raise Exception("Failed to validate sort for Actual 181")
+    except Exception as e:
+        logger.error("Error while validating sort for Actual 181 %s", e)
         raise e

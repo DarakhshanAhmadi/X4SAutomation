@@ -19,10 +19,11 @@ class X4AInventoryDAO(BaseTest):
             cursor = connection.cursor()
             for x4a_inventory in x4a_inventory_list:
                 cursor.execute(SqlConstant.X4A_INVENTORY_INSERT_SQL_QUERY,
-                               (x4a_inventory.feature_file_name, x4a_inventory.sku,
-                                x4a_inventory.mfn_part_number,
+                               (x4a_inventory.feature_file_name, x4a_inventory.under_performing_sku,
+                                x4a_inventory.under_performing_mfn_part_number,
                                 x4a_inventory.vendor_business_manager, x4a_inventory.vendor_name, x4a_inventory.country,
-                                x4a_inventory.actions, x4a_inventory.comment))
+                                x4a_inventory.actions, x4a_inventory.comment, x4a_inventory.aging_sku, x4a_inventory.aging_mfn_part_number,
+                                x4a_inventory.update_action, x4a_inventory.update_comment))
                 connection.commit()
         except Error as e:
             self.logger.error(

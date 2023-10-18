@@ -11,6 +11,8 @@ class X4AInventoryManagementPage(BasePage):
     INVENTORY_MENU = (By.XPATH, "//div[@data-testid='inventory-MenuItem']")
     INVENTORY_MANAGEMENT_OPTION = (By.XPATH, "//*[text()='Inventory management']")
     ACTION_PLANNING = (By.XPATH, "//*[text()='Action planning']")
+
+    """Top 100 Underperforming sku"""
     TOP_100_UNDERPERFORMING_SKU_TAB = (By.XPATH, "//div[@class='MuiTypography-root MuiTypography-h2 css-zac9d4-MuiTypography-root'][text()='Top 100 Underperforming (UP) SKU']")
     FIRST_COLUMN = (By.XPATH, "//div[text()='SKU'][@class='MuiDataGrid-columnHeaderTitle css-t89xny-MuiDataGrid-columnHeaderTitle']")
     PAGINATION_TAB = (By.XPATH, "//div[@data-testid='required-showing']")
@@ -37,11 +39,13 @@ class X4AInventoryManagementPage(BasePage):
     VALUE_ON_ORDER = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='valueorder']")
     ACTUAL_121 = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='agingvalue_over120']")
     ACTUAL_151 = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='agingvalue_over150']")
+    ACTUAL_181 = (By.XPATH,"//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='agingvalue_over180']")
     INVENTORY_VALUE_SORT = (By.XPATH, "(//div[text()='Inventory value'])[2]")
     IMPROVEMENT_OPPORTUNITY_SORT = (By.XPATH, "//div[text()='Improvement opportunity']")
     VALUE_ON_ORDER_SORT = (By.XPATH, "//div[text()='Value on order']")
     ACTUAL_121_SORT = (By.XPATH, "//div[text()='Actual 121']")
     ACTUAL_151_SORT = (By.XPATH, "//div[text()='Actual 151']")
+    ACTUAL_181_SORT = (By.XPATH, "//div[text()='Actual 181']")
     CANCEL_SEARCH_ICON = (By.XPATH, "//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hg1enx-MuiButtonBase-root-MuiIconButton-root']")
     MFN_PART_NUMBER_VALUES_IN_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='mfrpartnbr']")
     VENDOR_BUSINESS_MANAGER_VALUES_IN_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='vendorbusinessmanager']")
@@ -61,6 +65,9 @@ class X4AInventoryManagementPage(BasePage):
     ACTION_SAVE_STATUS_POPUP = (By.XPATH, "//div[@class='MuiAlert-message css-acap47-MuiAlert-message']")
     POPUP_CLOSE_BUTTON = (By.XPATH, "//button[@aria-label='close']")
     COMMENT_TEXT = (By.XPATH, "//p[@class='MuiTypography-root MuiTypography-body1 css-1c49e4q-MuiTypography-root']")
+
+    """ Top 100 Aging sku tab """
+    TOP_100_AGING_SKU_TAB = (By.XPATH, "//div[@class='MuiTypography-root MuiTypography-h2 css-zac9d4-MuiTypography-root'][text()='Top 100 Aging SKU']")
 
     def go_to_inventory_management_action_planning(self):
         try:
@@ -101,7 +108,7 @@ class X4AInventoryManagementPage(BasePage):
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             return table_headers
         except Exception as e:
-            self.logger.error('Exception occurred while getting Top 100 underperforming sku table headers' + str(e))
+            self.logger.error('Exception occurred while getting Top 100 sku table headers' + str(e))
             raise e
 
     def get_filters_list(self):
@@ -331,7 +338,7 @@ class X4AInventoryManagementPage(BasePage):
                     country.click()
                     break
         except Exception as e:
-            self.logger.erro("Exception while filtering by country")
+            self.logger.error("Exception while filtering by country")
             raise e
 
     def get_random_page(self, first, last):
@@ -832,3 +839,153 @@ class X4AInventoryManagementPage(BasePage):
         except Exception as e:
             self.logger.error("Exception while fetching sku action and comment" + str(e))
             raise e
+
+    def click_on_top_100_aging_sku(self):
+        try:
+            time.sleep(2)
+            self.do_click_by_locator(self.TOP_100_AGING_SKU_TAB)
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on Top 100 Aging sku tab' + str(e))
+            raise e
+
+    def get_table_headers_for_top_100_aging_table(self, selected_country):
+        table_headers = []
+        try:
+            page_element = self.driver.find_element(By.XPATH, self.ACTION_PLANING_PAGE_ELEMENT)
+            self.scroll_down(page_element)
+            self.filter_by_country(selected_country)
+            for i in range(1, 23):
+                xpath = (By.XPATH, "//div[@class='css-yrdy0g-MuiDataGrid-columnHeaderRow'][@aria-rowindex=2]/div[@aria-colindex=" + str(i) + "]")
+                if i == 7:
+                    self.driver.execute_script(
+                        "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
+                    time.sleep(2)
+                elif i == 15:
+                    self.driver.execute_script(
+                        "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 3000")
+                    time.sleep(2)
+                header = self.get_element_text(xpath)
+                table_headers.append(header)
+            self.logger.info(table_headers)
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+            return table_headers
+        except Exception as e:
+            self.logger.error('Exception occurred while getting Top 100 sku table headers' + str(e))
+            raise e
+
+    def validate_actual_151_in_pages(self):
+        try:
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("Verifying Actual 151 in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.is_actual_151_descending_order()
+            if first_page_number != last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
+                    self.go_to_page(random_page)
+                    self.logger.info("Verifying Actual 151 in page %s", str(random_page))
+                    self.is_actual_151_descending_order()
+                self.logger.info("Verifying Actual 151 in page %s", str(last_page_number))
+                self.go_to_page(last_page_number)
+                self.is_actual_151_descending_order()
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+            self.logger.info("Successfully verified Actual 151 is descending by default")
+            return True
+        except Exception as e:
+            self.logger.error("Exception while validating Actual 151 is descending by default in pages" + str(e))
+            raise e
+
+    def validate_actual_181_ascending_in_pages(self):
+        try:
+            time.sleep(2)
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
+            self.do_click_by_locator(self.ACTUAL_181_SORT)
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("Verifying Actual 181 is Ascending in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.is_actual_181_ascending_order()
+            if first_page_number != last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
+                    self.go_to_page(random_page)
+                    self.logger.info("Verifying Actual 181 is Ascending in page %s", str(random_page))
+                    self.is_actual_181_ascending_order()
+                self.logger.info("Verifying Actual 181 is Ascending in page %s", str(last_page_number))
+                self.go_to_page(last_page_number)
+                self.is_actual_181_ascending_order()
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+            self.logger.info("Successfully verified VActual 181 is Ascending")
+            return True
+        except Exception as e:
+            self.logger.error("Exception while validating Actual 181 is Ascending in pages" + str(e))
+            raise e
+
+    def is_actual_181_ascending_order(self):
+        value_on_order_list = []
+        try:
+            elements = self.get_all_elements(self.ACTUAL_181)
+            for e in elements:
+                value_on_order_list.append(float((e.text).replace(',', '')))
+            for i in range(len(value_on_order_list)-1):
+                if value_on_order_list[i] <= value_on_order_list[i+1]:
+                    continue
+                else:
+                    self.logger.error(f'Actual 181 is not in Ascending for row {i+1}')
+                    raise Exception('Actual 181 is not in Ascending')
+            self.logger.info(len(elements))
+        except Exception as e:
+            self.logger.error("Exception while validating Actual 181 is Ascending" + str(e))
+            raise e
+
+    def validate_actual_181_descending_in_pages(self):
+        try:
+            time.sleep(2)
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
+            self.do_click_by_locator(self.ACTUAL_181_SORT)
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("Verifying Actual 181 is Descending in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.is_actual_181_descending_order()
+            if first_page_number != last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
+                    self.go_to_page(random_page)
+                    self.logger.info("Verifying Actual 181 is Descending in page %s", str(random_page))
+                    self.is_actual_181_descending_order()
+                self.logger.info("Verifying Actual 181 is Descending in page %s", str(last_page_number))
+                self.go_to_page(last_page_number)
+                self.is_actual_181_descending_order()
+            self.go_to_page(first_page_number)
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+            self.logger.info("Successfully verified VActual 181 is Descending")
+            return True
+        except Exception as e:
+            self.logger.error("Exception while validating Actual 181 is Descending in pages" + str(e))
+            raise e
+
+    def is_actual_181_descending_order(self):
+        value_on_order_list = []
+        try:
+            elements = self.get_all_elements(self.ACTUAL_181)
+            for e in elements:
+                value_on_order_list.append(float((e.text).replace(',', '')))
+            for i in range(len(value_on_order_list)-1):
+                if value_on_order_list[i] >= value_on_order_list[i+1]:
+                    continue
+                else:
+                    self.logger.error(f'Actual 181 is not in Descending in row {i+1}')
+                    raise Exception('Actual 181 is not in Descending')
+            self.logger.info(len(elements))
+        except Exception as e:
+            self.logger.error("Exception while validating Actual 181 is Descending" + str(e))
+            raise e
+
+

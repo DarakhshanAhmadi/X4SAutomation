@@ -16,6 +16,7 @@ class ValidateInventoryManagementData:
     country_list = ['AU', 'FR', 'BR', 'MD', 'MX']
     top_100_under_performing_sku_filter_options = ['SKU', 'MFN Part number', 'Vendor business manager', 'Vendor name']
     action_dropdown_options = ['CM - Pricing', 'CM - Cost Structure', 'DIO - RMA', 'DIO - Sell through', 'DIO - Customer forecast', 'DIO - Customer commitment (non-cancellable)', 'DIO - Customer commitment (cancellable)', 'DIO - Liquidate', 'DIO - Terminate', 'VM - Terminated - RMA', 'DF - Defective', 'Completed']
+    top_100_aging_sku_table_headers = ['SKU', 'Actions', 'Vendor business manager', 'Vendor name', 'Vendor number', 'MFR Part number', 'Product description', 'Inventory value',  'Value on order', 'Actual 121', 'Actual 151', 'Actual 181', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5']
 
     def __init__(self, driver):
         self.driver = driver
@@ -76,6 +77,7 @@ class ValidateInventoryManagementData:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                                         + "top_100_underperforming_tab_clicked_successfully.png")
             return True
+
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
                                         "top_100_underperforming_tab_clicking_error.png")
@@ -414,3 +416,108 @@ class ValidateInventoryManagementData:
             self.logger.error("Error while validating Action and comment")
             self.logger.exception(e)
             return False
+
+    def click_on_top_100_aging_sku_tab(self, feature_file_name, screen_shot):
+        x4a_inventory_management = X4AInventoryManagementPage(self.driver)
+        try:
+            x4a_inventory_management.click_on_top_100_aging_sku()
+            self.logger.info("Successfully clicked on Top 100 aging sku tab")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "top_100_aging_tab_clicked_successfully.png")
+            return True
+
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "top_100_aging_tab_clicking_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                                            "top_100_aging_tab_clicking_error.png"
+            self.logger.error("Error while clicking on Top 100 aging sku tab")
+            self.logger.exception(e)
+            return False
+
+    def validate_top_100_aging_sku_table_headers(self, feature_file_name, screen_shot):
+        x4a_inventory_management = X4AInventoryManagementPage(self.driver)
+        try:
+            for country in self.country_list:
+                self.logger.info(f'validating table headers for {country}')
+                table_headers_list = x4a_inventory_management.get_table_headers_for_top_100_aging_table(country)
+                assert len(self.top_100_aging_sku_table_headers) == len(
+                    table_headers_list), "Number of columns mismatched"
+                for column in self.top_100_aging_sku_table_headers:
+                    if column not in table_headers_list:
+                        self.logger.error(f'column {column} is missing')
+                        return False
+                self.logger.info(f'successfully validated table headers for {country}')
+            time.sleep(2)
+            self.logger.info("Successfully validated Top 100 aging sku table headers")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "top_100_aging_table_headers_validated_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "top_100_aging_table_header_validation_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                                            "top_100_aging_table_header_validation_error.png"
+            self.logger.error("Error while validating Top 100 aging sku table headers")
+            self.logger.exception(e)
+            return False
+
+    def validate_filter_options_for_top_100_aging(self, feature_file_name, screen_shot):
+        x4a_inventory_management = X4AInventoryManagementPage(self.driver)
+        try:
+            filter_options = x4a_inventory_management.get_filters_list()
+            for option in self.top_100_under_performing_sku_filter_options:
+                if option not in filter_options:
+                    self.logger.error(f'filter option {option} is missing')
+                    return False
+            self.logger.info("Successfully validated Top 100 Aging sku filter options")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "top_100_aging_sku_filters_validated_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "top_100_aging_sku_filters_validation_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "top_100_aging_sku_filters_validation_error.png"
+            self.logger.error("Error while validating Top 100 aging sku filter options")
+            self.logger.exception(e)
+            return False
+
+    def validate_actual_151_is_descending_by_default(self, feature_file_name, screen_shot):
+        x4a_inventory_management = X4AInventoryManagementPage(self.driver)
+        try:
+            if not x4a_inventory_management.validate_actual_151_in_pages():
+                return False
+            self.logger.info("Successfully validated Actual 151 is descending by default in top 100 aging sku table")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "actual_151_descending_by_default_verified_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "actual_151_descending_by_default_validation_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "actual_151_descending_by_default_validation_error.png"
+            self.logger.error("Error while validating Actual 151 is descending by default in top 100 aging sku table")
+            self.logger.exception(e)
+            return False
+
+    def validate_sort_for_actual_181(self, feature_file_name, screen_shot):
+        x4a_inventory_management = X4AInventoryManagementPage(self.driver)
+        try:
+            if not x4a_inventory_management.validate_actual_181_ascending_in_pages():
+                return False
+            if not x4a_inventory_management.validate_actual_181_descending_in_pages():
+                return False
+            self.logger.info(f'Successfully validated sort for Actual 181')
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "actual_181_sort_validated_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "actual_181_sort_validation_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "actual_181_sort_validation_error.png"
+            self.logger.error("Error while validating sort for Actual 181")
+            self.logger.exception(e)
+            return False
+

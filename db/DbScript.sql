@@ -129,11 +129,15 @@ FOREIGN KEY(sales_order_details_tbl_id) REFERENCES x4a_sales_order_details(id)
 CREATE TABLE IF NOT EXISTS x4a_inventory(
 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 feature_file_name String NOT NULL,
-sku TEXT,
-mfn_part_number String,
+under_performing_sku TEXT,
+under_performing_mfn_part_number String,
 vendor_business_manager String,
 vendor_name String,
 country String,
 actions String,
-comment String
+comment String,
+aging_sku TEXT,
+aging_mfn_part_number String,
+update_action String,
+update_comment String
 );
