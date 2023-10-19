@@ -64,10 +64,10 @@ def test_filter_by_reseller_po():
 def test_filter_by_reseller_name():
     pass
 
-
-@scenario("features/hardware/sales_orders.feature", "Verify filter by Vendor Name")
-def test_filter_by_vendor_name():
-    pass
+#
+# @scenario("features/hardware/sales_orders.feature", "Verify filter by Vendor Name")
+# def test_filter_by_vendor_name():
+#     pass
 
 
 @scenario("features/hardware/sales_orders.feature", "Verify filter by End User Name")

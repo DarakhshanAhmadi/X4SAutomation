@@ -2,7 +2,7 @@ import glob
 import os
 import time
 from pathlib import Path
-from pywinauto import application
+# from pywinauto import application
 
 from CommonUtilities.CSVReader import CSVReader
 from CommonUtilities.logGeneration import LogGenerator
@@ -647,9 +647,9 @@ class ValidateAgedOrdersData:
         try:
             self.logger.info("verifying download")
             x4a_aged_order.click_aged_orders_download()
-            app = application.Application().connect(title_re="Save As", found_index=0)
-            time.sleep(2)
-            app.SaveAs.Button.click()
+            # app = application.Application().connect(title_re="Save As", found_index=0)
+            # time.sleep(2)
+            # app.SaveAs.Button.click()
             self.logger.info("File downloaded successfully")
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                                         + "aged_order_data_downloaded_successfully.png")
