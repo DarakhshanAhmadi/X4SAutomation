@@ -84,10 +84,6 @@ class BasePage:
         element.send_keys(Keys.CONTROL + 'a', Keys.BACKSPACE)
         element.send_keys(text)
 
-    def do_send_key(self, by_locator, text):
-        element = WebDriverWait(self.driver, self.TIMEOUT).until(EC.visibility_of_element_located(by_locator))
-        element.send_keys(text)
-
     """double clicks an element and enters text"""
 
     def do_double_click_and_send_keys_by_element(self, element, text):

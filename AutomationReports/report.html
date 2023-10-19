@@ -3,193 +3,7 @@
   <head>
     <meta charset="utf-8"/>
     <title>Test Report</title>
-    <style>body {
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 12px;
-  /* do not increase min-width as some may use split screens */
-  min-width: 800px;
-  color: #999;
-}
-
-h1 {
-  font-size: 24px;
-  color: black;
-}
-
-h2 {
-  font-size: 16px;
-  color: black;
-}
-
-p {
-  color: black;
-}
-
-a {
-  color: #999;
-}
-
-table {
-  border-collapse: collapse;
-}
-
-/******************************
- * SUMMARY INFORMATION
- ******************************/
-#environment td {
-  padding: 5px;
-  border: 1px solid #E6E6E6;
-}
-#environment tr:nth-child(odd) {
-  background-color: #f6f6f6;
-}
-
-/******************************
- * TEST RESULT COLORS
- ******************************/
-span.passed,
-.passed .col-result {
-  color: green;
-}
-
-span.skipped,
-span.xfailed,
-span.rerun,
-.skipped .col-result,
-.xfailed .col-result,
-.rerun .col-result {
-  color: orange;
-}
-
-span.error,
-span.failed,
-span.xpassed,
-.error .col-result,
-.failed .col-result,
-.xpassed .col-result {
-  color: red;
-}
-
-/******************************
- * RESULTS TABLE
- *
- * 1. Table Layout
- * 2. Extra
- * 3. Sorting items
- *
- ******************************/
-/*------------------
- * 1. Table Layout
- *------------------*/
-#results-table {
-  border: 1px solid #e6e6e6;
-  color: #999;
-  font-size: 12px;
-  width: 100%;
-}
-#results-table th,
-#results-table td {
-  padding: 5px;
-  border: 1px solid #E6E6E6;
-  text-align: left;
-}
-#results-table th {
-  font-weight: bold;
-}
-
-/*------------------
- * 2. Extra
- *------------------*/
-.log {
-  background-color: #e6e6e6;
-  border: 1px solid #e6e6e6;
-  color: black;
-  display: block;
-  font-family: "Courier New", Courier, monospace;
-  height: 230px;
-  overflow-y: scroll;
-  padding: 5px;
-  white-space: pre-wrap;
-}
-.log:only-child {
-  height: inherit;
-}
-
-div.image {
-  border: 1px solid #e6e6e6;
-  float: right;
-  height: 240px;
-  margin-left: 5px;
-  overflow: hidden;
-  width: 320px;
-}
-div.image img {
-  width: 320px;
-}
-
-div.video {
-  border: 1px solid #e6e6e6;
-  float: right;
-  height: 240px;
-  margin-left: 5px;
-  overflow: hidden;
-  width: 320px;
-}
-div.video video {
-  overflow: hidden;
-  width: 320px;
-  height: 240px;
-}
-
-.collapsed {
-  display: none;
-}
-
-.expander::after {
-  content: " (show details)";
-  color: #BBB;
-  font-style: italic;
-  cursor: pointer;
-}
-
-.collapser::after {
-  content: " (hide details)";
-  color: #BBB;
-  font-style: italic;
-  cursor: pointer;
-}
-
-/*------------------
- * 3. Sorting items
- *------------------*/
-.sortable {
-  cursor: pointer;
-}
-
-.sort-icon {
-  font-size: 0px;
-  float: left;
-  margin-right: 5px;
-  margin-top: 5px;
-  /*triangle*/
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-}
-.inactive .sort-icon {
-  /*finish triangle*/
-  border-top: 8px solid #E6E6E6;
-}
-.asc.active .sort-icon {
-  /*finish triangle*/
-  border-bottom: 8px solid #999;
-}
-.desc.active .sort-icon {
-  /*finish triangle*/
-  border-top: 8px solid #999;
-}
-</style></head>
+    <link href="assets/style.css" rel="stylesheet" type="text/css"/></head>
   <body onLoad="init()">
     <script>/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
@@ -429,12 +243,12 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
 }
 </script>
     <h1>report.html</h1>
-    <p>Report generated on 18-Oct-2023 at 19:35:48 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.1.1</p>
+    <p>Report generated on 22-Jun-2023 at 15:32:10 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.1.1</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
         <td>Designed By</td>
-        <td>X4S Regression QA Team</td></tr>
+        <td>XVS QA Team</td></tr>
       <tr>
         <td>Packages</td>
         <td>{"pluggy": "1.0.0", "py": "1.10.0", "pytest": "7.1.3"}</td></tr>
@@ -449,16 +263,16 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <td>Automatic Data Creator (ACDC)</td></tr>
       <tr>
         <td>Python</td>
-        <td>3.10.11</td></tr>
+        <td>3.10.9</td></tr>
       <tr>
         <td>Tester</td>
-        <td>X4S Regression QA Team </td></tr>
+        <td>XVS QA Team </td></tr>
       <tr>
         <td>version</td>
         <td>2.0</td></tr></table>
     <h2>Summary</h2>
-    <p>3 tests ran in 216.44 seconds. </p>
-    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="passed">3 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <p>2 tests ran in 52.28 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="passed">2 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
@@ -472,147 +286,44 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
-          <td class="col-name">tests/step_defs/hardware/test_email_to_order.py::test_login_the_x4a_portal</td>
-          <td class="col-duration">21.87</td>
+          <td class="col-name">tests/step_defs/hardware/test_ts001.py::test_login_the_x4a_portal</td>
+          <td class="col-duration">16.92</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log"> ------------------------------Captured stderr call------------------------------ <br/>--- Logging error ---
-Traceback (most recent call last):
-  File &quot;C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\logging\__init__.py&quot;, line 1100, in emit
-    msg = self.format(record)
-  File &quot;C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\logging\__init__.py&quot;, line 943, in format
-    return fmt.format(record)
-  File &quot;C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\logging\__init__.py&quot;, line 678, in format
-    record.message = record.getMessage()
-  File &quot;C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\logging\__init__.py&quot;, line 368, in getMessage
-    msg = msg % self.args
-TypeError: not all arguments converted during string formatting
-Call stack:
-  File &quot;C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\runpy.py&quot;, line 196, in _run_module_as_main
-    return _run_code(code, main_globals, None,
-  File &quot;C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\lib\runpy.py&quot;, line 86, in _run_code
-    exec(code, run_globals)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\Scripts\pytest.exe\__main__.py&quot;, line 7, in &lt;module&gt;
-    sys.exit(console_main())
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\_pytest\config\__init__.py&quot;, line 187, in console_main
-    code = main()
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\_pytest\config\__init__.py&quot;, line 164, in main
-    ret: Union[ExitCode, int] = config.hook.pytest_cmdline_main(
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pluggy\_hooks.py&quot;, line 265, in __call__
-    return self._hookexec(self.name, self.get_hookimpls(), kwargs, firstresult)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pluggy\_manager.py&quot;, line 80, in _hookexec
-    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pluggy\_callers.py&quot;, line 39, in _multicall
-    res = hook_impl.function(*args)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\_pytest\main.py&quot;, line 315, in pytest_cmdline_main
-    return wrap_session(config, _main)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\_pytest\main.py&quot;, line 268, in wrap_session
-    session.exitstatus = doit(config, session) or 0
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\_pytest\main.py&quot;, line 322, in _main
-    config.hook.pytest_runtestloop(session=session)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pluggy\_hooks.py&quot;, line 265, in __call__
-    return self._hookexec(self.name, self.get_hookimpls(), kwargs, firstresult)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pluggy\_manager.py&quot;, line 80, in _hookexec
-    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pluggy\_callers.py&quot;, line 39, in _multicall
-    res = hook_impl.function(*args)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\_pytest\main.py&quot;, line 347, in pytest_runtestloop
-    item.config.hook.pytest_runtest_protocol(item=item, nextitem=nextitem)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pluggy\_hooks.py&quot;, line 265, in __call__
-    return self._hookexec(self.name, self.get_hookimpls(), kwargs, firstresult)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pluggy\_manager.py&quot;, line 80, in _hookexec
-    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pluggy\_callers.py&quot;, line 39, in _multicall
-    res = hook_impl.function(*args)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\_pytest\runner.py&quot;, line 111, in pytest_runtest_protocol
-    runtestprotocol(item, nextitem=nextitem)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\_pytest\runner.py&quot;, line 130, in runtestprotocol
-    reports.append(call_and_report(item, &quot;call&quot;, log))
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\_pytest\runner.py&quot;, line 219, in call_and_report
-    call = call_runtest_hook(item, when, **kwds)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\_pytest\runner.py&quot;, line 258, in call_runtest_hook
-    return CallInfo.from_call(
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\_pytest\runner.py&quot;, line 338, in from_call
-    result: Optional[TResult] = func()
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\_pytest\runner.py&quot;, line 259, in &lt;lambda&gt;
-    lambda: ihook(item=item, **kwds), when=when, reraise=reraise
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pluggy\_hooks.py&quot;, line 265, in __call__
-    return self._hookexec(self.name, self.get_hookimpls(), kwargs, firstresult)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pluggy\_manager.py&quot;, line 80, in _hookexec
-    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pluggy\_callers.py&quot;, line 39, in _multicall
-    res = hook_impl.function(*args)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\_pytest\runner.py&quot;, line 166, in pytest_runtest_call
-    item.runtest()
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\_pytest\python.py&quot;, line 1761, in runtest
-    self.ihook.pytest_pyfunc_call(pyfuncitem=self)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pluggy\_hooks.py&quot;, line 265, in __call__
-    return self._hookexec(self.name, self.get_hookimpls(), kwargs, firstresult)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pluggy\_manager.py&quot;, line 80, in _hookexec
-    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pluggy\_callers.py&quot;, line 39, in _multicall
-    res = hook_impl.function(*args)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\_pytest\python.py&quot;, line 192, in pytest_pyfunc_call
-    result = testfunction(**testargs)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pytest_bdd\scenario.py&quot;, line 187, in scenario_wrapper
-    _execute_scenario(feature, scenario, request)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pytest_bdd\scenario.py&quot;, line 157, in _execute_scenario
-    _execute_step_function(request, scenario, step, step_func)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\pytest_bdd\scenario.py&quot;, line 127, in _execute_step_function
-    return_value = call_fixture_func(fixturefunc=step_func, request=request, kwargs=kwargs)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\venv\lib\site-packages\_pytest\fixtures.py&quot;, line 900, in call_fixture_func
-    fixture_result = fixturefunc(**kwargs)
-  File &quot;C:\Users\ustiws02\Documents\x4a-automation-test-suite\tests\step_defs\hardware\test_email_to_order.py&quot;, line 50, in launch_browser
-    logger.info(&quot;the value of filtered data&quot;, filtered_order_data)
-Message: &#x27;the value of filtered data&#x27;
-Arguments: (Empty DataFrame
-Columns: [FeatureFileName, Scenario, Operator_ID, Country_Code, Customer_Branch_and_Number, Reseller_PO, Carrier_Code, Order_Type, Header_Comment_1, Header_Comment_2, Ingram_SKU, Qty]
-Index: [],)
-<br/></div></td></tr></tbody>
+            <div class="log"> -------------------------------Captured log call-------------------------------- <br/>INFO     root:X4ALogin.py:22 Test URL hit: https://stage.ingrammicro.com/x4a/app/Orders/Sales/OrderManagement
+INFO     root:X4ALogin.py:34 Successfully posted the username: Svc-CRMTest_QA30Global@ingrammicro.com
+INFO     root:X4ALogin.py:36 Successfully submitted the username
+INFO     root:X4ALogin.py:38 Successfully posted the password
+INFO     root:X4ALogin.py:40 Successfully submitted the password
+INFO     root:X4ALogin.py:42 Proceeding for App selection page
+INFO     root:X4ALogin.py:43 Login successfully
+INFO     root:createOrder.py:37 Successfully logged in to X4A
+INFO     CommonUtilities.file_operations:test_ts001.py:46 Launched the browser and login successfully. Good to go for order creation!!<br/></div></td></tr></tbody>
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
-          <td class="col-name">tests/step_defs/hardware/test_email_to_order.py::test_ETO_order_management</td>
-          <td class="col-duration">9.70</td>
+          <td class="col-name">tests/step_defs/hardware/test_ts001.py::test_search_bcn</td>
+          <td class="col-duration">32.69</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="log"> -------------------------------Captured log call-------------------------------- <br/>INFO     root:X4AEmailToOrder.py:88 Clicked on ETO order
-INFO     root:validateEmailToOrderData.py:99 Successfully selected ETO order
-INFO     root:X4AEmailToOrder.py:117 verified that ETO order page headers
-INFO     root:validateEmailToOrderData.py:116 Successfully verified ETO order page headers<br/></div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">tests/step_defs/hardware/test_email_to_order.py::test_logout_x4a</td>
-          <td class="col-duration">181.15</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log"> -------------------------------Captured log call-------------------------------- <br/>ERROR    root:X4AEmailToOrder.py:133 Exception occurred while Logout X4A Message: 
-Stacktrace:
-	GetHandleVerifier [0x00007FF6B11E7892+54818]
-	(No symbol) [0x00007FF6B1156AC2]
-	(No symbol) [0x00007FF6B100DA3B]
-	(No symbol) [0x00007FF6B104E4FC]
-	(No symbol) [0x00007FF6B104E67C]
-	(No symbol) [0x00007FF6B1089627]
-	(No symbol) [0x00007FF6B106EAEF]
-	(No symbol) [0x00007FF6B10875A2]
-	(No symbol) [0x00007FF6B106E883]
-	(No symbol) [0x00007FF6B1043691]
-	(No symbol) [0x00007FF6B10448D4]
-	GetHandleVerifier [0x00007FF6B154B992+3610402]
-	GetHandleVerifier [0x00007FF6B15A1860+3962352]
-	GetHandleVerifier [0x00007FF6B1599D4F+3930847]
-	GetHandleVerifier [0x00007FF6B1283646+693206]
-	(No symbol) [0x00007FF6B1161628]
-	(No symbol) [0x00007FF6B115D934]
-	(No symbol) [0x00007FF6B115DA62]
-	(No symbol) [0x00007FF6B114E113]
-	BaseThreadInitThunk [0x00007FF975E27344+20]
-	RtlUserThreadStart [0x00007FF977A826B1+33]
-
-INFO     root:validateEmailToOrderData.py:131 Failed to Logout X4A url
-INFO     CommonUtilities.file_operations:test_email_to_order.py:136 Logout X4A url is successfully.<br/></div></td></tr></tbody></table></body></html>
+            <div class="log"> -------------------------------Captured log call-------------------------------- <br/>INFO     root:createOrder.py:55 Successfully clicked on sales order
+INFO     root:X4AOrdersSalesOrders.py:37 bcn:20222222
+INFO     root:X4AOrdersSalesOrders.py:43 7
+INFO     root:X4AOrdersSalesOrders.py:51 10
+INFO     root:X4AOrdersSalesOrders.py:53 printing the bcns
+INFO     root:X4AOrdersSalesOrders.py:90 scrolled horizontaly
+INFO     root:X4AOrdersSalesOrders.py:73 06/22/2023 02:34:00
+INFO     root:X4AOrdersSalesOrders.py:73 06/22/2023 02:32:13
+INFO     root:X4AOrdersSalesOrders.py:73 06/22/2023 02:32:06
+INFO     root:X4AOrdersSalesOrders.py:73 06/22/2023 02:32:05
+INFO     root:X4AOrdersSalesOrders.py:73 06/22/2023 02:31:27
+INFO     root:X4AOrdersSalesOrders.py:59 going to scroll
+INFO     root:X4AOrdersSalesOrders.py:84 Scrolled!
+INFO     root:X4AOrdersSalesOrders.py:73 06/22/2023 02:30:45
+INFO     root:X4AOrdersSalesOrders.py:73 06/22/2023 02:30:38
+INFO     root:X4AOrdersSalesOrders.py:73 06/22/2023 02:28:30
+INFO     root:X4AOrdersSalesOrders.py:73 06/22/2023 02:26:16
+INFO     root:X4AOrdersSalesOrders.py:73 06/22/2023 02:23:59
+INFO     root:createOrder.py:72 Successfully searched BCN<br/></div></td></tr></tbody></table></body></html>

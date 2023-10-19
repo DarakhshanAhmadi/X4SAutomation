@@ -48,5 +48,5 @@ class X4AUserDataDAO(BaseTest):
         finally:
             sql_util.close_connection(self.connection)
         
-        return user_data
+        return user_data[0]
 

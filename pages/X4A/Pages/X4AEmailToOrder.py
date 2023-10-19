@@ -67,6 +67,7 @@ class X4AEmailToOrderPage(BasePage):
 
     def verify_email_to_order_page(self):
         try:
+            # breakpoint()
             assert 'Email Orders' in self.get_element_text(
                 self.EMAIL_TO_ORDER_UPLOAD_TEXT), "Email Orders Title not present"
             assert 'Search' in self.get_element_text(self.SEARCH_BUTTON), "Search button not present"
@@ -92,6 +93,7 @@ class X4AEmailToOrderPage(BasePage):
 
     def verify_ETO_order_page_haeder(self):
         try:
+            # breakpoint()
             assert 'Details' in self.get_element_text(self.DETAIL_HEADER), "Details header not present"
             assert 'Reference numbers' in self.get_element_text(
                 self.REFERENCE_NO_HEADER), "Reference numbers header not present"
@@ -122,6 +124,7 @@ class X4AEmailToOrderPage(BasePage):
 
     def logout_x4a(self):
         try:
+            breakpoint()
             self.do_click_by_locator(self.USER_DROPDOWN)
             self.do_click_by_locator(self.LOGOUT)
             self.logger.info("Logout Successfully")

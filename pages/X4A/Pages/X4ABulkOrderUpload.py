@@ -2,8 +2,6 @@ import datetime
 import os
 import shutil
 import random
-
-from pywinauto import application
 from selenium.webdriver.common.by import By
 
 from CommonUtilities.baseSet.BasePage import BasePage
@@ -346,8 +344,6 @@ class X4ABulkOrderUploadPage(BasePage):
             self.go_to_bulk_order_upload()
             
             self.do_click_by_locator(self.DOWNLOAD_TEMPLATE_BUTTON)
-            app = application.Application().connect(title_re="Save As", found_index=0)
-            app.SaveAs.Button.click()
             time.sleep(5)
             self.logger.info("Clicked on download template button")
 
@@ -359,8 +355,6 @@ class X4ABulkOrderUploadPage(BasePage):
         try:
             for i in range(no_of_files):
                 self.do_click_by_locator(self.DOWNLOAD_TEMPLATE_BUTTON)
-                app = application.Application().connect(title_re="Save", found_index=0)
-                app.SaveAs.Button.click()
                 time.sleep(1)
 
             self.logger.info("Clicked on download template button")
@@ -420,8 +414,6 @@ class X4ABulkOrderUploadPage(BasePage):
             self.do_click_by_locator(self.VIEW_ACTION_ICON)
             time.sleep(5)
             self.do_click_by_locator(self.DOWNLOADED_ORDER_LIST_BUTTON)
-            app = application.Application().connect(title_re="Save", found_index=0)
-            app.SaveAs.Button.click()
             time.sleep(5)
             self.logger.info("Clicked on view icon")
 
@@ -434,8 +426,6 @@ class X4ABulkOrderUploadPage(BasePage):
             self.do_click_by_locator(self.REVIEW_ACTION_ICON)
             time.sleep(5)
             self.do_click_by_locator(self.DOWNLOADED_ORDER_LIST_BUTTON)
-            app = application.Application().connect(title_re="Save", found_index=0)
-            app.SaveAs.Button.click()
             time.sleep(5)
             self.logger.info("Clicked on review icon")
 

@@ -1,7 +1,7 @@
 @bulk_order_upload @regression
 Feature: Bulk Order Upload
 
-  @login @bulk_order
+  @login 
   Scenario: Login to X4A portal
     Given launch chrome browser and open the X4A url
     Then provide user ID and Password to login
