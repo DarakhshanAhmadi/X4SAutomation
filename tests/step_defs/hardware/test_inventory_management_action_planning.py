@@ -358,18 +358,6 @@ def verify_top_100_aging_sku_table_headers(init_driver):
         raise e
 
 
-@then(parsers.parse('verify filter options in top 100 aging sku are correct'))
-def verify_top_100_aging_sku_filter_options(init_driver):
-    feature_file_name = "inventory_management_action_planning"
-    validate_inventory_management = ValidateInventoryManagementData(init_driver)
-    try:
-        if not validate_inventory_management.validate_filter_options_for_top_100_aging(feature_file_name, screen_shot):
-            raise Exception("Failed to validate Top 100 aging sku filter options")
-    except Exception as e:
-        logger.error("Error while validating Top 100 aging sku filter options %s", e)
-        raise e
-
-
 @then(parsers.parse('filter by sku and verify data'))
 def validate_filter_by_sku(init_driver):
     feature_file_name = "inventory_management_action_planning"

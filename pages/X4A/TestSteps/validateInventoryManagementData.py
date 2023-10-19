@@ -14,7 +14,7 @@ class ValidateInventoryManagementData:
     screen_shot_path = ReadConfig.getScreenshotPath()
     top_100_under_performing_sku_table_headers = ['SKU', 'Actions', 'Vendor business manager', 'Vendor name', 'Vendor number', 'MFR Part number', 'Product description', 'Inventory value', 'Improvement opportunity', 'Value on order', 'Actual 121', 'Actual 151', 'Actual 181', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5']
     country_list = ['AU', 'FR', 'BR', 'MD', 'MX']
-    top_100_under_performing_sku_filter_options = ['SKU', 'MFN Part number', 'Vendor business manager', 'Vendor name']
+    top_100_sku_filter_options = ['SKU', 'MFN Part number', 'Vendor business manager', 'Vendor name']
     action_dropdown_options = ['CM - Pricing', 'CM - Cost Structure', 'DIO - RMA', 'DIO - Sell through', 'DIO - Customer forecast', 'DIO - Customer commitment (non-cancellable)', 'DIO - Customer commitment (cancellable)', 'DIO - Liquidate', 'DIO - Terminate', 'VM - Terminated - RMA', 'DF - Defective', 'Completed']
     top_100_aging_sku_table_headers = ['SKU', 'Actions', 'Vendor business manager', 'Vendor name', 'Vendor number', 'MFR Part number', 'Product description', 'Inventory value',  'Value on order', 'Actual 121', 'Actual 151', 'Actual 181', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5']
 
@@ -118,20 +118,20 @@ class ValidateInventoryManagementData:
         x4a_inventory_management = X4AInventoryManagementPage(self.driver)
         try:
             filter_options = x4a_inventory_management.get_filters_list()
-            for option in self.top_100_under_performing_sku_filter_options:
+            for option in self.top_100_sku_filter_options:
                 if option not in filter_options:
                     self.logger.error(f'filter option {option} is missing')
                     return False
-            self.logger.info("Successfully validated Top 100 underperforming sku filter options")
+            self.logger.info("Successfully validated Top 100 sku filter options")
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
-                                        + "top_100_underperforming_sku_filters_validated_successfully.png")
+                                        + "top_100_sku_filters_validated_successfully.png")
             return True
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
-                                        "top_100_underperforming_sku_filters_validation_error.png")
+                                        "top_100_sku_filters_validation_error.png")
             screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                                  "top_100_underperforming_sku_filters_validation_error.png"
-            self.logger.error("Error while validating Top 100 underperforming sku filter options")
+                                  "top_100_sku_filters_validation_error.png"
+            self.logger.error("Error while validating Top 100 sku filter options")
             self.logger.exception(e)
             return False
 
@@ -459,27 +459,6 @@ class ValidateInventoryManagementData:
             screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
                                                             "top_100_aging_table_header_validation_error.png"
             self.logger.error("Error while validating Top 100 aging sku table headers")
-            self.logger.exception(e)
-            return False
-
-    def validate_filter_options_for_top_100_aging(self, feature_file_name, screen_shot):
-        x4a_inventory_management = X4AInventoryManagementPage(self.driver)
-        try:
-            filter_options = x4a_inventory_management.get_filters_list()
-            for option in self.top_100_under_performing_sku_filter_options:
-                if option not in filter_options:
-                    self.logger.error(f'filter option {option} is missing')
-                    return False
-            self.logger.info("Successfully validated Top 100 Aging sku filter options")
-            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
-                                        + "top_100_aging_sku_filters_validated_successfully.png")
-            return True
-        except Exception as e:
-            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
-                                        "top_100_aging_sku_filters_validation_error.png")
-            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                                  "top_100_aging_sku_filters_validation_error.png"
-            self.logger.error("Error while validating Top 100 aging sku filter options")
             self.logger.exception(e)
             return False
 
