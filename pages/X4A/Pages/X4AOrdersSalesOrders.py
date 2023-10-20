@@ -40,8 +40,11 @@ class X4ASalesOrdersPage(BasePage):
     ORDER_STATUS_LIST = (By.XPATH,
                          "//*[@class='MuiDataGrid-virtualScrollerRenderZone css-uw2ren-MuiDataGrid-virtualScrollerRenderZone']//div[@data-field='orderStatus']")
 
-    SALES_ORDER_PAGE = (By.XPATH, "//h2[text()='Sales orders']")
+    SALES_ORDER_PAGE = (By.XPATH, "//h2[text()='Order Management']")
     IM_ORDER = (By.XPATH, "//div[text()='IM Order #']")
+    INVOICE_NUMBER = (By.XPATH, "//div[text()='invoicenumber']")
+    COUNTRY_CODE = (By.XPATH, "//div[text()='countrycode']")
+    TRACKING = (By.XPATH, "//div[text()='Tracking#']")
     TYPE = (By.XPATH, "//div[text()='Type']")
     BCN = (By.XPATH, "//div[text()='BCN']")
     RESELLER_PO = (By.XPATH, "//div[text()='Reseller PO#']")
@@ -269,24 +272,58 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_sales_orders_listing_page_visible(self):
         try:
-            self.do_check_visibility(self.SALES_ORDER_PAGE)
-            self.logger.info("Successfully verified Sales Orders listing page")
+            if self.do_check_visibility(self.SALES_ORDER_PAGE):
+                self.logger.info("Successfully verified Sales Orders listing page")
+            else:
+                raise Exception('Order management title validation failed')
         except Exception as e:
             self.logger.error('Exception occurred while verifying Sales Orders listing page ' + str(e))
             raise e
 
     def is_im_order_clum_visible(self):
         try:
-            self.do_check_visibility(self.IM_ORDER)
+            if not self.do_check_visibility(self.IM_ORDER):
+                return False
             self.logger.info("Successfully verified the IM Order Column")
             return True
         except Exception as e:
             self.logger.error('Exception occurred while verifying IM Order column Sales Orders listing page ' + str(e))
             return False
 
+    def is_invoice_nmbr_clum_visible(self):
+        try:
+            if not self.do_check_visibility(self.INVOICE_NUMBER):
+                return False
+            self.logger.info("Successfully verified the Invoice number Column")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Invoice number column Sales Orders listing page ' + str(e))
+            return False
+
+    def is_country_code_clum_visible(self):
+        try:
+            if not self.do_check_visibility(self.COUNTRY_CODE):
+                return False
+            self.logger.info("Successfully verified the Country code Column")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Country code column Sales Orders listing page ' + str(e))
+            return False
+
+    def is_tracking_clum_visible(self):
+        try:
+            if not self.do_check_visibility(self.TRACKING):
+                return False
+            self.logger.info("Successfully verified the Tracking Column")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Tracking column Sales Orders listing page ' + str(e))
+            return False
+
     def is_type_clum_visible(self):
         try:
-            self.do_check_visibility(self.TYPE)
+            if not self.do_check_visibility(self.TYPE):
+                return False
             self.logger.info("Successfully verified the Type Column")
             return True
         except Exception as e:
@@ -295,7 +332,10 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_bcn_clum_visible(self):
         try:
-            self.do_check_visibility(self.BCN)
+            self.driver.execute_script("document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft = 1300")
+            time.sleep(2)
+            if not self.do_check_visibility(self.BCN):
+                return False
             self.logger.info("Successfully verified the BCN Column")
             return True
         except Exception as e:
@@ -304,7 +344,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_reseller_po_clum_visible(self):
         try:
-            self.do_check_visibility(self.RESELLER_PO)
+            if not self.do_check_visibility(self.RESELLER_PO):
+                return False
             self.logger.info("Successfully verified the BCN Column")
             return True
         except Exception as e:
@@ -314,7 +355,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_reseller_nm_clum_visible(self):
         try:
-            self.do_check_visibility(self.RESELLER_NAME)
+            if not self.do_check_visibility(self.RESELLER_NAME):
+                return False
             self.logger.info("Successfully verified the Reseller number Column")
             return True
         except Exception as e:
@@ -323,7 +365,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_vendor_nm_clum_visible(self):
         try:
-            self.do_check_visibility(self.VENDOR_NAME)
+            if not self.do_check_visibility(self.VENDOR_NAME):
+                return False
             self.logger.info("Successfully verified the Vendor Name Column")
             return True
         except Exception as e:
@@ -333,10 +376,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_end_user_nm_clum_visible(self):
         try:
-            element = "//div[@data-id=0]/div[@data-colindex=6]"
-            order_value_element = self.driver.find_element(By.XPATH, element)
-            self.scroll_horizontally(order_value_element)
-            self.do_check_visibility(self.END_USER_NAME)
+            if not self.do_check_visibility(self.END_USER_NAME):
+                return False
             self.logger.info("Successfully verified the End User name Column")
             return True
         except Exception as e:
@@ -346,10 +387,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_end_user_po_clum_visible(self):
         try:
-            element = "//div[@data-id=0]/div[@data-colindex=7]"
-            order_value_element = self.driver.find_element(By.XPATH, element)
-            self.scroll_horizontally(order_value_element)
-            self.do_check_visibility(self.END_USER_PO)
+            if not self.do_check_visibility(self.END_USER_PO):
+                return False
             self.logger.info("Successfully verified the End User PO Column")
             return True
         except Exception as e:
@@ -359,10 +398,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_order_value_clum_visible(self):
         try:
-            element = "//div[text()='Order value']"
-            order_value_element = self.driver.find_element(By.XPATH, element)
-            self.scroll_horizontally(order_value_element)
-            self.do_check_visibility(self.ORDER_VALUE)
+            if not self.do_check_visibility(self.ORDER_VALUE):
+                return False
             self.logger.info("Successfully verified the Order Value Column")
             return True
         except Exception as e:
@@ -372,10 +409,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_order_status_clum_visible(self):
         try:
-            element = "//div[text()='Order status']"
-            order_status_element = self.driver.find_element(By.XPATH, element)
-            self.scroll_horizontally(order_status_element)
-            self.do_check_visibility(self.ORDER_STATUS)
+            if not self.do_check_visibility(self.ORDER_STATUS):
+                return False
             self.logger.info("Successfully verified the Order Status Column")
             return True
         except Exception as e:
@@ -385,10 +420,8 @@ class X4ASalesOrdersPage(BasePage):
 
     def is_created_on_clum_visible(self):
         try:
-            element = "//div[text()='Created on']"
-            created_on_element = self.driver.find_element(By.XPATH, element)
-            self.scroll_horizontally(created_on_element)
-            self.do_check_visibility(self.CREATED_ON)
+            if not self.do_check_visibility(self.CREATED_ON):
+                return False
             self.logger.info("Successfully verified the Created on Column")
             return True
         except Exception as e:
@@ -772,7 +805,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def click_on_billing_tab(self):
         try:
-            time.sleep(5)
+            time.sleep(6)
             self.do_click_by_locator(self.BILLING_TAB)
             self.logger.info("Successfully Clicked Billing tab")
             return True
@@ -2289,9 +2322,11 @@ class X4ASalesOrdersPage(BasePage):
                                        enduser_id, enduser_contact, enduser_companyname,
                                        enduser_phonenumber, enduser_address, enduser_email):
         try:
+            breakpoint()
             assert shiptoid_updated == shipto_id, "Ship to ID mismatched"
             assert companyname_updated == shipto_companyname, "Company name mismatched"
             assert final_address_updated == shipto_address, "Address mismatched"
+
             assert enduser_id_updated == enduser_id, "EndUser ID mismatched"
             assert enduser_contact_updated == enduser_contact, "EndUser contact mismatched"
             assert enduser_companyname_updated == enduser_companyname, "EndUser company name mismatched"
