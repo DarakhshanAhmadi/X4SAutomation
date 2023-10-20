@@ -7,8 +7,8 @@ class SqlConstant:
                                        " data_errors_resubmit_order_confirmation_id, reseller_name, end_user_name, created_on, filter_order_type, filter_order_status," \
                                        "modify_reference_details_data_errors_order_id, modify_shipping_notes_data_errors_order_id, modify_vmf_details_data_errors_order_id, " \
                                        "modify_end_user_details_data_errors_order_id, end_user_po, edit_order_lines, modify_billing_address_data_errors_order_id, " \
-                                       "order_line_data_errors_order_id)" \
-                                       "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                       "order_line_data_errors_order_id, modify_order_line_data_errors_order_id)" \
+                                       "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
     X4A_GET_IM_ORDER_NUMBER_BY_FEATURE_FILE_NAME_SQL_QUERY = "SELECT im_order_number FROM x4a_input_order where feature_file_name =?"
 
@@ -80,7 +80,9 @@ class SqlConstant:
     X4A_UPDATE_REMOVE_ORDER_LINE_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY = "Update x4a_input_order set order_line_data_errors_order_id = ? where feature_file_name= ?"
 
     X4A_INVENTORY_INSERT_SQL_QUERY = "INSERT INTO x4a_inventory(" \
-                                               "feature_file_name, sku, mfn_part_number, vendor_business_manager, vendor_name, country)" \
-                                               "VALUES(?, ?, ?, ?, ?, ?)"
+                                               "feature_file_name, sku, mfn_part_number, vendor_business_manager, vendor_name, country, actions, comment)" \
+                                               "VALUES(?, ?, ?, ?, ?, ?, ?, ?)"
 
     X4A_INVENTORY_GET_TEST_CASE_RECORD_SQL_QUERY = "SELECT * FROM x4a_inventory where feature_file_name=?"
+
+    X4A_UPDATE_ORDER_LINE_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY = "Update x4a_input_order set modify_order_line_data_errors_order_id = ? where feature_file_name= ?"

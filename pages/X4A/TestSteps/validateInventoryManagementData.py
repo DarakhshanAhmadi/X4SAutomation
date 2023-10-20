@@ -15,6 +15,7 @@ class ValidateInventoryManagementData:
     top_100_under_performing_sku_table_headers = ['SKU', 'Actions', 'Vendor business manager', 'Vendor name', 'Vendor number', 'MFR Part number', 'Product description', 'Inventory value', 'Improvement opportunity', 'Value on order', 'Actual 121', 'Actual 151', 'Actual 181', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5']
     country_list = ['AU', 'FR', 'BR', 'MD', 'MX']
     top_100_under_performing_sku_filter_options = ['SKU', 'MFN Part number', 'Vendor business manager', 'Vendor name']
+    action_dropdown_options = ['CM - Pricing', 'CM - Cost Structure', 'DIO - RMA', 'DIO - Sell through', 'DIO - Customer forecast', 'DIO - Customer commitment (non-cancellable)', 'DIO - Customer commitment (cancellable)', 'DIO - Liquidate', 'DIO - Terminate', 'VM - Terminated - RMA', 'DF - Defective', 'Completed']
 
     def __init__(self, driver):
         self.driver = driver
@@ -142,11 +143,11 @@ class ValidateInventoryManagementData:
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
                                         "filtered_by_country_error.png")
-        screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                              "filtered_by_country_error.png"
-        self.logger.error("Error while validating Filter the country")
-        self.logger.exception(e)
-        return False
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "filtered_by_country_error.png"
+            self.logger.error("Error while validating Filter the country")
+            self.logger.exception(e)
+            return False
 
     def validate_filter_by_sku(self, sku, feature_file_name, screen_shot):
         x4a_inventory_management = X4AInventoryManagementPage(self.driver)
@@ -161,11 +162,11 @@ class ValidateInventoryManagementData:
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
                                         "filter_by_sku_validation_error.png")
-        screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
                               ".png"
-        self.logger.error("Error while validating Filter by SKU")
-        self.logger.exception(e)
-        return False
+            self.logger.error("Error while validating Filter by SKU")
+            self.logger.exception(e)
+            return False
 
     def validate_filter_by_mfn_part_number(self, mfn_part_number, feature_file_name, screen_shot):
         x4a_inventory_management = X4AInventoryManagementPage(self.driver)
@@ -180,11 +181,11 @@ class ValidateInventoryManagementData:
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
                                         "filter_by_mfn_part_number_validation_error.png")
-        screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
                               "filter_by_mfn_part_number_validation_error.png"
-        self.logger.error("Error while validating Filter by MFN Part number")
-        self.logger.exception(e)
-        return False
+            self.logger.error("Error while validating Filter by MFN Part number")
+            self.logger.exception(e)
+            return False
 
     def validate_filter_by_vendor_business_manager(self, vendor_business_manager, feature_file_name, screen_shot):
         x4a_inventory_management = X4AInventoryManagementPage(self.driver)
@@ -199,11 +200,11 @@ class ValidateInventoryManagementData:
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
                                         "filter_by_vendor_business_manager_validation_error.png")
-        screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                              "filter_by_vendor_business_manager_validation_error.png"
-        self.logger.error("Error while validating Filter by Vendor business manager")
-        self.logger.exception(e)
-        return False
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "filter_by_vendor_business_manager_validation_error.png"
+            self.logger.error("Error while validating Filter by Vendor business manager")
+            self.logger.exception(e)
+            return False
 
     def validate_filter_by_vendor_name(self, vendor_name, feature_file_name, screen_shot):
         x4a_inventory_management = X4AInventoryManagementPage(self.driver)
@@ -218,11 +219,11 @@ class ValidateInventoryManagementData:
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
                                         "filter_by_vendor_name_validation_error.png")
-        screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                              "filter_by_vendor_name_validation_error.png"
-        self.logger.error("Error while validating Filter by Vendor name")
-        self.logger.exception(e)
-        return False
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "filter_by_vendor_name_validation_error.png"
+            self.logger.error("Error while validating Filter by Vendor name")
+            self.logger.exception(e)
+            return False
 
     def check_is_improvement_opportunity_is_descending_by_default(self, feature_file_name, screen_shot):
         x4a_inventory_management = X4AInventoryManagementPage(self.driver)
@@ -236,11 +237,11 @@ class ValidateInventoryManagementData:
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
                                         "improvement_opportunity_descending_by_default_validation_error.png")
-        screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                              "improvement_opportunity_descending_by_default_validation_error.png"
-        self.logger.error("Error while validating Improvement opportunity is descending by default")
-        self.logger.exception(e)
-        return False
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "improvement_opportunity_descending_by_default_validation_error.png"
+            self.logger.error("Error while validating Improvement opportunity is descending by default")
+            self.logger.exception(e)
+            return False
 
     def validate_sort_for_inventory_value(self, feature_file_name, screen_shot):
         x4a_inventory_management = X4AInventoryManagementPage(self.driver)
@@ -256,11 +257,11 @@ class ValidateInventoryManagementData:
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
                                         "inventory_value_sort_validation_error.png")
-        screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                              "inventory_value_sort_validation_error.png"
-        self.logger.error("Error while validating sort for Inventory value")
-        self.logger.exception(e)
-        return False
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "inventory_value_sort_validation_error.png"
+            self.logger.error("Error while validating sort for Inventory value")
+            self.logger.exception(e)
+            return False
 
     def validate_sort_for_value_on_order(self, feature_file_name, screen_shot):
         x4a_inventory_management = X4AInventoryManagementPage(self.driver)
@@ -276,11 +277,11 @@ class ValidateInventoryManagementData:
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
                                         "value_on_order_sort_validation_error.png")
-        screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                              "value_on_order_sort_validation_error.png"
-        self.logger.error("Error while validating sort for Value on order")
-        self.logger.exception(e)
-        return False
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "value_on_order_sort_validation_error.png"
+            self.logger.error("Error while validating sort for Value on order")
+            self.logger.exception(e)
+            return False
 
     def validate_sort_for_actual_121(self, feature_file_name, screen_shot):
         x4a_inventory_management = X4AInventoryManagementPage(self.driver)
@@ -296,11 +297,11 @@ class ValidateInventoryManagementData:
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
                                         "actual_121_sort_validation_error.png")
-        screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                              "actual_121_sort_validation_error.png"
-        self.logger.error("Error while validating sort for Actual 121")
-        self.logger.exception(e)
-        return False
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "actual_121_sort_validation_error.png"
+            self.logger.error("Error while validating sort for Actual 121")
+            self.logger.exception(e)
+            return False
 
     def validate_sort_for_actual_151(self, feature_file_name, screen_shot):
         x4a_inventory_management = X4AInventoryManagementPage(self.driver)
@@ -316,11 +317,11 @@ class ValidateInventoryManagementData:
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
                                         "actual_151_sort_validation_error.png")
-        screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                              "actual_151_sort_validation_error.png"
-        self.logger.error("Error while validating sort for Actual 151")
-        self.logger.exception(e)
-        return False
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "actual_151_sort_validation_error.png"
+            self.logger.error("Error while validating sort for Actual 151")
+            self.logger.exception(e)
+            return False
 
     def validate_sort_for_improvement_opportunity(self, feature_file_name, screen_shot):
         x4a_inventory_management = X4AInventoryManagementPage(self.driver)
@@ -334,8 +335,82 @@ class ValidateInventoryManagementData:
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
                                         "improvement_pooprtunity_sort_validation_error.png")
-        screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                              "improvement_opportunity_sort_validation_error.png"
-        self.logger.error("Error while validating sort for Improvement opportunity")
-        self.logger.exception(e)
-        return False
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "improvement_opportunity_sort_validation_error.png"
+            self.logger.error("Error while validating sort for Improvement opportunity")
+            self.logger.exception(e)
+            return False
+
+    def filter_by_sku(self, sku, feature_file_name, screen_shot):
+        x4a_inventory_management = X4AInventoryManagementPage(self.driver)
+        try:
+            x4a_inventory_management.filter_by_sku(sku)
+            self.logger.info(f'Successfully filtered by sku')
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "filtered_sku_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "filter_by_sku_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                              "filter_by_sku_error.png"
+            self.logger.error("Error while Filtering by SKU")
+            self.logger.exception(e)
+            return False
+
+    def validate_action_popup_contents(self, feature_file_name, screen_shot):
+        x4a_inventory_management = X4AInventoryManagementPage(self.driver)
+        try:
+            action_options = x4a_inventory_management.validate_action_popup_contents()
+            for action in self.action_dropdown_options:
+                if action not in action_options:
+                    self.logger.error(f'{action} not present in dropdown')
+                    return False
+            self.logger.info(f'Successfully validated Action popup contents')
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "action_popup_contents_validated_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "action_popup_validation_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                              "action_popup_validation_error.png"
+            self.logger.error("Error while validating action popup content")
+            self.logger.exception(e)
+            return False
+
+    def update_action_and_comment(self, action, comment, feature_file_name, screen_shot):
+        x4a_inventory_management = X4AInventoryManagementPage(self.driver)
+        try:
+            x4a_inventory_management.update_action_and_comment(action, comment)
+            self.logger.info(f'Successfully updated action and comments')
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "action_and_comments_updated_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "update_action_and_comment_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                              "update_action_and_comment_error.png"
+            self.logger.error("Error while updating Action and comment")
+            self.logger.exception(e)
+            return False
+
+    def validate_action_and_comment(self, action, comment, feature_file_name, screen_shot):
+        x4a_inventory_management = X4AInventoryManagementPage(self.driver)
+        try:
+            ui_action, ui_comment = x4a_inventory_management.get_action_and_comment()
+            assert action == ui_action, 'Action mismatched'
+            assert comment == ui_comment, 'Comment mismatched'
+            self.logger.info(f'Successfully validated action and comments')
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "action_and_comments_validated_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "validate_action_and_comment_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                              "validate_action_and_comment_error.png"
+            self.logger.error("Error while validating Action and comment")
+            self.logger.exception(e)
+            return False

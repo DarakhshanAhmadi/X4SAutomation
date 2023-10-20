@@ -37,7 +37,8 @@ class PrepareObject:
                                             test_data.get("ModifyEndUserDetailsDataErrorOrderID"), test_data.get("EndUserPO"),
                                             test_data.get("EditOrderLines"),
                                             test_data.get("ModifyBillingAddressDataErrorOrderID"),
-                                            test_data.get("OrderLineDataErrorOrderID"))
+                                            test_data.get("OrderLineDataErrorOrderID"),
+                                            test_data.get("ModifyOrderLineDataErrorOrderID"))
         return x4a_input_order_obj
 
     def prepare_x4a_user_data_obj(self, test_data):
@@ -69,5 +70,7 @@ class PrepareObject:
                                         test_data.get("MFNPartNumber"),
                                         test_data.get("VendorBusinessManager"),
                                         test_data.get("VendorName"),
-                                        test_data.get("Country"))
+                                        test_data.get("Country"),
+                                        test_data.get("Actions"),
+                                        test_data.get("Comment"))
         return x4a_inventory_data_obj

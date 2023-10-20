@@ -1743,3 +1743,272 @@ class ValidateErrorOrdersData:
         except Exception as e:
             self.logger.exception(e)
             return False
+
+    def do_verify_last_order_attempt_on_section(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_last_order_attempt_on_section():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_last_order_attempt_on_section_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    f'Successfully Verified that Last order attempt on section should display inside filter panel')
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_last_order_attempt_on_section_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_created_on_section(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_created_on_section():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_created_on_section_failed.png")
+                return False
+            else:
+                self.logger.info(f'Successfully Verified that Created on section should display inside filter panel')
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_created_on_section_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_contents_of_last_order_attempt_on_section(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_contents_of_last_order_attempt_on_section():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_contents_of_last_order_attempt_on_section_failed.png")
+                return False
+            else:
+                self.logger.info(f'Successfully Verified that contents of Last order attempt on section')
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_contents_of_last_order_attempt_on_section_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_contents_of_created_on_section(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_contents_of_created_on_section():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_contents_of_created_on_section_failed.png")
+                return False
+            else:
+                self.logger.info(f'Successfully Verified that contents of Created on section')
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_contents_of_created_on_section_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_last_ord_attempt_on_sec_calender_open_and_able_to_select_date(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_last_ord_attempt_on_sec_calender_open_and_able_to_select_date():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_last_ord_attempt_on_sec_calender_open_and_able_to_select_date_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    f'Successfully Verified that Last order attempt on section Calendar should open and it should allow date selection')
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_last_ord_attempt_on_sec_calender_open_and_able_to_select_date_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_created_on_sec_calender_open_and_able_to_select_date(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_created_on_sec_calender_open_and_able_to_select_date():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_created_on_sec_calender_open_and_able_to_select_date_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    f'Successfully Verified that Created On section Calendar should open and it should allow date selection')
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_created_on_sec_calender_open_and_able_to_select_date_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_last_ord_attempt_on_data_get_filter_as_per_selected_date_range(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_last_ord_attempt_on_data_get_filter_as_per_selected_date_range_in_pages():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_last_ord_attempt_on_data_get_filter_as_per_selected_date_range_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    f'Successfully Selected the Last order attempt on section From and To date and Verified that Data should get filtered on selected date ranges')
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_last_ord_attempt_on_data_get_filter_as_per_selected_date_range_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_created_on_data_get_filter_as_per_selected_date_range(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_created_on_data_get_filter_as_per_selected_date_range_in_pages():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_created_on_data_get_filter_as_per_selected_date_range_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    f'Successfully Selected the Created on section From and To date and Verified that Data should get filtered on selected date ranges')
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_created_on_data_get_filter_as_per_selected_date_range_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def verify_filter_by_last_ord_attempt_on_data_by_selecting_30_days_in_pages(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_filter_by_last_ord_attempt_on_data_by_selecting_30_days_in_pages():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_filter_by_last_ord_attempt_on_data_by_selecting_30_days_in_pages_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    f'Successfully Selected last 30 days checkbox from Last order attempt on section and Verified that Data should get filtered on selected date ranges')
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_filter_by_last_ord_attempt_on_data_by_selecting_30_days_in_pages_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def verify_filter_by_created_on_data_by_selecting_30_days_in_pages(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_filter_by_created_on_data_by_selecting_30_days_in_pages():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_filter_by_created_on_data_by_selecting_30_days_in_pages_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    f'Successfully Selected last 30 days checkbox from Created on section and Verified that Data should get filtered on selected date ranges')
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_filter_by_created_on_data_by_selecting_30_days_in_pages_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_order_line_edit_icon(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_order_line_edit_icon():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_order_line_edit_icon_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified remove icon should display for order line")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_order_line_edit_icon_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_update_and_cancel_icon(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_update_and_cancel_icon():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_update_and_cancel_icon_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Clicked on edit icon and Verified Update and Cancel Icon should display")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_update_and_cancel_icon_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_editable_order_line_fields(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_editable_order_line_fields():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_editable_order_line_fields_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified Quantity, Reseller price, End user price and End user po# fields become editable")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_editable_order_line_fields_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_order_line_updated_data_discarded(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_order_line_updated_data_discarded():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_order_line_updated_data_discarded_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Clicked on X icon and Verifying that Updated data should get discarded")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_order_line_updated_data_discarded_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_order_line_fields_not_allow_non_numberic_content(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_order_line_fields_not_allow_non_numberic_content():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_order_line_fields_not_allow_non_numberic_content_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified that Quantity, Reseller price, End user price and End user po# fields not allow non numeric content")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_order_line_fields_not_allow_non_numberic_content_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_update_order_line_field_value(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_update_order_line_field_value():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_update_order_line_field_value_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Updated the Order line Quantity, Reseller price and End User PO value")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_update_order_line_field_value_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
