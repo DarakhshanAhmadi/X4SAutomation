@@ -1,0 +1,182 @@
+{
+    "recordType":"H01",
+    "companyId":"CA",
+    "partnerId":"CA010125",
+    "applicationId":"EDAIXPO",
+    "functionalGroup":"PO",
+    "transactionSetId":"850",
+    "direction":"I",
+    "interchangeControlNumber":"10094144",
+    "functionalGroupControlNumber":"26932",
+    "transactionSetControlNumber":"2",
+    "dataBankUserRefNumber":"20230925 CA80376                       850",
+    "header02Record":{
+        "recordType":"H02",
+        "orderType":"RN",
+        "poNumber":"JB9920",
+        "poDate":"20230925",
+        "contractNumber":"0046106497",
+        "unitPrice":".00",
+        "customerVendorNumber":"20027870",
+        "numberOfWarehouses":"0",
+        "maxTransitDays":"0"
+    },
+    "header04Record":{
+        "recordType":"H04",
+        "shipToName":"UNISYS REGINA 10/4 BOXER XXXXX",
+        "shipToAttention":"3383-584-0005/",
+        "shiptToAddress":"120 HODSMAN ROAD",
+        "shipToLocation":{
+            "shipToCity":"REGINA",
+            "shipToState":"SK",
+            "shipToZip":"S4N5X4",
+            "shipToCountry":"CA"
+        }
+    },
+    "header06Record":{
+        "recordType":"H06",
+        "billToName":"BELL CANADA",
+        "billToAttention":"P.O. BOX 11033",
+        "billToAddress":"SUCCURSALE CENTRE-VILLE",
+        "billToLocation":{
+            "billToCity":"MONTREAL",
+            "billToState":"QC",
+            "billToZip":"H3C4W8",
+            "billToCountry":"CA"
+        },
+        "billToRefNumber":"40100810000"
+    },
+    "header99Record":[{
+        "recordType":"H99",
+        "comment":"NO TECHNICIAN CODE/NAME AVAILABLE"
+    }],
+    "detailRecord":[{
+        "recordType":"D01",
+        "lineNumber":"1",
+        "customerPartNumber":"081850",
+        "aggregateCode":"1",
+        "quantityOrdered":"1",
+        "itemNumber":"EA",
+        "unitCost":"1295.8400",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":".0000",
+        "unitPriceCTO":".0000",
+        "euPPPrcAmt":".0000",
+        "d99Record":[{
+            "recordType":"D99",
+            "comment":"BELL WEST",
+            "commentQualifierExt":"BP",
+            "commentExt":[{
+                "commentExt1":"DEREK NEWHOUSE",
+                "commentExt2":"9056142639"
+            }]
+        },
+        {
+            "recordType":"D99",
+            "comment":"NM 2-PORT GE WAN NIM, DUAL-MODE RJ4"
+        },
+        {
+            "recordType":"D99",
+            "comment":"5   SFP"
+        },
+        {
+            "recordType":"D99",
+            "comment":"UNISYS REGINA 10/4 BOXER XXXXX"
+        },
+        {
+            "recordType":"D99",
+            "comment":"3383-584-0005/"
+        },
+        {
+            "recordType":"D99",
+            "comment":"DD:10-05-23 DEV:AC-CE-YQR01-2"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTRAT/AGREEMENT : 0046106497",
+            "d28Record":[{
+                "recordType":"D28",
+                "lineEuName":"BELL WEST",
+                "d16Record":{
+                    "recordType":"D16",
+                    "formCode":"945",
+                    "fieldCode":"PRDCD",
+                    "fieldData":"20230926"
+                }
+            }]
+        }]
+    },
+    {
+        "recordType":"D01",
+        "lineNumber":"2",
+        "customerPartNumber":"975150",
+        "aggregateCode":"1",
+        "quantityOrdered":"1",
+        "itemNumber":"EA",
+        "unitCost":".0300",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":".0000",
+        "unitPriceCTO":".0000",
+        "euPPPrcAmt":".0000",
+        "d99Record":[{
+            "recordType":"D99",
+            "comment":"BELL WEST",
+            "commentQualifierExt":"BP",
+            "commentExt":[{
+                "commentExt1":"DEREK NEWHOUSE",
+                "commentExt2":"9056142639"
+            }]
+        },
+        {
+            "recordType":"D99",
+            "comment":"NM INGRAM MICRO RUSH CONFIGURATION"
+        },
+        {
+            "recordType":"D99",
+            "comment":"SERVICES REQUIRED"
+        },
+        {
+            "recordType":"D99",
+            "comment":"UNISYS REGINA 10/4 BOXER XXXXX"
+        },
+        {
+            "recordType":"D99",
+            "comment":"3383-584-0005/"
+        },
+        {
+            "recordType":"D99",
+            "comment":"DD:10-05-23 DEV:AC-CE-YQR01-2"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTRAT/AGREEMENT : 0046106497",
+            "d28Record":[{
+                "recordType":"D28",
+                "lineEuName":"BELL WEST",
+                "d16Record":{
+                    "recordType":"D16",
+                    "formCode":"945",
+                    "fieldCode":"PRDCD",
+                    "fieldData":"20230926"
+                }
+            }]
+        }]
+    }],
+    "s01Record":{
+        "recordType":"S01",
+        "totalLines":"2",
+        "hashTotal":"2"
+    }
+}

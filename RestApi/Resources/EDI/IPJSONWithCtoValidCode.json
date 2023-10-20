@@ -1,0 +1,1156 @@
+{
+    "recordType":"H01",
+    "companyId":"MD",
+    "partnerId":"US822984",
+    "applicationId":"EDAIXPO",
+    "functionalGroup":"PO",
+    "transactionSetId":"850",
+    "direction":"I",
+    "interchangeControlNumber":"2670347",
+    "functionalGroupControlNumber":"2176244",
+    "transactionSetControlNumber":"3689999",
+    "dataBankUserRefNumber":"20230907 US822984                         850",
+    "header02Record":{
+        "recordType":"H02",
+        "orderType":"TC",
+        "poNumber":"AGE4811",
+        "poDate":"20230907",
+        "contractNumber":"E2023-98",
+        "imiCustomerNumber":"40033473",
+        "unitPrice":".00",
+        "departmentNumber":"US822984",
+        "endUserPoNumber":"E2023-98",
+        "customerOrderNumber":"E2023-98",
+        "holdOrderFlag":"H",
+        "licenseAuthorizationNumber":"QUO-16110785-H9L0X7 -0",
+        "numberOfWarehouses":"0",
+        "maxTransitDays":"0",
+        "vendorQuoteNumber":"DQ04619335-06",
+        "vendorAUthorizationNumber":"58BOZ",
+        "ctoConfirmCode":"Y",
+        "ctoValidOrderCode":"QF"
+    },
+    "header04Record":{
+        "recordType":"H04",
+        "shipToName":"BUTTE COUNTY HALL OF RECORDS",
+        "shipToAttention":"RYAN EILER",
+        "shiptToAddress":"155 NELSON AVE",
+        "shipToLocation":{
+            "shipToCity":"OROVILLE",
+            "shipToState":"CA",
+            "shipToZip":"959653411",
+            "shipToCountry":"US"
+        },
+        "shipToContact":"RYAN EILER",
+        "shiptToPhoneNumber":"5305387768",
+        "shipToEmail":{
+            "shipToEmail1":"reiler@buttecounty.net"
+        }
+    },
+    "header06Record":{
+        "recordType":"H06",
+        "billToName":"CDW Logistics",
+        "billToAddress":"200 North Milwaukee Ave.",
+        "billToLocation":{
+            "billToCity":"Vernon Hills",
+            "billToState":"IL",
+            "billToZip":"60061",
+            "billToCountry":"US"
+        },
+        "billToContact":"DIANA ONOFRE",
+        "billToEmail":"dianono@cdw.com"
+    },
+    "header08Record":{
+        "recordType":"H08",
+        "buyerName":"RYANCOX",
+        "buyerContact":"DIANA ONOFRE"
+    },
+    "header10Record":{
+        "recordType":"H10",
+        "endUserName":"COUNTY OF BUTTE",
+        "endUserAttention":"COUNTY CLERK",
+        "endUserAddress":"25 COUNTY CENTER DR",
+        "endUserLocation":{
+            "endUserCity":"OROVILLE",
+            "endUserState":"CA",
+            "endUserZip":"959653316",
+            "endUserCountry":"US"
+        },
+        "endUserContact":"RYAN EILER",
+        "endUserPhoneNumber":"5305387768",
+        "endUserEmail":"reiler@buttecounty.net"
+    },
+    "header16Record":[{
+        "recordType":"H16",
+        "header16FormCode":"END",
+        "fieldCode":"QGUID",
+        "fieldData":"b832abd9-781f-ee11-8f6c-002248223ec6"
+    },
+    {
+        "recordType":"H16",
+        "header16FormCode":"END",
+        "fieldCode":"QUID",
+        "fieldData":"QUO-16110785-H9L0X7 -0"
+    }],
+    "header99Record":[{
+        "recordType":"H99",
+        "comment":"D R O P  S H I P"
+    },
+    {
+        "recordType":"H99",
+        "comment":"SHIP TO:"
+    },
+    {
+        "recordType":"H99",
+        "comment":"BUTTE COUNTY HALL OF RECORDS"
+    },
+    {
+        "recordType":"H99",
+        "comment":"155 NELSON AVE"
+    },
+    {
+        "recordType":"H99",
+        "comment":"COUNTY CLERK"
+    },
+    {
+        "recordType":"H99",
+        "comment":"OROVILLE, CA 95965-3411"
+    },
+    {
+        "recordType":"H99",
+        "comment":"CUSTOMER PO# E2023-98"
+    },
+    {
+        "recordType":"H99",
+        "comment":"CDW ORDER# NJTD568"
+    },
+    {
+        "recordType":"H99",
+        "comment":"SHIP VIA GROUND"
+    },
+    {
+        "recordType":"H99",
+        "commQualifier":"HD",
+        "comment":"CDW INFO:"
+    },
+    {
+        "recordType":"H99",
+        "commQualifier":"HD",
+        "comment":"ACCT MNGR :  RYANCOX"
+    },
+    {
+        "recordType":"H99",
+        "commQualifier":"HD",
+        "comment":"SALES BUYER :DIANA ONOFRE"
+    },
+    {
+        "recordType":"H99",
+        "commQualifier":"CC",
+        "comment":"HEADER"
+    },
+    {
+        "recordType":"H99",
+        "commQualifier":"CC",
+        "comment":"X:Y"
+    }],
+    "detailRecord":[{
+        "recordType":"D01",
+        "lineNumber":"1",
+        "imiPartNumber":"8MB385",
+        "customerPartNumber":"4729347",
+        "manufaturerPartNumber":"867959-B21",
+        "quantityOrdered":"2",
+        "itemNumber":"EA",
+        "unitCost":"1146.9400",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"HPE DL360 GEN10 8SFF CTO SRV",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "bidNumber":"QUO-16110785-H9L0X7 -0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":"1124.4500",
+        "unitPriceCTO":"1146.9400",
+        "euPPPrcAmt":".0000",
+        "d99Record":[{
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"U:98752715"
+        },
+        {
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"W:REGE-0015815567"
+        },
+        {
+            "recordType":"D99",
+            "comment":"QUO-16110785-H9L0X7 -0"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CTO Disti Quote# is required:QUO-16110785-H9L0X7 -0"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Enter Account Manager E-mail:Ryacox@cdwg.com"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Does quote contain freight?:n"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTACT NAME RYAN EILER"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER PHONE# 5305387768"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER EMAIL reiler@buttecounty.net"
+        },
+        {
+            "recordType":"D99",
+            "comment":"BID #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"54538794"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTRACT #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"QUO-16110785-H9L0X7 -0"
+        }]
+    },
+    {
+        "recordType":"D01",
+        "lineNumber":"2",
+        "imiPartNumber":"8MC641",
+        "customerPartNumber":"6065766",
+        "manufaturerPartNumber":"P15974-L21",
+        "quantityOrdered":"2",
+        "itemNumber":"EA",
+        "unitCost":"452.2000",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"HPE XEON-S 4210R FIO KIT F/DL360 G10",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "bidNumber":"QUO-16110785-H9L0X7 -0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":"443.3300",
+        "unitPriceCTO":"452.2000",
+        "euPPPrcAmt":".0000",
+        "d99Record":[{
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"U:98752715"
+        },
+        {
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"W:REGE-0015815567"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CTO Disti Quote# is required:QUO-16110785-H9L0X7 -0"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Enter Account Manager E-mail:Ryacox@cdwg.com"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Does quote contain freight?:n"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTACT NAME RYAN EILER"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER PHONE# 5305387768"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER EMAIL reiler@buttecounty.net"
+        },
+        {
+            "recordType":"D99",
+            "comment":"BID #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"54538794"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTRACT #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"QUO-16110785-H9L0X7 -0"
+        }]
+    },
+    {
+        "recordType":"D01",
+        "lineNumber":"3",
+        "imiPartNumber":"8MC639",
+        "customerPartNumber":"6253367",
+        "manufaturerPartNumber":"P15974-B21",
+        "quantityOrdered":"2",
+        "itemNumber":"EA",
+        "unitCost":"515.2900",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"HPE XEON-S 4210R KIT F/DL360 GEN10",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "bidNumber":"QUO-16110785-H9L0X7 -0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":"505.1900",
+        "unitPriceCTO":"515.2900",
+        "euPPPrcAmt":".0000",
+        "d99Record":[{
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"U:98752715"
+        },
+        {
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"W:REGE-0015815567"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CTO Disti Quote# is required:QUO-16110785-H9L0X7 -0"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Enter Account Manager E-mail:Ryacox@cdwg.com"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Does quote contain freight?:n"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTACT NAME RYAN EILER"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER PHONE# 5305387768"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER EMAIL reiler@buttecounty.net"
+        },
+        {
+            "recordType":"D99",
+            "comment":"BID #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"54538794"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTRACT #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"QUO-16110785-H9L0X7 -0"
+        }]
+    },
+    {
+        "recordType":"D01",
+        "lineNumber":"4",
+        "imiPartNumber":"8MB934",
+        "customerPartNumber":"5529216",
+        "manufaturerPartNumber":"P00924-B21",
+        "quantityOrdered":"16",
+        "itemNumber":"EA",
+        "unitCost":"295.3500",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"HPE 32GB 2RX4 PC4-2933Y-R SMART KIT",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "bidNumber":"QUO-16110785-H9L0X7 -0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":"289.5600",
+        "unitPriceCTO":"295.3500",
+        "euPPPrcAmt":".0000",
+        "d99Record":[{
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"U:98752715"
+        },
+        {
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"W:REGE-0015815567"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CTO Disti Quote# is required:QUO-16110785-H9L0X7 -0"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Enter Account Manager E-mail:Ryacox@cdwg.com"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Does quote contain freight?:n"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTACT NAME RYAN EILER"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER PHONE# 5305387768"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER EMAIL reiler@buttecounty.net"
+        },
+        {
+            "recordType":"D99",
+            "comment":"BID #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"54538794"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTRACT #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"QUO-16110785-H9L0X7 -0"
+        }]
+    },
+    {
+        "recordType":"D01",
+        "lineNumber":"5",
+        "imiPartNumber":"8MC779",
+        "customerPartNumber":"5787599",
+        "manufaturerPartNumber":"P18420-B21",
+        "quantityOrdered":"4",
+        "itemNumber":"EA",
+        "unitCost":"134.8600",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"HPE 240GB SATA RI SFF SC MV SSD",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "bidNumber":"QUO-16110785-H9L0X7 -0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":"132.2200",
+        "unitPriceCTO":"134.8600",
+        "euPPPrcAmt":".0000",
+        "d99Record":[{
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"U:98752715"
+        },
+        {
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"W:REGE-0015815567"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CTO Disti Quote# is required:QUO-16110785-H9L0X7 -0"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Enter Account Manager E-mail:Ryacox@cdwg.com"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Does quote contain freight?:n"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTACT NAME RYAN EILER"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER PHONE# 5305387768"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER EMAIL reiler@buttecounty.net"
+        },
+        {
+            "recordType":"D99",
+            "comment":"BID #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"54538794"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTRACT #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"QUO-16110785-H9L0X7 -0"
+        }]
+    },
+    {
+        "recordType":"D01",
+        "lineNumber":"6",
+        "imiPartNumber":"8MA461",
+        "customerPartNumber":"6415179",
+        "manufaturerPartNumber":"Q0L14A",
+        "quantityOrdered":"2",
+        "itemNumber":"EA",
+        "unitCost":"1495.0500",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"HPE SN1200E 16GB 2P FC HBA",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "bidNumber":"QUO-16110785-H9L0X7 -0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":"1465.7400",
+        "unitPriceCTO":"1495.0500",
+        "euPPPrcAmt":".0000",
+        "d99Record":[{
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"U:98752715"
+        },
+        {
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"W:REGE-0015815567"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CTO Disti Quote# is required:QUO-16110785-H9L0X7 -0"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Enter Account Manager E-mail:Ryacox@cdwg.com"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Does quote contain freight?:n"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTACT NAME RYAN EILER"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER PHONE# 5305387768"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER EMAIL reiler@buttecounty.net"
+        },
+        {
+            "recordType":"D99",
+            "comment":"BID #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"54538794"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTRACT #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"QUO-16110785-H9L0X7 -0"
+        }]
+    },
+    {
+        "recordType":"D01",
+        "lineNumber":"7",
+        "imiPartNumber":"8MB951",
+        "customerPartNumber":"6550591",
+        "manufaturerPartNumber":"P01366-B21",
+        "quantityOrdered":"2",
+        "itemNumber":"EA",
+        "unitCost":"59.7500",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"HPE CTO ONLY 96W SMART STOR BATT 145",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "bidNumber":"QUO-16110785-H9L0X7 -0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":"58.5800",
+        "unitPriceCTO":"59.7500",
+        "euPPPrcAmt":".0000",
+        "d99Record":[{
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"U:98752715"
+        },
+        {
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"W:REGE-0015815567"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CTO Disti Quote# is required:QUO-16110785-H9L0X7 -0"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Enter Account Manager E-mail:Ryacox@cdwg.com"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Does quote contain freight?:n"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTACT NAME RYAN EILER"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER PHONE# 5305387768"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER EMAIL reiler@buttecounty.net"
+        },
+        {
+            "recordType":"D99",
+            "comment":"BID #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"54538794"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTRACT #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"QUO-16110785-H9L0X7 -0"
+        }]
+    },
+    {
+        "recordType":"D01",
+        "lineNumber":"8",
+        "imiPartNumber":"8MB068",
+        "customerPartNumber":"4723432",
+        "manufaturerPartNumber":"804331-B21",
+        "quantityOrdered":"2",
+        "itemNumber":"EA",
+        "unitCost":"641.0000",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"HPE SMART ARRAY P408I-A SR GEN10 CTR",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "bidNumber":"QUO-16110785-H9L0X7 -0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":"628.4300",
+        "unitPriceCTO":"641.0000",
+        "euPPPrcAmt":".0000",
+        "d99Record":[{
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"U:98752715"
+        },
+        {
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"W:REGE-0015815567"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CTO Disti Quote# is required:QUO-16110785-H9L0X7 -0"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Enter Account Manager E-mail:Ryacox@cdwg.com"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Does quote contain freight?:n"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTACT NAME RYAN EILER"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER PHONE# 5305387768"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER EMAIL reiler@buttecounty.net"
+        },
+        {
+            "recordType":"D99",
+            "comment":"BID #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"54538794"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTRACT #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"QUO-16110785-H9L0X7 -0"
+        }]
+    },
+    {
+        "recordType":"D01",
+        "lineNumber":"9",
+        "imiPartNumber":"8MC381",
+        "customerPartNumber":"6236753",
+        "manufaturerPartNumber":"P08440-B21",
+        "quantityOrdered":"2",
+        "itemNumber":"EA",
+        "unitCost":"421.8700",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"HPE ENET 10GB 2PT 537FLR-SFP+ ADAPT",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "bidNumber":"QUO-16110785-H9L0X7 -0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":"413.6000",
+        "unitPriceCTO":"421.8700",
+        "euPPPrcAmt":".0000",
+        "d99Record":[{
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"U:98752715"
+        },
+        {
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"W:REGE-0015815567"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CTO Disti Quote# is required:QUO-16110785-H9L0X7 -0"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Enter Account Manager E-mail:Ryacox@cdwg.com"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Does quote contain freight?:n"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTACT NAME RYAN EILER"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER PHONE# 5305387768"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER EMAIL reiler@buttecounty.net"
+        },
+        {
+            "recordType":"D99",
+            "comment":"BID #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"54538794"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTRACT #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"QUO-16110785-H9L0X7 -0"
+        }]
+    },
+    {
+        "recordType":"D01",
+        "lineNumber":"10",
+        "imiPartNumber":"8MB318",
+        "customerPartNumber":"4723434",
+        "manufaturerPartNumber":"865414-B21",
+        "quantityOrdered":"4",
+        "itemNumber":"EA",
+        "unitCost":"224.4800",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"HPE 800W FS PLAT HT PLG LH PSU KIT",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "bidNumber":"QUO-16110785-H9L0X7 -0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":"220.0800",
+        "unitPriceCTO":"224.4800",
+        "euPPPrcAmt":".0000",
+        "d99Record":[{
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"U:98752715"
+        },
+        {
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"W:REGE-0015815567"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CTO Disti Quote# is required:QUO-16110785-H9L0X7 -0"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Enter Account Manager E-mail:Ryacox@cdwg.com"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Does quote contain freight?:n"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTACT NAME RYAN EILER"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER PHONE# 5305387768"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER EMAIL reiler@buttecounty.net"
+        },
+        {
+            "recordType":"D99",
+            "comment":"BID #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"54538794"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTRACT #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"QUO-16110785-H9L0X7 -0"
+        }]
+    },
+    {
+        "recordType":"D01",
+        "lineNumber":"12",
+        "imiPartNumber":"8MB607",
+        "customerPartNumber":"4735292",
+        "manufaturerPartNumber":"874543-B21",
+        "quantityOrdered":"2",
+        "itemNumber":"EA",
+        "unitCost":"54.6500",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"HPE 1U GEN10 SFF EASY INST RAIL KIT",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "bidNumber":"QUO-16110785-H9L0X7 -0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":"53.5800",
+        "unitPriceCTO":"54.6500",
+        "euPPPrcAmt":".0000",
+        "d99Record":[{
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"U:98752715"
+        },
+        {
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"W:REGE-0015815567"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CTO Disti Quote# is required:QUO-16110785-H9L0X7 -0"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Enter Account Manager E-mail:Ryacox@cdwg.com"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Does quote contain freight?:n"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTACT NAME RYAN EILER"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER PHONE# 5305387768"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER EMAIL reiler@buttecounty.net"
+        },
+        {
+            "recordType":"D99",
+            "comment":"BID #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"54538794"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTRACT #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"QUO-16110785-H9L0X7 -0"
+        }]
+    },
+    {
+        "recordType":"D01",
+        "lineNumber":"13",
+        "imiPartNumber":"9DX576",
+        "customerPartNumber":"6501951",
+        "manufaturerPartNumber":"HU4A6A3#WAG",
+        "quantityOrdered":"2",
+        "itemNumber":"EA",
+        "unitCost":"1502.4000",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"HPE DL360 GEN10 SUPPORT",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "bidNumber":"QUO-16110785-H9L0X7 -0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":"1472.9400",
+        "unitPriceCTO":"1502.4000",
+        "euPPPrcAmt":".0000",
+        "d99Record":[{
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"U:98752715"
+        },
+        {
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"W:REGE-0015815567"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CTO Disti Quote# is required:QUO-16110785-H9L0X7 -0"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Enter Account Manager E-mail:Ryacox@cdwg.com"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Does quote contain freight?:n"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTACT NAME RYAN EILER"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER PHONE# 5305387768"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER EMAIL reiler@buttecounty.net"
+        },
+        {
+            "recordType":"D99",
+            "comment":"BID #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"54538794"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTRACT #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"QUO-16110785-H9L0X7 -0"
+        }]
+    },
+    {
+        "recordType":"D01",
+        "lineNumber":"14",
+        "imiPartNumber":"8MD265",
+        "customerPartNumber":"4918588",
+        "manufaturerPartNumber":"P8B31A",
+        "quantityOrdered":"2",
+        "itemNumber":"EA",
+        "unitCost":"259.4900",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"HPE OV W/O ILO 3Y 24X7 FIO PHYS 1LTU",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":"254.4000",
+        "unitPriceCTO":"259.4900",
+        "euPPPrcAmt":".0000",
+        "d99Record":[{
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"U:98752715"
+        },
+        {
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"W:REGE-0015815567"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CTO Disti Quote# is required:QUO-16110785-H9L0X7 -0"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Enter Account Manager E-mail:Ryacox@cdwg.com"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Does quote contain freight?:n"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTACT NAME RYAN EILER"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER PHONE# 5305387768"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER EMAIL reiler@buttecounty.net"
+        }]
+    },
+    {
+        "recordType":"D01",
+        "lineNumber":"16",
+        "imiPartNumber":"8MB837",
+        "customerPartNumber":"7538527",
+        "manufaturerPartNumber":"BD505A",
+        "quantityOrdered":"2",
+        "itemNumber":"EA",
+        "unitCost":"177.0000",
+        "unitPrice":".00",
+        "itemPack":"0",
+        "detailItemDescription1":"HPE ILO ADV 1-SVR LIC 3YR SUPPORT",
+        "endUserPrice":".00",
+        "svsAmt":".00",
+        "svcQty":"0",
+        "bidNumber":"QUO-16110785-H9L0X7 -0",
+        "hermesUnitCostAmt":".0000",
+        "hermesUnitPrcAmt":".0000",
+        "unitCostCTO":"173.5300",
+        "unitPriceCTO":"177.0000",
+        "euPPPrcAmt":".0000",
+        "d99Record":[{
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"U:98752715"
+        },
+        {
+            "recordType":"D99",
+            "commQualifier":"CC",
+            "comment":"W:REGE-0015815567"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CTO Disti Quote# is required:QUO-16110785-H9L0X7 -0"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Enter Account Manager E-mail:Ryacox@cdwg.com"
+        },
+        {
+            "recordType":"D99",
+            "comment":"Does quote contain freight?:n"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTACT NAME RYAN EILER"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER PHONE# 5305387768"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CUSTOMER EMAIL reiler@buttecounty.net"
+        },
+        {
+            "recordType":"D99",
+            "comment":"BID #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"54538794"
+        },
+        {
+            "recordType":"D99",
+            "comment":"CONTRACT #:"
+        },
+        {
+            "recordType":"D99",
+            "comment":"QUO-16110785-H9L0X7 -0"
+        }]
+    }],
+    "s01Record":{
+        "recordType":"S01",
+        "totalLines":"14",
+        "hashTotal":"0"
+    }
+}
