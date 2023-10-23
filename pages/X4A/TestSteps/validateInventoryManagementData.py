@@ -381,39 +381,46 @@ class ValidateInventoryManagementData:
             self.logger.exception(e)
             return False
 
-    def update_action_and_comment(self, action, comment, feature_file_name, screen_shot):
+    def update_action_and_comment_and_save(self, action, comment, feature_file_name, screen_shot):
         x4a_inventory_management = X4AInventoryManagementPage(self.driver)
         try:
-            x4a_inventory_management.update_action_and_comment(action, comment)
+            x4a_inventory_management.update_action_and_comment_and_save(action, comment)
             self.logger.info(f'Successfully updated action and comments')
-            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
-                                        + "action_and_comments_updated_successfully.png")
-            return True
-        except Exception as e:
-            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
-                                        "update_action_and_comment_error.png")
-            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                              "update_action_and_comment_error.png"
-            self.logger.error("Error while updating Action and comment")
-            self.logger.exception(e)
-            return False
-
-    def validate_action_and_comment(self, action, comment, feature_file_name, screen_shot):
-        x4a_inventory_management = X4AInventoryManagementPage(self.driver)
-        try:
             ui_action, ui_comment = x4a_inventory_management.get_action_and_comment()
             assert action == ui_action, 'Action mismatched'
             assert comment == ui_comment, 'Comment mismatched'
-            self.logger.info(f'Successfully validated action and comments')
+            self.logger.info(f'Successfully validated action and comments after save')
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
-                                        + "action_and_comments_validated_successfully.png")
+                                        + "action_and_comments_saved_successfully.png")
             return True
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
-                                        "validate_action_and_comment_error.png")
+                                        "save_action_and_comment_error.png")
             screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                              "validate_action_and_comment_error.png"
-            self.logger.error("Error while validating Action and comment")
+                              "save_action_and_comment_error.png"
+            self.logger.error("Error while updating and saving Action and comment")
+            self.logger.exception(e)
+            return False
+
+    def update_action_and_comment_and_cancel(self, action, comment, feature_file_name, screen_shot):
+        x4a_inventory_management = X4AInventoryManagementPage(self.driver)
+        try:
+            initial_ui_action, initial_ui_comment = x4a_inventory_management.get_action_and_comment()
+            x4a_inventory_management.update_action_and_comment_and_cancel(action, comment)
+            self.logger.info(f'Successfully updated action and comments')
+            ui_action, ui_comment = x4a_inventory_management.get_action_and_comment()
+            assert initial_ui_action == ui_action, 'Action mismatched'
+            assert initial_ui_comment == ui_comment, 'Comment mismatched'
+            self.logger.info(f'Successfully validated action and comments after cancel')
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "action_and_comments_cancel_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "cancel_action_and_comment_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                              "cancel_action_and_comment_error.png"
+            self.logger.error("Error while validating cancel for Action and comment")
             self.logger.exception(e)
             return False
 
@@ -500,3 +507,23 @@ class ValidateInventoryManagementData:
             self.logger.exception(e)
             return False
 
+    def validate_action_popup_contents_for_aging_sku_table(self, feature_file_name, screen_shot):
+        x4a_inventory_management = X4AInventoryManagementPage(self.driver)
+        try:
+            action_options = x4a_inventory_management.validate_action_popup_contents_for_aging_sku_table()
+            for action in self.action_dropdown_options:
+                if action not in action_options:
+                    self.logger.error(f'{action} not present in dropdown')
+                    return False
+            self.logger.info(f'Successfully validated Action popup contents')
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "action_popup_contents_validated_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "action_popup_validation_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                              "action_popup_validation_error.png"
+            self.logger.error("Error while validating action popup content")
+            self.logger.exception(e)
+            return False

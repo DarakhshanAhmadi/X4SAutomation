@@ -62,6 +62,7 @@ class X4AInventoryManagementPage(BasePage):
     ACTION_POPUP_CLOSE_BUTTON = (By.XPATH, "//button[@aria-label='close']")
     ACTION_FOR_SKU = (By.XPATH, "//div[@data-id=0]/div[@data-field='action']/div/div/div/div/span/div/div")
     COMMENT_FOR_SKU = (By.XPATH, "//div[@data-id=0]/div[@data-field='action']/div/div/div[2]/button")
+    BLUE_DOT_FOR_COMMENT_FOR_FIRST_ROW = (By.XPATH, "//div[@data-rowindex=0]/div[@data-field='action']/div/div/div[2]/button/span/span")
     ACTION_SAVE_STATUS_POPUP = (By.XPATH, "//div[@class='MuiAlert-message css-acap47-MuiAlert-message']")
     POPUP_CLOSE_BUTTON = (By.XPATH, "//button[@aria-label='close']")
     COMMENT_TEXT = (By.XPATH, "//p[@class='MuiTypography-root MuiTypography-body1 css-1c49e4q-MuiTypography-root']")
@@ -801,20 +802,26 @@ class X4AInventoryManagementPage(BasePage):
             assert action_popup_dropdown_label == 'Please, select what action will be perform *', 'Action popup dropdown label is incorrect'
             assert action_popup_comment_label == 'What is being done to eliminate underperforming SKUs?', 'Action popup comment label is incorrect'
             assert comment_textbox_text == 'Input comment (200 character limit)', 'Comment textbox placeholder is incorrect'
-            self.do_check_availability(self.ACTION_POPUP_CANCEL_BUTTON)
+            self.do_check_availability(self.ACTION_POPUP_SAVE_BUTTON)
             self.do_check_availability(self.ACTION_POPUP_CANCEL_BUTTON)
             self.do_click_by_locator(self.ACTION_POPUP_DOWNDOWN)
             action_dropdown_options = self.get_all_elements(self.ACTION_DROPDOWN_OPTIONS)
             for action in action_dropdown_options:
                 action_options.append(action.text)
+            self.do_click_by_locator(action_dropdown_options[0])
             self.logger.info(action_options)
+            self.do_click_by_locator(self.ACTION_POPUP_CANCEL_BUTTON)
             return action_options
         except Exception as e:
             self.logger.error("Exception while validating Action popup contents" + str(e))
             raise e
 
-    def update_action_and_comment(self, action, comment):
+    def update_action_and_comment_and_save(self, action, comment):
         try:
+            three_dots = self.get_all_elements(self.FIRST_ROW_THREE_DOTS)
+            self.do_click_by_locator(three_dots[-1])
+            self.do_click_by_locator(self.ADD_OR_EDIT_OPTION)
+            self.do_click_by_locator(self.ACTION_POPUP_DOWNDOWN)
             action_dropdown_options = self.get_all_elements(self.ACTION_DROPDOWN_OPTIONS)
             for option in action_dropdown_options:
                 if option.text == action:
@@ -825,16 +832,38 @@ class X4AInventoryManagementPage(BasePage):
             self.do_check_availability(self.ACTION_SAVE_STATUS_POPUP)
             save_status = self.get_element_text(self.ACTION_SAVE_STATUS_POPUP)
             assert save_status == 'Save Successful', 'Action save status mismatch'
+            time.sleep(2)
             self.do_click_by_locator(self.POPUP_CLOSE_BUTTON)
         except Exception as e:
-            self.logger.error("Exception while updating action and comment" + str(e))
+            self.logger.error("Exception while updating action and comment and save" + str(e))
+            raise e
+
+    def update_action_and_comment_and_cancel(self, action, comment):
+        try:
+            three_dots = self.get_all_elements(self.FIRST_ROW_THREE_DOTS)
+            self.do_click_by_locator(three_dots[-1])
+            self.do_click_by_locator(self.ADD_OR_EDIT_OPTION)
+            self.do_click_by_locator(self.ACTION_POPUP_DOWNDOWN)
+            action_dropdown_options = self.get_all_elements(self.ACTION_DROPDOWN_OPTIONS)
+            for option in action_dropdown_options:
+                if option.text == action:
+                    self.do_click_by_locator(option)
+                    break
+            self.do_send_keys(self.ACTION_POPUP_COMMENT_TEXT_AREA, comment)
+            self.do_click_by_locator(self.ACTION_POPUP_CANCEL_BUTTON)
+        except Exception as e:
+            self.logger.error("Exception while updating action and comment and cancel" + str(e))
             raise e
 
     def get_action_and_comment(self):
         try:
             action = self.get_element_text(self.ACTION_FOR_SKU)
-            self.do_click_by_locator(self.COMMENT_FOR_SKU)
-            comment = self.get_element_text(self.COMMENT_TEXT)
+            if self.do_check_visibility(self.BLUE_DOT_FOR_COMMENT_FOR_FIRST_ROW):
+                self.do_click_by_locator(self.COMMENT_FOR_SKU)
+                comment = self.get_element_text(self.COMMENT_TEXT)
+                self.do_double_click(self.BLUE_DOT_FOR_COMMENT_FOR_FIRST_ROW)
+            else:
+                comment = ""
             return action, comment
         except Exception as e:
             self.logger.error("Exception while fetching sku action and comment" + str(e))
@@ -988,4 +1017,28 @@ class X4AInventoryManagementPage(BasePage):
             self.logger.error("Exception while validating Actual 181 is Descending" + str(e))
             raise e
 
-
+    def validate_action_popup_contents_for_aging_sku_table(self):
+        action_options = []
+        try:
+            three_dots = self.get_all_elements(self.FIRST_ROW_THREE_DOTS)
+            self.do_click_by_locator(three_dots[-1])
+            self.do_click_by_locator(self.ADD_OR_EDIT_OPTION)
+            action_popup_dropdown_label = self.get_element_text(self.ACTION_POPUP_DROPDOWN_SECTION_LABEL)
+            action_popup_comment_label = self.get_element_text(self.ACTION_POPUP_COMMENT_SECTION_LABEL)
+            comment_textbox_text = self.do_get_attribute(self.ACTION_POPUP_COMMENT_TEXT_AREA, "placeholder")
+            assert action_popup_dropdown_label == 'Please, select what action will be perform *', 'Action popup dropdown label is incorrect'
+            assert action_popup_comment_label == 'What is being done to eliminate aging SKUs?', 'Action popup comment label is incorrect'
+            assert comment_textbox_text == 'Input comment (200 character limit)', 'Comment textbox placeholder is incorrect'
+            self.do_check_availability(self.ACTION_POPUP_CANCEL_BUTTON)
+            self.do_check_availability(self.ACTION_POPUP_CANCEL_BUTTON)
+            self.do_click_by_locator(self.ACTION_POPUP_DOWNDOWN)
+            action_dropdown_options = self.get_all_elements(self.ACTION_DROPDOWN_OPTIONS)
+            for action in action_dropdown_options:
+                action_options.append(action.text)
+            self.do_click_by_locator(action_dropdown_options[0])
+            self.logger.info(action_options)
+            self.do_click_by_locator(self.ACTION_POPUP_CANCEL_BUTTON)
+            return action_options
+        except Exception as e:
+            self.logger.error("Exception while validating Action popup contents" + str(e))
+            raise e

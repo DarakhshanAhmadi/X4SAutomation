@@ -48,13 +48,18 @@ def test_verify_table_headers():
     pass
 
 
-@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Filter results for top 100 aging sku")
+@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Filter results for Top 100 Aging SKU")
 def test_verify_filter():
     pass
 
 
-@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Sort results for top 100 aging sku")
+@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Sort results for Top 100 Aging SKU")
 def test_verify_sort():
+    pass
+
+
+@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Action on SKU for Top 100 Aging SKU")
+def test_verify_action_on_aging_sku():
     pass
 
 
@@ -306,28 +311,28 @@ def validate_action_popup(init_driver):
         raise e
 
 
-@then(parsers.parse('update the action and comment for sku'))
+@then(parsers.parse('save updated the action and comment for sku and validate'))
 def validate_sort_value_on_order(init_driver):
     feature_file_name = "inventory_management_action_planning"
     validate_inventory_management = ValidateInventoryManagementData(init_driver)
     try:
         action = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("actions")
         comment = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("comment")
-        if not validate_inventory_management.update_action_and_comment(action, comment, feature_file_name, screen_shot):
+        if not validate_inventory_management.update_action_and_comment_and_save(action, comment, feature_file_name, screen_shot):
             raise Exception("Failed to update Action and Comment")
     except Exception as e:
         logger.error("Error while updating Action and Comment %s", e)
         raise e
 
 
-@then(parsers.parse('validate the updated action and comments are reflecting for sku'))
+@then(parsers.parse('cancel updated the action and comment for sku and validate'))
 def validate_action_and_comment(init_driver):
     feature_file_name = "inventory_management_action_planning"
     validate_inventory_management = ValidateInventoryManagementData(init_driver)
     try:
         action = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("actions")
         comment = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("comment")
-        if not validate_inventory_management.validate_action_and_comment(action, comment, feature_file_name, screen_shot):
+        if not validate_inventory_management.update_action_and_comment_and_cancel(action, comment, feature_file_name, screen_shot):
             raise Exception("Failed to validate Action and Comment")
     except Exception as e:
         logger.error("Error while validating Action and Comment %s", e)
@@ -405,4 +410,29 @@ def validate_sort_actual_181(init_driver):
             raise Exception("Failed to validate sort for Actual 181")
     except Exception as e:
         logger.error("Error while validating sort for Actual 181 %s", e)
+        raise e
+
+
+@when(parsers.parse('validate popup text and action options are correct for aging sku'))
+def validate_action_popup(init_driver):
+    feature_file_name = "inventory_management_action_planning"
+    validate_inventory_management = ValidateInventoryManagementData(init_driver)
+    try:
+        if not validate_inventory_management.validate_action_popup_contents_for_aging_sku_table(feature_file_name, screen_shot):
+            raise Exception("Action popup contents are incorrect")
+    except Exception as e:
+        logger.error("Not able to validate Action Popup contents %s", e)
+        raise e
+
+
+@given(parsers.parse('filter by sku for aging sku'))
+def filter_by_sku(init_driver):
+    feature_file_name = "inventory_management_action_planning"
+    validate_inventory_management = ValidateInventoryManagementData(init_driver)
+    try:
+        sku = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("aging_sku")
+        if not validate_inventory_management.filter_by_sku(sku, feature_file_name, screen_shot):
+            raise Exception("Failed to filter by sku")
+    except Exception as e:
+        logger.error("Error while filtering by sku %s", e)
         raise e
