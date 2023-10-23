@@ -2322,7 +2322,6 @@ class X4ASalesOrdersPage(BasePage):
                                        enduser_id, enduser_contact, enduser_companyname,
                                        enduser_phonenumber, enduser_address, enduser_email):
         try:
-            breakpoint()
             assert shiptoid_updated == shipto_id, "Ship to ID mismatched"
             assert companyname_updated == shipto_companyname, "Company name mismatched"
             assert final_address_updated == shipto_address, "Address mismatched"
