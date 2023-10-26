@@ -49,6 +49,24 @@ def test_edi_line_level_validation_back_order_flag():
     pass
 
 
+@scenario("features/hardware/edi_bill_to_ship_to_suffix_validation.feature",
+          "Bill To Ship To Address and Suffix Validation")
+def test_edi_bill_to_ship_to_add_and_suffix_validation():
+    pass
+
+
+@scenario("features/hardware/edi_bill_to_ship_to_suffix_validation.feature",
+          "Bill to information")
+def test_edi_bill_to_information():
+    pass
+
+
+@scenario("features/hardware/edi_bill_to_ship_to_suffix_validation.feature",
+          "Bill to information - Validate billToFaxNbr, billToLotusId and billToEmail")
+def test_edi_bill_to_faxnbr_lotus_id_email_information():
+    pass
+
+
 @given(parsers.parse('Set the API endpoint and headers'))
 def set_api_endpoint_headers():
     edi_data_obj = EDIDataValidation()
@@ -311,3 +329,63 @@ def validate_header16_form_code_if_available():
 def validate_order_is_rejected_cto_valid_order_code():
     edi_data_obj = EDIDataValidation()
     edi_data_obj.rejected_cto_valid_order_code_validate()
+
+
+@then(parsers.parse('Validate the billToAddress if available in input file'))
+def validate_bill_to_address_if_available():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.bill_to_address_available_validate()
+
+
+@then(parsers.parse('Validate the shipToAddress if available in input file'))
+def validate_ship_to_address_if_available():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.ship_to_address_available_validate()
+
+
+@then(parsers.parse('Validate the billToRefPlu if not empty in input file'))
+def validate_bill_to_refplu_if_not_empty():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.bill_to_refplu_not_empty_validate()
+
+
+@then(parsers.parse('Validate the customer number if billToRefNumber is not empty'))
+def validate_the_customer_number_if_billtorefnumber_is_not_empty():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.customer_no_validate()
+
+
+@then(parsers.parse('Validate the billToFaxNbr if empty in input file'))
+def validate_bill_to_refplu_if_empty():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.bill_to_faxnbr_empty_validate()
+
+
+@then(parsers.parse('Validate the billToFaxNbr if not empty in input file'))
+def validate_bill_to_refplu_if_not_empty():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.bill_to_faxnbr_not_empty_validate()
+
+
+@then(parsers.parse('Validate the billToLotusId if empty in input file'))
+def validate_bill_to_lotus_id_if_empty():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.bill_to_lotus_id_empty_validate()
+
+
+@then(parsers.parse('Validate the billToLotusId if not empty in input file'))
+def validate_bill_to_lotus_id_if_not_empty():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.bill_to_lotus_id_not_empty_validate()
+
+
+@then(parsers.parse('Validate the billToEmail if empty in input file'))
+def validate_bill_to_email_if_empty():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.bill_to_email_empty_validate()
+
+
+@then(parsers.parse('Validate the billToEmail if not empty in input file'))
+def validate_bill_to_email_if_not_empty():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.bill_to_email_not_empty_validate()

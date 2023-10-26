@@ -463,3 +463,102 @@ class EDIDataValidation:
                 if data["header02Record"]["ctoValidOrderCode"] != "":
                     assert json_response[
                                "Message"] == "Reject the order with the error Vendor doesn't support Direct Ship - "
+
+    def bill_to_address_available_validate(self):
+        path = ".\\RestApi\\Resources\\EDI\\IPJSONWithCurrencyCode.json"
+        response, json_response = self.hit_api_post_request(path)
+        assert response.status_code == 200
+        self.logger.info("API response status code is 200")
+        if self.api_utilities.keys_exists(data, "header06Record"):
+            assert json_response["billToAddress"]["addressline1"] == data["header06Record"][
+                "billToAddress"], "Bill to address addressline1 is mismatched"
+            assert json_response["billToAddress"]["addressline2"] == data["header06Record"][
+                "billToAddress2"], "Bill to address addressline2 is mismatched"
+            assert json_response["billToAddress"]["city"] == data["header06Record"]["billToLocation"][
+                "billToCity"], "Bill to address city is mismatched"
+            assert json_response["billToAddress"]["state"] == data["header06Record"]["billToLocation"][
+                "billToState"], "Bill to address state is mismatched"
+            assert json_response["billToAddress"]["postalCode"] == data["header06Record"]["billToLocation"][
+                "billToZip"], "Bill to address zip is mismatched"
+            assert json_response["billToAddress"]["country"] == data["header06Record"]["billToLocation"][
+                "billToCountry"], "Bill to address country is mismatched"
+            assert json_response["billToAddress"]["companyName"] == data["header06Record"][
+                "billToName"], "Bill to address company name is mismatched"
+
+    def ship_to_address_available_validate(self):
+        path = ".\\RestApi\\Resources\\EDI\\IPJSONWithCurrencyCode.json"
+        response, json_response = self.hit_api_post_request(path)
+        assert response.status_code == 200
+        self.logger.info("API response status code is 200")
+        if self.api_utilities.keys_exists(data, "header06Record"):
+            assert json_response["shipToAddress"]["addressline1"] == data["header04Record"][
+                "shiptToAddress"], "Ship to address addressline1 is mismatched"
+            assert json_response["shipToAddress"]["addressline2"] == data["header04Record"][
+                "shipToAddress2"], "Ship to address addressline2 is mismatched"
+            assert json_response["shipToAddress"]["city"] == data["header04Record"]["shipToLocation"][
+                "shipToCity"], "Ship to address city is mismatched"
+            assert json_response["shipToAddress"]["state"] == data["header04Record"]["shipToLocation"][
+                "shipToState"], "Ship to address state is mismatched"
+            assert json_response["shipToAddress"]["postalCode"] == data["header04Record"]["shipToLocation"][
+                "shipToZip"], "Ship to address zip is mismatched"
+            assert json_response["shipToAddress"]["country"] == data["header04Record"]["shipToLocation"][
+                "shipToCountry"], "Ship to address country is mismatched"
+            assert json_response["shipToAddress"]["companyName"] == data["header04Record"][
+                "shipToName"], "Ship to address company name is mismatched"
+
+    def bill_to_refplu_not_empty_validate(self):
+        """Order with billToRefPlu is not available in production"""
+
+    def customer_no_validate(self):
+        path = ".\\RestApi\\Resources\\EDI\\IPJSONWithBillToRefNo.json"
+        response, json_response = self.hit_api_post_request(path)
+        assert response.status_code == 200
+        self.logger.info("API response status code is 200")
+        if self.api_utilities.keys_exists(data, "header06Record", "billToRefNumber"):
+            if data["header06Record"]["billToRefNumber"] != "":
+                billtorefno = data["header06Record"]["billToRefNumber"]
+                billtorefno_updated = '-'.join([billtorefno[:2], billtorefno[2:8]])
+                assert json_response["customerNumber"] == billtorefno_updated, "Customer number is mismatched"
+
+    def bill_to_faxnbr_empty_validate(self):
+        path = ".\\RestApi\\Resources\\EDI\\IPJSONWithBillToRefNo.json"
+        response, json_response = self.hit_api_post_request(path)
+        assert response.status_code == 200
+        self.logger.info("API response status code is 200")
+        if self.api_utilities.keys_exists(data, "header06Record", "billToFaxNbr"):
+            if data["header06Record"]["billToRefPlu"] == "":
+                assert json_response["billToAddress"]["faxNumber"] is None
+
+    def bill_to_faxnbr_not_empty_validate(self):
+        """Order with faxnbr is not available in production"""
+
+    def bill_to_lotus_id_empty_validate(self):
+        path = ".\\RestApi\\Resources\\EDI\\IPJSONWithBillToRefNo.json"
+        response, json_response = self.hit_api_post_request(path)
+        assert response.status_code == 200
+        self.logger.info("API response status code is 200")
+        if self.api_utilities.keys_exists(data, "header06Record", "billToLotusId"):
+            if data["header06Record"]["billToLotusId"] == "":
+                assert json_response["billToAddress"]["billToLotusId"] is None
+
+    def bill_to_lotus_id_not_empty_validate(self):
+        """Order with lotus id is not available in production"""
+
+    def bill_to_email_empty_validate(self):
+        path = ".\\RestApi\\Resources\\EDI\\IPJSONWithBillToRefNo.json"
+        response, json_response = self.hit_api_post_request(path)
+        assert response.status_code == 200
+        self.logger.info("API response status code is 200")
+        if self.api_utilities.keys_exists(data, "header06Record", "billToEmail"):
+            if data["header06Record"]["billToEmail"] == "":
+                assert json_response["billToAddress"]["billToEmail"] is None
+
+    def bill_to_email_not_empty_validate(self):
+        path = ".\\RestApi\\Resources\\EDI\\IPJSONWithBillToRefNo.json"
+        response, json_response = self.hit_api_post_request(path)
+        assert response.status_code == 200
+        self.logger.info("API response status code is 200")
+        if self.api_utilities.keys_exists(data, "header06Record", "billToEmail"):
+            if data["header06Record"]["billToEmail"] != "":
+                assert json_response["billToAddress"]["billToEmail"] == "BT Email:" + data["header06Record"][
+                    "billToLotusId"]
