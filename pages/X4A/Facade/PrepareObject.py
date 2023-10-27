@@ -38,7 +38,8 @@ class PrepareObject:
                                             test_data.get("EditOrderLines"),
                                             test_data.get("ModifyBillingAddressDataErrorOrderID"),
                                             test_data.get("OrderLineDataErrorOrderID"),
-                                            test_data.get("ModifyOrderLineDataErrorOrderID"))
+                                            test_data.get("ModifyOrderLineDataErrorOrderID"),
+                                            test_data.get("IM360DataErrorOrderConfirmationId"))
         return x4a_input_order_obj
 
     def prepare_x4a_user_data_obj(self, test_data):
