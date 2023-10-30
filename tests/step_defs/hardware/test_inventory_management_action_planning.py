@@ -38,6 +38,11 @@ def test_verify_sort_results():
     pass
 
 
+@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Action on SKU")
+def test_verify_action_on_sku():
+    pass
+
+
 @given(parsers.parse('launch chrome browser and open the X4A url'))
 def launch_browser(init_driver):
     prepare_obj = PrepareObject(init_driver)
@@ -258,4 +263,57 @@ def validate_sort_value_on_order(init_driver):
             raise Exception("Failed to validate sort for improvement opportunity")
     except Exception as e:
         logger.error("Error while validating sort for improvement opportunity %s", e)
+        raise e
+
+
+@given(parsers.parse('filter by sku'))
+def filter_by_sku(init_driver):
+    feature_file_name = "inventory_management_action_planning"
+    validate_inventory_management = ValidateInventoryManagementData(init_driver)
+    try:
+        sku = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("sku")
+        if not validate_inventory_management.filter_by_sku(sku, feature_file_name, screen_shot):
+            raise Exception("Failed to filter by sku")
+    except Exception as e:
+        logger.error("Error while filtering by sku %s", e)
+        raise e
+
+
+@when(parsers.parse('validate popup text and action options are correct'))
+def validate_action_popup(init_driver):
+    feature_file_name = "inventory_management_action_planning"
+    validate_inventory_management = ValidateInventoryManagementData(init_driver)
+    try:
+        if not validate_inventory_management.validate_action_popup_contents(feature_file_name, screen_shot):
+            raise Exception("Action popup contents are incorrect")
+    except Exception as e:
+        logger.error("Not able to validate Action Popup contents %s", e)
+        raise e
+
+
+@then(parsers.parse('update the action and comment for sku'))
+def validate_sort_value_on_order(init_driver):
+    feature_file_name = "inventory_management_action_planning"
+    validate_inventory_management = ValidateInventoryManagementData(init_driver)
+    try:
+        action = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("actions")
+        comment = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("comment")
+        if not validate_inventory_management.update_action_and_comment(action, comment, feature_file_name, screen_shot):
+            raise Exception("Failed to update Action and Comment")
+    except Exception as e:
+        logger.error("Error while updating Action and Comment %s", e)
+        raise e
+
+
+@then(parsers.parse('validate the updated action and comments are reflecting for sku'))
+def validate_action_and_comment(init_driver):
+    feature_file_name = "inventory_management_action_planning"
+    validate_inventory_management = ValidateInventoryManagementData(init_driver)
+    try:
+        action = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("actions")
+        comment = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("comment")
+        if not validate_inventory_management.validate_action_and_comment(action, comment, feature_file_name, screen_shot):
+            raise Exception("Failed to validate Action and Comment")
+    except Exception as e:
+        logger.error("Error while validating Action and Comment %s", e)
         raise e

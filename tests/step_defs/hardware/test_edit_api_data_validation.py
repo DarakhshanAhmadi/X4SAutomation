@@ -3,41 +3,67 @@ from pytest_bdd import scenario, given, parsers, then
 from RestApi.Operations.edi_data_validation import EDIDataValidation
 
 
-@scenario("features/hardware/edi_api_data_validation.feature", "Header Level Validation - Prefix")
+@scenario("features/hardware/edi_api_header_level_data_validation.feature", "Header Level Validation - Prefix")
 def test_edi_header_level_validation_prefix():
     pass
 
 
-@scenario("features/hardware/edi_api_data_validation.feature", "Header Level Validation - Process Reference Numbers")
+@scenario("features/hardware/edi_api_header_level_data_validation.feature",
+          "Header Level Validation - Process Reference Numbers")
 def test_edi_header_level_validation_process_reference_no():
     pass
 
 
-@scenario("features/hardware/edi_api_data_validation.feature",
+@scenario("features/hardware/edi_api_header_level_data_validation.feature",
           "Header Level Validation - Process header level pass-thru fields")
 def test_edi_header_level_validation_process_pass_thru_fields():
     pass
 
 
-@scenario("features/hardware/edi_api_data_validation.feature", "Header Level Validation - Back Order Flag")
+@scenario("features/hardware/edi_api_header_level_data_validation.feature", "Header Level Validation - Back Order Flag")
 def test_edi_header_level_validation_back_order_flag():
     pass
 
 
-@scenario("features/hardware/edi_api_data_validation.feature", "Header Level Validation - Process Buyer Information")
+@scenario("features/hardware/edi_api_header_level_data_validation.feature",
+          "Header Level Validation - Process Buyer Information")
 def test_edi_header_level_validation_process_buyer_information():
     pass
 
 
-@scenario("features/hardware/edi_api_data_validation.feature",
+@scenario("features/hardware/edi_api_header_level_data_validation.feature",
           "Header Level Validation - Freight Out Code, Third Party Freight account and Carrier Code")
 def test_edi_header_level_validation_frieght_code():
     pass
 
 
-@scenario("features/hardware/edi_api_data_validation.feature",
+@scenario("features/hardware/edi_api_header_level_data_validation.feature",
           "Header Level Validation - Special Shipping Information-H16")
 def test_edi_header_level_validation_special_shipping_info_h16():
+    pass
+
+
+@scenario("features/hardware/edi_line_level_data_validation.feature",
+          "Line Level Validation Backorder Flag3")
+def test_edi_line_level_validation_back_order_flag():
+    pass
+
+
+@scenario("features/hardware/edi_bill_to_ship_to_suffix_validation.feature",
+          "Bill To Ship To Address and Suffix Validation")
+def test_edi_bill_to_ship_to_add_and_suffix_validation():
+    pass
+
+
+@scenario("features/hardware/edi_bill_to_ship_to_suffix_validation.feature",
+          "Bill to information")
+def test_edi_bill_to_information():
+    pass
+
+
+@scenario("features/hardware/edi_bill_to_ship_to_suffix_validation.feature",
+          "Bill to information - Validate billToFaxNbr, billToLotusId and billToEmail")
+def test_edi_bill_to_faxnbr_lotus_id_email_information():
     pass
 
 
@@ -134,7 +160,7 @@ def validate_department_no_if_available():
 @then(parsers.parse('Validate the sellerSalesNumber if not available in input file'))
 def validate_seller_sales_no_if_not_available():
     edi_data_obj = EDIDataValidation()
-    edi_data_obj.seller_sales_no_available_validate()
+    edi_data_obj.seller_sales_no_not_available_validate()
 
 
 @then(parsers.parse('Validate the sellerSalesNumber if available in input file'))
@@ -243,7 +269,7 @@ def validate_buyer_information_if_not_available():
 def validate_buyer_information_if_available():
     edi_data_obj = EDIDataValidation()
     edi_data_obj.buyer_information_available_validate()
-    
+
 
 @then(parsers.parse('Validate the frieghtcode if not available in input file'))
 def validate_frieght_code_if_not_available():
@@ -297,3 +323,69 @@ def validate_header16_form_code_if_not_available():
 def validate_header16_form_code_if_available():
     edi_data_obj = EDIDataValidation()
     edi_data_obj.header16_form_code_available_validate()
+
+
+@then(parsers.parse('Validate order is rejected for order type TC and ctoValidOrderCode'))
+def validate_order_is_rejected_cto_valid_order_code():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.rejected_cto_valid_order_code_validate()
+
+
+@then(parsers.parse('Validate the billToAddress if available in input file'))
+def validate_bill_to_address_if_available():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.bill_to_address_available_validate()
+
+
+@then(parsers.parse('Validate the shipToAddress if available in input file'))
+def validate_ship_to_address_if_available():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.ship_to_address_available_validate()
+
+
+@then(parsers.parse('Validate the billToRefPlu if not empty in input file'))
+def validate_bill_to_refplu_if_not_empty():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.bill_to_refplu_not_empty_validate()
+
+
+@then(parsers.parse('Validate the customer number if billToRefNumber is not empty'))
+def validate_the_customer_number_if_billtorefnumber_is_not_empty():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.customer_no_validate()
+
+
+@then(parsers.parse('Validate the billToFaxNbr if empty in input file'))
+def validate_bill_to_refplu_if_empty():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.bill_to_faxnbr_empty_validate()
+
+
+@then(parsers.parse('Validate the billToFaxNbr if not empty in input file'))
+def validate_bill_to_refplu_if_not_empty():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.bill_to_faxnbr_not_empty_validate()
+
+
+@then(parsers.parse('Validate the billToLotusId if empty in input file'))
+def validate_bill_to_lotus_id_if_empty():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.bill_to_lotus_id_empty_validate()
+
+
+@then(parsers.parse('Validate the billToLotusId if not empty in input file'))
+def validate_bill_to_lotus_id_if_not_empty():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.bill_to_lotus_id_not_empty_validate()
+
+
+@then(parsers.parse('Validate the billToEmail if empty in input file'))
+def validate_bill_to_email_if_empty():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.bill_to_email_empty_validate()
+
+
+@then(parsers.parse('Validate the billToEmail if not empty in input file'))
+def validate_bill_to_email_if_not_empty():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.bill_to_email_not_empty_validate()
