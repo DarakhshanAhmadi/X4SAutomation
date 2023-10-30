@@ -1,0 +1,371 @@
+{
+  "costs": null,
+  "cloudAccountId": null,
+  "shipToInfo": {
+    "email": "",
+    "postalCode": "030496003",
+    "city": "HOLLIS",
+    "contact": "",
+    "addressLine3": "",
+    "addressLine2": "DAVE",
+    "companyName": "30 CRESTWOOD DR",
+    "addressLine1": "",
+    "addressLine5": "",
+    "state": "NH",
+    "addressLine4": "",
+    "phoneNumber": "",
+    "countryCode": "US",
+    "addressId": "",
+    "district": "",
+    "name1": "",
+    "name2": null
+  },
+  "currencyCode": "",
+  "prices": null,
+  "endUserInfo": null,
+  "additionalAttributes": [
+    {
+      "attributeValue": "",
+      "attributeName": "thirdPartyFreightAccountNumber"
+    },
+    {
+      "attributeValue": "G360",
+      "attributeName": "entryMethod"
+    },
+    {
+      "attributeValue": "PQMN",
+      "attributeName": "operatorId"
+    },
+    {
+      "attributeValue": "US",
+      "attributeName": "regionCode"
+    },
+    {
+      "attributeValue": "PQMN",
+      "attributeName": "isSalesMan"
+    },
+    {
+      "attributeValue": "true",
+      "attributeName": "allowOrderOnCustomerHold"
+    },
+    {
+      "attributeValue": "Y",
+      "attributeName": "isbackorderflagallowed"
+    },
+    {
+      "attributeValue": "true",
+      "attributeName": "isDirectShipOrder"
+    },
+    {
+      "attributeValue": "",
+      "attributeName": "orderType"
+    },
+    {
+      "attributeValue": "NA",
+      "attributeName": "euPoNumber"
+    },
+    {
+      "attributeValue": "",
+      "attributeName": "ordersubtype"
+    },
+    {
+      "attributeValue": "Dean Sarris",
+      "attributeName": "provcontactname"
+    },
+    {
+      "attributeValue": "dean@rdtsolutions.com",
+      "attributeName": "provcontactemail"
+    },
+    {
+      "attributeValue": "3e8b5aeb-284c-ee11-be6e-00224823ac08",
+      "attributeName": "orderrecordid"
+    },
+    {
+      "attributeValue": "TRUE",
+      "attributeName": "allowDuplicateCustomerOrderNumber"
+    },
+    {
+      "attributeValue": "false",
+      "attributeName": "allowpartialorder"
+    },
+    {
+      "attributeValue": "SAN JUAN COUNTY NEW MEXICO",
+      "attributeName": "endusername"
+    },
+    {
+      "attributeValue": "N",
+      "attributeName": "ismigration"
+    }
+  ],
+  "endCustomerOrderNumber": "NA",
+  "carrierDescription": "",
+  "ssEndUserInfo": null,
+  "notes": null,
+  "vmfAdditionalAttributes": [
+    {
+      "attributeValue": "DEAN SARRIS",
+      "attributeName": "rslrg360CtacName"
+    },
+    {
+      "attributeValue": "DEAN@RDTSOLUTIONS.COM",
+      "attributeName": "resellerCtacEmail"
+    }
+  ],
+  "resellerInfo": {
+    "addressLine3": null,
+    "addressLine2": null,
+    "companyName": null,
+    "resellerId": "20222222",
+    "addressLine1": null,
+    "email": null,
+    "state": null,
+    "phoneNumber": null,
+    "postalCode": null,
+    "city": null,
+    "countryCode": "US",
+    "contact": null
+  },
+  "directShipConfigAttributes": [],
+  "shipmentDetails": {
+    "signatureRequired": false,
+    "freightAccountNumber": null,
+    "shipComplete": null,
+    "carrierCode": "",
+    "requestedDeliveryDate": null,
+    "shippingInstructions": null,
+    "carrierService": null
+  },
+  "terms": "345",
+  "acceptBackOrder": null,
+  "vmf": [
+    {
+      "quoteNumber": null,
+      "msaNumber": null,
+      "email": null,
+      "veud": {
+        "agreementId": null,
+        "id": null,
+        "contactId": null,
+        "conagrFlag": null,
+        "addressId": null,
+        "licenseId": null
+      },
+      "orderHold": null,
+      "vendorNumber": "",
+      "vmfspecs": [],
+      "csnNumber": null,
+      "cupNumber": null,
+      "vendAuthNumber": null,
+      "cigNumber": null
+    }
+  ],
+  "specialBidNumber": null,
+  "creditCardDetails": {
+    "cardNumber": null,
+    "paymentGroup": null,
+    "authorizationCode": null,
+    "paymentCode": null,
+    "address": null,
+    "requestId": null,
+    "firstName": null,
+    "authDate": null,
+    "authorizationProvider": null,
+    "postalCode": null,
+    "city": null,
+    "authTime": null,
+    "expirationDate": null,
+    "cardType": null,
+    "state": null,
+    "authorizationAmount": 0,
+    "lastName": null,
+    "securityCode": null
+  },
+  "customerOrderNumber": "5221^^^",
+  "quoteNumber": null,
+  "allowPartialOrder": null,
+  "purchaseOrderDate": null,
+  "decorativeData": null,
+  "billToAddressId": "000",
+  "vendorOrderHold": null,
+  "lines": [
+    {
+      "globalSkuId": "A300-3BM853",
+      "costs": null,
+      "ingramPartNumber": "3BM853",
+      "vendorPartNumber": null,
+      "aucSelectionCost": 0,
+      "lineNumber": null,
+      "prices": null,
+      "endUserInfo": [
+        {
+          "houseNumber": null,
+          "email": null,
+          "segmentation": null,
+          "endUserType": null,
+          "authorizationNumber": null,
+          "postalCode": null,
+          "contactId": null,
+          "city": null,
+          "contact": "Thomas Thompson",
+          "endUserAcopId": null,
+          "addressLine3": null,
+          "name3": null,
+          "companyName": null,
+          "addressLine2": null,
+          "addressLine1": null,
+          "endUserId": null,
+          "state": null,
+          "addressLine4": null,
+          "phoneNumber": null,
+          "countryCode": null,
+          "name1": null,
+          "name2": null,
+          "addressSequenceNumber": null
+        }
+      ],
+      "endUserPoNumber": "NA",
+      "additionalAttributes": [
+        {
+          "attributeValue": "TTHOMPSON@SJCOUNTY911.NET",
+          "attributeName": "enduseremail"
+        },
+        {
+          "attributeValue": "5053346000",
+          "attributeName": "enduserphone"
+        },
+        {
+          "attributeValue": "267",
+          "attributeName": "enduserid"
+        },
+        {
+          "attributeValue": "1",
+          "attributeName": "addresssequencenumber"
+        },
+        {
+          "attributeValue": "2",
+          "attributeName": "contactid"
+        },
+        {
+          "attributeValue": "4917673",
+          "attributeName": "enduseracopid"
+        },
+        {
+          "attributeValue": "0.00",
+          "attributeName": "tcc"
+        },
+        {
+          "attributeValue": "0.00",
+          "attributeName": "tcv"
+        },
+        {
+          "attributeValue": "False",
+          "attributeName": "applicabletorenewal"
+        }
+      ],
+      "warrantyInfo": null,
+      "lineType": "P",
+      "notes": null,
+      "acopTrackingNumber": null,
+      "vmfAdditionalAttributes": [
+        {
+          "attributeValue": "NMB-DAY1",
+          "attributeName": "prodmdlnumber"
+        }
+      ],
+      "customerLineNumber": "001",
+      "vendorParams": null,
+      "directShipConfigAttributes": [
+        {
+          "attributeValue": "8066",
+          "attributeName": "vendornumber"
+        },
+        {
+          "attributeValue": "0.02",
+          "attributeName": "stdcostamount"
+        },
+        {
+          "attributeValue": "0",
+          "attributeName": "discountedcost"
+        },
+        {
+          "attributeValue": "0",
+          "attributeName": "discountedprice"
+        }
+      ],
+      "customerPartNumber": null,
+      "planId": null,
+      "specialPrice": 0,
+      "quantity": 1,
+      "specialBidNumber": "",
+      "applicableTo": null,
+      "unitPrice": 1575.75,
+      "endUserPrice": 0,
+      "decorativeData": null,
+      "carrierCode": null
+    },
+    {
+      "globalSkuId": null,
+      "costs": null,
+      "ingramPartNumber": null,
+      "vendorPartNumber": null,
+      "aucSelectionCost": 0,
+      "lineNumber": null,
+      "prices": null,
+      "endUserInfo": null,
+      "endUserPoNumber": "",
+      "additionalAttributes": [
+        {
+          "attributeValue": "10/09/2023 TO 10/08/2024",
+          "attributeName": "commenttext"
+        },
+        {
+          "attributeValue": "IRDT SAJUCCNIM",
+          "attributeName": "lineextracommenttext"
+        },
+        {
+          "attributeValue": "72254074",
+          "attributeName": "lineextracommenttext"
+        },
+        {
+          "attributeValue": "0",
+          "attributeName": "tcc"
+        },
+        {
+          "attributeValue": "0",
+          "attributeName": "tcv"
+        },
+        {
+          "attributeValue": "False",
+          "attributeName": "applicabletorenewal"
+        }
+      ],
+      "warrantyInfo": null,
+      "lineType": "C",
+      "notes": null,
+      "acopTrackingNumber": null,
+      "vmfAdditionalAttributes": [],
+      "customerLineNumber": "002",
+      "vendorParams": null,
+      "directShipConfigAttributes": [
+        {
+          "attributeValue": "0",
+          "attributeName": "discountedcost"
+        },
+        {
+          "attributeValue": "0",
+          "attributeName": "discountedprice"
+        }
+      ],
+      "customerPartNumber": null,
+      "planId": null,
+      "specialPrice": 0,
+      "quantity": 0,
+      "specialBidNumber": "",
+      "applicableTo": null,
+      "unitPrice": 0,
+      "endUserPrice": 0,
+      "decorativeData": null,
+      "carrierCode": null
+    }
+  ]
+}
