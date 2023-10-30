@@ -202,30 +202,30 @@ class X4ASalesOrdersPage(BasePage):
 
     """Order Lines tab """
 
-    ORDER_LINE = (By.XPATH, "//*[@data-id='0']/div[@role='cell' and @data-field='ingramOrderLineNumber']")
-    ORDER_LINE_STATUS = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='lineStatus']")
+    ORDER_LINE = (By.XPATH, "//*[@data-rowindex='0']/div[@role='cell' and @data-field='ingramOrderLineNumber']")
+    ORDER_LINE_STATUS = (By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='lineStatus']")
     ORDER_LINE_DESCRIPTION = (
-        By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='partDescription']/div/div[1]/strong")
+        By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='partDescription']/div/div[1]/strong")
     ORDER_LINE_VPN_NUMBER = (
-        By.XPATH, "//*[@data-id='0']//div[@role='cell' and @data-field='partDescription']/div/div/span[1]")
+        By.XPATH, "//*[@data-rowindex='0']//div[@role='cell' and @data-field='partDescription']/div/div/span[1]")
     ORDER_LINE_IM_PART = (
-        By.XPATH, "//*[@data-id='0']//div[@role='cell' and @data-field='partDescription']/div/div/span[2]")
-    ORDER_LINE_SPECIAL_BID_NUMBER = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='specialBidNumber']")
-    ORDER_LINE_SBN_TEXT = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='specialBidNumber']//input")
-    ORDER_LINE_UNIT_PRICE = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='unitPrice']")
-    ORDER_LINE_UNIT_PRICE_TEXT = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='unitPrice']//input")
-    ORDER_LINE_EXTENDED_PRICE = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='extendedPrice']")
-    ORDER_LINE_COST = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='cost']")
-    ORDER_LINE_EXTENDED_COST = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='extendedCost']")
-    ORDER_LINE_MARGIN = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='margin']")
-    ORDER_LINE_CURRENCY_CODE = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='currencyCode']")
+        By.XPATH, "//*[@data-rowindex='0']//div[@role='cell' and @data-field='partDescription']/div/div/span[2]")
+    ORDER_LINE_SPECIAL_BID_NUMBER = (By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='specialBidNumber']")
+    ORDER_LINE_SBN_TEXT = (By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='specialBidNumber']//input")
+    ORDER_LINE_UNIT_PRICE = (By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='unitPrice']")
+    ORDER_LINE_UNIT_PRICE_TEXT = (By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='unitPrice']//input")
+    ORDER_LINE_EXTENDED_PRICE = (By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='extendedPrice']")
+    ORDER_LINE_COST = (By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='cost']")
+    ORDER_LINE_EXTENDED_COST = (By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='extendedCost']")
+    ORDER_LINE_MARGIN = (By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='margin']")
+    ORDER_LINE_CURRENCY_CODE = (By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='currencyCode']")
     ORDER_LINE_PAYMENT_TERMS = (By.XPATH, "//*[@role='cell' and @data-field='paymentTerms']")
-    ORDER_LINE_QUANTITY = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityOrdered']")
+    ORDER_LINE_QUANTITY = (By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='quantityOrdered']")
     ORDER_LINE_QUANTITY_TEXT = (By.XPATH, "(//*[@data-field='quantityOrdered'])[2]//input")
-    ORDER_LINE_QUANTITY_CONFIRMED = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityConfirmed']")
+    ORDER_LINE_QUANTITY_CONFIRMED = (By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='quantityConfirmed']")
     ORDER_LINE_QUANTITY_BACKORDERED = (
-        By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='quantityBackOrdered']")
-    ORDER_LINE_NOTES = (By.XPATH, "//*[@data-id='0']//*[@role='cell' and @data-field='lineNotes']")
+        By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='quantityBackOrdered']")
+    ORDER_LINE_NOTES = (By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='lineNotes']")
     CLOSE_BUTTON_ON_POPUP = (By.XPATH, "//*[@id='modal-modal-title']/parent::div/following-sibling::div")
     ORDER_LINES = (By.XPATH, "//div[@class='MuiDataGrid-row']")
     ACOP_APPLIED_COLUMN = (By.XPATH, "//div[@class='MuiDataGrid-columnHeaderTitleContainer']/div[text()='ACOP applied']")
@@ -1576,6 +1576,7 @@ class X4ASalesOrdersPage(BasePage):
 
     def validate_order_type(self, order_type):
         try:
+            table = self.driver.find_element(By.XPATH, self.SALES_ORDER_TABLE)
             self.logger.info("Verifying the Order type in table")
             max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
             self.logger.info("Max items per page: " + max_rows)
@@ -1594,6 +1595,7 @@ class X4ASalesOrdersPage(BasePage):
                     self.logger.info("There are only " + str(i) + " rows")
                     break
                 assert ui_order_type == order_type, "Order Type mismatched"
+            self.scroll_up(table)
         except Exception as e:
             self.logger.error("Exception occurred verifying order type" + str(e))
             raise e
@@ -2342,7 +2344,7 @@ class X4ASalesOrdersPage(BasePage):
             self.do_check_visibility(self.ACOP_APPLIED_COLUMN)
             rows = self.get_all_elements(self.ORDER_LINES)
             for row in range(len(rows)):
-                row_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(row) + "]/div[@data-field='isAcopApplied']")
+                row_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(row) + "]/div[@data-field='isAcopApplied']")
                 text = self.get_element_text(row_xpath)
                 if text != "Yes" and text != "No":
                     self.logger.error(f'Acop field: {text}')
@@ -2424,7 +2426,7 @@ class X4ASalesOrdersPage(BasePage):
             order_line_data['special_bid'] = self.do_get_attribute(self.ORDER_LINE_SBN_TEXT,'value')
             order_line_data['unit_price'] = self.do_get_attribute(self.ORDER_LINE_UNIT_PRICE_TEXT,'value')
 
-            element = "//*[@data-id='0']//*[@role='cell' and @data-field='cost']"
+            element = "//*[@data-rowindex='0']//*[@role='cell' and @data-field='cost']"
             cost = self.driver.find_element(By.XPATH, element)
             self.scroll_horizontally(cost)
 
@@ -2432,7 +2434,7 @@ class X4ASalesOrdersPage(BasePage):
             order_line_data['cost'] = self.get_element_text(self.ORDER_LINE_COST)
             order_line_data['margin'] = self.get_element_text(self.ORDER_LINE_MARGIN)
 
-            element = "//*[@data-id='0']//*[@role='cell' and @data-field='currencyCode']"
+            element = "//*[@data-rowindex='0']//*[@role='cell' and @data-field='currencyCode']"
             currency_code = self.driver.find_element(By.XPATH, element)
             self.scroll_horizontally(currency_code)
 
@@ -2661,26 +2663,26 @@ class X4ASalesOrdersPage(BasePage):
             for i in range(len(order_lines)):
                 order_line = {}
                 time.sleep(3)
-                order_line['line_number'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='ingramOrderLineNumber']"))
-                order_line['order_line_status'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='lineStatus']"))
-                order_line['order_line_acop'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='isAcopApplied']"))
-                order_line['order_line_description'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='partDescription']/div/div[1]/strong"))
-                order_line['order_line_vpn'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='partDescription']/div/div/span[1]"))
-                order_line['order_line_im_part'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='partDescription']/div/div/span[2]"))
-                order_line['order_line_spl_bid'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='specialBidNumber']/input"), 'value')
-                order_line['order_line_unit_price'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='unitPrice']/input"), 'value')
-                order_line['order_line_extended_price'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='extendedPrice']"))
-                order_line['order_line_cost'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='cost']"))
+                order_line['line_number'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(i) + "]/div[@data-field='ingramOrderLineNumber']"))
+                order_line['order_line_status'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(i) + "]/div[@data-field='lineStatus']"))
+                order_line['order_line_acop'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(i) + "]/div[@data-field='isAcopApplied']"))
+                order_line['order_line_description'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(i) + "]/div[@data-field='partDescription']/div/div[1]/strong"))
+                order_line['order_line_vpn'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(i) + "]/div[@data-field='partDescription']/div/div/span[1]"))
+                order_line['order_line_im_part'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(i) + "]/div[@data-field='partDescription']/div/div/span[2]"))
+                order_line['order_line_spl_bid'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(i) + "]/div[@data-field='specialBidNumber']/input"), 'value')
+                order_line['order_line_unit_price'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(i) + "]/div[@data-field='unitPrice']/input"), 'value')
+                order_line['order_line_extended_price'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(i) + "]/div[@data-field='extendedPrice']"))
+                order_line['order_line_cost'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(i) + "]/div[@data-field='cost']"))
 
-                element = "//*[@data-id='0']//*[@role='cell' and @data-field='cost']"
+                element = "//*[@data-rowindex='0']//*[@role='cell' and @data-field='cost']"
                 unit_weight = self.driver.find_element(By.XPATH, element)
                 self.scroll_horizontally(unit_weight)
 
-                order_line['order_line_extended_cost'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='extendedCost']"))
-                order_line['order_line_margin'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='margin']"))
-                order_line['order_line_currency_code'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='currencyCode']"))
+                order_line['order_line_extended_cost'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(i) + "]/div[@data-field='extendedCost']"))
+                order_line['order_line_margin'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(i) + "]/div[@data-field='margin']"))
+                order_line['order_line_currency_code'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(i) + "]/div[@data-field='currencyCode']"))
 
-                element = "//*[@data-id='0']//*[@role='cell' and @data-field='currencyCode']"
+                element = "//*[@data-rowindex='0']//*[@role='cell' and @data-field='currencyCode']"
                 unit_weight = self.driver.find_element(By.XPATH, element)
                 self.scroll_horizontally(unit_weight)
 
@@ -2689,9 +2691,9 @@ class X4ASalesOrdersPage(BasePage):
                 self.driver.execute_script("document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
 
                 time.sleep(3)
-                order_line['order_line_quantity'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='quantityOrdered']/input"), 'value')
-                order_line['order_line_quantity_confirmed'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='quantityConfirmed']"))
-                order_line['order_line_quantity_backordered'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(i) + "]/div[@data-field='quantityBackOrdered']"))
+                order_line['order_line_quantity'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(i) + "]/div[@data-field='quantityOrdered']/input"), 'value')
+                order_line['order_line_quantity_confirmed'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(i) + "]/div[@data-field='quantityConfirmed']"))
+                order_line['order_line_quantity_backordered'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(i) + "]/div[@data-field='quantityBackOrdered']"))
 
                 order_lines_list.append(order_line)
                 self.logger.info(order_lines_list)
@@ -2755,18 +2757,18 @@ class X4ASalesOrdersPage(BasePage):
         try:
             order_lines = self.get_all_elements(self.ORDER_LINES)
             index = len(order_lines) - 1
-            order_line_data['special_bid'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(index) + "]/div[@data-field='specialBidNumber']/input"), 'value')
-            order_line_data['unit_price'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(index) + "]/div[@data-field='unitPrice']/input"), 'value')
+            order_line_data['special_bid'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(index) + "]/div[@data-field='specialBidNumber']/input"), 'value')
+            order_line_data['unit_price'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(index) + "]/div[@data-field='unitPrice']/input"), 'value')
 
-            element = "//*[@data-id='0']//*[@role='cell' and @data-field='cost']"
+            element = "//*[@data-rowindex='0']//*[@role='cell' and @data-field='cost']"
             cost = self.driver.find_element(By.XPATH, element)
             self.scroll_horizontally(cost)
 
             time.sleep(3)
-            order_line_data['cost'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(index) + "]/div[@data-field='cost']"))
-            order_line_data['margin'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(index) + "]/div[@data-field='margin']"))
+            order_line_data['cost'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(index) + "]/div[@data-field='cost']"))
+            order_line_data['margin'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(index) + "]/div[@data-field='margin']"))
 
-            element = "//*[@data-id='0']//*[@role='cell' and @data-field='currencyCode']"
+            element = "//*[@data-rowindex='0']//*[@role='cell' and @data-field='currencyCode']"
             currency_code = self.driver.find_element(By.XPATH, element)
             self.scroll_horizontally(currency_code)
             # scroll till quantity back order
@@ -2774,9 +2776,9 @@ class X4ASalesOrdersPage(BasePage):
             self.driver.execute_script("document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
 
             time.sleep(2)
-            order_line_data['quantity'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(index) + "]/div[@data-field='quantityOrdered']/input"), 'value')
-            order_line_data['quantity_confirmed'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(index) + "]/div[@data-field='quantityConfirmed']"))
-            order_line_data['quantity_backordered'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-id=" + str(index) + "]/div[@data-field='quantityBackOrdered']"))
+            order_line_data['quantity'] = self.do_get_attribute((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(index) + "]/div[@data-field='quantityOrdered']/input"), 'value')
+            order_line_data['quantity_confirmed'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(index) + "]/div[@data-field='quantityConfirmed']"))
+            order_line_data['quantity_backordered'] = self.get_element_text((By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(index) + "]/div[@data-field='quantityBackOrdered']"))
             self.logger.info(order_line_data)
             self.driver.execute_script("document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             return order_line_data
