@@ -3,10 +3,8 @@ from CommonUtilities import readWriteTestData
 from CommonUtilities.parse_config import ParseConfigFile
 from CommonUtilities.file_operations import logger
 from CommonUtilities.readProperties import ReadConfig
-from db.service.X4AInputOrderDbManagementService import X4AInputOrderDbManagementService
 from db.service.X4AInventoryDbManagementService import X4AInventoryDbManagementService
 from pages.X4A.Facade.PrepareObject import PrepareObject
-from pages.X4A.TestSteps.validateInventoryInquiryData import ValidateInventoryInquiryData
 from pages.X4A.TestSteps.validateInventoryManagementData import ValidateInventoryManagementData
 from tests.test_base_x4a import BaseTest
 
@@ -23,42 +21,42 @@ def test_login_the_x4a_portal():
     pass
 
 
-@scenario("features/hardware/inventory_management_action_planning.feature", "Verify table columns under top 100 under performing tab")
-def test_verify_table_headers():
+@scenario("features/hardware/inventory_management_action_planning.feature", "Verify table columns under Top 100 Under performing SKU table")
+def test_verify_table_headers_for_underperforming_sku():
     pass
 
 
-@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Filter results")
-def test_verify_filter_results():
+@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Filter results for Top 100 Under performing SKU table")
+def test_verify_filter_results_for_underperforming_sku():
     pass
 
 
-@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Sort results")
-def test_verify_sort_results():
+@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Sort results for Top 100 Under performing SKU table")
+def test_verify_sort_results_for_underperforming_sku():
     pass
 
 
-@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Action on SKU")
-def test_verify_action_on_sku():
+@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Action on SKU for Top 100 Under performing SKU table")
+def test_verify_action_on_sku_for_underperforming_sku():
     pass
 
 
-@scenario("features/hardware/inventory_management_action_planning.feature", "Verify table columns under top 100 aging sku tab")
-def test_verify_table_headers():
+@scenario("features/hardware/inventory_management_action_planning.feature", "Verify table columns under Top 100 Aging SKU table")
+def test_verify_table_headers_for_aging_sku():
     pass
 
 
-@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Filter results for Top 100 Aging SKU")
-def test_verify_filter():
+@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Filter results for Top 100 Aging SKU table")
+def test_verify_filter_for_aging_sku():
     pass
 
 
-@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Sort results for Top 100 Aging SKU")
-def test_verify_sort():
+@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Sort results for Top 100 Aging SKU table")
+def test_verify_sort_for_aging_sku():
     pass
 
 
-@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Action on SKU for Top 100 Aging SKU")
+@scenario("features/hardware/inventory_management_action_planning.feature", "Verify Action on SKU for Top 100 Aging SKU table")
 def test_verify_action_on_aging_sku():
     pass
 
@@ -162,12 +160,12 @@ def filter_by_country(init_driver):
         raise e
 
 
-@then(parsers.parse('filter by  MFN part number and validate data'))
+@then(parsers.parse('filter by under performing MFN part number and validate data'))
 def validate_filter_by_sku(init_driver):
     feature_file_name = "inventory_management_action_planning"
     validate_inventory_management = ValidateInventoryManagementData(init_driver)
     try:
-        mfn_part_number = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("mfn_part_number")
+        mfn_part_number = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("under_performing_mfn_part_number")
         if not validate_inventory_management.validate_filter_by_mfn_part_number(mfn_part_number, feature_file_name, screen_shot):
             raise Exception("Failed to validate filter by MFN part number")
     except Exception as e:
@@ -175,12 +173,12 @@ def validate_filter_by_sku(init_driver):
         raise e
 
 
-@then(parsers.parse('filter by sku and validate data'))
+@then(parsers.parse('filter by under performing sku and validate data'))
 def validate_filter_by_sku(init_driver):
     feature_file_name = "inventory_management_action_planning"
     validate_inventory_management = ValidateInventoryManagementData(init_driver)
     try:
-        sku = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("sku")
+        sku = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("under_performing_sku")
         if not validate_inventory_management.validate_filter_by_sku(sku, feature_file_name, screen_shot):
             raise Exception("Failed to validate filter by sku")
     except Exception as e:
@@ -286,12 +284,12 @@ def validate_sort_value_on_order(init_driver):
         raise e
 
 
-@given(parsers.parse('filter by sku'))
+@given(parsers.parse('filter by under performing sku'))
 def filter_by_sku(init_driver):
     feature_file_name = "inventory_management_action_planning"
     validate_inventory_management = ValidateInventoryManagementData(init_driver)
     try:
-        sku = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("sku")
+        sku = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("under_performing_sku")
         if not validate_inventory_management.filter_by_sku(sku, feature_file_name, screen_shot):
             raise Exception("Failed to filter by sku")
     except Exception as e:
@@ -363,7 +361,7 @@ def verify_top_100_aging_sku_table_headers(init_driver):
         raise e
 
 
-@then(parsers.parse('filter by sku and verify data'))
+@then(parsers.parse('filter by aging sku and validate data'))
 def validate_filter_by_sku(init_driver):
     feature_file_name = "inventory_management_action_planning"
     validate_inventory_management = ValidateInventoryManagementData(init_driver)
@@ -376,7 +374,7 @@ def validate_filter_by_sku(init_driver):
         raise e
 
 
-@then(parsers.parse('filter by  MFN part number and verify data'))
+@then(parsers.parse('filter by aging MFN part number and validate data'))
 def validate_filter_by_sku(init_driver):
     feature_file_name = "inventory_management_action_planning"
     validate_inventory_management = ValidateInventoryManagementData(init_driver)
@@ -425,7 +423,7 @@ def validate_action_popup(init_driver):
         raise e
 
 
-@given(parsers.parse('filter by sku for aging sku'))
+@given(parsers.parse('filter by aging sku'))
 def filter_by_sku(init_driver):
     feature_file_name = "inventory_management_action_planning"
     validate_inventory_management = ValidateInventoryManagementData(init_driver)
