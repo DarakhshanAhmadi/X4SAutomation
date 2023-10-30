@@ -1,5 +1,5 @@
-@edi_data_validation @regression
-Feature: EDI Data Validation
+@edi_header_level_data_validation @regression
+Feature: EDI Header Level Data Validation
 
   Background:
     Given Set the API endpoint and headers
