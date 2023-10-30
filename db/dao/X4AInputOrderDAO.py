@@ -45,7 +45,7 @@ class X4AInputOrderDAO(BaseTest):
                                 x4a_input_order.modify_billing_address_data_errors_order_id,
                                 x4a_input_order.order_line_data_errors_order_id,
                                 x4a_input_order.modify_order_line_data_errors_order_id,
-                                x4a_input_order.im360_data_errors_order_confirmation_id),
+                                x4a_input_order.im360_data_errors_order_confirmation_id)
                                )
                 connection.commit()
         except Error as e:
