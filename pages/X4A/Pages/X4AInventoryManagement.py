@@ -81,7 +81,10 @@ class X4AInventoryManagementPage(BasePage):
 
     def click_on_top_100_underperforming_sku(self):
         try:
+            self.do_check_availability(self.TOP_100_UNDERPERFORMING_SKU_TAB)
             self.do_click_by_locator(self.TOP_100_UNDERPERFORMING_SKU_TAB)
+            page_element = self.driver.find_element(By.XPATH, self.ACTION_PLANING_PAGE_ELEMENT)
+            self.scroll_down(page_element)
         except Exception as e:
             self.logger.error('Exception occurred while clicking on Top 100 underperforming sku tab' + str(e))
             raise e
@@ -89,8 +92,6 @@ class X4AInventoryManagementPage(BasePage):
     def get_table_headers(self, selected_country):
         table_headers = []
         try:
-            page_element = self.driver.find_element(By.XPATH, self.ACTION_PLANING_PAGE_ELEMENT)
-            self.scroll_down(page_element)
             self.filter_by_country(selected_country)
             for i in range(1, 24):
                 xpath = (By.XPATH, "//div[@class='css-yrdy0g-MuiDataGrid-columnHeaderRow'][@aria-rowindex=2]/div[@aria-colindex=" + str(i) + "]")
@@ -825,8 +826,9 @@ class X4AInventoryManagementPage(BasePage):
             action_dropdown_options = self.get_all_elements(self.ACTION_DROPDOWN_OPTIONS)
             for option in action_dropdown_options:
                 if option.text == action:
-                    self.do_click_by_locator(option)
+                    option.click()
                     break
+            self.do_click_by_locator(self.ACTION_POPUP_COMMENT_TEXT_AREA)
             self.do_send_keys(self.ACTION_POPUP_COMMENT_TEXT_AREA, comment)
             self.do_click_by_locator(self.ACTION_POPUP_SAVE_BUTTON)
             self.do_check_availability(self.ACTION_SAVE_STATUS_POPUP)
@@ -834,6 +836,7 @@ class X4AInventoryManagementPage(BasePage):
             assert save_status == 'Save Successful', 'Action save status mismatch'
             time.sleep(2)
             self.do_click_by_locator(self.POPUP_CLOSE_BUTTON)
+            time.sleep(3)
         except Exception as e:
             self.logger.error("Exception while updating action and comment and save" + str(e))
             raise e
@@ -871,8 +874,11 @@ class X4AInventoryManagementPage(BasePage):
 
     def click_on_top_100_aging_sku(self):
         try:
-            time.sleep(2)
+            self.driver.refresh()
+            time.sleep(3)
             self.do_click_by_locator(self.TOP_100_AGING_SKU_TAB)
+            page_element = self.driver.find_element(By.XPATH, self.ACTION_PLANING_PAGE_ELEMENT)
+            self.scroll_down(page_element)
         except Exception as e:
             self.logger.error('Exception occurred while clicking on Top 100 Aging sku tab' + str(e))
             raise e
@@ -880,8 +886,6 @@ class X4AInventoryManagementPage(BasePage):
     def get_table_headers_for_top_100_aging_table(self, selected_country):
         table_headers = []
         try:
-            page_element = self.driver.find_element(By.XPATH, self.ACTION_PLANING_PAGE_ELEMENT)
-            self.scroll_down(page_element)
             self.filter_by_country(selected_country)
             for i in range(1, 23):
                 xpath = (By.XPATH, "//div[@class='css-yrdy0g-MuiDataGrid-columnHeaderRow'][@aria-rowindex=2]/div[@aria-colindex=" + str(i) + "]")

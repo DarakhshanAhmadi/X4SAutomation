@@ -22,8 +22,7 @@ class X4AInventoryDAO(BaseTest):
                                (x4a_inventory.feature_file_name, x4a_inventory.under_performing_sku,
                                 x4a_inventory.under_performing_mfn_part_number,
                                 x4a_inventory.vendor_business_manager, x4a_inventory.vendor_name, x4a_inventory.country,
-                                x4a_inventory.actions, x4a_inventory.comment, x4a_inventory.aging_sku, x4a_inventory.aging_mfn_part_number,
-                                x4a_inventory.update_action, x4a_inventory.update_comment))
+                                x4a_inventory.actions, x4a_inventory.comment, x4a_inventory.aging_sku, x4a_inventory.aging_mfn_part_number))
                 connection.commit()
         except Error as e:
             self.logger.error(

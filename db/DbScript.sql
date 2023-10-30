@@ -137,7 +137,5 @@ country String,
 actions String,
 comment String,
 aging_sku TEXT,
-aging_mfn_part_number String,
-update_action String,
-update_comment String
+aging_mfn_part_number String
 );

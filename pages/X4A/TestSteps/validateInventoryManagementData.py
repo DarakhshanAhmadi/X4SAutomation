@@ -13,7 +13,7 @@ class ValidateInventoryManagementData:
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
     top_100_under_performing_sku_table_headers = ['SKU', 'Actions', 'Vendor business manager', 'Vendor name', 'Vendor number', 'MFR Part number', 'Product description', 'Inventory value', 'Improvement opportunity', 'Value on order', 'Actual 121', 'Actual 151', 'Actual 181', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5']
-    country_list = ['AU', 'FR', 'BR', 'MD', 'MX']
+    country_list = ['FR', 'BR', 'MX', 'MD']
     top_100_sku_filter_options = ['SKU', 'MFN Part number', 'Vendor business manager', 'Vendor name']
     action_dropdown_options = ['CM - Pricing', 'CM - Cost Structure', 'DIO - RMA', 'DIO - Sell through', 'DIO - Customer forecast', 'DIO - Customer commitment (non-cancellable)', 'DIO - Customer commitment (cancellable)', 'DIO - Liquidate', 'DIO - Terminate', 'VM - Terminated - RMA', 'DF - Defective', 'Completed']
     top_100_aging_sku_table_headers = ['SKU', 'Actions', 'Vendor business manager', 'Vendor name', 'Vendor number', 'MFR Part number', 'Product description', 'Inventory value',  'Value on order', 'Actual 121', 'Actual 151', 'Actual 181', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5']

@@ -74,7 +74,5 @@ class PrepareObject:
                                         test_data.get("Actions"),
                                         test_data.get("Comment"),
                                         test_data.get("AgingSKU"),
-                                        test_data.get("AgingMFNPartNumber"),
-                                        test_data.get("UpdateAction"),
-                                        test_data.get("UpdateComment"))
+                                        test_data.get("AgingMFNPartNumber"))
         return x4a_inventory_data_obj
