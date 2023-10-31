@@ -562,3 +562,13 @@ class EDIDataValidation:
             if data["header06Record"]["billToEmail"] != "":
                 assert json_response["billToAddress"]["billToEmail"] == "BT Email:" + data["header06Record"][
                     "billToLotusId"]
+
+    def ship_to_suffix_based_shiptostorenumber_validate(self):
+        path = ".\\RestApi\\Resources\\EDI\\IPJSONWithShipToStoreNumber.json"
+        response, json_response = self.hit_api_post_request(path)
+        assert response.status_code == 200
+        self.logger.info("API response status code is 200")
+        if self.api_utilities.keys_exists(data, "header04Record", "shipToStoreNumber"):
+            if data["header04Record"]["shipToStoreNumber"] != "":
+                assert json_response[0]["shipToSuffixId"] is not None
+                assert 200 <= int(json_response[0]["shipToSuffixId"]) <= 999
