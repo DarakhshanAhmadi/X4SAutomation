@@ -108,8 +108,6 @@ def click_on_sales_orders_menu(init_driver):
         raise e
 
 
-
-
 @when(parsers.parse('search a order with specific IM Order number'))
 def search_im_order_number(init_driver):
     init_driver.refresh()
@@ -161,7 +159,6 @@ def tabs_visible_on_order_details_page(init_driver):
 
 @when(parsers.parse('Click on Order Details tab on Order Details page'))
 def click_on_order_detail_tab(init_driver):
-    init_driver.refresh()
     feature_file_name = "sales_order_details"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
@@ -229,7 +226,6 @@ def header_data_contain_order_value_order_type(init_driver):
 @then(parsers.parse(
     'Verify that title on the header of the order details page contains Ingram order number and Order Status'))
 def title_ingram_order_number_and_order_status(init_driver):
-    init_driver.refresh()
     feature_file_name = "sales_order_details"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
@@ -298,7 +294,6 @@ def fields_under_reference_number_section(init_driver):
 
 @when(parsers.parse('Click on Billing tab on Order Details page'))
 def click_on_billing_tab(init_driver):
-    init_driver.refresh()
     feature_file_name = "sales_order_details"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
