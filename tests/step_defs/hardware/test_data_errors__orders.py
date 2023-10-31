@@ -32,8 +32,6 @@ def test_verify_order_in_list_after_successful_resubmitted():
     pass
 
 
-
-
 @scenario("features/hardware/data_errors_orders.feature", "Verify Reference Details Edit popup content")
 def test_verify_reference_details_edit_popup_contents():
     pass
