@@ -11,6 +11,11 @@ class X4AInventoryInquiryPage(BasePage):
     INVENTORY_INQUIRY_OPTION = (By.XPATH, "//li[@data-testid='inventory-inventory_inquiry-CategoryName']")
     TABLE_COLUMN_HEADERS_CONTAINER = (By.XPATH, "//div[@class='MuiDataGrid-columnHeadersInner MuiDataGrid-columnHeadersInner--scrollable css-1s0hp0k-MuiDataGrid-columnHeadersInner']")
     VENDOR_SORT_ICON = (By.XPATH, "//*[text()='Vendor']")
+    SEARCH_TEXTBOX = (By.XPATH, "//input[@id='search']")
+    SEARCH_ICON = (By.XPATH, "//*[@data-testid='SearchIcon']")
+    GRID_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-uw2ren-MuiDataGrid-virtualScrollerRenderZone']/div[@role='row']")
+    FIRST_ROW_SKU = (By.XPATH, "//div[@data-rowindex=0]/div[@data-field='sku']")
+    CLOSE_ICON = (By.XPATH, "//*[@data-testid='CloseIcon']")
 
     def go_to_inventory_inquiry(self):
         try:
@@ -23,31 +28,39 @@ class X4AInventoryInquiryPage(BasePage):
     def get_table_column_header(self):
         inventory_inquiry_table_column_header = []
         try:
-            time.sleep(1)
-            column_headers = self.get_element_text(self.TABLE_COLUMN_HEADERS_CONTAINER)
-            inventory_inquiry_table_column_header = column_headers.split("\n")
             time.sleep(3)
-            for i in range(1, 15):
-                if i == 9:
-                    # manually intervene and scroll horizontally
-                    time.sleep(10)
-                if i == 8 or i == 12 or i == 14:
-                    column = "//div[@class='MuiDataGrid-row']/div[@data-colindex='" + str(i) + "']"
-                    scroll_element = self.driver.find_element(By.XPATH, column)
-                    self.scroll_horizontally(scroll_element)
-                    column_headers = self.get_element_text(self.TABLE_COLUMN_HEADERS_CONTAINER)
-                    inventory_inquiry = column_headers.split("\n")
-                    for column_header in inventory_inquiry:
-                        if column_header not in inventory_inquiry_table_column_header:
-                            inventory_inquiry_table_column_header.append(column_header)
+            for i in range(1, 16):
+                if i == 8:
+                    self.driver.execute_script(
+                        "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1100")
+                column_name_xpath = (By.XPATH, "//div[@class='MuiDataGrid-columnHeadersInner MuiDataGrid-columnHeadersInner--scrollable css-1s0hp0k-MuiDataGrid-columnHeadersInner']/div[@aria-colindex=" + str(i) + "]")
+                column_name = self.get_element_text(column_name_xpath)
+                inventory_inquiry_table_column_header.append(column_name)
             self.logger.info("Inventory Inquiry column headers :" + str(inventory_inquiry_table_column_header))
             self.logger.info("Inventory Inquiry table column headers fetched successfully")
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             return inventory_inquiry_table_column_header
         except Exception as e:
             self.logger.error("Exception occurred while retrieving the column header of Inventory Inquiry " + str(e))
             raise e
 
+    def search(self, search_item):
+        try:
+            self.do_send_keys(self.SEARCH_TEXTBOX, search_item)
+            self.do_click_by_locator(self.SEARCH_ICON)
+        except Exception as e:
+            self.logger.error("Exception occurred while performing search in Inventory Inquiry " + str(e))
+            raise e
 
-
-
-        
+    def verify_sku_search_result(self, sku):
+        try:
+            rows = self.get_all_elements(self.GRID_ROWS)
+            assert len(rows) == 1, 'More than 1 result found for searched sku'
+            ui_sku = self.get_element_text(self.FIRST_ROW_SKU)
+            assert ui_sku == sku, 'SKU mismatched for search'
+            self.do_click_by_locator(self.CLOSE_ICON)
+            time.sleep(2)
+        except Exception as e:
+            self.logger.error("Exception occurred while performing search in Inventory Inquiry " + str(e))
+            raise e

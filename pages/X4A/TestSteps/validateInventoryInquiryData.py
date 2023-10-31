@@ -10,7 +10,7 @@ class ValidateInventoryInquiryData:
     logger = LogGenerator.logGen()
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
-    inventory_inquiry_table_headers = ['SKU#', 'Description', 'VPN#', 'UPC', 'Vendor', 'Language', 'CLASS', 'Restricted Code', 'Available Qty', 'Status', 'MSRP', 'ACOP', 'Reseller Price', 'Vendor Message', 'Vendor Code']
+    inventory_inquiry_table_headers = ['SKU#', 'Description', 'VPN#', 'UPC', 'Vendor', 'Status', 'Language', 'Class', 'Restricted code', 'Available Qty', 'MSRP', 'ACOP', 'Reseller price', 'Vendor message', 'Vendor code']
 
     def __init__(self, driver):
         self.driver = driver
@@ -63,11 +63,6 @@ class ValidateInventoryInquiryData:
             self.logger.exception(e)
             return False
 
-
-    def filtered_orders_by_feature_file(self, test_data_order, feature_file_name):
-        filtered_order_data = test_data_order.loc[(test_data_order.FeatureFileName == feature_file_name)]
-        return filtered_order_data
-
     def verify_inventory_inquiry_table_columns(self, feature_file_name, screen_shot):
         x4a_inventory_inquiry = X4AInventoryInquiryPage(self.driver)
         try:
@@ -86,5 +81,39 @@ class ValidateInventoryInquiryData:
             screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
                                   "inventory_inquiry_columns_error.png"
             self.logger.error("Error while verifying columns in Inventory Inquiry table")
+            self.logger.exception(e)
+            return False
+
+    def search(self, search_item, feature_file_name, screen_shot):
+        x4a_inventory_inquiry = X4AInventoryInquiryPage(self.driver)
+        try:
+            x4a_inventory_inquiry.search(search_item)
+            self.logger.info(f'Successfully searched {search_item}')
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "search_successful.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "search_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                                            "search_error.png"
+            self.logger.error("Error while searching in inventory inquiry")
+            self.logger.exception(e)
+            return False
+
+    def verify_sku_search_result(self, sku, feature_file_name, screen_shot):
+        x4a_inventory_inquiry = X4AInventoryInquiryPage(self.driver)
+        try:
+            x4a_inventory_inquiry.verify_sku_search_result(sku)
+            self.logger.info(f'Successfully verified search result')
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "search_result_verified_successful.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "verify_search_result_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                                            "verify_search_result_error.png"
+            self.logger.error("Error while verifying search result")
             self.logger.exception(e)
             return False
