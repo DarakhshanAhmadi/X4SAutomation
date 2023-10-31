@@ -764,8 +764,11 @@ class X4AErrorOrdersPage(BasePage):
             self.do_click_by_locator(self.SEARCH_DROP_DOWN)
             self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
-            self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
-            time.sleep(5)
+            for retry in range(3):
+                self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+                time.sleep(5)
+                if self.do_check_visibility(self.FRAUD_FIRST_RECORD):
+                    break
             self.do_click_by_locator(self.FRAUD_FIRST_RECORD)
             return True
         except Exception as e:
