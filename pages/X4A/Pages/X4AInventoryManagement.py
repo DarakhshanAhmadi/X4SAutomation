@@ -326,7 +326,7 @@ class X4AInventoryManagementPage(BasePage):
             last_page_number = int(pages[-1].text)
             return first_page_number, last_page_number
         except Exception as e:
-            self.logger.erro("Exception while getting pagination first and last page")
+            self.logger.error("Exception while getting pagination first and last page")
             raise e
 
     def filter_by_country(self, selected_country):
@@ -357,19 +357,7 @@ class X4AInventoryManagementPage(BasePage):
         try:
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
-            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("Verifying Improvement opportunity in page %s", str(first_page_number))
-            self.go_to_page(first_page_number)
             self.is_improvement_opportunity_is_descending_order()
-            if first_page_number != last_page_number:
-                if last_page_number != first_page_number + 1:
-                    random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.go_to_page(random_page)
-                    self.logger.info("Verifying Improvement opportunity in page %s", str(random_page))
-                    self.is_improvement_opportunity_is_descending_order()
-                self.logger.info("Verifying Improvement opportunity in page %s", str(last_page_number))
-                self.go_to_page(last_page_number)
-                self.is_improvement_opportunity_is_descending_order()
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             self.logger.info("Successfully verified Improvement opportunity")
@@ -379,18 +367,26 @@ class X4AInventoryManagementPage(BasePage):
             raise e
 
     def is_improvement_opportunity_is_descending_order(self):
-        improvement_opportunity_list = []
         try:
-            elements = self.get_all_elements(self.IMPROVEMENT_OPPORTUNITY)
-            for e in elements:
-                improvement_opportunity_list.append(float((e.text).replace(',', '')))
-            for i in range(len(improvement_opportunity_list)-1):
-                if improvement_opportunity_list[i] >= improvement_opportunity_list[i+1]:
-                    continue
-                else:
-                    self.logger.error(f'improvementing opportunity is not in descending in row {i+1}')
-                    raise Exception('improvementing opportunity is not in descending')
-            self.logger.info(len(elements))
+            for i in range(10):
+                improvement_opportunity_list = []
+                if i > 0:
+                    s = self.driver.find_element(By.XPATH, "//*[@id='tablayout-tabpanel-2']/div/div[2]/div[3]/div/div/div/div[1]/div[2]")
+                    self.scroll_down(s)
+                elements = self.get_all_elements(self.IMPROVEMENT_OPPORTUNITY)
+                for e in elements:
+                    improvement_opportunity_list.append(float((e.text).replace(',', '')))
+                for i in range(len(improvement_opportunity_list) - 1):
+                    if improvement_opportunity_list[i] >= improvement_opportunity_list[i + 1]:
+                        continue
+                    else:
+                        self.logger.error(f'improvementing opportunity is not in descending in row {i + 1}')
+                        raise Exception('improvementing opportunity is not in descending')
+                self.logger.info(len(elements))
+            for i in range(10):
+                s = self.driver.find_element(By.XPATH,
+                                             "//*[@id='tablayout-tabpanel-2']/div/div[2]/div[3]/div/div/div/div[1]/div[2]")
+                self.scroll_up(s)
         except Exception as e:
             self.logger.error("Exception while fetching improvement opportunity" + str(e))
             raise e
@@ -401,19 +397,8 @@ class X4AInventoryManagementPage(BasePage):
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
             self.do_click_by_locator(self.INVENTORY_VALUE_SORT)
-            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("Verifying Inventory value is Ascending in page %s", str(first_page_number))
-            self.go_to_page(first_page_number)
+            time.sleep(2)
             self.is_inventory_value_is_ascending_order()
-            if first_page_number != last_page_number:
-                if last_page_number != first_page_number + 1:
-                    random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.go_to_page(random_page)
-                    self.logger.info("Verifying Inventory value is Ascending in page %s", str(random_page))
-                    self.is_inventory_value_is_ascending_order()
-                self.logger.info("Verifying Inventory value is Ascending in page %s", str(last_page_number))
-                self.go_to_page(last_page_number)
-                self.is_inventory_value_is_ascending_order()
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             self.logger.info("Successfully verified Inventory value is Ascending")
@@ -423,18 +408,26 @@ class X4AInventoryManagementPage(BasePage):
             raise e
 
     def is_inventory_value_is_ascending_order(self):
-        inventory_value_list = []
         try:
-            elements = self.get_all_elements(self.INVENTORY_VALUE)
-            for e in elements:
-                inventory_value_list.append(float((e.text).replace(',', '')))
-            for i in range(len(inventory_value_list)-1):
-                if inventory_value_list[i] <= inventory_value_list[i+1]:
-                    continue
-                else:
-                    self.logger.error(f'Inventory value is not in ascending in row {i+1}')
-                    raise Exception('Inventory value is not in ascending')
-            self.logger.info(len(elements))
+            for i in range(10):
+                inventory_value_list = []
+                if i > 0:
+                    s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                    self.scroll_down(s)
+                elements = self.get_all_elements(self.INVENTORY_VALUE)
+                for e in elements:
+                    inventory_value_list.append(float((e.text).replace(',', '')))
+                for i in range(len(inventory_value_list) - 1):
+                    if inventory_value_list[i] <= inventory_value_list[i + 1]:
+                        continue
+                    else:
+                        self.logger.error(f'Inventory value is not in ascending in row {i + 1}')
+                        raise Exception('Inventory value is not in ascending')
+                self.logger.info(inventory_value_list)
+                self.logger.info(len(elements))
+            for i in range(10):
+                s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                self.scroll_up(s)
         except Exception as e:
             self.logger.error("Exception while validating Inventory value is Ascending" + str(e))
             raise e
@@ -445,19 +438,8 @@ class X4AInventoryManagementPage(BasePage):
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
             self.do_click_by_locator(self.INVENTORY_VALUE_SORT)
-            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("Verifying Inventory value is Descending in page %s", str(first_page_number))
-            self.go_to_page(first_page_number)
+            time.sleep(2)
             self.is_inventory_value_is_descending_order()
-            if first_page_number != last_page_number:
-                if last_page_number != first_page_number + 1:
-                    random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.go_to_page(random_page)
-                    self.logger.info("Verifying Inventory value is Descending in page %s", str(random_page))
-                    self.is_inventory_value_is_descending_order()
-                self.logger.info("Verifying Inventory value is Descending in page %s", str(last_page_number))
-                self.go_to_page(last_page_number)
-                self.is_inventory_value_is_descending_order()
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             self.logger.info("Successfully verified Inventory value is Descending")
@@ -467,18 +449,25 @@ class X4AInventoryManagementPage(BasePage):
             raise e
 
     def is_inventory_value_is_descending_order(self):
-        inventory_value_list = []
         try:
-            elements = self.get_all_elements(self.INVENTORY_VALUE)
-            for e in elements:
-                inventory_value_list.append(float((e.text).replace(',', '')))
-            for i in range(len(inventory_value_list)-1):
-                if inventory_value_list[i] >= inventory_value_list[i+1]:
-                    continue
-                else:
-                    self.logger.error(f'Inventory value is not in Descending in row {i+1}')
-                    raise Exception('Inventory value is not in Descending')
-            self.logger.info(len(elements))
+            for i in range(10):
+                inventory_value_list = []
+                if i > 0:
+                    s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                    self.scroll_down(s)
+                elements = self.get_all_elements(self.INVENTORY_VALUE)
+                for e in elements:
+                    inventory_value_list.append(float((e.text).replace(',', '')))
+                for i in range(len(inventory_value_list) - 1):
+                    if inventory_value_list[i] >= inventory_value_list[i + 1]:
+                        continue
+                    else:
+                        self.logger.error(f'Inventory value is not in Descending in row {i + 1}')
+                        raise Exception('Inventory value is not in Descending')
+                self.logger.info(len(elements))
+            for i in range(10):
+                s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                self.scroll_up(s)
         except Exception as e:
             self.logger.error("Exception while validating Inventory value is Descending" + str(e))
             raise e
@@ -489,19 +478,8 @@ class X4AInventoryManagementPage(BasePage):
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
             self.do_click_by_locator(self.VALUE_ON_ORDER_SORT)
-            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("Verifying Value on order is Ascending in page %s", str(first_page_number))
-            self.go_to_page(first_page_number)
+            time.sleep(2)
             self.is_value_on_order_ascending_order()
-            if first_page_number != last_page_number:
-                if last_page_number != first_page_number + 1:
-                    random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.go_to_page(random_page)
-                    self.logger.info("Verifying Value on order is Ascending in page %s", str(random_page))
-                    self.is_value_on_order_ascending_order()
-                self.logger.info("Verifying Value on order is Ascending in page %s", str(last_page_number))
-                self.go_to_page(last_page_number)
-                self.is_value_on_order_ascending_order()
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             self.logger.info("Successfully verified Value on order is Ascending")
@@ -511,18 +489,25 @@ class X4AInventoryManagementPage(BasePage):
             raise e
 
     def is_value_on_order_ascending_order(self):
-        value_on_order_list = []
         try:
-            elements = self.get_all_elements(self.VALUE_ON_ORDER)
-            for e in elements:
-                value_on_order_list.append(float((e.text).replace(',', '')))
-            for i in range(len(value_on_order_list)-1):
-                if value_on_order_list[i] <= value_on_order_list[i+1]:
-                    continue
-                else:
-                    self.logger.error(f'Value on order is not in Ascending in row {i+1}')
-                    raise Exception('Value on order is not in Ascending')
-            self.logger.info(len(elements))
+            for i in range(10):
+                value_on_order_list = []
+                if i > 0:
+                    s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                    self.scroll_down(s)
+                elements = self.get_all_elements(self.VALUE_ON_ORDER)
+                for e in elements:
+                    value_on_order_list.append(float((e.text).replace(',', '')))
+                for i in range(len(value_on_order_list) - 1):
+                    if value_on_order_list[i] <= value_on_order_list[i + 1]:
+                        continue
+                    else:
+                        self.logger.error(f'Value on order is not in Ascending in row {i + 1}')
+                        raise Exception('Value on order is not in Ascending')
+                self.logger.info(len(elements))
+            for i in range(10):
+                s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                self.scroll_up(s)
         except Exception as e:
             self.logger.error("Exception while validating Value on order is Ascending" + str(e))
             raise e
@@ -532,19 +517,8 @@ class X4AInventoryManagementPage(BasePage):
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
             self.do_click_by_locator(self.VALUE_ON_ORDER_SORT)
-            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("Verifying Value on order is Descending in page %s", str(first_page_number))
-            self.go_to_page(first_page_number)
+            time.sleep(2)
             self.is_value_on_order_descending_order()
-            if first_page_number != last_page_number:
-                if last_page_number != first_page_number + 1:
-                    random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.go_to_page(random_page)
-                    self.logger.info("Verifying Value on order is Descending in page %s", str(random_page))
-                    self.is_value_on_order_descending_order()
-                self.logger.info("Verifying Value on order is Descending in page %s", str(last_page_number))
-                self.go_to_page(last_page_number)
-                self.is_value_on_order_descending_order()
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             self.logger.info("Successfully verified Value on order is Descending")
@@ -554,18 +528,25 @@ class X4AInventoryManagementPage(BasePage):
             raise e
 
     def is_value_on_order_descending_order(self):
-        value_on_order_list = []
         try:
-            elements = self.get_all_elements(self.VALUE_ON_ORDER)
-            for e in elements:
-                value_on_order_list.append(float((e.text).replace(',', '')))
-            for i in range(len(value_on_order_list)-1):
-                if value_on_order_list[i] >= value_on_order_list[i+1]:
-                    continue
-                else:
-                    self.logger.error(f'Value on order is not in Descending in row {i+1}')
-                    raise Exception('Value on order is not in Descending')
-            self.logger.info(len(elements))
+            for i in range(10):
+                value_on_order_list = []
+                if i > 0:
+                    s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                    self.scroll_down(s)
+                elements = self.get_all_elements(self.VALUE_ON_ORDER)
+                for e in elements:
+                    value_on_order_list.append(float((e.text).replace(',', '')))
+                for i in range(len(value_on_order_list) - 1):
+                    if value_on_order_list[i] >= value_on_order_list[i + 1]:
+                        continue
+                    else:
+                        self.logger.error(f'Value on order is not in Descending in row {i + 1}')
+                        raise Exception('Value on order is not in Descending')
+                self.logger.info(len(elements))
+            for i in range(10):
+                s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                self.scroll_up(s)
         except Exception as e:
             self.logger.error("Exception while validating Value on order is Descending" + str(e))
             raise e
@@ -576,19 +557,8 @@ class X4AInventoryManagementPage(BasePage):
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
             self.do_click_by_locator(self.ACTUAL_121_SORT)
-            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("Verifying Actual 121 is Ascending in page %s", str(first_page_number))
-            self.go_to_page(first_page_number)
+            time.sleep(2)
             self.is_actual_121_ascending_order()
-            if first_page_number != last_page_number:
-                if last_page_number != first_page_number + 1:
-                    random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.go_to_page(random_page)
-                    self.logger.info("Verifying Actual 121 is Ascending in page %s", str(random_page))
-                    self.is_actual_121_ascending_order()
-                self.logger.info("Verifying Actual 121 is Ascending in page %s", str(last_page_number))
-                self.go_to_page(last_page_number)
-                self.is_actual_121_ascending_order()
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             self.logger.info("Successfully verified VActual 121 is Ascending")
@@ -598,18 +568,25 @@ class X4AInventoryManagementPage(BasePage):
             raise e
 
     def is_actual_121_ascending_order(self):
-        value_on_order_list = []
         try:
-            elements = self.get_all_elements(self.ACTUAL_121)
-            for e in elements:
-                value_on_order_list.append(float((e.text).replace(',', '')))
-            for i in range(len(value_on_order_list)-1):
-                if value_on_order_list[i] <= value_on_order_list[i+1]:
-                    continue
-                else:
-                    self.logger.error(f'Actual 121 is not in Ascending in row {i+1}')
-                    raise Exception('Actual 121 is not in Ascending')
-            self.logger.info(len(elements))
+            for i in range(10):
+                actual_121_list = []
+                if i > 0:
+                    s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                    self.scroll_down(s)
+                elements = self.get_all_elements(self.ACTUAL_121)
+                for e in elements:
+                    actual_121_list.append(float((e.text).replace(',', '')))
+                for i in range(len(actual_121_list) - 1):
+                    if actual_121_list[i] <= actual_121_list[i + 1]:
+                        continue
+                    else:
+                        self.logger.error(f'Actual 121 is not in Ascending in row {i + 1}')
+                        raise Exception('Actual 121 is not in Ascending')
+                self.logger.info(len(elements))
+            for i in range(10):
+                s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                self.scroll_up(s)
         except Exception as e:
             self.logger.error("Exception while validating Actual 121 is Ascending" + str(e))
             raise e
@@ -620,19 +597,8 @@ class X4AInventoryManagementPage(BasePage):
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
             self.do_click_by_locator(self.ACTUAL_121_SORT)
-            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("Verifying Actual 121 is Descending in page %s", str(first_page_number))
-            self.go_to_page(first_page_number)
+            time.sleep(2)
             self.is_actual_121_descending_order()
-            if first_page_number != last_page_number:
-                if last_page_number != first_page_number + 1:
-                    random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.go_to_page(random_page)
-                    self.logger.info("Verifying Actual 121 is Descending in page %s", str(random_page))
-                    self.is_actual_121_descending_order()
-                self.logger.info("Verifying Actual 121 is Descending in page %s", str(last_page_number))
-                self.go_to_page(last_page_number)
-                self.is_actual_121_descending_order()
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             self.logger.info("Successfully verified VActual 121 is Descending")
@@ -642,18 +608,25 @@ class X4AInventoryManagementPage(BasePage):
             raise e
 
     def is_actual_121_descending_order(self):
-        value_on_order_list = []
         try:
-            elements = self.get_all_elements(self.ACTUAL_121)
-            for e in elements:
-                value_on_order_list.append(float((e.text).replace(',', '')))
-            for i in range(len(value_on_order_list)-1):
-                if value_on_order_list[i] >= value_on_order_list[i+1]:
-                    continue
-                else:
-                    self.logger.error(f'Actual 121 is not in Descending in row {i+1}')
-                    raise Exception('Actual 121 is not in Descending')
-            self.logger.info(len(elements))
+            for i in range(10):
+                actual_121_list = []
+                if i > 0:
+                    s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                    self.scroll_down(s)
+                elements = self.get_all_elements(self.ACTUAL_121)
+                for e in elements:
+                    actual_121_list.append(float((e.text).replace(',', '')))
+                for i in range(len(actual_121_list) - 1):
+                    if actual_121_list[i] >= actual_121_list[i + 1]:
+                        continue
+                    else:
+                        self.logger.error(f'Actual 121 is not in Descending in row {i + 1}')
+                        raise Exception('Actual 121 is not in Descending')
+                self.logger.info(len(elements))
+            for i in range(10):
+                s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                self.scroll_up(s)
         except Exception as e:
             self.logger.error("Exception while validating Actual 121 is Descending" + str(e))
             raise e
@@ -664,19 +637,8 @@ class X4AInventoryManagementPage(BasePage):
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
             self.do_click_by_locator(self.ACTUAL_151_SORT)
-            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("Verifying Actual 151 is Ascending in page %s", str(first_page_number))
-            self.go_to_page(first_page_number)
+            time.sleep(2)
             self.is_actual_151_ascending_order()
-            if first_page_number != last_page_number:
-                if last_page_number != first_page_number + 1:
-                    random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.go_to_page(random_page)
-                    self.logger.info("Verifying Actual 151 is Ascending in page %s", str(random_page))
-                    self.is_actual_151_ascending_order()
-                self.logger.info("Verifying Actual 151 is Ascending in page %s", str(last_page_number))
-                self.go_to_page(last_page_number)
-                self.is_actual_151_ascending_order()
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             self.logger.info("Successfully verified VActual 151 is Ascending")
@@ -686,18 +648,25 @@ class X4AInventoryManagementPage(BasePage):
             raise e
 
     def is_actual_151_ascending_order(self):
-        value_on_order_list = []
         try:
-            elements = self.get_all_elements(self.ACTUAL_151)
-            for e in elements:
-                value_on_order_list.append(float((e.text).replace(',', '')))
-            for i in range(len(value_on_order_list)-1):
-                if value_on_order_list[i] <= value_on_order_list[i+1]:
-                    continue
-                else:
-                    self.logger.error(f'Actual 151 is not in Ascending for row {i+1}')
-                    raise Exception('Actual 151 is not in Ascending')
-            self.logger.info(len(elements))
+            for i in range(10):
+                actual_151_list = []
+                if i > 0:
+                    s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                    self.scroll_down(s)
+                elements = self.get_all_elements(self.ACTUAL_151)
+                for e in elements:
+                    actual_151_list.append(float((e.text).replace(',', '')))
+                for i in range(len(actual_151_list) - 1):
+                    if actual_151_list[i] <= actual_151_list[i + 1]:
+                        continue
+                    else:
+                        self.logger.error(f'Actual 151 is not in Ascending for row {i + 1}')
+                        raise Exception('Actual 151 is not in Ascending')
+                self.logger.info(len(elements))
+            for i in range(10):
+                s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                self.scroll_up(s)
         except Exception as e:
             self.logger.error("Exception while validating Actual 151 is Ascending" + str(e))
             raise e
@@ -708,20 +677,8 @@ class X4AInventoryManagementPage(BasePage):
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
             self.do_click_by_locator(self.ACTUAL_151_SORT)
-            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("Verifying Actual 151 is Descending in page %s", str(first_page_number))
-            self.go_to_page(first_page_number)
+            time.sleep(2)
             self.is_actual_151_descending_order()
-            if first_page_number != last_page_number:
-                if last_page_number != first_page_number + 1:
-                    random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.go_to_page(random_page)
-                    self.logger.info("Verifying Actual 151 is Descending in page %s", str(random_page))
-                    self.is_actual_151_descending_order()
-                self.logger.info("Verifying Actual 151 is Descending in page %s", str(last_page_number))
-                self.go_to_page(last_page_number)
-                self.is_actual_151_descending_order()
-            self.go_to_page(first_page_number)
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             self.logger.info("Successfully verified VActual 151 is Descending")
@@ -731,18 +688,25 @@ class X4AInventoryManagementPage(BasePage):
             raise e
 
     def is_actual_151_descending_order(self):
-        value_on_order_list = []
         try:
-            elements = self.get_all_elements(self.ACTUAL_151)
-            for e in elements:
-                value_on_order_list.append(float((e.text).replace(',', '')))
-            for i in range(len(value_on_order_list)-1):
-                if value_on_order_list[i] >= value_on_order_list[i+1]:
-                    continue
-                else:
-                    self.logger.error(f'Actual 151 is not in Descending in row {i+1}')
-                    raise Exception('Actual 151 is not in Descending')
-            self.logger.info(len(elements))
+            for i in range(10):
+                actual_151_list = []
+                if i > 0:
+                    s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                    self.scroll_down(s)
+                elements = self.get_all_elements(self.ACTUAL_151)
+                for e in elements:
+                    actual_151_list.append(float((e.text).replace(',', '')))
+                for i in range(len(actual_151_list) - 1):
+                    if actual_151_list[i] >= actual_151_list[i + 1]:
+                        continue
+                    else:
+                        self.logger.error(f'Actual 151 is not in Descending in row {i + 1}')
+                        raise Exception('Actual 151 is not in Descending')
+                self.logger.info(len(elements))
+            for i in range(10):
+                s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                self.scroll_up(s)
         except Exception as e:
             self.logger.error("Exception while validating Actual 151 is Descending" + str(e))
             raise e
@@ -753,19 +717,8 @@ class X4AInventoryManagementPage(BasePage):
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
             self.do_click_by_locator(self.IMPROVEMENT_OPPORTUNITY_SORT)
-            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("Verifying Improvement opportunity in page %s", str(first_page_number))
-            self.go_to_page(first_page_number)
+            time.sleep(2)
             self.is_improvement_opportunity_is_ascending_order()
-            if first_page_number != last_page_number:
-                if last_page_number != first_page_number + 1:
-                    random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.go_to_page(random_page)
-                    self.logger.info("Verifying Improvement opportunity Ascending in page %s", str(random_page))
-                    self.is_improvement_opportunity_is_ascending_order()
-                self.logger.info("Verifying Improvement opportunity Ascending in page %s", str(last_page_number))
-                self.go_to_page(last_page_number)
-                self.is_improvement_opportunity_is_ascending_order()
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             self.logger.info("Successfully verified Improvement opportunity Ascending")
@@ -775,18 +728,25 @@ class X4AInventoryManagementPage(BasePage):
             raise e
 
     def is_improvement_opportunity_is_ascending_order(self):
-        improvement_opportunity_list = []
         try:
-            elements = self.get_all_elements(self.IMPROVEMENT_OPPORTUNITY)
-            for e in elements:
-                improvement_opportunity_list.append(float((e.text).replace(',', '')))
-            for i in range(len(improvement_opportunity_list)-1):
-                if improvement_opportunity_list[i] <= improvement_opportunity_list[i+1]:
-                    continue
-                else:
-                    self.logger.error(f'improvementing opportunity is not in Ascending in row {i+1}')
-                    raise Exception('improvementing opportunity is not in Ascending')
-            self.logger.info(len(elements))
+            for i in range(10):
+                improvement_opportunity_list = []
+                if i > 0:
+                    s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                    self.scroll_down(s)
+                elements = self.get_all_elements(self.IMPROVEMENT_OPPORTUNITY)
+                for e in elements:
+                    improvement_opportunity_list.append(float((e.text).replace(',', '')))
+                for i in range(len(improvement_opportunity_list) - 1):
+                    if improvement_opportunity_list[i] <= improvement_opportunity_list[i + 1]:
+                        continue
+                    else:
+                        self.logger.error(f'improvementing opportunity is not in Ascending in row {i + 1}')
+                        raise Exception('improvementing opportunity is not in Ascending')
+                self.logger.info(len(elements))
+            for i in range(10):
+                s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                self.scroll_up(s)
         except Exception as e:
             self.logger.error("Exception while fetching improvement opportunity Ascending" + str(e))
             raise e
@@ -875,7 +835,7 @@ class X4AInventoryManagementPage(BasePage):
     def click_on_top_100_aging_sku(self):
         try:
             self.driver.refresh()
-            time.sleep(3)
+            time.sleep(5)
             self.do_click_by_locator(self.TOP_100_AGING_SKU_TAB)
             page_element = self.driver.find_element(By.XPATH, self.ACTION_PLANING_PAGE_ELEMENT)
             self.scroll_down(page_element)
@@ -911,19 +871,7 @@ class X4AInventoryManagementPage(BasePage):
         try:
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
-            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("Verifying Actual 151 in page %s", str(first_page_number))
-            self.go_to_page(first_page_number)
             self.is_actual_151_descending_order()
-            if first_page_number != last_page_number:
-                if last_page_number != first_page_number + 1:
-                    random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.go_to_page(random_page)
-                    self.logger.info("Verifying Actual 151 in page %s", str(random_page))
-                    self.is_actual_151_descending_order()
-                self.logger.info("Verifying Actual 151 in page %s", str(last_page_number))
-                self.go_to_page(last_page_number)
-                self.is_actual_151_descending_order()
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             self.logger.info("Successfully verified Actual 151 is descending by default")
@@ -938,19 +886,8 @@ class X4AInventoryManagementPage(BasePage):
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
             self.do_click_by_locator(self.ACTUAL_181_SORT)
-            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("Verifying Actual 181 is Ascending in page %s", str(first_page_number))
-            self.go_to_page(first_page_number)
+            time.sleep(2)
             self.is_actual_181_ascending_order()
-            if first_page_number != last_page_number:
-                if last_page_number != first_page_number + 1:
-                    random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.go_to_page(random_page)
-                    self.logger.info("Verifying Actual 181 is Ascending in page %s", str(random_page))
-                    self.is_actual_181_ascending_order()
-                self.logger.info("Verifying Actual 181 is Ascending in page %s", str(last_page_number))
-                self.go_to_page(last_page_number)
-                self.is_actual_181_ascending_order()
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             self.logger.info("Successfully verified VActual 181 is Ascending")
@@ -960,18 +897,25 @@ class X4AInventoryManagementPage(BasePage):
             raise e
 
     def is_actual_181_ascending_order(self):
-        value_on_order_list = []
         try:
-            elements = self.get_all_elements(self.ACTUAL_181)
-            for e in elements:
-                value_on_order_list.append(float((e.text).replace(',', '')))
-            for i in range(len(value_on_order_list)-1):
-                if value_on_order_list[i] <= value_on_order_list[i+1]:
-                    continue
-                else:
-                    self.logger.error(f'Actual 181 is not in Ascending for row {i+1}')
-                    raise Exception('Actual 181 is not in Ascending')
-            self.logger.info(len(elements))
+            for i in range(10):
+                actual_181_list = []
+                if i > 0:
+                    s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                    self.scroll_down(s)
+                elements = self.get_all_elements(self.ACTUAL_181)
+                for e in elements:
+                    actual_181_list.append(float((e.text).replace(',', '')))
+                for i in range(len(actual_181_list) - 1):
+                    if actual_181_list[i] <= actual_181_list[i + 1]:
+                        continue
+                    else:
+                        self.logger.error(f'Actual 181 is not in Ascending for row {i + 1}')
+                        raise Exception('Actual 181 is not in Ascending')
+                self.logger.info(len(elements))
+            for i in range(10):
+                s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                self.scroll_up(s)
         except Exception as e:
             self.logger.error("Exception while validating Actual 181 is Ascending" + str(e))
             raise e
@@ -982,20 +926,8 @@ class X4AInventoryManagementPage(BasePage):
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
             self.do_click_by_locator(self.ACTUAL_181_SORT)
-            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("Verifying Actual 181 is Descending in page %s", str(first_page_number))
-            self.go_to_page(first_page_number)
+            time.sleep(2)
             self.is_actual_181_descending_order()
-            if first_page_number != last_page_number:
-                if last_page_number != first_page_number + 1:
-                    random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.go_to_page(random_page)
-                    self.logger.info("Verifying Actual 181 is Descending in page %s", str(random_page))
-                    self.is_actual_181_descending_order()
-                self.logger.info("Verifying Actual 181 is Descending in page %s", str(last_page_number))
-                self.go_to_page(last_page_number)
-                self.is_actual_181_descending_order()
-            self.go_to_page(first_page_number)
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             self.logger.info("Successfully verified VActual 181 is Descending")
@@ -1005,18 +937,25 @@ class X4AInventoryManagementPage(BasePage):
             raise e
 
     def is_actual_181_descending_order(self):
-        value_on_order_list = []
         try:
-            elements = self.get_all_elements(self.ACTUAL_181)
-            for e in elements:
-                value_on_order_list.append(float((e.text).replace(',', '')))
-            for i in range(len(value_on_order_list)-1):
-                if value_on_order_list[i] >= value_on_order_list[i+1]:
-                    continue
-                else:
-                    self.logger.error(f'Actual 181 is not in Descending in row {i+1}')
-                    raise Exception('Actual 181 is not in Descending')
-            self.logger.info(len(elements))
+            for i in range(10):
+                actual_181_list = []
+                if i > 0:
+                    s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                    self.scroll_down(s)
+                elements = self.get_all_elements(self.ACTUAL_181)
+                for e in elements:
+                    actual_181_list.append(float((e.text).replace(',', '')))
+                for i in range(len(actual_181_list) - 1):
+                    if actual_181_list[i] >= actual_181_list[i + 1]:
+                        continue
+                    else:
+                        self.logger.error(f'Actual 181 is not in Descending in row {i + 1}')
+                        raise Exception('Actual 181 is not in Descending')
+                self.logger.info(len(elements))
+            for i in range(10):
+                s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                self.scroll_up(s)
         except Exception as e:
             self.logger.error("Exception while validating Actual 181 is Descending" + str(e))
             raise e

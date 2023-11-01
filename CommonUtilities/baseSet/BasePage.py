@@ -251,6 +251,12 @@ class BasePage:
             actions.send_keys_to_element(element, Keys.PAGE_DOWN).perform()
         self.logger.info("Scrolled down")
 
+    def scroll_up(self, element):
+        actions = ActionChains(self.driver)
+        for s in range(2):
+            actions.send_keys_to_element(element, Keys.PAGE_UP).perform()
+        self.logger.info("Scrolled up")
+
     def scroll_horizontally(self, element):
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
         self.logger.info("Scrolled horizontally")
