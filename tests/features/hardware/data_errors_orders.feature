@@ -127,7 +127,7 @@ Feature: Data Errors Orders
     And Select last 30 days checkbox from Last order attempt on section and Verify that data should get filtered on selected date ranges
 
 
-  #OMS-2471
+  # OMS-2471
   @filter_panel_created_on_section
   Scenario: Created on section should display inside filter panel
     When Click on Filter icon
@@ -172,10 +172,11 @@ Feature: Data Errors Orders
     Then Click on Save Button and Verify that selected end user information should get displayed on order details page
     And Modify Name, Phone Number, Email and Click on Add button then Verify that updated end user information should display on order details page
 
-  # OMS-782
+  # OMS-782/OMS-3068
   @add_new_end_user_edit_popup
   Scenario: Verify Add New End User Edit popup content
     Then Verify contents of Edit Add New End User popup
+    And Verify that Customer type options list
     And Verify that added new end user should display and user should able to select it and checkbox is disable
 
   # OMS-33
@@ -232,6 +233,21 @@ Feature: Data Errors Orders
     And Resubmit Order Button clicked
     And Click on Resubmit Order Yes button
     Then Verify that Order has been successfully resubmitted message should display
+
+  # OMS-3073/OMS-3059
+  @operator_id
+  Scenario: Operator Id on Order Details Page
+    Given the error order is created via api
+    When Search and Select the Data Errors Order
+    Then Verify that Operator ID should be display on the Order details page
+    And Verify that Channel label should get displayed on Order details page
+
+  # OMS-3059
+  @order_channel
+  Scenario: Order Channel on Order Details Page
+    Given the error order is created via api using IM360 payload
+    Then Verify that Order channel should match with the channel showing on list page
+
 
   @logout
   Scenario: logout X4A

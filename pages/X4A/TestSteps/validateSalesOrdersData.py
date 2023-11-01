@@ -110,10 +110,11 @@ class ValidateSalesOrdersData:
     def is_all_column_visible(self, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            if (x4a_sales_order.is_im_order_clum_visible() & x4a_sales_order.is_type_clum_visible() & x4a_sales_order.is_bcn_clum_visible() &
-                    x4a_sales_order.is_reseller_po_clum_visible() & x4a_sales_order.is_reseller_nm_clum_visible() & x4a_sales_order.is_vendor_nm_clum_visible()
-                    & x4a_sales_order.is_end_user_nm_clum_visible() & x4a_sales_order.is_end_user_po_clum_visible()  &
-                    x4a_sales_order.is_order_value_clum_visible() & x4a_sales_order.is_order_status_clum_visible() & x4a_sales_order.is_created_on_clum_visible()):
+            if (x4a_sales_order.is_im_order_clum_visible() & x4a_sales_order.is_order_status_clum_visible() & x4a_sales_order.is_type_clum_visible() & x4a_sales_order.is_reseller_po_clum_visible() &
+                    x4a_sales_order.is_reseller_nm_clum_visible() & x4a_sales_order.is_vendor_nm_clum_visible() & x4a_sales_order.is_bcn_clum_visible() &
+                    x4a_sales_order.is_order_value_clum_visible() & x4a_sales_order.is_created_on_clum_visible()
+                    & x4a_sales_order.is_end_user_nm_clum_visible() & x4a_sales_order.is_end_user_po_clum_visible() & x4a_sales_order.is_invoice_nmbr_clum_visible()
+                    & x4a_sales_order.is_country_code_clum_visible() & x4a_sales_order.is_tracking_clum_visible()):
                 self.logger.info(
                     "Successfully verified Im order, Type, BCN, Reseller PO, Reseller name, Vendor name, End User name, End User po, Order value, Order status, Created on coulmns on Sales Orders Listing page")
                 self.driver.save_screenshot(

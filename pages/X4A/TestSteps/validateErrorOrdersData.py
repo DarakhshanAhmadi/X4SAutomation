@@ -1485,6 +1485,23 @@ class ValidateErrorOrdersData:
             self.logger.exception(e)
             return False
 
+    def do_verify_customer_type_option_list(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.verify_customer_type_option_list():
+                self.logger.error("Failed to Verify that Customer type options list")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_customer_type_option_list_failed.png")
+                return False
+            else:
+                self.logger.info("Successfully verified Customer type options list")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_customer_type_option_list_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
     def do_verify_add_new_user_with_valid_data(self, feature_file_name):
         x4a_error_order = X4AErrorOrdersPage(self.driver)
         try:
@@ -2008,6 +2025,57 @@ class ValidateErrorOrdersData:
                     "Successfully Updated the Order line Quantity, Reseller price and End User PO value")
                 self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                                             + "_update_order_line_field_value_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_operator_id(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_operator_id():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_operator_id_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified Operator ID should be display on the Order details page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_operator_id_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_channel_label(self, feature_file_name):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_channel_label():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_channel_label_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified Channel label should be display on the Order details page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_channel_label_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_order_channel_matched(self, feature_file_name, confirmation_id):
+        x4a_error_order = X4AErrorOrdersPage(self.driver)
+        try:
+            if not x4a_error_order.do_verify_order_channel_matched(confirmation_id):
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_order_channel_matched_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Verified Order channel should match with the channel showing on list page")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_order_channel_matched_successfully.png")
                 return True
         except Exception as e:
             self.logger.exception(e)

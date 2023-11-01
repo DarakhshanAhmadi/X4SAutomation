@@ -11,6 +11,8 @@ class X4AInventoryManagementPage(BasePage):
     INVENTORY_MENU = (By.XPATH, "//div[@data-testid='inventory-MenuItem']")
     INVENTORY_MANAGEMENT_OPTION = (By.XPATH, "//*[text()='Inventory management']")
     ACTION_PLANNING = (By.XPATH, "//*[text()='Action planning']")
+
+    """Top 100 Underperforming sku"""
     TOP_100_UNDERPERFORMING_SKU_TAB = (By.XPATH, "//div[@class='MuiTypography-root MuiTypography-h2 css-zac9d4-MuiTypography-root'][text()='Top 100 Underperforming (UP) SKU']")
     FIRST_COLUMN = (By.XPATH, "//div[text()='SKU'][@class='MuiDataGrid-columnHeaderTitle css-t89xny-MuiDataGrid-columnHeaderTitle']")
     PAGINATION_TAB = (By.XPATH, "//div[@data-testid='required-showing']")
@@ -37,11 +39,13 @@ class X4AInventoryManagementPage(BasePage):
     VALUE_ON_ORDER = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='valueorder']")
     ACTUAL_121 = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='agingvalue_over120']")
     ACTUAL_151 = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='agingvalue_over150']")
+    ACTUAL_181 = (By.XPATH,"//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='agingvalue_over180']")
     INVENTORY_VALUE_SORT = (By.XPATH, "(//div[text()='Inventory value'])[2]")
     IMPROVEMENT_OPPORTUNITY_SORT = (By.XPATH, "//div[text()='Improvement opportunity']")
     VALUE_ON_ORDER_SORT = (By.XPATH, "//div[text()='Value on order']")
     ACTUAL_121_SORT = (By.XPATH, "//div[text()='Actual 121']")
     ACTUAL_151_SORT = (By.XPATH, "//div[text()='Actual 151']")
+    ACTUAL_181_SORT = (By.XPATH, "//div[text()='Actual 181']")
     CANCEL_SEARCH_ICON = (By.XPATH, "//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hg1enx-MuiButtonBase-root-MuiIconButton-root']")
     MFN_PART_NUMBER_VALUES_IN_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='mfrpartnbr']")
     VENDOR_BUSINESS_MANAGER_VALUES_IN_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='vendorbusinessmanager']")
@@ -58,9 +62,13 @@ class X4AInventoryManagementPage(BasePage):
     ACTION_POPUP_CLOSE_BUTTON = (By.XPATH, "//button[@aria-label='close']")
     ACTION_FOR_SKU = (By.XPATH, "//div[@data-id=0]/div[@data-field='action']/div/div/div/div/span/div/div")
     COMMENT_FOR_SKU = (By.XPATH, "//div[@data-id=0]/div[@data-field='action']/div/div/div[2]/button")
+    BLUE_DOT_FOR_COMMENT_FOR_FIRST_ROW = (By.XPATH, "//div[@data-rowindex=0]/div[@data-field='action']/div/div/div[2]/button/span/span")
     ACTION_SAVE_STATUS_POPUP = (By.XPATH, "//div[@class='MuiAlert-message css-acap47-MuiAlert-message']")
     POPUP_CLOSE_BUTTON = (By.XPATH, "//button[@aria-label='close']")
     COMMENT_TEXT = (By.XPATH, "//p[@class='MuiTypography-root MuiTypography-body1 css-1c49e4q-MuiTypography-root']")
+
+    """ Top 100 Aging sku tab """
+    TOP_100_AGING_SKU_TAB = (By.XPATH, "//div[@class='MuiTypography-root MuiTypography-h2 css-zac9d4-MuiTypography-root'][text()='Top 100 Aging SKU']")
 
     def go_to_inventory_management_action_planning(self):
         try:
@@ -73,7 +81,10 @@ class X4AInventoryManagementPage(BasePage):
 
     def click_on_top_100_underperforming_sku(self):
         try:
+            self.do_check_availability(self.TOP_100_UNDERPERFORMING_SKU_TAB)
             self.do_click_by_locator(self.TOP_100_UNDERPERFORMING_SKU_TAB)
+            page_element = self.driver.find_element(By.XPATH, self.ACTION_PLANING_PAGE_ELEMENT)
+            self.scroll_down(page_element)
         except Exception as e:
             self.logger.error('Exception occurred while clicking on Top 100 underperforming sku tab' + str(e))
             raise e
@@ -81,8 +92,6 @@ class X4AInventoryManagementPage(BasePage):
     def get_table_headers(self, selected_country):
         table_headers = []
         try:
-            page_element = self.driver.find_element(By.XPATH, self.ACTION_PLANING_PAGE_ELEMENT)
-            self.scroll_down(page_element)
             self.filter_by_country(selected_country)
             for i in range(1, 24):
                 xpath = (By.XPATH, "//div[@class='css-yrdy0g-MuiDataGrid-columnHeaderRow'][@aria-rowindex=2]/div[@aria-colindex=" + str(i) + "]")
@@ -101,7 +110,7 @@ class X4AInventoryManagementPage(BasePage):
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
             return table_headers
         except Exception as e:
-            self.logger.error('Exception occurred while getting Top 100 underperforming sku table headers' + str(e))
+            self.logger.error('Exception occurred while getting Top 100 sku table headers' + str(e))
             raise e
 
     def get_filters_list(self):
@@ -331,7 +340,7 @@ class X4AInventoryManagementPage(BasePage):
                     country.click()
                     break
         except Exception as e:
-            self.logger.erro("Exception while filtering by country")
+            self.logger.error("Exception while filtering by country")
             raise e
 
     def get_random_page(self, first, last):
@@ -794,41 +803,246 @@ class X4AInventoryManagementPage(BasePage):
             assert action_popup_dropdown_label == 'Please, select what action will be perform *', 'Action popup dropdown label is incorrect'
             assert action_popup_comment_label == 'What is being done to eliminate underperforming SKUs?', 'Action popup comment label is incorrect'
             assert comment_textbox_text == 'Input comment (200 character limit)', 'Comment textbox placeholder is incorrect'
-            self.do_check_availability(self.ACTION_POPUP_CANCEL_BUTTON)
+            self.do_check_availability(self.ACTION_POPUP_SAVE_BUTTON)
             self.do_check_availability(self.ACTION_POPUP_CANCEL_BUTTON)
             self.do_click_by_locator(self.ACTION_POPUP_DOWNDOWN)
             action_dropdown_options = self.get_all_elements(self.ACTION_DROPDOWN_OPTIONS)
             for action in action_dropdown_options:
                 action_options.append(action.text)
+            self.do_click_by_locator(action_dropdown_options[0])
             self.logger.info(action_options)
+            self.do_click_by_locator(self.ACTION_POPUP_CANCEL_BUTTON)
             return action_options
         except Exception as e:
             self.logger.error("Exception while validating Action popup contents" + str(e))
             raise e
 
-    def update_action_and_comment(self, action, comment):
+    def update_action_and_comment_and_save(self, action, comment):
         try:
+            three_dots = self.get_all_elements(self.FIRST_ROW_THREE_DOTS)
+            self.do_click_by_locator(three_dots[-1])
+            self.do_click_by_locator(self.ADD_OR_EDIT_OPTION)
+            self.do_click_by_locator(self.ACTION_POPUP_DOWNDOWN)
+            action_dropdown_options = self.get_all_elements(self.ACTION_DROPDOWN_OPTIONS)
+            for option in action_dropdown_options:
+                if option.text == action:
+                    option.click()
+                    break
+            self.do_click_by_locator(self.ACTION_POPUP_COMMENT_TEXT_AREA)
+            self.do_send_keys(self.ACTION_POPUP_COMMENT_TEXT_AREA, comment)
+            self.do_click_by_locator(self.ACTION_POPUP_SAVE_BUTTON)
+            self.do_check_availability(self.ACTION_SAVE_STATUS_POPUP)
+            save_status = self.get_element_text(self.ACTION_SAVE_STATUS_POPUP)
+            assert save_status == 'Save Successful', 'Action save status mismatch'
+            time.sleep(2)
+            self.do_click_by_locator(self.POPUP_CLOSE_BUTTON)
+            time.sleep(3)
+        except Exception as e:
+            self.logger.error("Exception while updating action and comment and save" + str(e))
+            raise e
+
+    def update_action_and_comment_and_cancel(self, action, comment):
+        try:
+            three_dots = self.get_all_elements(self.FIRST_ROW_THREE_DOTS)
+            self.do_click_by_locator(three_dots[-1])
+            self.do_click_by_locator(self.ADD_OR_EDIT_OPTION)
+            self.do_click_by_locator(self.ACTION_POPUP_DOWNDOWN)
             action_dropdown_options = self.get_all_elements(self.ACTION_DROPDOWN_OPTIONS)
             for option in action_dropdown_options:
                 if option.text == action:
                     self.do_click_by_locator(option)
                     break
             self.do_send_keys(self.ACTION_POPUP_COMMENT_TEXT_AREA, comment)
-            self.do_click_by_locator(self.ACTION_POPUP_SAVE_BUTTON)
-            self.do_check_availability(self.ACTION_SAVE_STATUS_POPUP)
-            save_status = self.get_element_text(self.ACTION_SAVE_STATUS_POPUP)
-            assert save_status == 'Save Successful', 'Action save status mismatch'
-            self.do_click_by_locator(self.POPUP_CLOSE_BUTTON)
+            self.do_click_by_locator(self.ACTION_POPUP_CANCEL_BUTTON)
         except Exception as e:
-            self.logger.error("Exception while updating action and comment" + str(e))
+            self.logger.error("Exception while updating action and comment and cancel" + str(e))
             raise e
 
     def get_action_and_comment(self):
         try:
             action = self.get_element_text(self.ACTION_FOR_SKU)
-            self.do_click_by_locator(self.COMMENT_FOR_SKU)
-            comment = self.get_element_text(self.COMMENT_TEXT)
+            if self.do_check_visibility(self.BLUE_DOT_FOR_COMMENT_FOR_FIRST_ROW):
+                self.do_click_by_locator(self.COMMENT_FOR_SKU)
+                comment = self.get_element_text(self.COMMENT_TEXT)
+                self.do_double_click(self.BLUE_DOT_FOR_COMMENT_FOR_FIRST_ROW)
+            else:
+                comment = ""
             return action, comment
         except Exception as e:
             self.logger.error("Exception while fetching sku action and comment" + str(e))
+            raise e
+
+    def click_on_top_100_aging_sku(self):
+        try:
+            self.driver.refresh()
+            time.sleep(3)
+            self.do_click_by_locator(self.TOP_100_AGING_SKU_TAB)
+            page_element = self.driver.find_element(By.XPATH, self.ACTION_PLANING_PAGE_ELEMENT)
+            self.scroll_down(page_element)
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on Top 100 Aging sku tab' + str(e))
+            raise e
+
+    def get_table_headers_for_top_100_aging_table(self, selected_country):
+        table_headers = []
+        try:
+            self.filter_by_country(selected_country)
+            for i in range(1, 23):
+                xpath = (By.XPATH, "//div[@class='css-yrdy0g-MuiDataGrid-columnHeaderRow'][@aria-rowindex=2]/div[@aria-colindex=" + str(i) + "]")
+                if i == 7:
+                    self.driver.execute_script(
+                        "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
+                    time.sleep(2)
+                elif i == 15:
+                    self.driver.execute_script(
+                        "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 3000")
+                    time.sleep(2)
+                header = self.get_element_text(xpath)
+                table_headers.append(header)
+            self.logger.info(table_headers)
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+            return table_headers
+        except Exception as e:
+            self.logger.error('Exception occurred while getting Top 100 sku table headers' + str(e))
+            raise e
+
+    def validate_actual_151_in_pages(self):
+        try:
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("Verifying Actual 151 in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.is_actual_151_descending_order()
+            if first_page_number != last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
+                    self.go_to_page(random_page)
+                    self.logger.info("Verifying Actual 151 in page %s", str(random_page))
+                    self.is_actual_151_descending_order()
+                self.logger.info("Verifying Actual 151 in page %s", str(last_page_number))
+                self.go_to_page(last_page_number)
+                self.is_actual_151_descending_order()
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+            self.logger.info("Successfully verified Actual 151 is descending by default")
+            return True
+        except Exception as e:
+            self.logger.error("Exception while validating Actual 151 is descending by default in pages" + str(e))
+            raise e
+
+    def validate_actual_181_ascending_in_pages(self):
+        try:
+            time.sleep(2)
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
+            self.do_click_by_locator(self.ACTUAL_181_SORT)
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("Verifying Actual 181 is Ascending in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.is_actual_181_ascending_order()
+            if first_page_number != last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
+                    self.go_to_page(random_page)
+                    self.logger.info("Verifying Actual 181 is Ascending in page %s", str(random_page))
+                    self.is_actual_181_ascending_order()
+                self.logger.info("Verifying Actual 181 is Ascending in page %s", str(last_page_number))
+                self.go_to_page(last_page_number)
+                self.is_actual_181_ascending_order()
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+            self.logger.info("Successfully verified VActual 181 is Ascending")
+            return True
+        except Exception as e:
+            self.logger.error("Exception while validating Actual 181 is Ascending in pages" + str(e))
+            raise e
+
+    def is_actual_181_ascending_order(self):
+        value_on_order_list = []
+        try:
+            elements = self.get_all_elements(self.ACTUAL_181)
+            for e in elements:
+                value_on_order_list.append(float((e.text).replace(',', '')))
+            for i in range(len(value_on_order_list)-1):
+                if value_on_order_list[i] <= value_on_order_list[i+1]:
+                    continue
+                else:
+                    self.logger.error(f'Actual 181 is not in Ascending for row {i+1}')
+                    raise Exception('Actual 181 is not in Ascending')
+            self.logger.info(len(elements))
+        except Exception as e:
+            self.logger.error("Exception while validating Actual 181 is Ascending" + str(e))
+            raise e
+
+    def validate_actual_181_descending_in_pages(self):
+        try:
+            time.sleep(2)
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 1500")
+            self.do_click_by_locator(self.ACTUAL_181_SORT)
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("Verifying Actual 181 is Descending in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.is_actual_181_descending_order()
+            if first_page_number != last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
+                    self.go_to_page(random_page)
+                    self.logger.info("Verifying Actual 181 is Descending in page %s", str(random_page))
+                    self.is_actual_181_descending_order()
+                self.logger.info("Verifying Actual 181 is Descending in page %s", str(last_page_number))
+                self.go_to_page(last_page_number)
+                self.is_actual_181_descending_order()
+            self.go_to_page(first_page_number)
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-axafay-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+            self.logger.info("Successfully verified VActual 181 is Descending")
+            return True
+        except Exception as e:
+            self.logger.error("Exception while validating Actual 181 is Descending in pages" + str(e))
+            raise e
+
+    def is_actual_181_descending_order(self):
+        value_on_order_list = []
+        try:
+            elements = self.get_all_elements(self.ACTUAL_181)
+            for e in elements:
+                value_on_order_list.append(float((e.text).replace(',', '')))
+            for i in range(len(value_on_order_list)-1):
+                if value_on_order_list[i] >= value_on_order_list[i+1]:
+                    continue
+                else:
+                    self.logger.error(f'Actual 181 is not in Descending in row {i+1}')
+                    raise Exception('Actual 181 is not in Descending')
+            self.logger.info(len(elements))
+        except Exception as e:
+            self.logger.error("Exception while validating Actual 181 is Descending" + str(e))
+            raise e
+
+    def validate_action_popup_contents_for_aging_sku_table(self):
+        action_options = []
+        try:
+            three_dots = self.get_all_elements(self.FIRST_ROW_THREE_DOTS)
+            self.do_click_by_locator(three_dots[-1])
+            self.do_click_by_locator(self.ADD_OR_EDIT_OPTION)
+            action_popup_dropdown_label = self.get_element_text(self.ACTION_POPUP_DROPDOWN_SECTION_LABEL)
+            action_popup_comment_label = self.get_element_text(self.ACTION_POPUP_COMMENT_SECTION_LABEL)
+            comment_textbox_text = self.do_get_attribute(self.ACTION_POPUP_COMMENT_TEXT_AREA, "placeholder")
+            assert action_popup_dropdown_label == 'Please, select what action will be perform *', 'Action popup dropdown label is incorrect'
+            assert action_popup_comment_label == 'What is being done to eliminate aging SKUs?', 'Action popup comment label is incorrect'
+            assert comment_textbox_text == 'Input comment (200 character limit)', 'Comment textbox placeholder is incorrect'
+            self.do_check_availability(self.ACTION_POPUP_CANCEL_BUTTON)
+            self.do_check_availability(self.ACTION_POPUP_CANCEL_BUTTON)
+            self.do_click_by_locator(self.ACTION_POPUP_DOWNDOWN)
+            action_dropdown_options = self.get_all_elements(self.ACTION_DROPDOWN_OPTIONS)
+            for action in action_dropdown_options:
+                action_options.append(action.text)
+            self.do_click_by_locator(action_dropdown_options[0])
+            self.logger.info(action_options)
+            self.do_click_by_locator(self.ACTION_POPUP_CANCEL_BUTTON)
+            return action_options
+        except Exception as e:
+            self.logger.error("Exception while validating Action popup contents" + str(e))
             raise e
