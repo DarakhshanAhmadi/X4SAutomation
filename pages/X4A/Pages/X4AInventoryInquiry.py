@@ -16,11 +16,22 @@ class X4AInventoryInquiryPage(BasePage):
     GRID_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-uw2ren-MuiDataGrid-virtualScrollerRenderZone']/div[@role='row']")
     FIRST_ROW_SKU = (By.XPATH, "//div[@data-rowindex=0]/div[@data-field='sku']")
     CLOSE_ICON = (By.XPATH, "//*[@data-testid='CloseIcon']")
+    TITLE = (By.XPATH, "//h2[@class='MuiTypography-root MuiTypography-h2 css-h794si-MuiTypography-root']")
+    PAGE_NAVIGATION = (By.XPATH, "//ol[@class='MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol']/li")
 
     def go_to_inventory_inquiry(self):
+        path = []
         try:
             self.do_click_by_locator(self.INVENTORY_MENU)
             self.do_double_click(self.INVENTORY_INQUIRY_OPTION)
+            navigation = self.get_all_elements(self.PAGE_NAVIGATION)
+            for e in navigation:
+                if e.text != '':
+                    path.append(e.text)
+            navigation_path = ' > '.join(path)
+            assert navigation_path == 'Home > Inventory > Inventory Inquiry', 'Navigation path mismatched for inventory inquiry'
+            title = self.get_element_text(self.TITLE)
+            assert title == "Inventory inquiry", 'Page title mismatched for inventory inquiry'
         except Exception as e:
             self.logger.error('Exception occurred while clicking on Inventory Inquiry' + str(e))
             raise e
