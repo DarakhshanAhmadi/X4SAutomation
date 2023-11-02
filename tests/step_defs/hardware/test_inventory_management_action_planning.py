@@ -160,16 +160,16 @@ def filter_by_country(init_driver):
         raise e
 
 
-@then(parsers.parse('filter by under performing MFN part number and validate data'))
+@then(parsers.parse('filter by under performing MFR part number and validate data'))
 def validate_filter_by_sku(init_driver):
     feature_file_name = "inventory_management_action_planning"
     validate_inventory_management = ValidateInventoryManagementData(init_driver)
     try:
-        mfn_part_number = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("under_performing_mfn_part_number")
-        if not validate_inventory_management.validate_filter_by_mfn_part_number(mfn_part_number, feature_file_name, screen_shot):
-            raise Exception("Failed to validate filter by MFN part number")
+        mfr_part_number = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("under_performing_mfr_part_number")
+        if not validate_inventory_management.validate_filter_by_mfr_part_number(mfr_part_number, feature_file_name, screen_shot):
+            raise Exception("Failed to validate filter by MFR part number")
     except Exception as e:
-        logger.error("Error while validating filter by MFN part number %s", e)
+        logger.error("Error while validating filter by MFR part number %s", e)
         raise e
 
 
@@ -374,16 +374,16 @@ def validate_filter_by_sku(init_driver):
         raise e
 
 
-@then(parsers.parse('filter by aging MFN part number and validate data'))
+@then(parsers.parse('filter by aging MFR part number and validate data'))
 def validate_filter_by_sku(init_driver):
     feature_file_name = "inventory_management_action_planning"
     validate_inventory_management = ValidateInventoryManagementData(init_driver)
     try:
-        mfn_part_number = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("aging_mfn_part_number")
-        if not validate_inventory_management.validate_filter_by_mfn_part_number(mfn_part_number, feature_file_name, screen_shot):
-            raise Exception("Failed to validate filter by MFN part number")
+        mfr_part_number = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("aging_mfr_part_number")
+        if not validate_inventory_management.validate_filter_by_mfr_part_number(mfr_part_number, feature_file_name, screen_shot):
+            raise Exception("Failed to validate filter by MFR part number")
     except Exception as e:
-        logger.error("Error while validating filter by MFN part number %s", e)
+        logger.error("Error while validating filter by MFR part number %s", e)
         raise e
 
 

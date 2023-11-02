@@ -25,7 +25,7 @@ class X4AInventoryManagementPage(BasePage):
     FILTER_SEARCH_TEXTBOX = (By.ID, "mui-1")
     FILTER_SEARCH_BUTTON = (By.XPATH, "//button[@aria-label='Common.Search']")
     FILTER_BY_SKU_OPTION = (By.XPATH, "//li[text()='SKU']")
-    FILTER_BY_MFN_PART_NUMBER_OPTION = (By.XPATH, "//li[text()='MFN Part number']")
+    FILTER_BY_MFR_PART_NUMBER_OPTION = (By.XPATH, "//li[text()='MFR Part number']")
     FILTER_BY_VENDOR_BUSINESS_MANAGER_OPTION = (By.XPATH, "//li[text()='Vendor business manager']")
     FILTER_BY_VENDOR_NAME = (By.XPATH, "//li[text()='Vendor name']")
     TABLE_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div")
@@ -47,7 +47,7 @@ class X4AInventoryManagementPage(BasePage):
     ACTUAL_151_SORT = (By.XPATH, "//div[text()='Actual 151']")
     ACTUAL_181_SORT = (By.XPATH, "//div[text()='Actual 181']")
     CANCEL_SEARCH_ICON = (By.XPATH, "//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hg1enx-MuiButtonBase-root-MuiIconButton-root']")
-    MFN_PART_NUMBER_VALUES_IN_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='mfrpartnbr']")
+    mfr_part_NUMBER_VALUES_IN_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='mfrpartnbr']")
     VENDOR_BUSINESS_MANAGER_VALUES_IN_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='vendorbusinessmanager']")
     VENDOR_NAME_VALUES_IN_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone']/div/div[@data-field='vendorname']")
     FIRST_ROW_THREE_DOTS = (By.XPATH, "//div[@data-id=0]/div[@data-field='action']/div/div/div/button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']")
@@ -139,15 +139,15 @@ class X4AInventoryManagementPage(BasePage):
             self.logger.error('Exception occurred while applying filtering by sku' + str(e))
             raise e
 
-    def filter_by_mfn_part_number(self, mfn_part_number):
+    def filter_by_mfr_part_number(self, mfr_part_number):
         try:
             self.do_click_by_locator(self.FILTER_DROP_DOWN)
-            self.do_click_by_locator(self.FILTER_BY_MFN_PART_NUMBER_OPTION)
-            self.do_send_keys(self.FILTER_SEARCH_TEXTBOX, mfn_part_number)
+            self.do_click_by_locator(self.FILTER_BY_MFR_PART_NUMBER_OPTION)
+            self.do_send_keys(self.FILTER_SEARCH_TEXTBOX, mfr_part_number)
             self.do_click_by_locator(self.FILTER_SEARCH_BUTTON)
-            self.logger.info(f'Successfully filtered by MFN part number: {mfn_part_number}')
+            self.logger.info(f'Successfully filtered by MFR part number: {mfr_part_number}')
         except Exception as e:
-            self.logger.error('Exception occurred while applying filtering by MFN part number' + str(e))
+            self.logger.error('Exception occurred while applying filtering by MFR part number' + str(e))
             raise e
 
     def filter_by_vendor_business_manager(self, vendor_business_manager):
@@ -187,63 +187,36 @@ class X4AInventoryManagementPage(BasePage):
             self.logger.error("Exception occurred verifying filter by SKU" + str(e))
             return False
 
-    def verify_filter_by_mfn_part_number_in_pages(self, mfn_part_number):
+    def verify_filter_by_mfr_part_number_in_pages(self, mfr_part_number):
         try:
+            time.sleep(2)
             self.check_if_result_found()
-            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("Verifying MFN part number in page %s", str(first_page_number))
-            self.go_to_page(first_page_number)
-            self.validate_mfn_part_number(mfn_part_number)
-            if first_page_number != last_page_number:
-                if last_page_number != first_page_number + 1:
-                    random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.logger.info("Verifying MFN part number in page %s", str(random_page))
-                    self.filter_by_mfn_part_number(mfn_part_number)
-                    self.go_to_page(random_page)
-                    self.validate_mfn_part_number(mfn_part_number)
-                self.logger.info("Verifying MFN part number in page %s", str(last_page_number))
-                self.filter_by_mfn_part_number(mfn_part_number)
-                self.go_to_page(last_page_number)
-                self.validate_mfn_part_number(mfn_part_number)
+            self.validate_mfr_part_number(mfr_part_number)
             self.do_click_by_locator(self.CANCEL_SEARCH_ICON)
-            self.logger.info("Successfully verified MFN part number")
+            self.logger.info("Successfully verified MFR part number")
             return True
         except Exception as e:
-            self.logger.error("Exception occurred verifying the filter by MFN part number" + str(e))
+            self.logger.error("Exception occurred verifying the filter by MFR part number" + str(e))
             return False
 
-    def validate_mfn_part_number(self, mfn_part_number):
+    def validate_mfr_part_number(self, mfr_part_number):
         try:
-            self.logger.info("Verifying the MFN part number in table")
-            max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
-            self.logger.info("Max items per page: " + max_rows)
-            row_data = self.get_all_elements(self.MFN_PART_NUMBER_VALUES_IN_ROWS)
-            assert len(row_data) <= int(max_rows)
+            self.logger.info("Verifying the MFR part number in table")
+            row_data = self.get_all_elements(self.mfr_part_NUMBER_VALUES_IN_ROWS)
             for i in range(len(row_data)):
-                if row_data[i].text != mfn_part_number:
-                    self.logger.error(f'Row {i+1} data mismatched for MFN part number')
-                    raise Exception('Data mismatched for MFN part number')
-            self.logger.info("Successfully validated data for MFN part number")
+                if row_data[i].text != mfr_part_number:
+                    self.logger.error(f'Data mismatched for MFR part number UI:{row_data[i].text} Expected:{mfr_part_number}')
+                    raise Exception('Data mismatched for MFR part number')
+            self.logger.info("Successfully validated data for MFR part number")
         except Exception as e:
-            self.logger.error("Exception occurred verifying MFN part number" + str(e))
+            self.logger.error("Exception occurred verifying MFR part number" + str(e))
             raise e
 
     def verify_filter_by_vendor_business_manager_in_pages(self, vendor_business_manager):
         try:
+            time.sleep(2)
             self.check_if_result_found()
-            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("Verifying Vendor business manager in page %s", str(first_page_number))
-            self.go_to_page(first_page_number)
             self.validate_vendor_business_manager(vendor_business_manager)
-            if first_page_number != last_page_number:
-                if last_page_number != first_page_number + 1:
-                    random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.logger.info("Verifying Vendor business manager in page %s", str(random_page))
-                    self.go_to_page(random_page)
-                    self.validate_vendor_business_manager(vendor_business_manager)
-                self.logger.info("Verifying Vendor business manager  in page %s", str(last_page_number))
-                self.go_to_page(last_page_number)
-                self.validate_vendor_business_manager(vendor_business_manager)
             self.do_click_by_locator(self.CANCEL_SEARCH_ICON)
             self.logger.info("Successfully verified Vendor business manager")
             return True
@@ -254,14 +227,15 @@ class X4AInventoryManagementPage(BasePage):
     def validate_vendor_business_manager(self, vendor_business_manager):
         try:
             self.logger.info("Verifying the Vendor business manager in table")
-            max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
-            self.logger.info("Max items per page: " + max_rows)
-            row_data = self.get_all_elements(self.VENDOR_BUSINESS_MANAGER_VALUES_IN_ROWS)
-            assert len(row_data) <= int(max_rows)
-            for i in range(len(row_data)):
-                if row_data[i].text != vendor_business_manager:
-                    self.logger.error(f'Row {i + 1} data mismatched for Vendor business manager')
-                    raise Exception('Data mismatched for Vendor business manager')
+            for i in range(10):
+                if i > 0:
+                    s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                    self.scroll_down(s)
+                row_data = self.get_all_elements(self.VENDOR_BUSINESS_MANAGER_VALUES_IN_ROWS)
+                for i in range(len(row_data)):
+                    if row_data[i].text != vendor_business_manager:
+                        self.logger.error(f'data mismatched for Vendor business manager UI:{row_data[i].text} Expected:{vendor_business_manager}')
+                        raise Exception('Data mismatched for Vendor business manager')
             self.logger.info("Successfully validated data Vendor business manager")
         except Exception as e:
             self.logger.error("Exception occurred verifying Vendor business manager" + str(e))
@@ -269,20 +243,9 @@ class X4AInventoryManagementPage(BasePage):
 
     def verify_filter_by_vendor_name_in_pages(self, vendor_name):
         try:
+            time.sleep(2)
             self.check_if_result_found()
-            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
-            self.logger.info("Verifying Vendor name in page %s", str(first_page_number))
-            self.go_to_page(first_page_number)
             self.validate_vendor_name(vendor_name)
-            if first_page_number != last_page_number:
-                if last_page_number != first_page_number + 1:
-                    random_page = self.get_random_page(first_page_number, last_page_number)
-                    self.logger.info("Verifying Vendor name in page %s", str(random_page))
-                    self.go_to_page(random_page)
-                    self.validate_vendor_name(vendor_name)
-                self.logger.info("Verifying Vendor name in page %s", str(last_page_number))
-                self.go_to_page(last_page_number)
-                self.validate_vendor_name(vendor_name)
             self.do_click_by_locator(self.CANCEL_SEARCH_ICON)
             self.logger.info("Successfully verified Vendor name")
             return True
@@ -293,14 +256,16 @@ class X4AInventoryManagementPage(BasePage):
     def validate_vendor_name(self, vendor_name):
         try:
             self.logger.info("Verifying the Vendor name in table")
-            max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
-            self.logger.info("Max items per page: " + max_rows)
-            row_data = self.get_all_elements(self.VENDOR_NAME_VALUES_IN_ROWS)
-            assert len(row_data) <= int(max_rows)
-            for i in range(len(row_data)):
-                if row_data[i].text != vendor_name:
-                    self.logger.error(f'Row {i + 1} data mismatched for Vendor name')
-                    raise Exception('Data mismatched for Vendor name')
+            for i in range(10):
+                if i > 0:
+                    s = self.driver.find_element(By.XPATH,
+                                                 self.TOP_100_SKUS_TABLE)
+                    self.scroll_down(s)
+                row_data = self.get_all_elements(self.VENDOR_NAME_VALUES_IN_ROWS)
+                for i in range(len(row_data)):
+                    if row_data[i].text != vendor_name:
+                        self.logger.error(f'Data mismatched for Vendor name. UI:{row_data[i].text} Expected:{vendor_name}')
+                        raise Exception('Data mismatched for Vendor name')
             self.logger.info("Successfully validated data Vendor name")
         except Exception as e:
             self.logger.error("Exception occurred verifying Vendor name" + str(e))
@@ -318,17 +283,6 @@ class X4AInventoryManagementPage(BasePage):
                 self.logger.error("Exception while checking the search result for Top 100 underperforming sku")
                 raise e
 
-    def get_pagination_first_and_last_page(self):
-        try:
-            time.sleep(2)
-            pages = self.get_all_elements(self.PAGINATION_PAGES)
-            first_page_number = int(pages[0].text)
-            last_page_number = int(pages[-1].text)
-            return first_page_number, last_page_number
-        except Exception as e:
-            self.logger.error("Exception while getting pagination first and last page")
-            raise e
-
     def filter_by_country(self, selected_country):
         try:
             self.do_click_by_locator(self.COUNTRY_DROPDOWN)
@@ -341,16 +295,6 @@ class X4AInventoryManagementPage(BasePage):
                     break
         except Exception as e:
             self.logger.error("Exception while filtering by country")
-            raise e
-
-    def get_random_page(self, first, last):
-        try:
-            if last > 10:
-                return random.randint(2, 10)
-            elif last <= 10:
-                return random.randint(first + 1, last - 1)
-        except Exception as e:
-            self.logger.error("Exception while generating random number" + str(e))
             raise e
 
     def validate_improvement_opportunity_in_pages(self):
@@ -371,7 +315,7 @@ class X4AInventoryManagementPage(BasePage):
             for i in range(10):
                 improvement_opportunity_list = []
                 if i > 0:
-                    s = self.driver.find_element(By.XPATH, "//*[@id='tablayout-tabpanel-2']/div/div[2]/div[3]/div/div/div/div[1]/div[2]")
+                    s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                     self.scroll_down(s)
                 elements = self.get_all_elements(self.IMPROVEMENT_OPPORTUNITY)
                 for e in elements:
@@ -380,12 +324,10 @@ class X4AInventoryManagementPage(BasePage):
                     if improvement_opportunity_list[i] >= improvement_opportunity_list[i + 1]:
                         continue
                     else:
-                        self.logger.error(f'improvementing opportunity is not in descending in row {i + 1}')
+                        self.logger.error(f'improvementing opportunity is not in descending. Current value:{improvement_opportunity_list[i]} Next value:{improvement_opportunity_list[i + 1]}')
                         raise Exception('improvementing opportunity is not in descending')
-                self.logger.info(len(elements))
             for i in range(10):
-                s = self.driver.find_element(By.XPATH,
-                                             "//*[@id='tablayout-tabpanel-2']/div/div[2]/div[3]/div/div/div/div[1]/div[2]")
+                s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
         except Exception as e:
             self.logger.error("Exception while fetching improvement opportunity" + str(e))
@@ -421,10 +363,8 @@ class X4AInventoryManagementPage(BasePage):
                     if inventory_value_list[i] <= inventory_value_list[i + 1]:
                         continue
                     else:
-                        self.logger.error(f'Inventory value is not in ascending in row {i + 1}')
+                        self.logger.error(f'Inventory value is not in ascending. Current value:{inventory_value_list[i]} Next value:{inventory_value_list[i+1]}')
                         raise Exception('Inventory value is not in ascending')
-                self.logger.info(inventory_value_list)
-                self.logger.info(len(elements))
             for i in range(10):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
@@ -462,9 +402,8 @@ class X4AInventoryManagementPage(BasePage):
                     if inventory_value_list[i] >= inventory_value_list[i + 1]:
                         continue
                     else:
-                        self.logger.error(f'Inventory value is not in Descending in row {i + 1}')
+                        self.logger.error(f'Inventory value is not in Descending. Current value:{inventory_value_list[i]} Next value:{inventory_value_list[i+1]}')
                         raise Exception('Inventory value is not in Descending')
-                self.logger.info(len(elements))
             for i in range(10):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
@@ -502,9 +441,8 @@ class X4AInventoryManagementPage(BasePage):
                     if value_on_order_list[i] <= value_on_order_list[i + 1]:
                         continue
                     else:
-                        self.logger.error(f'Value on order is not in Ascending in row {i + 1}')
+                        self.logger.error(f'Value on order is not in Ascending. Current value:{value_on_order_list[i]} Next value:{value_on_order_list[i+1]}')
                         raise Exception('Value on order is not in Ascending')
-                self.logger.info(len(elements))
             for i in range(10):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
@@ -541,9 +479,8 @@ class X4AInventoryManagementPage(BasePage):
                     if value_on_order_list[i] >= value_on_order_list[i + 1]:
                         continue
                     else:
-                        self.logger.error(f'Value on order is not in Descending in row {i + 1}')
+                        self.logger.error(f'Value on order is not in Descending. Current value:{value_on_order_list[i]} Next value:{value_on_order_list[i+1]}')
                         raise Exception('Value on order is not in Descending')
-                self.logger.info(len(elements))
             for i in range(10):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
@@ -581,9 +518,8 @@ class X4AInventoryManagementPage(BasePage):
                     if actual_121_list[i] <= actual_121_list[i + 1]:
                         continue
                     else:
-                        self.logger.error(f'Actual 121 is not in Ascending in row {i + 1}')
+                        self.logger.error(f'Actual 121 is not in Ascending. Current value:{actual_121_list[i]} Next value:{actual_121_list[i+1]}')
                         raise Exception('Actual 121 is not in Ascending')
-                self.logger.info(len(elements))
             for i in range(10):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
@@ -621,9 +557,8 @@ class X4AInventoryManagementPage(BasePage):
                     if actual_121_list[i] >= actual_121_list[i + 1]:
                         continue
                     else:
-                        self.logger.error(f'Actual 121 is not in Descending in row {i + 1}')
+                        self.logger.error(f'Actual 121 is not in Descending. Current value:{actual_121_list[i]} Next value:{actual_121_list[i+1]}')
                         raise Exception('Actual 121 is not in Descending')
-                self.logger.info(len(elements))
             for i in range(10):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
@@ -661,9 +596,8 @@ class X4AInventoryManagementPage(BasePage):
                     if actual_151_list[i] <= actual_151_list[i + 1]:
                         continue
                     else:
-                        self.logger.error(f'Actual 151 is not in Ascending for row {i + 1}')
+                        self.logger.error(f'Actual 151 is not in Ascending. Current value:{actual_151_list[i]} Next value:{actual_151_list[i+1]}')
                         raise Exception('Actual 151 is not in Ascending')
-                self.logger.info(len(elements))
             for i in range(10):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
@@ -701,9 +635,8 @@ class X4AInventoryManagementPage(BasePage):
                     if actual_151_list[i] >= actual_151_list[i + 1]:
                         continue
                     else:
-                        self.logger.error(f'Actual 151 is not in Descending in row {i + 1}')
+                        self.logger.error(f'Actual 151 is not in Descending. Current value:{actual_151_list[i]} Next value:{actual_151_list[i+1]}')
                         raise Exception('Actual 151 is not in Descending')
-                self.logger.info(len(elements))
             for i in range(10):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
@@ -741,9 +674,8 @@ class X4AInventoryManagementPage(BasePage):
                     if improvement_opportunity_list[i] <= improvement_opportunity_list[i + 1]:
                         continue
                     else:
-                        self.logger.error(f'improvementing opportunity is not in Ascending in row {i + 1}')
+                        self.logger.error(f'improvementing opportunity is not in Ascending. Current value:{improvement_opportunity_list[i]} Next value:{improvement_opportunity_list[i+1]}')
                         raise Exception('improvementing opportunity is not in Ascending')
-                self.logger.info(len(elements))
             for i in range(10):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
@@ -910,9 +842,8 @@ class X4AInventoryManagementPage(BasePage):
                     if actual_181_list[i] <= actual_181_list[i + 1]:
                         continue
                     else:
-                        self.logger.error(f'Actual 181 is not in Ascending for row {i + 1}')
+                        self.logger.error(f'Actual 181 is not in Ascending. Current value:{actual_181_list[i]} Next value:{actual_181_list[i+1]}')
                         raise Exception('Actual 181 is not in Ascending')
-                self.logger.info(len(elements))
             for i in range(10):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
@@ -950,9 +881,8 @@ class X4AInventoryManagementPage(BasePage):
                     if actual_181_list[i] >= actual_181_list[i + 1]:
                         continue
                     else:
-                        self.logger.error(f'Actual 181 is not in Descending in row {i + 1}')
+                        self.logger.error(f'Actual 181 is not in Descending. Current value:{actual_181_list[i]} Next value:{actual_181_list[i+1]}')
                         raise Exception('Actual 181 is not in Descending')
-                self.logger.info(len(elements))
             for i in range(10):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)

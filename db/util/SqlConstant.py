@@ -87,7 +87,7 @@ class SqlConstant:
     X4A_UPDATE_REMOVE_ORDER_LINE_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY = "Update x4a_input_order set order_line_data_errors_order_id = ? where feature_file_name= ?"
 
     X4A_INVENTORY_INSERT_SQL_QUERY = "INSERT INTO x4a_inventory(" \
-                                               "feature_file_name, under_performing_sku, under_performing_mfn_part_number, vendor_business_manager, vendor_name, country, actions, comment, aging_sku, aging_mfn_part_number)" \
+                                               "feature_file_name, under_performing_sku, under_performing_mfr_part_number, vendor_business_manager, vendor_name, country, actions, comment, aging_sku, aging_mfr_part_number)" \
                                                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
     X4A_INVENTORY_GET_TEST_CASE_RECORD_SQL_QUERY = "SELECT * FROM x4a_inventory where feature_file_name=?"

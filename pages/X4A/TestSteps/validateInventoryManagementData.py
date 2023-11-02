@@ -14,7 +14,7 @@ class ValidateInventoryManagementData:
     screen_shot_path = ReadConfig.getScreenshotPath()
     top_100_under_performing_sku_table_headers = ['SKU', 'Actions', 'Vendor business manager', 'Vendor name', 'Vendor number', 'MFR Part number', 'Product description', 'Inventory value', 'Improvement opportunity', 'Value on order', 'Actual 121', 'Actual 151', 'Actual 181', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5']
     country_list = ['FR', 'BR', 'MX', 'MD']
-    top_100_sku_filter_options = ['SKU', 'MFN Part number', 'Vendor business manager', 'Vendor name']
+    top_100_sku_filter_options = ['SKU', 'MFR Part number', 'Vendor business manager', 'Vendor name']
     action_dropdown_options = ['CM - Pricing', 'CM - Cost Structure', 'DIO - RMA', 'DIO - Sell through', 'DIO - Customer forecast', 'DIO - Customer commitment (non-cancellable)', 'DIO - Customer commitment (cancellable)', 'DIO - Liquidate', 'DIO - Terminate', 'VM - Terminated - RMA', 'DF - Defective', 'Completed']
     top_100_aging_sku_table_headers = ['SKU', 'Actions', 'Vendor business manager', 'Vendor name', 'Vendor number', 'MFR Part number', 'Product description', 'Inventory value',  'Value on order', 'Actual 121', 'Actual 151', 'Actual 181', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5']
 
@@ -27,6 +27,7 @@ class ValidateInventoryManagementData:
         login = LoginPage(self.driver)
 
         try:
+
             environment = self.parse_config_json.get_data_from_config_json("environment", "environment_type",
                                                                            "config.json")
             if environment == 'Stage':
@@ -170,22 +171,22 @@ class ValidateInventoryManagementData:
             self.logger.exception(e)
             return False
 
-    def validate_filter_by_mfn_part_number(self, mfn_part_number, feature_file_name, screen_shot):
+    def validate_filter_by_mfr_part_number(self, mfr_part_number, feature_file_name, screen_shot):
         x4a_inventory_management = X4AInventoryManagementPage(self.driver)
         try:
-            x4a_inventory_management.filter_by_mfn_part_number(mfn_part_number)
-            if not x4a_inventory_management.verify_filter_by_mfn_part_number_in_pages(mfn_part_number):
+            x4a_inventory_management.filter_by_mfr_part_number(mfr_part_number)
+            if not x4a_inventory_management.verify_filter_by_mfr_part_number_in_pages(mfr_part_number):
                 return False
-            self.logger.info(f'Successfully validated filter by MFN part number:{mfn_part_number}')
+            self.logger.info(f'Successfully validated filter by MFR part number:{mfr_part_number}')
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
-                                        + "filter_by_mfn_part_number_validated_successfully.png")
+                                        + "filter_by_mfr_part_number_validated_successfully.png")
             return True
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
-                                        "filter_by_mfn_part_number_validation_error.png")
+                                        "filter_by_mfr_part_number_validation_error.png")
             screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
-                              "filter_by_mfn_part_number_validation_error.png"
-            self.logger.error("Error while validating Filter by MFN Part number")
+                              "filter_by_mfr_part_number_validation_error.png"
+            self.logger.error("Error while validating Filter by MFR part number")
             self.logger.exception(e)
             return False
 
