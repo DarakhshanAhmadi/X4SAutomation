@@ -32,6 +32,8 @@ def test_verify_order_in_list_after_successful_resubmitted():
     pass
 
 
+
+
 @scenario("features/hardware/data_errors_orders.feature", "Verify Reference Details Edit popup content")
 def test_verify_reference_details_edit_popup_contents():
     pass
@@ -83,6 +85,7 @@ def test_selected_values_get_cleared_from_filter_header():
 def test_data_in_grid_shoul_get_updated_as_per_selected_filter():
     pass
 
+
 @scenario("features/hardware/data_errors_orders.feature",
           "Last order attempt on section should display inside filter panel")
 def test_last_order_attempt_on_section_should_display_inside_filter_panel():
@@ -92,7 +95,6 @@ def test_last_order_attempt_on_section_should_display_inside_filter_panel():
 @scenario("features/hardware/data_errors_orders.feature", "Created on section should display inside filter panel")
 def test_created_on_on_section_should_display_inside_filter_panel():
     pass
-
 
 
 
@@ -142,14 +144,27 @@ def test_verify_that_order_resubmitted_successfully_after_click_on_mark_for_canc
 def test_verify_that_at_least_one_order_line_is_required_to_resubmit_the_order_message():
     pass
 
+
 @scenario("features/hardware/data_errors_orders.feature", "Modify existing Order line")
 def test_modify_existing_order_line():
     pass
 
 
-@scenario("features/hardware/data_errors_orders.feature", "Update Quantity, Reseller price and End User PO value and resubmit the order")
+@scenario("features/hardware/data_errors_orders.feature",
+          "Update Quantity, Reseller price and End User PO value and resubmit the order")
 def test_update_quantity_reseller_price_and_end_user_po_value_and_resubmit_the_order():
     pass
+
+
+@scenario("features/hardware/data_errors_orders.feature", "Operator Id on Order Details Page")
+def test_operator_id_on_order_details_page():
+    pass
+
+
+@scenario("features/hardware/data_errors_orders.feature", "Order Channel on Order Details Page")
+def test_operator_channel_on_order_details_page():
+    pass
+
 
 @scenario("features/hardware/data_errors_orders.feature", "logout X4A")
 def test_logout_x4a():
@@ -1079,6 +1094,17 @@ def verify_contents_of_edit_add_new_end_user_popup(init_driver):
         logger.error("Error while verifying contents of Edit Add New End User popup %s", e)
 
 
+@then(parsers.parse('Verify that Customer type options list'))
+def verify_that_customer_type_option_list(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_customer_type_option_list(feature_file_name):
+            raise Exception("Failed to Verify that Customer type options list")
+    except Exception as e:
+        logger.error("Error while verifying Customer type options list %s", e)
+
+
 @then(parsers.parse(
     'Verify that added new end user should display and user should able to select it and checkbox is disable'))
 def verify_that_added_new_user_should_display_and_user_should_able_to_select_it(init_driver):
@@ -1238,6 +1264,7 @@ def create_order_for_order_line(init_driver):
 
 @when(parsers.parse('Search and Select the Data Errors Order for Order Line'))
 def search_select_data_errors_order_record_for_order_line(init_driver):
+    init_driver.refresh()
     feature_file_name = "data_errors_orders"
     create_order_steps = ValidateErrorOrdersData(init_driver)
     try:
@@ -1639,4 +1666,66 @@ def update_the_order_line_quantity_reseller_price_and_end_user_po_value(
     except Exception as e:
         logger.error(
             "Error while Updating the Order line Quantity, Reseller price and End User PO value %s",
+            e)
+
+
+@then(parsers.parse('Verify that Operator ID should be display on the Order details page'))
+def verify_that_operator_id_should_be_display_on_the_order_details_page(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_operator_id(feature_file_name):
+            raise Exception(
+                "Failed to Verify that Operator ID should be display on the Order details page")
+    except Exception as e:
+        logger.error(
+            "Error while Verifying that Operator ID should be display on the Order details page %s",
+            e)
+
+
+@then(parsers.parse('Verify that Channel label should get displayed on Order details page'))
+def verify_that_channel_label_should_be_display_on_the_order_details_page(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        if not validate_error_orders_data.do_verify_operator_id(feature_file_name):
+            raise Exception(
+                "Failed to Verify that Operator ID should be display on the Order details page")
+    except Exception as e:
+        logger.error(
+            "Error while Verifying that Operator ID should be display on the Order details page %s",
+            e)
+
+
+@given(parsers.parse('the error order is created via api using IM360 payload'))
+def create_order_using_im360_payload(init_driver):
+    feature_file_name = "data_errors_orders"
+    data_create_obj = DataCreationViaApi(init_driver)
+    order_management_srv_obj = X4AInputOrderDbManagementService()
+    try:
+        confirmation_id = data_create_obj.post_request_for_im360_error_order_create()
+        logger.info(f'Confirmation ID: {confirmation_id}')
+        if not len(confirmation_id) == 0:
+            order_management_srv_obj.save_im360_confirmation_id_in_db(db_file_path, feature_file_name, confirmation_id)
+        else:
+            raise Exception('Confirmation Id is empty')
+    except Exception as e:
+        logger.error("Not able create the Data error order %s", e)
+        raise e
+
+
+@then(parsers.parse('Verify that Order channel should match with the channel showing on list page'))
+def Verify_that_order_channel_should_match_with_the_channel_showing_on_list_page(init_driver):
+    feature_file_name = "data_errors_orders"
+    validate_error_orders_data = ValidateErrorOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        confirmation_id = input_order_data.get("im360_data_errors_order_confirmation_id")
+        if not validate_error_orders_data.do_verify_order_channel_matched(feature_file_name, confirmation_id):
+            raise Exception(
+                "Failed to Verify that Order channel should match with the channel showing on list page")
+    except Exception as e:
+        logger.error(
+            "Error while Verify that Order channel should match with the channel showing on list page %s",
             e)

@@ -10,11 +10,14 @@ from CommonUtilities.baseSet.BasePage import BasePage
 from CommonUtilities.parse_config import ParseConfigFile
 from CommonUtilities.readProperties import ReadConfig
 from datetime import date, timedelta
+from CommonUtilities.parse_json_common import common_json_ops
 
 
 class X4AErrorOrdersPage(BasePage):
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
+    common_json = common_json_ops()
+
 
     SALES_ICON = (By.XPATH, "//*[@data-testid='SalesIcon']")
     SALES_MENU = (By.XPATH, "//*[@data-testid='sales-MenuItem']")
@@ -308,15 +311,19 @@ class X4AErrorOrdersPage(BasePage):
     ADD_NEW_END_USER_COMPANY_NAME_LABEL = (By.XPATH, "//*[text()='Company Name']")
     ADD_NEW_END_USER_COMPANY_NAME_TEXTBOX = (
         By.XPATH, "//*[text()='Company Name']/following-sibling::div/input[@placeholder='Enter company name']")
-    ADD_NEW_END_USER_CONTACT_NAME_LABEL = (By.XPATH, "//*[text()='Contact Name ']")
+    ADD_NEW_END_USER_CUSTOMER_TYPE_LABEL = (By.XPATH, "//*[text()='Customer type']")
+    ADD_NEW_END_USER_CUSTOMER_TYPE_DROPDOWN = (By.XPATH, "//*[text()='Customer type']/following-sibling::div/div[@id='customerType']")
+    ADD_NEW_END_USER_CUSTOMER_TYPE_LIST = (By.XPATH, "//div[@role='presentation']/div/ul[@role='listbox']/li")
+    ADD_NEW_END_USER_SELECT_COMMERCIAL_TYPE = (By.XPATH, "//div[@role='presentation']/div/ul[@role='listbox']/li[text()='COMMERCIAL']")
+    ADD_NEW_END_USER_CONTACT_NAME_LABEL = (By.XPATH, "//*[text()='Contact Name']")
     ADD_NEW_END_USER_CONTACT_NAME_TEXTBOX = (
-        By.XPATH, "//*[text()='Contact Name ']/following-sibling::div/input[@placeholder='Enter contact name']")
+        By.XPATH, "//*[text()='Contact Name']/following-sibling::div/input[@placeholder='Enter contact name']")
     ADD_NEW_END_USER_EMAIL_LABEL = (By.XPATH, "//*[text()='Email']")
     ADD_NEW_END_USER_EMAIL_TEXTBOX = (
         By.XPATH, "//*[text()='Email']/following-sibling::div/input[@placeholder='Enter email']")
     ADD_NEW_END_USER_PHONE_NUMBER_LABEL = (By.XPATH, "//*[text()='Phone Number']")
     ADD_NEW_END_USER_PHONE_NUMBER_TEXTBOX = (
-        By.XPATH, "//*[text()='Phone Number']/following-sibling::div/input[@placeholder='Enter phone number']")
+        By.XPATH, "//*[text()='Phone Number']/following-sibling::div/input[@placeholder='Enter  phone number']")
     ADD_NEW_END_USER_ADDRESS_LINE_1_LABEL = (By.XPATH, "//*[text()='Address Line 1']")
     ADD_NEW_END_USER_ADDRESS_LINE_1_TEXTBOX = (
         By.XPATH, "//*[text()='Address Line 1']/following-sibling::div/input[@placeholder='Enter adress line 1']")
@@ -397,6 +404,10 @@ class X4AErrorOrdersPage(BasePage):
     ORDER_LINE_END_USER_PRICE_FIELD_TEXT = (By.XPATH, "//div[@data-id='1']//*[@data-field='endUserPrice']/div")
     ORDER_LINE_END_USER_PO_FIELD_TEXT = (By.XPATH, "//div[@data-id='1']//*[@data-field='endUserPoNumber']/div")
     ORDER_DETAILS_TAB = (By.XPATH, "//div[text()='Order details']")
+    OPERATOR_ID = (By.XPATH, "//*[text()='Operator ID']/parent::div")
+    CHANNEL_LABEL = (By.XPATH, "//div[text()='Channel']")
+    LISTING_PAGE_CHANNEL_NAME = (By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='channel']")
+    ORDER_DEATILS_PAGE_CHANNEL_NAME = (By.XPATH, "//*[text()='Channel']/parent::div")
     def go_to_error_orders(self):
         try:
             self.do_click_by_locator(self.SALES_MENU)
@@ -753,8 +764,11 @@ class X4AErrorOrdersPage(BasePage):
             self.do_click_by_locator(self.SEARCH_DROP_DOWN)
             self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
-            self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
-            time.sleep(5)
+            for retry in range(3):
+                self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+                time.sleep(5)
+                if self.do_check_visibility(self.FRAUD_FIRST_RECORD):
+                    break
             self.do_click_by_locator(self.FRAUD_FIRST_RECORD)
             return True
         except Exception as e:
@@ -876,6 +890,7 @@ class X4AErrorOrdersPage(BasePage):
             self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
             self.do_send_keys(self.FRAUD_SEARCH_BOX, confirmation_id)
             self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+            time.sleep(5)
             self.do_check_visibility(self.ORDER_NOT_FOUND)
             self.logger.info("Successfully verified that resubmitted Order should not be there in list")
             return True
@@ -1773,6 +1788,9 @@ class X4AErrorOrdersPage(BasePage):
             self.do_check_visibility(self.ADD_NEW_END_USER_COMPANY_NAME_LABEL)
             self.do_check_visibility(self.ADD_NEW_END_USER_COMPANY_NAME_TEXTBOX)
 
+            self.do_check_visibility(self.ADD_NEW_END_USER_CUSTOMER_TYPE_LABEL)
+            self.do_check_visibility(self.ADD_NEW_END_USER_CUSTOMER_TYPE_DROPDOWN)
+
             self.do_check_visibility(self.ADD_NEW_END_USER_CONTACT_NAME_LABEL)
             self.do_check_visibility(self.ADD_NEW_END_USER_CONTACT_NAME_TEXTBOX)
 
@@ -1803,6 +1821,30 @@ class X4AErrorOrdersPage(BasePage):
             self.logger.info(
                 "Successfully verified Edit Add New End User Details Popup content")
             return True
+        except Exception as e:
+            return False
+
+    def verify_customer_type_option_list(self):
+        try:
+            self.do_click_by_locator(self.ADD_NEW_END_USER_CUSTOMER_TYPE_DROPDOWN)
+            customer_type_list = ['COMMERCIAL', 'LOCAL', 'FEDERAL', 'HIGHER EDUCATION', 'INTERNET SERVICE PROVIDER', 'K - 12', 'STATE', 'TELECOM', 'TEACHING HOSPITALS',
+                                  'DOCTOR’S OFFICES', 'PUBLIC HOSPITALS', 'NON-PROFIT', 'PRIVATE HOSPITALS']
+            customer_type_option_list = self.get_all_elements_without_visibility(self.ADD_NEW_END_USER_CUSTOMER_TYPE_LIST)
+            option_list = []
+            for element in customer_type_option_list:
+                self.logger.info(element.text)
+                text = element.text
+                option_list.append(text)
+            option_list.pop(0)
+            self.logger.info(option_list)
+            result = all(elem in customer_type_list for elem in option_list)
+            if result:
+                self.logger.info("Successfully verified Customer Type options list")
+                self.do_click_by_locator(self.ADD_NEW_END_USER_SELECT_COMMERCIAL_TYPE)
+                return True
+            else:
+                self.logger.info("Failed to verify Customer Type options list")
+                return False
         except Exception as e:
             return False
 
@@ -2603,5 +2645,67 @@ class X4AErrorOrdersPage(BasePage):
             self.do_click_by_locator(self.ORDER_DETAILS_TAB)
             self.logger.info("Successfully Updated the order line fields value")
             return True
+        except Exception as e:
+            return False
+
+    def do_verify_operator_id(self):
+        try:
+            attr_list = []
+            operator_id = None
+            path = ".\\RestApi\\Resources\\data_error_order_payload.json"
+            data = self.common_json.read_json_file(path)
+            self.logger.info(data)
+            attr_list = data['additionalAttributes']
+            print(attr_list)
+            for some_dict in range(len(attr_list)):
+                attr_item = attr_list[some_dict]
+                print(attr_item)
+                if attr_item['attributeName'] == 'operatorid':
+                    operator_id = attr_item['attributeValue']
+                    print(operator_id)
+                    break
+            operator_id_value = self.get_element_text(self.OPERATOR_ID).replace("Operator ID:\n", "")
+            self.logger.info(f'Operator_id value: {operator_id_value}')
+            if operator_id == operator_id_value:
+                self.logger.info("Successfully Verified Operator Id")
+                self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def do_verify_channel_label(self):
+        try:
+            self.do_check_visibility(self.CHANNEL_LABEL)
+            self.logger.info("Channel label visible")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_order_channel_matched(self, confirmation_id):
+        global channel
+        try:
+            time.sleep(5)
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_click_by_locator(self.SEARCH_DROP_DOWN)
+            self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
+            for i in range(3):
+                self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+                time.sleep(5)
+                if self.do_check_visibility(self.FRAUD_FIRST_RECORD):
+                    channel = self.get_element_text(self.LISTING_PAGE_CHANNEL_NAME)
+                    self.logger.info(f'Listing Page Channel Name: {channel}')
+                    break
+            self.do_click_by_locator(self.FRAUD_FIRST_RECORD)
+            time.sleep(3)
+            order_details_channel_value = self.get_element_text(self.ORDER_DEATILS_PAGE_CHANNEL_NAME).replace("Channel:\n", "")
+            self.logger.info(f'Operator_id value: {order_details_channel_value}')
+            if channel == order_details_channel_value:
+                self.logger.info("Successfully Verified Operator Id")
+                return True
+            else:
+                return False
         except Exception as e:
             return False
