@@ -572,3 +572,24 @@ class EDIDataValidation:
             if data["header04Record"]["shipToStoreNumber"] != "":
                 assert json_response[0]["shipToSuffixId"] is not None
                 assert 200 <= int(json_response[0]["shipToSuffixId"]) <= 999
+
+    def dpascode_and_dpasprogramid_not_available_validate(self):
+        path = ".\\RestApi\\Resources\\EDI\\IPJSONWithShipToStoreNumber.json"
+        response, json_response = self.hit_api_post_request(path)
+        assert response.status_code == 200
+        self.logger.info("API response status code is 200")
+        if not (self.api_utilities.keys_exists(data, "header02Record", "dpasCode") and self.api_utilities.keys_exists(
+                data, "header02Record", "dpasPgmID")):
+            assert json_response[0]["dpasCode"] is None
+            assert json_response[0]["dpasProgramID"] is None
+
+
+    def dpascode_and_dpasprogramid_available_validate(self):
+        path = ".\\RestApi\\Resources\\EDI\\IPJSONWithDpasCodeAndDpasPrgmId.json"
+        response, json_response = self.hit_api_post_request(path)
+        assert response.status_code == 200
+        self.logger.info("API response status code is 200")
+        if self.api_utilities.keys_exists(data, "header02Record", "dpasCode") and self.api_utilities.keys_exists(
+                data, "header02Record", "dpasPgmID"):
+            assert json_response[0]["dpasCode"] is not None
+            assert json_response[0]["dpasProgramID"] is not None
