@@ -58,6 +58,23 @@ class ValidateEmailToOrderData:
         filtered_order_data = test_data_order.loc[(test_data_order.FeatureFileName == feature_file_name)]
         return filtered_order_data
 
+    def send_email_for_order(self, feature_file_name, screen_shot):
+        x4a_email_to_order = X4AEmailToOrderPage(self.driver)
+        try:
+            x4a_email_to_order.send_email_for_order()
+            self.logger.info("Successfully clicked on email to order")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_email_to_order_clicked_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_email_to_order_clicking_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_email_to_order_clicking_error.png"
+            self.logger.error("Error while clicking on error order")
+            self.logger.exception(e)
+            return False
+
     def click_on_email_to_order_menu(self, feature_file_name, screen_shot):
         x4a_email_to_order = X4AEmailToOrderPage(self.driver)
         try:
@@ -123,6 +140,55 @@ class ValidateEmailToOrderData:
             screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
                                   "_ETO_order_page_verified_error.png"
             self.logger.error("Error while verifying on ETO order page %s" + str(e))
+
+    def do_eto_select_order_by_status(self, feature_file_name, screen_shot):
+        x4a_email_to_order = X4AEmailToOrderPage(self.driver)
+        try:
+            x4a_email_to_order.do_eto_select_order_by_status()
+            self.logger.info("Successfully selected completed ETO order")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_completed_ETO_order_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_completed_ETO_order_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_completed_ETO_order_error.png"
+            self.logger.error("Error while selecting completed ETO order")
+            self.logger.exception(e)
+            return False
+
+    def do_eto_select_order_by_PO(self, feature_file_name, screen_shot, scenario_number):
+        x4a_email_to_order = X4AEmailToOrderPage(self.driver)
+        try:
+            x4a_email_to_order.do_eto_select_order_by_PO(scenario_number)
+            self.logger.info("Successfully selected ETO order based on Customer PO number")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_ETO_order_by_po_selected_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_ETO_order_by_po_selecting_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_ETO_order_by_po_selecting_error.png"
+            self.logger.error("Error while selecting ETO order based on Customer PO number")
+            self.logger.exception(e)
+            return False
+
+    def verify_ETO_order_status(self, feature_file_name, screen_shot):
+        x4a_email_to_order = X4AEmailToOrderPage(self.driver)
+        try:
+            x4a_email_to_order.verify_ETO_order_status()
+            self.logger.info("Successfully verified ETO order status")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_ETO_order_page_verified_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_ETO_order_status_verified_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                  "_ETO_order_status_verified_error.png"
+            self.logger.error("Error while verifying on ETO order status %s" + str(e))
 
     def logout_x4a_url(self, feature_file_name):
         x4a_email_to_order = X4AEmailToOrderPage(self.driver)
