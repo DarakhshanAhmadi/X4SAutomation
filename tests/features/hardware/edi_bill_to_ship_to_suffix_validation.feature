@@ -25,3 +25,8 @@ Feature: EDI Data Validation - Bill To And Suffix To Validation
     Then Validate the billToLotusId if not empty in input file
     Then Validate the billToEmail if empty in input file
     Then Validate the billToEmail if not empty in input file
+
+  # OMS-1382
+  @ship_to_information
+  Scenario: Ship to information
+    Then Validate the ship to suffix based on shipToStoreNumber

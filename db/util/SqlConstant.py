@@ -45,10 +45,10 @@ class SqlConstant:
 
     X4A_BULK_ORDER_DATA_BY_FEATURE_FILE_SQL_QUERY = "SELECT * from x4a_bulk_order_data where Scenario=?"
 
-    X4A_EMAIL_TO_ORDER_SCENARIO_SQL_QUERY = "INSERT INTO x4a_email_to_order_data(feature_file_name, Account, Country, " \
-                                            "Country_Code, Customer_Name, Customer_PO, " \
+    X4A_EMAIL_TO_ORDER_SCENARIO_SQL_QUERY = "INSERT INTO x4a_email_to_order_data(feature_file_name, Scenario, Account, " \
+                                            "Country, Order_Status, Customer_Name, Customer_PO, " \
                                             "Sales_Order, Processed, Additional_Information)" \
-                                            "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                            "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
     X4A_EMAIL_TO_ORDER_DATA_BY_FEATURE_FILE_SQL_QUERY = "SELECT * from x4a_email_to_order_data where Scenario=?"
 
