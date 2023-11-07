@@ -2,6 +2,7 @@ from CommonUtilities.logGeneration import LogGenerator
 from db.model.X4AInventory import X4AInventory
 from db.model.X4AUserData import X4AUserData
 from db.model.X4AbulkOrderData import X4AbulkOrderData
+from db.model.X4AemailToOrderData import X4AEmailToOrderData
 from db.model.X4AinputOrder import X4AInputOrder
 
 
@@ -80,6 +81,7 @@ class PrepareObject:
 
     def prepare_x4a_email_to_order_data_obj(self, test_data):
         x4a_email_to_data_obj = X4AEmailToOrderData(test_data.get("FeatureFileName"),
+                                                   test_data.get("Scenario"),
                                                    test_data.get("Account"),
                                                    test_data.get("Country"),
                                                    test_data.get("Order_Status"),
