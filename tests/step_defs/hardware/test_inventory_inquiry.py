@@ -3,7 +3,6 @@ from CommonUtilities import readWriteTestData
 from CommonUtilities.parse_config import ParseConfigFile
 from CommonUtilities.file_operations import logger
 from CommonUtilities.readProperties import ReadConfig
-from db.service.X4AInputOrderDbManagementService import X4AInputOrderDbManagementService
 from db.service.X4AInventoryDbManagementService import X4AInventoryDbManagementService
 from pages.X4A.Facade.PrepareObject import PrepareObject
 from pages.X4A.TestSteps.validateInventoryInquiryData import ValidateInventoryInquiryData
@@ -29,6 +28,16 @@ def test_verify_columns_and_search_options():
 
 @scenario("features/hardware/inventory_inquiry.feature", "Verify search")
 def test_verify_search():
+    pass
+
+
+@scenario("features/hardware/inventory_inquiry.feature", "Verify customer selection in list page")
+def test_verify_customer_selection_in_list_page():
+    pass
+
+
+@scenario("features/hardware/inventory_inquiry.feature", "Verify customer selection in details page")
+def test_verify_customer_selection_in_details_page():
     pass
 
 
@@ -120,3 +129,140 @@ def verify_search_result(init_driver):
         logger.error("Error while verifying Inventory Inquiry search result %s", e)
         raise e
 
+
+@given(parsers.parse('verify reseller price is empty and no customer present by default'))
+def verify_reseller_is_empty(init_driver):
+    feature_file_name = "inventory_inquiry"
+    validate_inventory_inquiry = ValidateInventoryInquiryData(init_driver)
+    try:
+        if not validate_inventory_inquiry.validate_reseller_price_is_empty_and_no_customer_by_default(feature_file_name, screen_shot):
+            raise Exception("Failed to validate reseller price is empty by default")
+    except Exception as e:
+        logger.error("Not able to verify Reseller price is empty by default %s", e)
+        raise e
+
+
+@then(parsers.parse('verify reseller price is populated'))
+def verify_reseller_is_not_empty(init_driver):
+    feature_file_name = "inventory_inquiry"
+    validate_inventory_inquiry = ValidateInventoryInquiryData(init_driver)
+    try:
+        if not validate_inventory_inquiry.validate_reseller_price_is_not_empty(feature_file_name, screen_shot):
+            raise Exception("Failed to validate Reseller price are not empty")
+    except Exception as e:
+        logger.error("Not able to verify Reseller price is not empty %s", e)
+        raise e
+
+
+@given(parsers.parse('verify customer selection popup contents'))
+def verify_customer_select_popup(init_driver):
+    feature_file_name = "inventory_inquiry"
+    validate_inventory_inquiry = ValidateInventoryInquiryData(init_driver)
+    try:
+        if not validate_inventory_inquiry.verify_customer_selection_popup_contents(feature_file_name, screen_shot):
+            raise Exception("Failed to validate customer selection popup contents")
+    except Exception as e:
+        logger.error("Not able to verify Customer selection popup contents %s", e)
+        raise e
+
+
+@given(parsers.parse('verify customer selection skip functionality'))
+def verify_customer_select_popup(init_driver):
+    feature_file_name = "inventory_inquiry"
+    validate_inventory_inquiry = ValidateInventoryInquiryData(init_driver)
+    try:
+        customer = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("customer")
+        if not validate_inventory_inquiry.validate_customer_select_skip_functionality(customer, feature_file_name, screen_shot):
+            raise Exception("Failed to validate customer selection skip")
+    except Exception as e:
+        logger.error("Not able to verify Customer selection popup skip functionality %s", e)
+        raise e
+
+
+@when(parsers.parse('verify customer selection'))
+def verify_customer_select_popup(init_driver):
+    feature_file_name = "inventory_inquiry"
+    validate_inventory_inquiry = ValidateInventoryInquiryData(init_driver)
+    try:
+        customer = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("customer")
+        if not validate_inventory_inquiry.validate_customer_selection(customer, feature_file_name, screen_shot):
+            raise Exception("Failed to validate customer selection")
+    except Exception as e:
+        logger.error("Not able to verify Customer selection %s", e)
+        raise e
+
+
+@then(parsers.parse('go to details page and validate selected customer is displayed'))
+def search_and_go_to_details(init_driver):
+    feature_file_name = "inventory_inquiry"
+    validate_inventory_inquiry = ValidateInventoryInquiryData(init_driver)
+    try:
+        sku = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("under_performing_sku")
+        customer = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("edit_customer")
+        if not validate_inventory_inquiry.go_to_details_page_and_validate_customer(sku, customer, feature_file_name, screen_shot):
+            raise Exception("Failed to go to sku details page and validate data")
+    except Exception as e:
+        logger.error("Not able to go to sku details page and validate data %s", e)
+        raise e
+
+
+@then(parsers.parse('edit customer and verify'))
+def search_and_go_to_details(init_driver):
+    feature_file_name = "inventory_inquiry"
+    validate_inventory_inquiry = ValidateInventoryInquiryData(init_driver)
+    try:
+        customer = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("edit_customer")
+        if not validate_inventory_inquiry.edit_customer_and_validate_data(customer, feature_file_name, screen_shot):
+            raise Exception("failed to edit customer and validate data")
+    except Exception as e:
+        logger.error("Not able to edit customer and validate data %s", e)
+        raise e
+
+
+@given(parsers.parse('the user traverse to Inventory Inquiry list page'))
+def verify_customer_select_popup(init_driver):
+    feature_file_name = "inventory_inquiry"
+    validate_inventory_inquiry = ValidateInventoryInquiryData(init_driver)
+    try:
+        if not validate_inventory_inquiry.go_to_list_page_from_details_page(feature_file_name, screen_shot):
+            raise Exception("Failed to go to inventory inquiry page")
+    except Exception as e:
+        logger.error("Not able to traverse to inventory inquiry listing page %s", e)
+        raise e
+
+
+@given(parsers.parse('verify no data present under inventory visibility'))
+def verify_customer_select_popup(init_driver):
+    feature_file_name = "inventory_inquiry"
+    validate_inventory_inquiry = ValidateInventoryInquiryData(init_driver)
+    try:
+        if not validate_inventory_inquiry.validate_inventory_visibility_data_not_present(feature_file_name, screen_shot):
+            raise Exception("Failed to validate no inventory visibility data present in details page")
+    except Exception as e:
+        logger.error("Not able to validate no inventory visibility data present in details page %s", e)
+        raise e
+
+
+@then(parsers.parse('verify data present under inventory visibility'))
+def verify_customer_select_popup(init_driver):
+    feature_file_name = "inventory_inquiry"
+    validate_inventory_inquiry = ValidateInventoryInquiryData(init_driver)
+    try:
+        if not validate_inventory_inquiry.validate_inventory_visibility_data_present(feature_file_name, screen_shot):
+            raise Exception("Failed to validate inventory visibility data present in details page")
+    except Exception as e:
+        logger.error("Not able to validate inventory visibility data present in details page %s", e)
+        raise e
+
+
+@given(parsers.parse('search sku and go to details page'))
+def search_and_go_to_details(init_driver):
+    feature_file_name = "inventory_inquiry"
+    validate_inventory_inquiry = ValidateInventoryInquiryData(init_driver)
+    try:
+        sku = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("under_performing_sku")
+        if not validate_inventory_inquiry.search_and_go_to_sku_details(sku, feature_file_name, screen_shot):
+            raise Exception("Failed to go to sku details page and validate data")
+    except Exception as e:
+        logger.error("Not able to go to sku details page and validate data %s", e)
+        raise e

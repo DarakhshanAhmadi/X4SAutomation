@@ -309,3 +309,9 @@ class BasePage:
         else:
             return False
 
+    def do_check_visibility_for_validation(self, by_locator):
+        try:
+            WebDriverWait(self.driver, self.TIMEOUT_LESSER).until(EC.visibility_of_element_located(by_locator))
+            return True
+        except:
+            return False

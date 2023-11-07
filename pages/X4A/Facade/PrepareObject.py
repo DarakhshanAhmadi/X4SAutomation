@@ -76,7 +76,9 @@ class PrepareObject:
                                         test_data.get("Actions"),
                                         test_data.get("Comment"),
                                         test_data.get("AgingSKU"),
-                                        test_data.get("AgingMFRPartNumber"))
+                                        test_data.get("AgingMFRPartNumber"),
+                                        test_data.get('Customer'),
+                                        test_data.get("EditCustomer"))
         return x4a_inventory_data_obj
 
     def prepare_x4a_email_to_order_data_obj(self, test_data):

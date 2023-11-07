@@ -204,7 +204,7 @@ class X4AInventoryManagementPage(BasePage):
             self.logger.info("Verifying the MFR part number in table")
             row_data = self.get_all_elements(self.mfr_part_NUMBER_VALUES_IN_ROWS)
             for i in range(len(row_data)):
-                if row_data[i].text != mfr_part_number:
+                if str(row_data[i].text) != str(mfr_part_number):
                     self.logger.error(f'Data mismatched for MFR part number UI:{row_data[i].text} Expected:{mfr_part_number}')
                     raise Exception('Data mismatched for MFR part number')
             self.logger.info("Successfully validated data for MFR part number")

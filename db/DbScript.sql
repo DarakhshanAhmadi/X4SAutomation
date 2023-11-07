@@ -138,5 +138,7 @@ country String,
 actions String,
 comment String,
 aging_sku TEXT,
-aging_mfr_part_number String
+aging_mfr_part_number String,
+customer String,
+edit_customer String
 );

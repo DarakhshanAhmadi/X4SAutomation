@@ -1,4 +1,5 @@
 import time
+import random
 
 from selenium.webdriver.common.by import By
 
@@ -18,6 +19,23 @@ class X4AInventoryInquiryPage(BasePage):
     CLOSE_ICON = (By.XPATH, "//*[@data-testid='CloseIcon']")
     TITLE = (By.XPATH, "//h2[@class='MuiTypography-root MuiTypography-h2 css-h794si-MuiTypography-root']")
     PAGE_NAVIGATION = (By.XPATH, "//ol[@class='MuiBreadcrumbs-ol css-4pdmu4-MuiBreadcrumbs-ol']/li")
+    SELECT_CUSTOMER_BUTTON = (By.XPATH, "//button[text()='Select customer']")
+    POPUP_SKIP_BUTTON= (By.XPATH, "//button[text()='Skip']")
+    POPUP_SELECT_BUTTON = (By.XPATH, "//button[text()='Select']")
+    CUSTOMER_TEXTBOX = (By.XPATH, "//input[@placeholder='Search by customer name, or BCN number']")
+    POPUP_CLOSE_BUTTON = (By.XPATH, "//button[@aria-label='close']/*[@data-testid='CloseIcon']")
+    POPUP_SEARCH_ICON = (By.XPATH, "(//button/*[@data-testid='SearchIcon'])[2]")
+    SELECTED_CUSTOMER = (By.XPATH, "//*[@id='root']/div/div[2]/div[1]/div/div[1]/div/span/span")
+    EDIT_CUSTOMER_BUTTON = (By.XPATH, "//button[@aria-label='edit']")
+    CUSTOMER_SELECTION_POPUP_TEXT = (By.XPATH, "//div[@class='MuiDialogContent-root css-4bso5q-MuiDialogContent-root']/p")
+    INVENTORY_INQUIRY_GRID_ROWS = (By.XPATH, "//div[@class='MuiDataGrid-virtualScrollerRenderZone css-uw2ren-MuiDataGrid-virtualScrollerRenderZone']/div[@role='row']")
+    INVENTORY_INQUIRY_ROWS_RESELLER_PRICE = (By.XPATH, "//div[@data-field='resellerPrice'][@role='cell']")
+    INVENTORY_INQUIRY_TABLE = "//div[@class='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']"
+    ITEMS_PER_PAGE = (By.XPATH, "//div[@class='MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-d2iqo8-MuiSelect-select-MuiInputBase-input']")
+    SKUS_IN_GRID = (By.XPATH, "//div[@class='MuiDataGrid-row']/div[@data-field='sku']/a")
+    DETAILS_PAGE_SKU = (By.XPATH, "//h2")
+    INVENTORY_VISIBILITY_TEXT = (By.XPATH, "//div[@class='css-4sov5v-MuiStack-root']/span")
+    INVENTORY_INQUIRY_LIST_PAGE_LINK = (By.XPATH, "//a[text()='Inventory Inquiry']")
 
     def go_to_inventory_inquiry(self):
         path = []
@@ -74,4 +92,270 @@ class X4AInventoryInquiryPage(BasePage):
             time.sleep(2)
         except Exception as e:
             self.logger.error("Exception occurred while performing search in Inventory Inquiry " + str(e))
+            raise e
+
+    def verify_reseller_price_is_empty(self):
+        try:
+            # items_per_page = self.get_element_text(self.ITEMS_PER_PAGE)
+            # for i in range(int(items_per_page)):
+            #     reseller_price_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-rowindex='" + str(
+            #         i) + "']/div[@data-field='resellerPrice']")
+            #     try:
+            #         ui_reseller_price = self.get_element_text_for_filter(reseller_price_xpath)
+            #     except:
+            #         table = self.driver.find_element(By.XPATH, self.INVENTORY_INQUIRY_TABLE)
+            #         self.scroll_down(table)
+            #         try:
+            #             self.logger.info(i)
+            #             ui_reseller_price = self.get_element_text_for_filter(reseller_price_xpath)
+            #         except:
+            #             self.logger.info("There are only " + str(i) + " rows")
+            #             break
+            #     if str(ui_reseller_price) != '':
+            for i in range(10):
+                if i > 0:
+                    table = self.driver.find_element(By.XPATH, self.INVENTORY_INQUIRY_TABLE)
+                    self.scroll_down(table)
+                rows = self.get_all_elements(self.INVENTORY_INQUIRY_ROWS_RESELLER_PRICE)
+                for ele in rows:
+                    if ele.text != '':
+                        self.logger.error(f'reseller price is not empty. UI:{ele.text}')
+                        raise Exception("Reseller price is not empty")
+            for i in range(10):
+                table = self.driver.find_element(By.XPATH, self.INVENTORY_INQUIRY_TABLE)
+                self.scroll_up(table)
+        except Exception as e:
+            self.logger.error("Exception occurred while checking reseller price is empty by default in Inventory Inquiry " + str(e))
+            raise e
+
+    def verify_reseller_price_is_empty_in_pages(self):
+        try:
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 700")
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("Verifying reseller price in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.verify_reseller_price_is_empty()
+            if first_page_number != last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
+                    self.logger.info("Verifying reseller price in page %s", str(random_page))
+                    self.go_to_page(random_page)
+                    self.verify_reseller_price_is_empty()
+                self.logger.info("Verifying reseller price in page %s", str(last_page_number))
+                self.go_to_page(last_page_number)
+                self.verify_reseller_price_is_empty()
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+            self.logger.info("Successfully verified reseller price is empty by default")
+        except Exception as e:
+            self.logger.error("Exception occurred verifying reseller price is empty by default" + str(e))
+            raise e
+
+
+    def verify_reseller_price_is_not_empty(self):
+        try:
+            # items_per_page = self.get_element_text(self.ITEMS_PER_PAGE)
+            # for i in range(int(items_per_page)):
+            #     reseller_price_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-rowindex='" + str(
+            #         i) + "']/div[@data-field='resellerPrice']")
+            #     try:
+            #         ui_reseller_price = self.get_element_text_for_filter(reseller_price_xpath)
+            #     except:
+            #         table = self.driver.find_element(By.XPATH, self.INVENTORY_INQUIRY_TABLE)
+            #         self.scroll_down(table)
+            #         try:
+            #             self.logger.info(i)
+            #             ui_reseller_price = self.get_element_text_for_filter(reseller_price_xpath)
+            #         except:
+            #             self.logger.info("There are only " + str(i) + " rows")
+            #             break
+            #     if str(ui_reseller_price) != '':
+            for i in range(10):
+                if i > 0:
+                    table = self.driver.find_element(By.XPATH, self.INVENTORY_INQUIRY_TABLE)
+                    self.scroll_down(table)
+                    time.sleep(1)
+                rows = self.get_all_elements(self.INVENTORY_INQUIRY_ROWS_RESELLER_PRICE)
+                for ele in rows:
+                    if ele.text == '':
+                        self.logger.error(f'reseller price is empty. UI:{ele.text}')
+                        raise Exception("Reseller price is empty")
+            for i in range(10):
+                table = self.driver.find_element(By.XPATH, self.INVENTORY_INQUIRY_TABLE)
+                self.scroll_up(table)
+        except Exception as e:
+            self.logger.error("Exception occurred while checking reseller price is not empty in Inventory Inquiry " + str(e))
+            raise e
+
+    def verify_reseller_price_is_not_empty_in_pages(self):
+        try:
+            time.sleep(5)
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 700")
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("Verifying reseller price in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.verify_reseller_price_is_not_empty()
+            if first_page_number != last_page_number:
+                if last_page_number != first_page_number + 1:
+                    random_page = self.get_random_page(first_page_number, last_page_number)
+                    self.logger.info("Verifying reseller price in page %s", str(random_page))
+                    self.go_to_page(random_page)
+                    self.verify_reseller_price_is_not_empty()
+                self.logger.info("Verifying reseller price in page %s", str(last_page_number))
+                self.go_to_page(last_page_number)
+                self.verify_reseller_price_is_not_empty()
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+            self.logger.info("Successfully verified reseller price is not empty")
+        except Exception as e:
+            self.logger.error("Exception occurred verifying reseller price is not empty" + str(e))
+            raise e
+
+    def get_pagination_first_and_last_page(self):
+        try:
+            time.sleep(2)
+            pages = self.get_all_elements(self.PAGINATION_PAGES)
+            first_page_number = int(pages[0].text)
+            last_page_number = int(pages[-1].text)
+            return first_page_number, last_page_number
+        except Exception as e:
+            self.logger.erro("Exception while getting pagination first and last page")
+            raise e
+
+    def get_random_page(self, first, last):
+        try:
+            if last > 10:
+                return random.randint(2, 10)
+            elif last <= 10:
+                return random.randint(first + 1, last - 1)
+        except Exception as e:
+            self.logger.error("Exception while generating random number" + str(e))
+            raise e
+
+    def verify_customer_selection_popup_contents(self):
+        try:
+            self.do_click_by_locator(self.SELECT_CUSTOMER_BUTTON)
+            assert self.do_check_visibility(self.CUSTOMER_TEXTBOX) == True, "Customer popup textbox"
+            assert self.do_check_visibility(self.POPUP_SKIP_BUTTON) == True, "Skip button not found in popup"
+            assert self.do_check_visibility(self.POPUP_SELECT_BUTTON) == True, "Select button not found in popup"
+            self.do_click_by_locator(self.POPUP_CLOSE_BUTTON)
+        except Exception as e:
+            self.logger.error("Exception while verifying customer selection popup contents" + str(e))
+            raise e
+
+    def verify_customer_selection_skip(self, customer):
+        try:
+            self.do_click_by_locator(self.SELECT_CUSTOMER_BUTTON)
+            self.do_send_keys(self.CUSTOMER_TEXTBOX, customer)
+            option = (By.XPATH, "//*[contains(text(),'" + customer + "')]")
+            self.do_click_by_locator(option)
+            self.do_click_by_locator(self.POPUP_SKIP_BUTTON)
+            assert self.do_check_visibility_for_validation(self.SELECTED_CUSTOMER) is False, "Customer is selected in list page"
+        except Exception as e:
+            self.logger.error("Exception while verifying customer selection skip" + str(e))
+            raise e
+
+    def select_customer(self, customer):
+        try:
+            self.do_click_by_locator(self.SELECT_CUSTOMER_BUTTON)
+            self.do_send_keys(self.CUSTOMER_TEXTBOX, customer)
+            option = (By.XPATH, "//*[contains(text(),'" + customer + "')]")
+            self.do_click_by_locator(option)
+            self.do_click_by_locator(self.POPUP_SELECT_BUTTON)
+            selected_customer = self.get_element_text(self.SELECTED_CUSTOMER)
+            assert selected_customer == customer, "Selected customer mismatched"
+        except Exception as e:
+            self.logger.error("Exception while selecting customer" + str(e))
+            raise e
+
+    def click_on_sku_and_validate_customer(self, search_sku, customer):
+        try:
+            skus = self.get_all_elements(self.SKUS_IN_GRID)
+            for sku in skus:
+                if sku.text == search_sku:
+                    sku.click()
+                    break
+            details_page_sku_name = self.get_element_text(self.DETAILS_PAGE_SKU).split(": ")[-1]
+            details_page_customer = self.get_element_text(self.SELECTED_CUSTOMER)
+            assert details_page_sku_name == search_sku, "SKU name is in details page is different than searched one"
+            assert details_page_customer == customer, "Customer in details page is different than selected one"
+        except Exception as e:
+            self.logger.error("Exception while clicking sku and validating data" + str(e))
+            raise e
+
+    def no_customer_by_default(self):
+        try:
+            assert self.do_check_visibility_for_validation(self.SELECTED_CUSTOMER) is False, "No customer present by default"
+        except Exception as e:
+            self.logger.error("Exception while checking no customer present by default" + str(e))
+            raise e
+
+    def verify_edit_customer_selection_skip(self, customer):
+        try:
+            previous_customer = self.get_element_text(self.SELECTED_CUSTOMER)
+            self.do_click_by_locator(self.EDIT_CUSTOMER_BUTTON)
+            self.do_send_keys(self.CUSTOMER_TEXTBOX, customer)
+            option = (By.XPATH, "//*[contains(text(),'" + customer + "')]")
+            self.do_click_by_locator(option)
+            self.do_click_by_locator(self.POPUP_SKIP_BUTTON)
+            current_customer = self.get_element_text(self.SELECTED_CUSTOMER)
+            if current_customer != previous_customer or current_customer == customer:
+                raise Exception("Customer mismatch for skip edited customer")
+        except Exception as e:
+            self.logger.error("Exception while verifying skip edited customer" + str(e))
+            raise e
+
+    def verify_edit_customer_selection_save(self, customer):
+        try:
+            previous_customer = self.get_element_text(self.SELECTED_CUSTOMER)
+            self.do_click_by_locator(self.EDIT_CUSTOMER_BUTTON)
+            self.do_send_keys(self.CUSTOMER_TEXTBOX, customer)
+            option = (By.XPATH, "//*[contains(text(),'" + customer + "')]")
+            self.do_click_by_locator(option)
+            self.do_click_by_locator(self.POPUP_SELECT_BUTTON)
+            current_customer = self.get_element_text(self.SELECTED_CUSTOMER)
+            if current_customer != customer or current_customer == previous_customer:
+                raise Exception("Customer mismatch for save edited customer")
+        except Exception as e:
+            self.logger.error("Exception while verifying save edited customer " + str(e))
+            raise e
+
+    def verify_inventory_visibility_data_not_present(self):
+        try:
+            if not self.do_check_visibility_for_validation(self.INVENTORY_VISIBILITY_TEXT):
+                raise Exception("Data is present under inventory visibility")
+        except Exception as e:
+            self.logger.error("Exception while verifying no data present under inventory visibility " + str(e))
+            raise e
+
+    def verify_inventory_visibility_data_present(self):
+        try:
+            if self.do_check_visibility_for_validation(self.INVENTORY_VISIBILITY_TEXT):
+                raise Exception("Data is present under inventory visibility")
+        except Exception as e:
+            self.logger.error("Exception while verifying data present under inventory visibility " + str(e))
+            raise e
+
+    def click_on_sku(self, search_sku):
+        try:
+            skus = self.get_all_elements(self.SKUS_IN_GRID)
+            for sku in skus:
+                if sku.text == search_sku:
+                    sku.click()
+                    break
+            details_page_sku_name = self.get_element_text(self.DETAILS_PAGE_SKU).split(": ")[-1]
+            assert details_page_sku_name == search_sku, "SKU name is in details page is different than searched one"
+        except Exception as e:
+            self.logger.error("Exception while clicking sku and validating data" + str(e))
+            raise e
+
+    def go_back_to_listing_page_from_details(self):
+        try:
+            self.do_click_by_locator(self.INVENTORY_INQUIRY_LIST_PAGE_LINK)
+            title = self.get_element_text(self.TITLE)
+            assert title == "Inventory inquiry", 'Page title mismatched for inventory inquiry'
+        except Exception as e:
+            self.logger.error("Exception while going back to Inventory Inquiry list page from details page" + str(e))
             raise e
