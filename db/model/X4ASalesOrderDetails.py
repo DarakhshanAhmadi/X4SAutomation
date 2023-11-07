@@ -2,7 +2,7 @@ class X4ASalesOrderDetails:
     def __init__(self, feature_file_name, order_entry_channel, im_order_number, order_type, reseller_po, end_user_po, order_status,
                  order_value, currency_code, terms_code, ship_from_warehouse_id, warehouse_name, carrier_code, ship_to_suffix, ship_to_name,
                  ship_to_address, ship_to_phone, ship_to_contact, ship_to_email, bill_to_suffix, bill_to_name,
-                 bill_to_address, bill_to_phone, bill_to_contact, bill_to_email, end_user_id, end_user_address, end_user_contact):
+                 bill_to_address, bill_to_phone, bill_to_contact, bill_to_email, end_user_id, end_user_address, end_user_contact, special_bid, unit_price, quantity):
         self.feature_file_name = feature_file_name
         self.order_entry_channel = order_entry_channel
         self.im_order_number = im_order_number
@@ -31,3 +31,7 @@ class X4ASalesOrderDetails:
         self.end_user_id = end_user_id
         self.end_user_address = end_user_address
         self.end_user_contact = end_user_contact
+        self.special_bid = special_bid
+        self.unit_price = unit_price
+        self.quantity = quantity
+

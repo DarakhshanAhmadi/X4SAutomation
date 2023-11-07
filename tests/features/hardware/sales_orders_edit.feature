@@ -5,15 +5,15 @@ Feature: Sales Orders Edit
   Scenario: Login to X4A portal
     Given launch chrome browser and open the X4A url
     Then provide user ID and Password to login
-    And the user traverse to Sales Order menu
+    #And the user traverse to Sales Order menu
 
   # EDT-10681 # EDT-10685 # EDT-10683 # EDT-106
   @validate_updated_order_details
   Scenario Outline: Validate Updated Order Details
-    When search a order with specific IM Order number <order_no>
-    Then Validate the IM Order number <order_no> is listed
+    When search a order with specific IM Order number <order_id>
+    Then Validate the IM Order number <order_id> is listed
     When Click on searched IM order number
-    When Verify order status <status> falls under edit category
+    When Verify order status <order_status> falls under edit category
     Then Validate Cancel update of end user po and reseller po
     Then Update end user po and reseller po
     When Click on Billing tab on Order Details page
@@ -23,19 +23,27 @@ Feature: Sales Orders Edit
     Then Cancel order line changes and validate it
     Then Update order line special bid unit price and quantity
     Then Click on resubmit order
+    When fetch sales order details via api for <order_id> of type <order_type> created on <order_date> via <entry_channel>
+    Then Validate header data contains Order value and Order type
+    Then Validate fields under reference number section
+    Then Validate carrier code
     Then Validate end user po and reseller po updated
     When Click on Billing tab on Order Details page
     Then Validate ship to and end user info updated
     When Click on Order lines tab on Order Details page
+    Then Validate ACOP field is present and has valid value
     Then Validate order line changes are updated
+    When Click on Additional attributes tab on Order Details page
+    Then Verify that title on the header of the order details page contains Ingram order number and Order Status
+    Then Validate payment terms code
     Then Click on order management link
     Examples:
-    | order_no    | status            | channel     | type   |
-    | 20-VN9TB-11 | Customer Hold(IM) | IM360       | Stock  |
-    | 20-VNDGX-11 | Customer Hold(IM) | IM360       | Direct |
-    | 20-VNDDW-11 | Order Hold(IM)    | VIA LU62    | Stock  |
-    | 20-VNDGZ-11 | Customer Hold(IM) | VIA LU62    | Direct |
-    | 20-VNDH1-11 | Order Hold(IM)    | API SIMPLI  | Stock  |
+    | order_id    | order_date | order_status      | entry_channel | order_type |
+    | 20-VNRHK-11 | 2023-11-07 | Order Hold(IM)    | VIA LU62      | Direct     |
+    | 20-VNRLV-11 | 2023-11-07 | Order Hold(IM)    | TELESALES     | Stock      |
+    | 20-VNRLP-11 | 2023-11-07 | Order Hold(IM)    | TELESALES     | Stock      |
+    | 20-VNRLB-11 | 2023-11-07 | Order Hold(IM)    | TELESALES     | Stock      |
+    | 20-VNRL9-11 | 2023-11-07 | Order Hold(IM)    | 20-VNRL9-11   | Direct     |
 
   # EDT-10977
   @unmark_for_cancel_order_line
