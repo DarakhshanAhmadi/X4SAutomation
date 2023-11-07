@@ -140,3 +140,17 @@ comment String,
 aging_sku TEXT,
 aging_mfn_part_number String
 );
+
+CREATE TABLE IF NOT EXISTS x4a_email_to_order_data(
+id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+feature_file_name String NOT NULL,
+Scenario  String,
+Account  String,
+Country  String,
+Order_status String,
+Customer_Name String,
+Customer_PO  String,
+Sales_Order  String,
+Processed    String,
+Additional_Information String
+);
