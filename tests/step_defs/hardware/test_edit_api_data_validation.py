@@ -67,6 +67,18 @@ def test_edi_bill_to_faxnbr_lotus_id_email_information():
     pass
 
 
+@scenario("features/hardware/edi_bill_to_ship_to_suffix_validation.feature",
+          "Ship to information")
+def test_edi_ship_to_information():
+    pass
+
+
+@scenario("features/hardware/edi_dpas_order.feature",
+          "DpasCode and DpasprogramID validation")
+def test_edi_dpascode_and_dpasprogramid():
+    pass
+
+
 @given(parsers.parse('Set the API endpoint and headers'))
 def set_api_endpoint_headers():
     edi_data_obj = EDIDataValidation()
@@ -389,3 +401,21 @@ def validate_bill_to_email_if_empty():
 def validate_bill_to_email_if_not_empty():
     edi_data_obj = EDIDataValidation()
     edi_data_obj.bill_to_email_not_empty_validate()
+
+
+@then(parsers.parse('Validate the ship to suffix based on shipToStoreNumber'))
+def validate_ship_to_suffix_based_on_shiptostorenumber():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.ship_to_suffix_based_shiptostorenumber_validate()
+
+
+@then(parsers.parse('Validate the dpascode and dpasprogramid if not available in input file'))
+def validate_dpascode_and_dpasprogramid_if_not_available():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.dpascode_and_dpasprogramid_not_available_validate()
+
+
+@then(parsers.parse('Validate the dpascode and dpasprogramid if available in input file'))
+def validate_dpascode_and_dpasprogramid_if_available():
+    edi_data_obj = EDIDataValidation()
+    edi_data_obj.dpascode_and_dpasprogramid_available_validate()
