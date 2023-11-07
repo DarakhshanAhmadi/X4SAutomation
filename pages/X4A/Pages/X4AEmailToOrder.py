@@ -2,6 +2,10 @@ import datetime
 import os
 import shutil
 import random
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
 
 from pywinauto import application
 from selenium.webdriver.common.by import By
@@ -14,6 +18,7 @@ from openpyxl import load_workbook
 import time
 
 from db.service.X4ABulkOrderDataDbManagementService import X4ABulkOrderDataDbManagementService
+from db.service.X4AEmailToOrderDataDbManagementService import X4AEmailToOrderDataDbManagementService
 
 status_file_name = ""
 
@@ -29,9 +34,10 @@ class X4AEmailToOrderPage(BasePage):
     # SEARCH_BUTTON = (By.XPATH, "//button[text()='Search']")
     SEARCH_BUTTON = (By.XPATH, "//*[@id='area2']/div[6]/button[2]")
     RESET_BUTTON = (By.XPATH, "//button[text()='Reset']")
+    BACK_SEARCH_BUTTON = (By.XPATH, "//button[text()='Back to search']")
     ETO_FRAME = (By.XPATH, "//*[@title='ETO']")
     HEADER_LIST = (By.XPATH, "//tr[@class='headerRow']/td")
-    ETO_ORDER = (By.XPATH, "//*[@class='resultsTable']//tbody//tr[@class='dataRow'][2]")
+    ETO_ORDER = (By.XPATH, "//*[@class='resultsTable']//tbody//tr[@class='dataRow'][1]")
     DETAIL_HEADER = (By.XPATH, "//*[@id='orderHeaderMain']/div/div[1]/div/div[1]/div[1]/div/div")
     REFERENCE_NO_HEADER = (By.XPATH, "//*[@id='orderHeaderMain']/div/div[2]/div/div[1]/div[1]/div/div")
     SHIP_TO_DETAIL_HEADER = (By.XPATH, "//*[@id='orderHeaderMain']/div/div[2]/div/div[2]/div[1]/div[1]/div")
@@ -49,10 +55,21 @@ class X4AEmailToOrderPage(BasePage):
     CLOSE_BUTTON = (By.XPATH, "//button[text() = 'Close']")
     CANCEL_BUTTON = (By.XPATH, "//button[text() = 'Cancel']")
 
+    SEARCH_DROPDOWN_MENU = (By.XPATH, "//*[@id='area2']/div[2]/select")
+    SELECT_CUSTOMER_PO = (By.XPATH, "//*[@value='customerOrderNumber']")
+    SELECT_ORDER_STATUS = (By.XPATH, "//*[@value='uiLabel']")
+    SEARCH_CUSTOMER_PO = (By.XPATH, "//input[@id='customerOrderNumber']")
+    SEARCH_ORDER_STATUS = (By.XPATH, "//input[@id='uiLabel']")
+    SEARCH_ETO_ORDER_ID = (By.XPATH, "//input[@id='orderId']")
+    SEARCH_IM_ORDER_ID = (By.XPATH, "//input[@id='salesOrderNumber']")
+
     EMAIL_ORDER_HEADER_LIST = ["Account #", "Country", "Order status", "Customer name", "Customer PO", "Sales order #",
                                "Processed", "Additional Information"]
     USER_DROPDOWN = (By.XPATH, "//*[@data-testid='KeyboardArrowDownIcon']")
     LOGOUT = (By.XPATH, "//*[text()='LogOut']")
+
+
+
     def go_to_email_to_order(self):
         try:
             self.do_click_by_locator(self.SALES_MENU)
@@ -60,6 +77,8 @@ class X4AEmailToOrderPage(BasePage):
             self.do_double_click(self.EMAIL_TO_ORDER_UPLOAD_OPTION)
             self.do_switch_to_required_frame(self.ETO_FRAME)
             self.logger.info("Clicked on Email to order option")
+            # self.send_email_to_order()
+
 
         except Exception as e:
             self.logger.error('Exception occurred while clicking on Email to order ' + str(e))
@@ -114,10 +133,81 @@ class X4AEmailToOrderPage(BasePage):
             time.sleep(1)
             self.logger.info("verified that ETO order page headers")
             time.sleep(5)
+            self.do_click_by_locator(self.BACK_SEARCH_BUTTON)
             # self.do_click_by_locator(self.CANCEL_BUTTON)
 
         except Exception as e:
             self.logger.error('Exception occurred while verifying ETO order page header ' + str(e))
+            raise e
+
+    def do_eto_select_order_by_status(self):
+        try:
+            email_to_order_management_srv_obj = X4AEmailToOrderDataDbManagementService()
+            db_file_path = ReadConfig.get_db_file_path()
+            scenario_detail_list = email_to_order_management_srv_obj.get_scenario_details(db_file_path, '1')
+           
+            self.do_click_by_locator(self.SEARCH_CUSTOMER_PO)
+            self.do_send_keys(self.SEARCH_CUSTOMER_PO, scenario_detail_list[0][7])
+           
+            self.do_click_by_locator(self.SEARCH_DROPDOWN_MENU)
+            self.do_click_by_locator(self.SELECT_ORDER_STATUS)
+            self.do_click_by_locator(self.SEARCH_ORDER_STATUS)
+            self.do_send_keys(self.SEARCH_ORDER_STATUS, 'Completed')
+
+            self.do_click_by_locator(self.SEARCH_BUTTON)
+            time.sleep(5)
+            self.do_click_by_locator(self.ETO_ORDER)
+            self.logger.info("Clicked on ETO order")
+
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking ETO order ' + str(e))
+            raise e
+
+    def do_eto_select_order_by_PO(self, scenario_number):
+        try:
+            email_to_order_management_srv_obj = X4AEmailToOrderDataDbManagementService()
+            db_file_path = ReadConfig.get_db_file_path()
+            scenario_detail_list = email_to_order_management_srv_obj.get_scenario_details(db_file_path, scenario_number)
+           
+            self.do_click_by_locator(self.SEARCH_DROPDOWN_MENU)
+            self.do_click_by_locator(self.SELECT_CUSTOMER_PO)
+
+            self.do_click_by_locator(self.SEARCH_CUSTOMER_PO)
+            self.do_send_keys(self.SEARCH_CUSTOMER_PO, scenario_detail_list[0][7])
+            self.do_click_by_locator(self.SEARCH_BUTTON)
+            time.sleep(5)
+            self.do_click_by_locator(self.ETO_ORDER)
+            self.logger.info("Clicked on ETO order")
+
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking ETO order ' + str(e))
+            raise e
+
+    def verify_ETO_order_status(self):
+        try:
+           
+            if 'Data Extracted' in self.get_element_text(self.ETO_ORDER_STATUS):
+                assert 'Run Part and Price Check' in self.get_element_text(self.ACTION_BUTTON), "Run Part and Price Check button not present"
+                self.logger.info("checked Data Extracted")
+            elif 'Part and Price Check' in self.get_element_text(self.ETO_ORDER_STATUS):
+                assert 'Resubmit order' in self.get_element_text(self.ACTION_BUTTON), "Resubmit order button not present"
+                self.logger.info("checked Part and Price Check status")
+            elif 'Order Loaded to ERP' in self.get_element_text(self.ETO_ORDER_STATUS):
+                assert 'Release Order EC Hold' in self.get_element_text(self.ACTION_BUTTON), "Release EC hold button not present"
+                self.logger.info("checked Order Released EC Hold status")
+            elif 'Order Released EC Hold' in self.get_element_text(self.ETO_ORDER_STATUS):
+                assert 'Process Order Response' in self.get_element_text(self.ACTION_BUTTON), "Process Order Response button not present"
+                self.logger.info("checked Order Released EC Hold status")
+            elif 'Order Response Sent' in self.get_element_text(self.ETO_ORDER_STATUS):
+                self.logger.info("ETO Order status is completed")
+
+            time.sleep(2)
+            self.do_click_by_locator(self.BACK_SEARCH_BUTTON)
+            self.do_click_by_locator(self.RESET_BUTTON)
+
+
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying ETO order status ' + str(e))
             raise e
 
     def logout_x4a(self):
@@ -129,6 +219,42 @@ class X4AEmailToOrderPage(BasePage):
         except Exception as e:
             self.logger.error('Exception occurred while Logout X4A ' + str(e))
             return False
+
+    def send_email_for_order(self):
+        smtp_server = 'smtp.outlook.com'
+        smtp_port = 587
+        smtp_username = 'shyam.tiwari@ingrammicro.com'
+        smtp_password = 'Abc.def.ghi.8955'
+
+        from_email = 'shyam.tiwari@ingrammicro.com'
+        to_email = 'TestXvantageETO@ingrammicro.com'
+        subject = 'SHI PDF'
+        body = 'This is a test PO from shyam'
+        try:
+            msg = MIMEMultipart()
+            msg['From'] = from_email
+            msg['To'] = to_email
+            msg['Subject'] = subject
+            msg.attach(MIMEText(body))
+           
+            ETO_input_file_name = parse_config_file.get_data_from_config_json("inputFile", "ETOInputFileName")
+            ETO_input_file_path = '.\\TestData\\' + ETO_input_file_name
+
+            with open(ETO_input_file_path, 'rb') as f:
+                attachment = MIMEApplication(f.read(), _subtype='pdf')
+                attachment.add_header('Content-Disposition', 'attachment', filename= ETO_input_file_name)
+                msg.attach(attachment)
+
+            with smtplib.SMTP(smtp_server, smtp_port) as smtp:
+                smtp.starttls()
+                smtp.login(smtp_username, smtp_password)
+                smtp.send_message(msg)
+            time.sleep(60)
+        except Exception as e:
+            self.logger.error('Exception occurred while Sending Email for order ' + str(e))
+            raise e
+
+
 
     # def search_file_name(self, file_name):
     #     self.go_to_email_to_order()

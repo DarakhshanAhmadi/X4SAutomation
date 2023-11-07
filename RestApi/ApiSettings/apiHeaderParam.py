@@ -20,5 +20,8 @@ headers_sales_order_auth = ('APPIMONLINE','APPIMONLINE12345')
 headers_edi_data_validation = {
     "accept": "*",
     "Content-Type": "application/json",
-    "Authorization": "Basic QVBQU1VQUExZQ0hBSU46QVBQU1VQUExZQ0hBSU4xMjM0NQ=="
+    "Authorization": "Basic QVBQU1VQUExZQ0hBSU46QVBQU1VQUExZQ0hBSU4xMjM0NQ==",
+    "IM-CorrelationId": "12345",
+    "IM-SiteCode": "US",
+    "IM-Environment": "Dev"
 }
