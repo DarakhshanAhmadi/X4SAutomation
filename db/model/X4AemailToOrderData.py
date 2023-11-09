@@ -1,7 +1,8 @@
 class X4AEmailToOrderData:
-    def __init__(self, feature_file_name, Account, Country, Order_Status, Customer_Name, Customer_PO,
+    def __init__(self, feature_file_name, Scenario, Account, Country, Order_Status, Customer_Name, Customer_PO,
                      Sales_Order, Processed, Additional_Information):
         self.feature_file_name = feature_file_name
+        self.Scenario = Scenario
         self.Account = Account
         self.Country = Country
         self.Order_Status = Order_Status

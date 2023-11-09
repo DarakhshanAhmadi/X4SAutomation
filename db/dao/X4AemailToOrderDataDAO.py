@@ -18,13 +18,14 @@ class X4AemailToOrderDataDAO(BaseTest):
             cursor = connection.cursor()
             for x4a_email_to_order_data in x4a_email_to_order_scenario_list:
                 cursor.execute(SqlConstant.X4A_EMAIL_TO_ORDER_SCENARIO_SQL_QUERY,
-                               (x4a_email_to_order_data.feature_file_name, x4a_email_to_order_data.Account,
+                               (x4a_email_to_order_data.feature_file_name,x4a_email_to_order_data.Scenario, x4a_email_to_order_data.Account,
                                 x4a_email_to_order_data.Country,x4a_email_to_order_data.Order_Status,
                                 x4a_email_to_order_data.Customer_Name, x4a_email_to_order_data.Customer_PO,
                                 x4a_email_to_order_data.Sales_Order, x4a_email_to_order_data.Processed,
                                 x4a_email_to_order_data.Additional_Information))
 
                 connection.commit()
+
         except Error as e:
             self.logger.error("Exception occurred while trying to insert the email_to order details into x4a_email_to_order_data table "
                               + str(e))

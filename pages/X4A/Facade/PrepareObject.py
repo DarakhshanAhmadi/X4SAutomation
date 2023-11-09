@@ -83,6 +83,7 @@ class PrepareObject:
 
     def prepare_x4a_email_to_order_data_obj(self, test_data):
         x4a_email_to_data_obj = X4AEmailToOrderData(test_data.get("FeatureFileName"),
+                                                   test_data.get("Scenario"),
                                                    test_data.get("Account"),
                                                    test_data.get("Country"),
                                                    test_data.get("Order_Status"),
