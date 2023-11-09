@@ -2,6 +2,7 @@ from CommonUtilities.logGeneration import LogGenerator
 from db.model.X4AInventory import X4AInventory
 from db.model.X4AUserData import X4AUserData
 from db.model.X4AbulkOrderData import X4AbulkOrderData
+from db.model.X4AemailToOrderData import X4AEmailToOrderData
 from db.model.X4AinputOrder import X4AInputOrder
 
 
@@ -67,17 +68,20 @@ class PrepareObject:
 
     def prepare_x4a_inventory_data_obj(self, test_data):
         x4a_inventory_data_obj = X4AInventory(test_data.get("FeatureFileName"),
-                                        test_data.get("SKU"),
-                                        test_data.get("MFNPartNumber"),
+                                        test_data.get("UnderperformingSKU"),
+                                        test_data.get("UnderperformingMFNPartNumber"),
                                         test_data.get("VendorBusinessManager"),
                                         test_data.get("VendorName"),
                                         test_data.get("Country"),
                                         test_data.get("Actions"),
-                                        test_data.get("Comment"))
+                                        test_data.get("Comment"),
+                                        test_data.get("AgingSKU"),
+                                        test_data.get("AgingMFNPartNumber"))
         return x4a_inventory_data_obj
 
     def prepare_x4a_email_to_order_data_obj(self, test_data):
         x4a_email_to_data_obj = X4AEmailToOrderData(test_data.get("FeatureFileName"),
+                                                   test_data.get("Scenario"),
                                                    test_data.get("Account"),
                                                    test_data.get("Country"),
                                                    test_data.get("Order_Status"),

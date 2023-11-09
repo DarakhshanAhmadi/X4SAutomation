@@ -29,7 +29,7 @@ class X4ASalesOrderDetailsDAO(BaseTest):
                                 x4a_sales_order_details.bill_to_suffix, x4a_sales_order_details.bill_to_name,
                                 x4a_sales_order_details.bill_to_address, x4a_sales_order_details.bill_to_phone, x4a_sales_order_details.bill_to_contact,
                                 x4a_sales_order_details.bill_to_email,  x4a_sales_order_details.end_user_id, x4a_sales_order_details.end_user_address,
-                                x4a_sales_order_details.end_user_contact))
+                                x4a_sales_order_details.end_user_contact, x4a_sales_order_details.special_bid, x4a_sales_order_details.unit_price, x4a_sales_order_details.quantity))
                 connection.commit()
         except Error as e:
             self.logger.error(

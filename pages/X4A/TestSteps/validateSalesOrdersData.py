@@ -13,7 +13,6 @@ class ValidateSalesOrdersData:
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
 
-
     """constructor of the createOrder Page class"""
 
     def __init__(self, driver):
@@ -110,10 +109,12 @@ class ValidateSalesOrdersData:
     def is_all_column_visible(self, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            if (x4a_sales_order.is_im_order_clum_visible() & x4a_sales_order.is_type_clum_visible() & x4a_sales_order.is_bcn_clum_visible() &
-                    x4a_sales_order.is_reseller_po_clum_visible() & x4a_sales_order.is_reseller_nm_clum_visible() & x4a_sales_order.is_vendor_nm_clum_visible()
-                    & x4a_sales_order.is_end_user_nm_clum_visible() & x4a_sales_order.is_end_user_po_clum_visible()  &
-                    x4a_sales_order.is_order_value_clum_visible() & x4a_sales_order.is_order_status_clum_visible() & x4a_sales_order.is_created_on_clum_visible()):
+            if (
+                    x4a_sales_order.is_im_order_clum_visible() & x4a_sales_order.is_order_status_clum_visible() & x4a_sales_order.is_type_clum_visible() & x4a_sales_order.is_reseller_po_clum_visible() &
+                    x4a_sales_order.is_reseller_nm_clum_visible() & x4a_sales_order.is_vendor_nm_clum_visible() & x4a_sales_order.is_bcn_clum_visible() &
+                    x4a_sales_order.is_order_value_clum_visible() & x4a_sales_order.is_created_on_clum_visible()
+                    & x4a_sales_order.is_end_user_nm_clum_visible() & x4a_sales_order.is_end_user_po_clum_visible() & x4a_sales_order.is_invoice_nmbr_clum_visible()
+                    & x4a_sales_order.is_country_code_clum_visible() & x4a_sales_order.is_tracking_clum_visible()):
                 self.logger.info(
                     "Successfully verified Im order, Type, BCN, Reseller PO, Reseller name, Vendor name, End User name, End User po, Order value, Order status, Created on coulmns on Sales Orders Listing page")
                 self.driver.save_screenshot(
@@ -361,7 +362,8 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def is_ingram_order_number_and_order_status_title_shown(self, feature_file_name, screen_shot, im_order_number, order_status):
+    def is_ingram_order_number_and_order_status_title_shown(self, feature_file_name, screen_shot, im_order_number,
+                                                            order_status):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
             if x4a_sales_order.is_ingram_order_number_and_order_status_title_shown(im_order_number, order_status):
@@ -533,7 +535,8 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def validate_fields_under_bill_to_info(self, feature_file_name, screen_shot, bill_to_suffix, bill_to_name, bill_to_address, bill_to_phone, bill_to_contact, bill_to_email):
+    def validate_fields_under_bill_to_info(self, feature_file_name, screen_shot, bill_to_suffix, bill_to_name,
+                                           bill_to_address, bill_to_phone, bill_to_contact, bill_to_email):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
             bill_to = bill_to_address.split(",")
@@ -541,7 +544,9 @@ class ValidateSalesOrdersData:
             if (x4a_sales_order.is_bill_to_id_field_visible(
                     bill_to_suffix) & x4a_sales_order.is_company_nm_bill_field_visible(bill_to_name) &
                     x4a_sales_order.is_address_bill_field_visible(
-                        bill_to_address) & x4a_sales_order.is_phone_no_bill_field_visible(bill_to_phone) & x4a_sales_order.is_contact_bill_field_visible(bill_to_contact) & x4a_sales_order.is_email_bill_field_visible(bill_to_email)):
+                        bill_to_address) & x4a_sales_order.is_phone_no_bill_field_visible(
+                        bill_to_phone) & x4a_sales_order.is_contact_bill_field_visible(
+                        bill_to_contact) & x4a_sales_order.is_email_bill_field_visible(bill_to_email)):
                 self.logger.info("Successfully verified that fields under Bill to info section on Order Details page")
                 self.driver.save_screenshot(
                     self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
@@ -557,7 +562,8 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def validate_fields_under_ship_to_info(self, feature_file_name, screen_shot, ship_to_suffix, ship_to_name, ship_to_address, ship_to_phone, ship_to_contact, ship_to_email):
+    def validate_fields_under_ship_to_info(self, feature_file_name, screen_shot, ship_to_suffix, ship_to_name,
+                                           ship_to_address, ship_to_phone, ship_to_contact, ship_to_email):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
             # ship_to_shipping_comment = ship_to_info_list[6]
@@ -588,7 +594,8 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def validate_fields_under_end_user_info(self, feature_file_name, screen_shot, end_user_id, end_user_address, end_user_contact):
+    def validate_fields_under_end_user_info(self, feature_file_name, screen_shot, end_user_id, end_user_address,
+                                            end_user_contact):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
             # end_user_cmp_nm = end_user_info_list[1]
@@ -615,31 +622,32 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def validate_fields_under_order_lines_tab(self, feature_file_name, screen_shot, order_lines_tab_info_list, currency_code):
+    def validate_fields_under_order_lines_tab(self, feature_file_name, screen_shot, order_lines_tab_info_list,
+                                              currency_code):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-                status_flag = True
-                ui_order_lines = x4a_sales_order.fetch_order_lines()
-                self.logger.info(f'API Data List: {order_lines_tab_info_list}')
-                self.logger.info(f'UI Data List: {ui_order_lines}')
-                for ui_line in ui_order_lines:
-                    self.logger.info(f'validating data of UI order line {ui_line["line_number"]}')
-                    line_flag = False
-                    for line in order_lines_tab_info_list:
-                        if ui_line['line_number'] == line['line_number']:
-                            self.logger.info(f'validating data of order line {ui_line["line_number"]}')
-                            line_flag = True
-                            flag = self.validate_order_line_data(ui_line, line, currency_code)
-                            if not flag:
-                                status_flag = False
-                    if not line_flag:
-                        raise Exception(f'API data missing for {ui_line["line_number"]}')
-                self.logger.info(
-                    "Successfully verified that fields under Order lines tab on Order Details page")
-                self.driver.save_screenshot(
-                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
-                    + "_order_lines_validated_successfully.png")
-                return status_flag
+            status_flag = True
+            ui_order_lines = x4a_sales_order.fetch_order_lines()
+            self.logger.info(f'API Data List: {order_lines_tab_info_list}')
+            self.logger.info(f'UI Data List: {ui_order_lines}')
+            for ui_line in ui_order_lines:
+                self.logger.info(f'validating data of UI order line {ui_line["line_number"]}')
+                line_flag = False
+                for line in order_lines_tab_info_list:
+                    if ui_line['line_number'] == line['line_number']:
+                        self.logger.info(f'validating data of order line {ui_line["line_number"]}')
+                        line_flag = True
+                        flag = self.validate_order_line_data(ui_line, line, currency_code)
+                        if not flag:
+                            status_flag = False
+                if not line_flag:
+                    raise Exception(f'API data missing for {ui_line["line_number"]}')
+            self.logger.info(
+                "Successfully verified that fields under Order lines tab on Order Details page")
+            self.driver.save_screenshot(
+                self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                + "_order_lines_validated_successfully.png")
+            return status_flag
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
                                         "_order_lines_validation_error.png")
@@ -679,7 +687,7 @@ class ValidateSalesOrdersData:
 
             if (x4a_sales_order.is_serial_line_no_field_visible(
                     serial_no_line_number) & x4a_sales_order.is_serial_no_description_field_visible(
-                    serial_no_description) &
+                serial_no_description) &
                     x4a_sales_order.is_serial_no_vpn_no_field_visible(
                         serial_no_vpn_no) & x4a_sales_order.is_serial_no_im_part_field_visible(serial_no_im_part) &
                     x4a_sales_order.is_serial_no_quantity_field_visible(serial_no_quantity)):
@@ -980,7 +988,7 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def do_validate_order_value(self, min_order_value, max_order_value , feature_file_name, screen_shot):
+    def do_validate_order_value(self, min_order_value, max_order_value, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
             if not x4a_sales_order.verify_filter_by_order_value_in_pages(min_order_value, max_order_value):
@@ -1077,7 +1085,8 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def do_validate_cancel_update_of_end_user_po_and_reseller_po(self, end_user_po, reseller_po, feature_file_name, screen_shot):
+    def do_validate_cancel_update_of_end_user_po_and_reseller_po(self, end_user_po, reseller_po, feature_file_name,
+                                                                 screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
             if not x4a_sales_order.validate_cancel_end_user_po_and_reseller_po(end_user_po, reseller_po):
@@ -1141,7 +1150,8 @@ class ValidateSalesOrdersData:
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
             time.sleep(10)
-            if (x4a_sales_order.update_order_line(special_bid, unit_price,quantity) & x4a_sales_order.click_order_line_edit_check_icon()):
+            if (x4a_sales_order.update_order_line(special_bid, unit_price,
+                                                  quantity) & x4a_sales_order.click_order_line_edit_check_icon()):
                 self.logger.info(
                     "Successfully updated the order line")
                 self.driver.save_screenshot(
@@ -1158,7 +1168,8 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def cancel_shipto_enduser_info_and_validate_data(self, shipto_id, enduser_companyname, feature_file_name, screen_shot):
+    def cancel_shipto_enduser_info_and_validate_data(self, shipto_id, enduser_companyname, feature_file_name,
+                                                     screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
             if x4a_sales_order.cancel_shipto_enduser_info_and_validate(shipto_id, enduser_companyname):
@@ -1198,15 +1209,14 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def updated_shipto_enduser_info_validate(self, shipto_id, shipto_companyname, shipto_address,
-                                             enduser_id, enduser_contact, enduser_companyname,
-                                             enduser_phonenumber, enduser_address, enduser_email, feature_file_name,
-                                             screen_shot):
+    def updated_shipto_enduser_info_validate(self, ship_to_suffix, ship_to_name, ship_to_address, ship_to_phone,
+                                             ship_to_contact, ship_to_email, end_user_id, end_user_address,
+                                             end_user_contact, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
-            if x4a_sales_order.shipto_enduser_info_validation(shipto_id, shipto_companyname, shipto_address,
-                                                          enduser_id, enduser_contact, enduser_companyname,
-                                                          enduser_phonenumber, enduser_address, enduser_email):
+            if x4a_sales_order.shipto_enduser_info_validation(ship_to_suffix, ship_to_name, ship_to_address,
+                                                              ship_to_phone, ship_to_contact, ship_to_email,
+                                                              end_user_id, end_user_address, end_user_contact):
                 self.logger.info(
                     "Successfully updated shipto enduser info details")
                 self.driver.save_screenshot(
@@ -1223,11 +1233,13 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-    def cancel_order_line_changes_and_validate_data(self, special_bid, unit_price, quantity, feature_file_name, screen_shot):
+    def cancel_order_line_changes_and_validate_data(self, special_bid, unit_price, quantity, feature_file_name,
+                                                    screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
             ui_data_initial = x4a_sales_order.get_order_line_data()
-            if (x4a_sales_order.update_order_line(special_bid, unit_price,quantity) & x4a_sales_order.click_order_line_edit_cancel_icon()):
+            if (x4a_sales_order.update_order_line(special_bid, unit_price,
+                                                  quantity) & x4a_sales_order.click_order_line_edit_cancel_icon()):
                 self.logger.info(
                     "Successfully cancelled updated the order line")
                 self.driver.save_screenshot(
@@ -1240,7 +1252,9 @@ class ValidateSalesOrdersData:
             assert str(ui_data_initial['unit_price']) == str(ui_data['unit_price']), "Unit price not matched"
             assert str(ui_data_initial['quantity']) == str(ui_data['quantity']), "Quantity not matched"
             assert str(ui_data_initial['margin']) == str(ui_data['margin']), "Margin not matched"
-            assert (int(ui_data_initial['quantity_confirmed']) + int(ui_data_initial['quantity_backordered'])) == (int(ui_data['quantity_confirmed']) + int(ui_data['quantity_backordered'])), "Quantity calculation mismatched"
+            assert (int(ui_data_initial['quantity_confirmed']) + int(ui_data_initial['quantity_backordered'])) == (
+                    int(ui_data['quantity_confirmed']) + int(
+                ui_data['quantity_backordered'])), "Quantity calculation mismatched"
             return True
         except Exception as e:
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
@@ -1478,7 +1492,6 @@ class ValidateSalesOrdersData:
             self.logger.exception(e)
             return False
 
-
     def validate_carrier_code(self, feature_file_name, carrier_code):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
@@ -1504,7 +1517,8 @@ class ValidateSalesOrdersData:
             flag = True
             self.logger.info("Verifying order line status")
             if ui_data['order_line_status'] != api_data['line_status']:
-                self.logger.error(f'Order line status mismatched\n UI: {ui_data["order_line_status"]}  API: {api_data["line_status"]}')
+                self.logger.error(
+                    f'Order line status mismatched\n UI: {ui_data["order_line_status"]}  API: {api_data["line_status"]}')
                 flag = False
 
             self.logger.info("Verifying order line acop")
@@ -1535,7 +1549,7 @@ class ValidateSalesOrdersData:
             if ui_data['order_line_description'] != api_data['description'].strip():
                 if ui_data['order_line_description'] != api_data['description'].strip().replace("  ", " "):
                     self.logger.error(
-                    f'Order line Description mismatched\n UI: {ui_data["order_line_description"]}  API: {api_data["description"]}')
+                        f'Order line Description mismatched\n UI: {ui_data["order_line_description"]}  API: {api_data["description"]}')
 
             self.logger.info("Verifying order line unit price")
             if ui_data['order_line_unit_price'] != str(api_data['unit_price']):
