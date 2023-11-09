@@ -86,10 +86,13 @@ class FetchOrderViaApi:
         end_user_id = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "enduserinfo"), "enduserid")
         end_user_address = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "enduserinfo"), "addressid")
         end_user_contact = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "enduserinfo"), "contactid")
-        sales_order_details_obj = X4ASalesOrderDetails(feature_file_name,order_entry_channel, im_order_number, order_type, reseller_po, end_user_po,
+        special_bid = json_data["serviceresponse"]["orderdetailresponse"]["lines"][0]["specialbidnumber"]
+        unit_price = json_data["serviceresponse"]["orderdetailresponse"]["lines"][0]["unitprice"]
+        quantity = json_data["serviceresponse"]["orderdetailresponse"]["lines"][0]["shipmentdetails"][0]["quantity"]
+        sales_order_details_obj = X4ASalesOrderDetails(feature_file_name, order_entry_channel, im_order_number, order_type, reseller_po, end_user_po,
                                                        order_status, order_value, currency_code, terms_code, ship_from_warehouse_id, warehouse_name, carrier_code,
                                                        ship_to_suffix, ship_to_name, ship_to_address, ship_to_phone, ship_to_contact, ship_to_email, bill_to_suffix, bill_to_name, bill_to_address, bill_to_phone, bill_to_contact,
-                                                       bill_to_email, end_user_id, end_user_address, end_user_contact)
+                                                       bill_to_email, end_user_id, end_user_address, end_user_contact, special_bid, unit_price, quantity)
         sales_order_details_list.append(sales_order_details_obj)
         X4ASalesOrderDetailsDbManagementService().save_sales_order_details_data(self.db_file_path, sales_order_details_list)
 
