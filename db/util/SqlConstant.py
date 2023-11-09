@@ -45,10 +45,10 @@ class SqlConstant:
 
     X4A_BULK_ORDER_DATA_BY_FEATURE_FILE_SQL_QUERY = "SELECT * from x4a_bulk_order_data where Scenario=?"
 
-    X4A_EMAIL_TO_ORDER_SCENARIO_SQL_QUERY = "INSERT INTO x4a_email_to_order_data(feature_file_name, Scenario, Account, " \
-                                            "Country, Order_Status, Customer_Name, Customer_PO, " \
+    X4A_EMAIL_TO_ORDER_SCENARIO_SQL_QUERY = "INSERT INTO x4a_email_to_order_data(feature_file_name, Account, Country, " \
+                                            "Country_Code, Customer_Name, Customer_PO, " \
                                             "Sales_Order, Processed, Additional_Information)" \
-                                            "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                            "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
     X4A_EMAIL_TO_ORDER_DATA_BY_FEATURE_FILE_SQL_QUERY = "SELECT * from x4a_email_to_order_data where Scenario=?"
 
@@ -68,8 +68,8 @@ class SqlConstant:
     X4A_SALES_ORDER_DETAILS_INSERT_SQL_QUERY = "INSERT INTO x4a_sales_order_details(" \
                                        "feature_file_name, order_entry_channel, im_order_number, order_type, reseller_po, end_user_po, order_status, order_value, currency_code, terms_code," \
                                        "ship_from_warehouse_id, warehouse_name, carrier_code, ship_to_suffix, ship_to_name, ship_to_address, ship_to_phone, ship_to_contact, ship_to_email, " \
-                                       "bill_to_suffix, bill_to_name, bill_to_address, bill_to_phone, bill_to_contact, bill_to_email, end_user_id, end_user_address, end_user_contact)" \
-                                       "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?)"
+                                       "bill_to_suffix, bill_to_name, bill_to_address, bill_to_phone, bill_to_contact, bill_to_email, end_user_id, end_user_address, end_user_contact, special_bid, unit_price, quantity)" \
+                                       "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?)"
 
     X4A_SALES_ORDER_LINES_INSERT_SQL_QUERY = "INSERT INTO x4a_sales_order_lines(" \
                                              "im_order_number, line_number, line_status, im_part_number, vpn, description, is_acop_applied, unit_weight, unit_price, extended_price, cost," \
