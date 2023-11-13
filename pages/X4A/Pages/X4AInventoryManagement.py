@@ -236,6 +236,9 @@ class X4AInventoryManagementPage(BasePage):
                     if row_data[i].text != vendor_business_manager:
                         self.logger.error(f'data mismatched for Vendor business manager UI:{row_data[i].text} Expected:{vendor_business_manager}')
                         raise Exception('Data mismatched for Vendor business manager')
+            for i in range(10):
+                s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                self.scroll_up(s)
             self.logger.info("Successfully validated data Vendor business manager")
         except Exception as e:
             self.logger.error("Exception occurred verifying Vendor business manager" + str(e))
@@ -266,6 +269,9 @@ class X4AInventoryManagementPage(BasePage):
                     if row_data[i].text != vendor_name:
                         self.logger.error(f'Data mismatched for Vendor name. UI:{row_data[i].text} Expected:{vendor_name}')
                         raise Exception('Data mismatched for Vendor name')
+            for i in range(10):
+                s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
+                self.scroll_up(s)
             self.logger.info("Successfully validated data Vendor name")
         except Exception as e:
             self.logger.error("Exception occurred verifying Vendor name" + str(e))
@@ -312,7 +318,7 @@ class X4AInventoryManagementPage(BasePage):
 
     def is_improvement_opportunity_is_descending_order(self):
         try:
-            for i in range(10):
+            for i in range(12):
                 improvement_opportunity_list = []
                 if i > 0:
                     s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
@@ -326,7 +332,7 @@ class X4AInventoryManagementPage(BasePage):
                     else:
                         self.logger.error(f'improvementing opportunity is not in descending. Current value:{improvement_opportunity_list[i]} Next value:{improvement_opportunity_list[i + 1]}')
                         raise Exception('improvementing opportunity is not in descending')
-            for i in range(10):
+            for i in range(12):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
         except Exception as e:
@@ -351,7 +357,7 @@ class X4AInventoryManagementPage(BasePage):
 
     def is_inventory_value_is_ascending_order(self):
         try:
-            for i in range(10):
+            for i in range(12):
                 inventory_value_list = []
                 if i > 0:
                     s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
@@ -365,7 +371,7 @@ class X4AInventoryManagementPage(BasePage):
                     else:
                         self.logger.error(f'Inventory value is not in ascending. Current value:{inventory_value_list[i]} Next value:{inventory_value_list[i+1]}')
                         raise Exception('Inventory value is not in ascending')
-            for i in range(10):
+            for i in range(12):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
         except Exception as e:
@@ -390,7 +396,7 @@ class X4AInventoryManagementPage(BasePage):
 
     def is_inventory_value_is_descending_order(self):
         try:
-            for i in range(10):
+            for i in range(12):
                 inventory_value_list = []
                 if i > 0:
                     s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
@@ -404,7 +410,7 @@ class X4AInventoryManagementPage(BasePage):
                     else:
                         self.logger.error(f'Inventory value is not in Descending. Current value:{inventory_value_list[i]} Next value:{inventory_value_list[i+1]}')
                         raise Exception('Inventory value is not in Descending')
-            for i in range(10):
+            for i in range(12):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
         except Exception as e:
@@ -429,7 +435,7 @@ class X4AInventoryManagementPage(BasePage):
 
     def is_value_on_order_ascending_order(self):
         try:
-            for i in range(10):
+            for i in range(12):
                 value_on_order_list = []
                 if i > 0:
                     s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
@@ -443,7 +449,7 @@ class X4AInventoryManagementPage(BasePage):
                     else:
                         self.logger.error(f'Value on order is not in Ascending. Current value:{value_on_order_list[i]} Next value:{value_on_order_list[i+1]}')
                         raise Exception('Value on order is not in Ascending')
-            for i in range(10):
+            for i in range(12):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
         except Exception as e:
@@ -467,7 +473,7 @@ class X4AInventoryManagementPage(BasePage):
 
     def is_value_on_order_descending_order(self):
         try:
-            for i in range(10):
+            for i in range(12):
                 value_on_order_list = []
                 if i > 0:
                     s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
@@ -481,7 +487,7 @@ class X4AInventoryManagementPage(BasePage):
                     else:
                         self.logger.error(f'Value on order is not in Descending. Current value:{value_on_order_list[i]} Next value:{value_on_order_list[i+1]}')
                         raise Exception('Value on order is not in Descending')
-            for i in range(10):
+            for i in range(12):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
         except Exception as e:
@@ -506,7 +512,7 @@ class X4AInventoryManagementPage(BasePage):
 
     def is_actual_121_ascending_order(self):
         try:
-            for i in range(10):
+            for i in range(12):
                 actual_121_list = []
                 if i > 0:
                     s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
@@ -520,7 +526,7 @@ class X4AInventoryManagementPage(BasePage):
                     else:
                         self.logger.error(f'Actual 121 is not in Ascending. Current value:{actual_121_list[i]} Next value:{actual_121_list[i+1]}')
                         raise Exception('Actual 121 is not in Ascending')
-            for i in range(10):
+            for i in range(12):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
         except Exception as e:
@@ -545,7 +551,7 @@ class X4AInventoryManagementPage(BasePage):
 
     def is_actual_121_descending_order(self):
         try:
-            for i in range(10):
+            for i in range(12):
                 actual_121_list = []
                 if i > 0:
                     s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
@@ -559,7 +565,7 @@ class X4AInventoryManagementPage(BasePage):
                     else:
                         self.logger.error(f'Actual 121 is not in Descending. Current value:{actual_121_list[i]} Next value:{actual_121_list[i+1]}')
                         raise Exception('Actual 121 is not in Descending')
-            for i in range(10):
+            for i in range(12):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
         except Exception as e:
@@ -584,7 +590,7 @@ class X4AInventoryManagementPage(BasePage):
 
     def is_actual_151_ascending_order(self):
         try:
-            for i in range(10):
+            for i in range(12):
                 actual_151_list = []
                 if i > 0:
                     s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
@@ -598,7 +604,7 @@ class X4AInventoryManagementPage(BasePage):
                     else:
                         self.logger.error(f'Actual 151 is not in Ascending. Current value:{actual_151_list[i]} Next value:{actual_151_list[i+1]}')
                         raise Exception('Actual 151 is not in Ascending')
-            for i in range(10):
+            for i in range(12):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
         except Exception as e:
@@ -623,7 +629,7 @@ class X4AInventoryManagementPage(BasePage):
 
     def is_actual_151_descending_order(self):
         try:
-            for i in range(10):
+            for i in range(12):
                 actual_151_list = []
                 if i > 0:
                     s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
@@ -637,7 +643,7 @@ class X4AInventoryManagementPage(BasePage):
                     else:
                         self.logger.error(f'Actual 151 is not in Descending. Current value:{actual_151_list[i]} Next value:{actual_151_list[i+1]}')
                         raise Exception('Actual 151 is not in Descending')
-            for i in range(10):
+            for i in range(12):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
         except Exception as e:
@@ -662,7 +668,7 @@ class X4AInventoryManagementPage(BasePage):
 
     def is_improvement_opportunity_is_ascending_order(self):
         try:
-            for i in range(10):
+            for i in range(12):
                 improvement_opportunity_list = []
                 if i > 0:
                     s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
@@ -676,7 +682,7 @@ class X4AInventoryManagementPage(BasePage):
                     else:
                         self.logger.error(f'improvementing opportunity is not in Ascending. Current value:{improvement_opportunity_list[i]} Next value:{improvement_opportunity_list[i+1]}')
                         raise Exception('improvementing opportunity is not in Ascending')
-            for i in range(10):
+            for i in range(12):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
         except Exception as e:
@@ -830,7 +836,7 @@ class X4AInventoryManagementPage(BasePage):
 
     def is_actual_181_ascending_order(self):
         try:
-            for i in range(10):
+            for i in range(12):
                 actual_181_list = []
                 if i > 0:
                     s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
@@ -844,7 +850,7 @@ class X4AInventoryManagementPage(BasePage):
                     else:
                         self.logger.error(f'Actual 181 is not in Ascending. Current value:{actual_181_list[i]} Next value:{actual_181_list[i+1]}')
                         raise Exception('Actual 181 is not in Ascending')
-            for i in range(10):
+            for i in range(12):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
         except Exception as e:
@@ -869,7 +875,7 @@ class X4AInventoryManagementPage(BasePage):
 
     def is_actual_181_descending_order(self):
         try:
-            for i in range(10):
+            for i in range(12):
                 actual_181_list = []
                 if i > 0:
                     s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
@@ -883,7 +889,7 @@ class X4AInventoryManagementPage(BasePage):
                     else:
                         self.logger.error(f'Actual 181 is not in Descending. Current value:{actual_181_list[i]} Next value:{actual_181_list[i+1]}')
                         raise Exception('Actual 181 is not in Descending')
-            for i in range(10):
+            for i in range(12):
                 s = self.driver.find_element(By.XPATH, self.TOP_100_SKUS_TABLE)
                 self.scroll_up(s)
         except Exception as e:
