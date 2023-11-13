@@ -237,9 +237,8 @@ class X4AInventoryInquiryPage(BasePage):
     def verify_customer_selection_popup_contents(self):
         try:
             self.do_click_by_locator(self.SELECT_CUSTOMER_BUTTON)
-            assert self.do_check_visibility(self.CUSTOMER_TEXTBOX) == True, "Customer popup textbox"
-            assert self.do_check_visibility(self.POPUP_SKIP_BUTTON) == True, "Skip button not found in popup"
-            assert self.do_check_visibility(self.POPUP_SELECT_BUTTON) == True, "Select button not found in popup"
+            assert self.do_check_visibility(self.CUSTOMER_TEXTBOX) is True, "Customer popup textbox"
+            assert self.do_check_visibility(self.POPUP_SELECT_BUTTON) is True, "Select button not found in popup"
             self.do_click_by_locator(self.POPUP_CLOSE_BUTTON)
         except Exception as e:
             self.logger.error("Exception while verifying customer selection popup contents" + str(e))
@@ -251,7 +250,7 @@ class X4AInventoryInquiryPage(BasePage):
             self.do_send_keys(self.CUSTOMER_TEXTBOX, customer)
             option = (By.XPATH, "//*[contains(text(),'" + customer + "')]")
             self.do_click_by_locator(option)
-            self.do_click_by_locator(self.POPUP_SKIP_BUTTON)
+            self.do_click_by_locator(self.POPUP_CLOSE_BUTTON)
             assert self.do_check_visibility_for_validation(self.SELECTED_CUSTOMER) is False, "Customer is selected in list page"
         except Exception as e:
             self.logger.error("Exception while verifying customer selection skip" + str(e))
@@ -299,7 +298,7 @@ class X4AInventoryInquiryPage(BasePage):
             self.do_send_keys(self.CUSTOMER_TEXTBOX, customer)
             option = (By.XPATH, "//*[contains(text(),'" + customer + "')]")
             self.do_click_by_locator(option)
-            self.do_click_by_locator(self.POPUP_SKIP_BUTTON)
+            self.do_click_by_locator(self.POPUP_CLOSE_BUTTON)
             current_customer = self.get_element_text(self.SELECTED_CUSTOMER)
             if current_customer != previous_customer or current_customer == customer:
                 raise Exception("Customer mismatch for skip edited customer")
