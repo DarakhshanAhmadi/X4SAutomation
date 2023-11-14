@@ -29,7 +29,7 @@ Feature: Bulk Order Upload
 #  OMS-174, OMS-177
   @file_upload_and_browse_file 
   Scenario: Upload file
-    When file was selected "4"
+    When file was selected "Single_Order"
     Then verify select file popup
     When click on delete icon
     Then verify upload file ready popup
@@ -45,18 +45,25 @@ Feature: Bulk Order Upload
     Then verify the all downloaded template file names
 
 # OMS-186, OMS-187, OMS-193, OMS-191, OMS-1262
-  @view_review
+  @view_review  
   Scenario: View Review Option
     When filter status with "Error found"
     Then verify the file upload list for status "Error found"
     When filter status with "Partially complete"
     Then verify the file upload list for status "Partially complete"
-    When review icon clicked and downloaded the order list
-    Then verify order page and downloaded order list
+    When review icon clicked
+    Then verify Download order list button for status "Partially complete"
+    And verify order page and downloaded order list
+    When filter status with "Failed"
+    Then verify the file upload list for status "Failed"
+    When review icon clicked
+    Then verify Download order list button for status "Failed"
+    And  verify order page and downloaded order list
     When filter status with "Order placed"
     Then verify the file upload list for status "Order placed"
-    When view icon clicked and downloaded the order list
-    Then verify order page and downloaded order list
+    When view icon clicked
+    Then verify Download order list button for status "Order placed"
+    And verify order page and downloaded order list
 
 # OMS-188
   @cancel_delete
@@ -118,10 +125,21 @@ Feature: Bulk Order Upload
 # OMS-183, OMS-488, OMS-489
   @multiple_place_order 
   Scenario: Multiple place order
-    When file was selected "5"
+    When file was selected "Multiple_Order"
     And clicked on review button
     And clicked on place order button
     Then verify multiple bulk order page status
+
+# OMS-777
+  @vendor_part_number
+  Scenario: Order with vendor part number
+    When upload file with valid Ingram sku and vendor part number value
+    Then verify Order status is Ready to place
+    When upload file with only valid vendor part number value
+    And clicked Apply button after updating ingram sku field
+    Then verify Order status is Ready to place
+    When upload file with vendor part number and Ingram SKU mismatch
+    Then verify Order status is Ready to place
 
   @logout
   Scenario: logout X4A

@@ -19,8 +19,10 @@
   "inputFile": {
     "inputFileName": ".\\TestData\\Input_file.xlsx",
     "associateInputFileName": ".\\TestData\\Administration_Input_file.xlsx",
-    "bulkOrderInputFileName": ".\\TestData\\Testdata_1_QA.xlsx",
-    "inventoryInputFileName": ".\\TestData\\Inventory_Testdata.xlsx"
+    "bulkOrderInputFileName": ".\\TestData\\Ingram_Testdata_Sample.xlsx",
+    "emailToOrderInputFileName": ".\\TestData\\ETO_Testdata.xlsx",
+    "inventoryInputFileName": ".\\TestData\\Inventory_Testdata.xlsx",
+    "ETOInputFileName": "B12345678_Bid_Number.pdf"
   },
  "x4aStageCredentials": {
     "x4aBaseUrl": "https://stage.ingrammicro.com/x4a/app/home",

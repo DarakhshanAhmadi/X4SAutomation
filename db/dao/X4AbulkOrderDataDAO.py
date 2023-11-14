@@ -23,7 +23,7 @@ class X4AbulkOrderDataDAO(BaseTest):
                                 x4a_bulk_order_data.Reseller_PO, x4a_bulk_order_data.Carrier_Code,
                                 x4a_bulk_order_data.Order_Type, x4a_bulk_order_data.Header_Comment_1,
                                 x4a_bulk_order_data.Header_Comment_2, x4a_bulk_order_data.Ingram_SKU,
-                                x4a_bulk_order_data.Qty))
+                                x4a_bulk_order_data.Qty, x4a_bulk_order_data.Vendor_Part_Number))
                 connection.commit()
         except Error as e:
             self.logger.error("Exception occurred while trying to insert the bulk order details into x4a_bulk_order_data table "

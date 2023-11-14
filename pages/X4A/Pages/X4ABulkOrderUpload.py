@@ -61,7 +61,7 @@ class X4ABulkOrderUploadPage(BasePage):
     TEXT_AREA = (By.XPATH, "//*[@data-testid='SearchBar']/div/input")
     ACTION_ICON = (By.XPATH, "//div[@aria-rowindex='4']/div[@data-field='actions']")
     SEARCHED_ACTION_ICON = (By.XPATH, "//div[@aria-rowindex='2']/div[@data-field='actions']")
-    LIST_FILE_NAME = (By.XPATH, "//div[@aria-rowindex='2']/div[@data-field='fileName']")
+    SEARCHED_TOTAL_ORDER = (By.XPATH, "//div[@aria-rowindex='2']/div[@data-field='totalOrders']")
     SEARCHED_FILE_NAME = (By.XPATH, "//div[@aria-rowindex='2']/div[@data-field='fileName']")
     SEARCHED_USER_NAME = (By.XPATH, "//div[@aria-rowindex='2']/div[@data-field='createdBy']")
     SEARCHED_DATE = (By.XPATH, "//div[@aria-rowindex='2']/div[@data-field='createdOn']")
@@ -87,7 +87,9 @@ class X4ABulkOrderUploadPage(BasePage):
     ORDER_TYPE_ID = (By.XPATH, "//input[@id='orderType']")
     HEADER_COMMENT_1_ID = (By.XPATH, "//input[@id='headerComment1']")
     HEADER_COMMENT_2_ID = (By.XPATH, "//input[@id='headerComment2']")
-    Ingram_SKU_ID = (By.XPATH, "//input[@id='ingramSku']")
+    Ingram_SKU_Value = (By.XPATH, "//input[@id='ingramSku']")
+    Ingram_SKU_Dropdown = (By.XPATH, "//div[@id='ingramSku']")
+    Ingram_SKU_ID = (By.XPATH, "//*[@id='menu-']/div[3]/ul/li[1]")
     Qty_ID = (By.XPATH, "//input[@id='qty']")
     DISCARD_BUTTON = (By.XPATH, "//button[text() ='Discard changes']")
     APPLY_BUTTON = (By.XPATH, "//button[text() ='Apply']")
@@ -95,6 +97,12 @@ class X4ABulkOrderUploadPage(BasePage):
                        "//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1hp16lx-MuiButtonBase-root-MuiIconButton-root']")
     DUPLICATE_ERROR_MESSAGE = (By.XPATH, "//div[@class='MuiAlert-message css-acap47-MuiAlert-message']")
     DOWNLOADED_ORDER_LIST_BUTTON = (By.XPATH, "//button[text()='Download order list']")
+    DOWNLOADED_FAILED_ORDER_LIST = (By.XPATH, "//li[text()='Failed']")
+    DOWNLOADED_DISABLED_FAILED_ORDER_LIST = (By.XPATH, "//li[text()='Failed' and @aria-disabled='true']")
+    DOWNLOADED_PLACED_ORDER_LIST = (By.XPATH, "//li[text()='Order placed']")
+    DOWNLOADED_DISABLED_PLACED_ORDER_LIST = (By.XPATH, "//li[text()='Order placed' and @aria-disabled='true']")
+    DOWNLOADED_COMPLETE_ORDER_LIST = (By.XPATH, "//li[text()='Complete list']")
+    DOWNLOADED_DISABLED_COMPLETE_ORDER_LIST = (By.XPATH, "//li[text()='Complete list' and @aria-disabled='true']")
     SEARCH_MSG = (By.XPATH, "//h2[text()='Add a bulk order!']")
     BULK_ORDER_UPLOAD_LINK = (By.XPATH, "//a[@aria-label='Bulk order upload']")
     ITEMS_PER_PAGE = (By.XPATH,
@@ -218,9 +226,10 @@ class X4ABulkOrderUploadPage(BasePage):
         try:
             global multiple_order_file_name
             self.go_to_bulk_order_upload()
-            multiple_order_file_name = self.update_input_sheet(int(scenario_no))
+            multiple_order_file_name = self.update_input_sheet((scenario_no))
             self.click_upload_file()
             self.select_file(multiple_order_file_name)
+            self.logger.info("File selected to upload")
 
         except Exception as e:
             self.logger.error('Exception occurred while selecting file ' + str(e))
@@ -256,7 +265,7 @@ class X4ABulkOrderUploadPage(BasePage):
     def do_select_review(self):
         try:
             global order_file_name
-            order_file_name = self.update_input_sheet(4)
+            order_file_name = self.update_input_sheet('Single_Order')
             self.select_file(order_file_name)
             self.do_click_review_button()
 
@@ -266,7 +275,6 @@ class X4ABulkOrderUploadPage(BasePage):
 
     def do_click_review_button(self):
         try:
-
             self.do_click_by_locator(self.REVIEW_BUTTON)
             self.logger.info("Clicked on review button")
             time.sleep(15)
@@ -348,7 +356,7 @@ class X4ABulkOrderUploadPage(BasePage):
             self.logger.info("Clicked on download template button")
 
         except Exception as e:
-            self.logger.error('Exception occurred while clicking upload file button ' + str(e))
+            self.logger.error('Exception occurred while clicking download template button ' + str(e))
             raise e
 
     def do_download_multiple_template(self, no_of_files):
@@ -357,10 +365,10 @@ class X4ABulkOrderUploadPage(BasePage):
                 self.do_click_by_locator(self.DOWNLOAD_TEMPLATE_BUTTON)
                 time.sleep(1)
 
-            self.logger.info("Clicked on download template button")
+            self.logger.info("downloaded multiple template")
 
         except Exception as e:
-            self.logger.error('Exception occurred while clicking upload file button ' + str(e))
+            self.logger.error('Exception occurred while downloading multiple template ' + str(e))
             raise e
 
     def do_select_status(self, status):
@@ -373,61 +381,18 @@ class X4ABulkOrderUploadPage(BasePage):
             self.do_click_by_locator(self.TEXT_AREA)
             self.do_send_keys(self.TEXT_AREA, status)
             time.sleep(10)
-            status_file_name = self.get_element_text(self.LIST_FILE_NAME)
+            status_file_name = self.get_element_text(self.SEARCHED_FILE_NAME)
             self.logger.info("Opened the list of desired status")
 
         except Exception as e:
             self.logger.error('Exception occurred while selecting status ' + str(e))
             raise e
 
-    def verify_review_icon(self, status):
-        try:
-            self.search_file_name(status_file_name)
-            assert 'Review' in self.get_element_text(self.REVIEW_ACTION_ICON), "Review icon not present"
-            assert status_file_name in self.get_element_text(self.SEARCHED_FILE_NAME), "file name not present"
-            assert status in self.get_element_text(self.SEARCHED_FILE_STATUS), "status is not correct"
-            self.logger.info("verified that review icon ")
-            time.sleep(1)
-
-        except Exception as e:
-            self.logger.error('Exception occurred while verifying review icon ' + str(e))
-            raise e
-
-    def verify_view_icon(self, status):
-        try:
-            # 
-            self.search_file_name(status_file_name)
-            assert 'View' in self.get_element_text(self.VIEW_ACTION_ICON), "View icon not present"
-            assert status_file_name in self.get_element_text(self.SEARCHED_FILE_NAME), "file name not present"
-            assert status in self.get_element_text(self.SEARCHED_FILE_STATUS), "status is not correct"
-
-            self.logger.info("verified that view icon ")
-            time.sleep(1)
-
-        except Exception as e:
-            self.logger.error('Exception occurred while verifying view icon ' + str(e))
-            raise e
-
     def do_click_view_icon(self):
         try:
-
             self.do_click_by_locator(self.VIEW_ACTION_ICON)
             time.sleep(5)
-            self.do_click_by_locator(self.DOWNLOADED_ORDER_LIST_BUTTON)
-            time.sleep(5)
             self.logger.info("Clicked on view icon")
-
-        except Exception as e:
-            self.logger.error('Exception occurred while selecting status ' + str(e))
-            raise e
-
-    def do_click_review_icon_and_download_order_list(self):
-        try:
-            self.do_click_by_locator(self.REVIEW_ACTION_ICON)
-            time.sleep(5)
-            self.do_click_by_locator(self.DOWNLOADED_ORDER_LIST_BUTTON)
-            time.sleep(5)
-            self.logger.info("Clicked on review icon")
 
         except Exception as e:
             self.logger.error('Exception occurred while selecting status ' + str(e))
@@ -441,6 +406,60 @@ class X4ABulkOrderUploadPage(BasePage):
 
         except Exception as e:
             self.logger.error('Exception occurred while selecting status ' + str(e))
+            raise e
+
+    def verify_view_review_icon(self, status):
+        try:
+            if status == 'Error found' or status == 'Partially complete' or  status == 'Failed':
+                self.search_file_name(status_file_name)
+                assert 'Review' in self.get_element_text(self.REVIEW_ACTION_ICON), "Review icon not present"
+                assert status_file_name in self.get_element_text(self.SEARCHED_FILE_NAME), "file name not present"
+                assert status in self.get_element_text(self.SEARCHED_FILE_STATUS), "status is not correct"
+                self.logger.info("verified that review icon ")
+                time.sleep(1)
+            else:
+                self.search_file_name(status_file_name)
+                assert 'View' in self.get_element_text(self.VIEW_ACTION_ICON), "View icon not present"
+                assert status_file_name in self.get_element_text(self.SEARCHED_FILE_NAME), "file name not present"
+                assert status in self.get_element_text(self.SEARCHED_FILE_STATUS), "status is not correct"
+
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying review icon ' + str(e))
+            raise e
+
+    def verify_download_order_list(self, status):
+        try:
+            self.do_click_by_locator(self.DOWNLOADED_ORDER_LIST_BUTTON)
+            if status == 'Partially complete':
+                assert "Failed" in self.get_element_text(self.DOWNLOADED_FAILED_ORDER_LIST), "Failed button not present"
+                assert "Order placed" in self.get_element_text(self.DOWNLOADED_PLACED_ORDER_LIST), "Order placed button not present"
+                assert "Complete list" in self.get_element_text(self.DOWNLOADED_COMPLETE_ORDER_LIST), "Complete list button not present"
+                self.do_click_by_locator(self.DOWNLOADED_FAILED_ORDER_LIST)
+                self.do_click_by_locator(self.DOWNLOADED_ORDER_LIST_BUTTON)
+                self.do_click_by_locator(self.DOWNLOADED_PLACED_ORDER_LIST)
+                self.do_click_by_locator(self.DOWNLOADED_ORDER_LIST_BUTTON)
+                self.do_click_by_locator(self.DOWNLOADED_COMPLETE_ORDER_LIST)
+                time.sleep(1)
+
+            elif status == 'Failed':
+                assert "Failed" in self.get_element_text(self.DOWNLOADED_FAILED_ORDER_LIST), "Failed button not present"
+                assert "Order placed" in self.get_element_text(self.DOWNLOADED_DISABLED_PLACED_ORDER_LIST), "Disabled Order placed button not present"
+                assert "Complete list" in self.get_element_text(self.DOWNLOADED_DISABLED_COMPLETE_ORDER_LIST), "Disabled Complete list button not present"
+
+                self.do_click_by_locator(self.DOWNLOADED_FAILED_ORDER_LIST)
+                time.sleep(1)
+            else:
+                assert "Failed" in self.get_element_text(self.DOWNLOADED_DISABLED_FAILED_ORDER_LIST), "Disabled Failed button not present"
+                assert "Order placed" in self.get_element_text(self.DOWNLOADED_PLACED_ORDER_LIST), "Order placed button not present"
+                assert "Complete list" in self.get_element_text(self.DOWNLOADED_DISABLED_COMPLETE_ORDER_LIST), "Disabled Complete list button not present"
+
+                self.do_click_by_locator(self.DOWNLOADED_PLACED_ORDER_LIST)
+                time.sleep(1)
+
+            self.logger.info("verified that Download order list option ")
+
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying review icon ' + str(e))
             raise e
 
     def verify_cancel_icon(self):
@@ -564,7 +583,7 @@ class X4ABulkOrderUploadPage(BasePage):
             self.do_click_by_locator(self.TEXT_AREA)
             self.do_send_keys(self.TEXT_AREA, user_name)
             time.sleep(10)
-            status_file_name = self.get_element_text(self.LIST_FILE_NAME)
+            status_file_name = self.get_element_text(self.SEARCHED_FILE_NAME)
             self.logger.info("Opened the list of desired status")
 
         except Exception as e:
@@ -587,7 +606,7 @@ class X4ABulkOrderUploadPage(BasePage):
     def do_upload_duplicate_file(self):
         try:
             global duplicate_order_file_name
-            duplicate_order_file_name = self.update_input_sheet(4)
+            duplicate_order_file_name = self.update_input_sheet('Single_Order')
             self.go_to_bulk_order_upload()
             self.click_upload_file()
             self.select_file(duplicate_order_file_name)
@@ -619,7 +638,7 @@ class X4ABulkOrderUploadPage(BasePage):
             self.logger.error('Exception occurred while verifying duplicate file error message ' + str(e))
             raise e
 
-    def do_uploaded_file_with_null_values(self, Scenario):
+    def do_uploaded_file(self, Scenario):
         try:
             self.go_to_bulk_order_upload()
             file_name = self.update_input_sheet(Scenario)
@@ -667,7 +686,7 @@ class X4ABulkOrderUploadPage(BasePage):
                     self.do_click_by_locator(self.DISCARD_BUTTON)
                     self.do_click_by_locator(self.EXPANDABLE_ICON)
                     self.do_click_by_locator(self.EDIT_BUTTON)
-                    assert self.do_get_attribute(self.Ingram_SKU_ID, 'value') == '', "Ingram sku ID is not NULL"
+                    assert self.do_get_attribute(self.Ingram_SKU_Value, 'value') == '', "Ingram sku ID is not NULL"
                     self.do_click_by_locator(self.DISCARD_BUTTON)
                     self.logger.info("verified reseller po#,carrier code, ingram sku is null")
                 case _:
@@ -681,7 +700,7 @@ class X4ABulkOrderUploadPage(BasePage):
                                                                                'value'), "reseller po# is not present"
                     assert scenario_detail_list[0][7] in self.do_get_attribute(self.CARRIER_CODE_ID,
                                                                                'value'), "carrier code is not present"
-                    assert scenario_detail_list[0][11] in self.do_get_attribute(self.Ingram_SKU_ID,
+                    assert scenario_detail_list[0][11] in self.do_get_attribute(self.Ingram_SKU_Value,
                                                                                 'value'), "Ingram sku ID is not present"
 
             self.logger.info("verified that error details ")
@@ -716,8 +735,22 @@ class X4ABulkOrderUploadPage(BasePage):
             time.sleep(2)
             self.do_click_by_locator(self.EXPANDABLE_ICON)
             self.do_click_by_locator(self.EDIT_BUTTON)
+            self.do_click_by_locator(self.Ingram_SKU_Value)
+            self.do_send_keys(self.Ingram_SKU_Value, '485EEB')
+            self.do_click_by_locator(self.APPLY_BUTTON)
+            self.logger.info("Ingram Sku ID is updated ")
+            time.sleep(5)
+
+        except Exception as e:
+            self.logger.error('Exception occurred while selecting status ' + str(e))
+            raise e
+
+    def do_click_apply_button_for_ingram_sku(self):
+        try:
+            self.do_click_by_locator(self.EXPANDABLE_ICON)
+            self.do_click_by_locator(self.EDIT_BUTTON)
+            self.do_click_by_locator(self.Ingram_SKU_Dropdown)
             self.do_click_by_locator(self.Ingram_SKU_ID)
-            self.do_send_keys(self.Ingram_SKU_ID, '485EEB')
             self.do_click_by_locator(self.APPLY_BUTTON)
             self.logger.info("Ingram Sku ID is updated ")
             time.sleep(5)
@@ -744,12 +777,14 @@ class X4ABulkOrderUploadPage(BasePage):
             UPLOADED_DATE = self.format_date(self.get_element_text(self.SEARCHED_DATE))
             searched_file_name = order_file_name.split(".xlsx")
             assert searched_file_name[0] in self.get_element_text(self.SEARCHED_FILE_NAME), "file name not present"
-            assert "Shyam Tiwari" in self.get_element_text(self.SEARCHED_USER_NAME), "user name not correct"
+            assert "shyam tiwari" in self.get_element_text(self.SEARCHED_USER_NAME), "user name not correct"
             assert 'PLACE ORDERS' in self.get_element_text(self.SEARCHED_ACTION_ICON), "Review icon not present"
             assert 'Ready to place' in self.get_element_text(self.SEARCHED_FILE_STATUS), "status is not correct"
+            assert '1' in self.get_element_text(self.SEARCHED_TOTAL_ORDER), "Total order is not correct"
             assert curr_date in UPLOADED_DATE, "Uploaded date not present"
-            self.do_select_uploaded_by_option("Shyam Tiwari")
-            self.verify_user_name_in_pages("Shyam Tiwari")
+            self.do_select_uploaded_by_option("shyam tiwari")
+            self.verify_user_name_in_pages("shyam tiwari")
+            self.do_click_view_icon()
             self.logger.info("verified that bulk order upload page")
 
         except Exception as e:
@@ -758,9 +793,13 @@ class X4ABulkOrderUploadPage(BasePage):
 
     def verify_multiple_bulk_order_upload_page(self):
         try:
+
             bulk_order_file_name = multiple_order_file_name.split(".xlsx")
-            self.search_file_name(multiple_order_file_name)
-            self.do_click_review_icon()
+            self.search_file_name(bulk_order_file_name)
+            assert '7' in self.get_element_text(self.SEARCHED_TOTAL_ORDER), "Total order is not correct"
+            self.do_click_by_locator(self.REVIEW_ACTION_ICON)
+            self.verify_download_order_list('Partially complete')
+
             UPLOAD_FILE_NAME = (By.XPATH, "//span[text()='" + str(bulk_order_file_name[0]) + "']")
             self.logger.info("File Name Updated")
             assert bulk_order_file_name[0] in self.get_element_text(UPLOAD_FILE_NAME), "Uploaded file name not present"
@@ -784,7 +823,6 @@ class X4ABulkOrderUploadPage(BasePage):
                     assert self.get_element_text(IM_ORDER_NO) == '', "Order No is not NULL"
                     assert self.get_element_text(CONFIRMATION_ID) != '', "Confirmation ID is NULL"
                     self.logger.info("status check for order grouping " + self.get_element_text(ORDER_GROUPING))
-
             self.logger.info("verified that multiple bulk order upload page")
             time.sleep(1)
 
@@ -805,11 +843,11 @@ class X4ABulkOrderUploadPage(BasePage):
     def search_file_name(self, file_name):
         self.go_to_bulk_order_upload()
         
-        bulk_order_file_name = file_name.split(".xlsx")
+        # bulk_order_file_name = file_name.split(".xlsx")
         self.do_click_by_locator(self.DROPDOWN_MENU)
         self.do_click_by_locator(self.FILE_NAME_OPTION)
         self.do_click_by_locator(self.TEXT_AREA)
-        self.do_send_keys(self.TEXT_AREA, bulk_order_file_name[0])
+        self.do_send_keys(self.TEXT_AREA, file_name)
         time.sleep(15)
 
     def update_input_sheet(self, scenario_no):
@@ -820,7 +858,7 @@ class X4ABulkOrderUploadPage(BasePage):
         scenario_detail_list = bulk_order_management_srv_obj.get_scenario_details(db_file_path, scenario_no)
         src = bulk_order_file_name
         curr_date = '{dt.month}{dt.day}{dt.year}{dt.hour}{dt.minute}{dt.second}'.format(dt=datetime.datetime.today())
-
+        
         bulk_order_file_name = bulk_order_file_name.split(".xlsx")
         dst = bulk_order_file_name[0] + '_' + curr_date + '.xlsx'
         # Copy File
@@ -828,15 +866,14 @@ class X4ABulkOrderUploadPage(BasePage):
 
         # load excel file
         workbook = load_workbook(filename=dst)
-
         # open workbook
         sheet = workbook.active
-        if scenario_no != 5:
-            for i in range(1, 11):
+        if scenario_no != 'Multiple_Order':
+            for i in range(1, 12):
                 sheet.cell(row=2, column=i).value = scenario_detail_list[0][i + 2]
         else:
             for k in range(1, 8):
-                for i in range(1, 11):
+                for i in range(1, 12):
                     sheet.cell(row=k + 1, column=i).value = scenario_detail_list[k - 1][i + 2]
 
         workbook.save(filename=dst)
