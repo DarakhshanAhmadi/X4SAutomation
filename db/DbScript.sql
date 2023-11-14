@@ -100,7 +100,10 @@ bill_to_contact String,
 bill_to_email String,
 end_user_id String,
 end_user_address String,
-end_user_contact String
+end_user_contact String,
+special_bid String,
+unit_price String,
+quantity String
 );
 
 
