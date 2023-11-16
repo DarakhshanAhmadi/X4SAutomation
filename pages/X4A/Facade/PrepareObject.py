@@ -63,7 +63,8 @@ class PrepareObject:
                                                    test_data.get("Header_Comment_1"),
                                                    test_data.get("Header_Comment_2"),
                                                    test_data.get("Ingram_SKU"),
-                                                   test_data.get("Qty"))
+                                                   test_data.get("Qty"),
+                                                   test_data.get("Vendor_Part_Number"))
         return x4a_bulk_order_data_obj
 
     def prepare_x4a_inventory_data_obj(self, test_data):
