@@ -1,0 +1,182 @@
+{
+  "customerOrderNumber": "AUTOPO1^",
+  "endCustomerOrderNumber": "TESTPO",
+  "billToAddressId": "000",
+  "allowPartialOrder": "false",
+  "resellerInfo": {
+    "resellerId": "20222222",
+    "countryCode": "US"
+  },
+  "shipToInfo": {
+    "addressId": "200",
+    "contact": "JON"
+  },
+  "vmf": [],
+  "lines": [
+    {
+      "customerLineNumber": "001",
+      "globalSkuId": "A300-LE8023",
+      "vendorPartNumber": "GLC-SX-MMD=",
+      "quantity": 1,
+      "unitPrice": 0,
+      "endUserPoNumber": "EUPO",
+      "endUserPrice": 0,
+      "carrierCode": "RG",
+      "specialPrice": 0,
+      "aucSelectionCost": 0,
+      "additionalAttributes": [
+        {
+          "attributeName": "gsaflag",
+          "attributeValue": "Y"
+        },
+        {
+          "attributeName": "shipFromWareHouseId",
+          "attributeValue": "10"
+        },
+        {
+          "attributeName": "enduserid",
+          "attributeValue": "52262"
+        },
+        {
+          "attributeName": "addresssequencenumber",
+          "attributeValue": "1"
+        },
+        {
+          "attributeName": "contactid",
+          "attributeValue": "18"
+        },
+        {
+          "attributeName": "enduseracopid",
+          "attributeValue": "5715329"
+        }
+      ],
+      "vmfAdditionalAttributes": [],
+      "directShipConfigAttributes": []
+    },
+    {
+      "customerLineNumber": "002",
+      "globalSkuId": "A300-8MZ394",
+      "vendorPartNumber": "CBS350-48P-4G-NA",
+      "quantity": 1,
+      "unitPrice": 0,
+      "endUserPoNumber": "EUPO",
+      "endUserPrice": 0,
+      "carrierCode": "RG",
+      "specialPrice": 0,
+      "aucSelectionCost": 0,
+      "additionalAttributes": [
+        {
+          "attributeName": "gsaflag",
+          "attributeValue": "Y"
+        },
+        {
+          "attributeName": "shipFromWareHouseId",
+          "attributeValue": "10"
+        },
+        {
+          "attributeName": "enduserid",
+          "attributeValue": "52262"
+        },
+        {
+          "attributeName": "addresssequencenumber",
+          "attributeValue": "1"
+        },
+        {
+          "attributeName": "contactid",
+          "attributeValue": "18"
+        },
+        {
+          "attributeName": "enduseracopid",
+          "attributeValue": "5715329"
+        }
+      ],
+      "vmfAdditionalAttributes": [],
+      "directShipConfigAttributes": []
+    }
+  ],
+  "shipmentDetails": {
+    "shipComplete": "False",
+    "signatureRequired": false
+  },
+  "additionalAttributes": [
+    {
+      "attributeName": "delinotifemail",
+      "attributeValue": ""
+    },
+    {
+      "attributeName": "smsnumber",
+      "attributeValue": ""
+    },
+    {
+      "attributeName": "basketid",
+      "attributeValue": "84bc0efc-d1bd-46e1-980a-823b67a2b7f2"
+    },
+    {
+      "attributeName": "userid",
+      "attributeValue": "599f3655-31e1-4fe6-bc53-da06e9f1b0e8"
+    },
+    {
+      "attributeName": "salesorganization",
+      "attributeValue": "SALESG"
+    },
+    {
+      "attributeName": "distributionchannel",
+      "attributeValue": "10"
+    },
+    {
+      "attributeName": "division",
+      "attributeValue": "MD"
+    },
+    {
+      "attributeName": "ordertotalvalue",
+      "attributeValue": "228.23"
+    },
+    {
+      "attributeName": "regioncode",
+      "attributeValue": "MD"
+    },
+    {
+      "attributeName": "continueonerror",
+      "attributeValue": "N"
+    },
+    {
+      "attributeName": "allowPartialOrder",
+      "attributeValue": "false"
+    },
+    {
+      "attributeName": "allowDuplicateCustomerOrderNumber",
+      "attributeValue": "true"
+    },
+    {
+      "attributeName": "euponumber",
+      "attributeValue": "TESTPO"
+    },
+    {
+      "attributeName": "entrymethod",
+      "attributeValue": "XWEB"
+    },
+    {
+      "attributeName": "operatorid",
+      "attributeValue": "HERM"
+    },
+    {
+      "attributeName": "capsbuyerid",
+      "attributeValue": "SALESG"
+    }
+  ],
+  "vmfAdditionalAttributes": [
+    {
+      "attributeName": "shipctacphone",
+      "attributeValue": "123"
+    },
+    {
+      "attributeName": "shipctacemail",
+      "attributeValue": "JON@TESTPO.COM"
+    },
+    {
+      "attributeName": "resellerctacemail",
+      "attributeValue": "ENDEAVOUR_BUILD@INGRAMMICRO.COM"
+    }
+  ],
+  "directShipConfigAttributes": []
+}
