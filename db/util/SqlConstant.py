@@ -40,8 +40,8 @@ class SqlConstant:
     X4A_BULK_ORDER_SCENARIO_SQL_QUERY = "INSERT INTO x4a_bulk_order_data(feature_file_name, Scenario, Operator_ID, " \
                                         "Country_Code, Customer_Branch_and_Number, " \
                                         "Reseller_PO, Carrier_Code, Order_Type, Header_Comment_1, " \
-                                        "Header_Comment_2, Ingram_SKU, Qty)" \
-                                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                        "Header_Comment_2, Ingram_SKU, Qty, Vendor_Part_Number)" \
+                                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
     X4A_BULK_ORDER_DATA_BY_FEATURE_FILE_SQL_QUERY = "SELECT * from x4a_bulk_order_data where Scenario=?"
 
