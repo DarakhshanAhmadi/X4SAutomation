@@ -19,7 +19,7 @@ Feature: Inventory Management Action Planning
   Scenario: Verify Filter results for Top 100 Under performing SKU table
     Given filter by country
     Then filter by under performing sku and validate data
-    And filter by under performing MFN part number and validate data
+    And filter by under performing MFR part number and validate data
     And filter by vendor business manager and validate data
     And filter by vendor name and validate data
 
@@ -54,7 +54,7 @@ Feature: Inventory Management Action Planning
   Scenario: Verify Filter results for Top 100 Aging SKU table
     Given filter by country
     Then filter by aging sku and validate data
-    And filter by aging MFN part number and validate data
+    And filter by aging MFR part number and validate data
     And filter by vendor business manager and validate data
     And filter by vendor name and validate data
 
