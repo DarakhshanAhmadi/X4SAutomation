@@ -108,3 +108,19 @@ class X4AInputOrderDbManagementService:
         sql_util = SqlUtil(db_path)
         x4a_input_order_dao = X4AInputOrderDAO()
         return x4a_input_order_dao.save_im360_confirmation_id_in_db(sql_util, feature_file_name, confirmation_id)
+
+    def save_x4d_confirmation_id_in_db(self, db_path, feature_file_name, confirmation_id):
+        sql_util = SqlUtil(db_path)
+        x4a_input_order_dao = X4AInputOrderDAO()
+        return x4a_input_order_dao.save_x4d_confirmation_id_in_db(sql_util, feature_file_name, confirmation_id)
+
+    def save_confirmation_id_for_shipping_address_details_in_db(self, db_path, feature_file_name, confirmation_id):
+        sql_util = SqlUtil(db_path)
+        x4a_input_order_dao = X4AInputOrderDAO()
+        return x4a_input_order_dao.save_confirmation_id_for_shipping_address_details_in_db(sql_util, feature_file_name, confirmation_id)
+
+    def save_x4c_confirmation_id_in_db(self, db_path, feature_file_name, confirmation_id):
+        sql_util = SqlUtil(db_path)
+        x4a_input_order_dao = X4AInputOrderDAO()
+        return x4a_input_order_dao.save_x4c_confirmation_id_in_db(sql_util, feature_file_name, confirmation_id)
+

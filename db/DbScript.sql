@@ -42,7 +42,10 @@ edit_order_lines String,
 modify_billing_address_data_errors_order_id String,
 order_line_data_errors_order_id Sting,
 modify_order_line_data_errors_order_id String,
-im360_data_errors_order_confirmation_id String
+im360_data_errors_order_confirmation_id String,
+x4d_data_errors_order_confirmation_id String,
+modify_shipping_address_data_errors_order_id String,
+x4c_duplicate_po_data_errors_order_confirmation_id String
 );
 
 CREATE TABLE IF NOT EXISTS x4a_user_data(

@@ -1,0 +1,525 @@
+{
+  "customerOrderNumber": "X4D2510_1^^^^",
+  "endCustomerOrderNumber": "X4D67971035",
+  "notes": "",
+  "lines": [
+    {
+      "customerLineNumber": "3.0",
+      "ingramPartNumber": "9DL408",
+      "globalSkuId": "A300-9DL408",
+      "acopTrackingNumber": "076799251",
+      "vendorPartNumber": "MA-INJ-6",
+      "quantity": 1,
+      "unitPrice": 273.47,
+      "additionalAttributes": [
+        {
+          "attributeName": "enduserid",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "enduseracopid",
+          "attributeValue": "001364597"
+        },
+        {
+          "attributeName": "contactid",
+          "attributeValue": "51"
+        },
+        {
+          "attributeName": "quoteproductguid",
+          "attributeValue": "43f0c8ea-0c73-ee11-8dee-6045bdd8a43a"
+        },
+        {
+          "attributeName": "addresssequencenumber",
+          "attributeValue": ""
+        }
+      ],
+      "directShipConfigAttributes": [
+        {
+          "attributeName": "enduseracopid",
+          "attributeValue": "001364597"
+        },
+        {
+          "attributeName": "vendorpartnumber",
+          "attributeValue": "MA-INJ-6"
+        },
+        {
+          "attributeName": "vendorlinenumber",
+          "attributeValue": "3.0"
+        },
+        {
+          "attributeName": "magickey",
+          "attributeValue": "Q11446811989-000"
+        },
+        {
+          "attributeName": "zerodollarflag",
+          "attributeValue": "false"
+        }
+      ],
+      "vmfAdditionalAttributes": [
+        {
+          "attributeName": "authbidnumber",
+          "attributeValue": "67971035"
+        },
+        {
+          "attributeName": "EndUserCompanyName",
+          "attributeValue": "INGRAM MICRO"
+        },
+        {
+          "attributeName": "EndUserComapnyAddress",
+          "attributeValue": "1759 WEHRLE DR"
+        },
+        {
+          "attributeName": "euCtacName",
+          "attributeValue": "ABC"
+        },
+        {
+          "attributeName": "euCtacPhone",
+          "attributeValue": "9999999999"
+        },
+        {
+          "attributeName": "euCtacEmail",
+          "attributeValue": "abc@abc.test"
+        },
+        {
+          "attributeName": "ResellerCompanyName",
+          "attributeValue": "INGRAM MICRO CAP TEST ACCOUNT"
+        },
+        {
+          "attributeName": "ResellerComapnyAddress",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "rslrg360CtacName",
+          "attributeValue": "qa reignquotes"
+        },
+        {
+          "attributeName": "rslrg360CtacNbr",
+          "attributeValue": "7166333600"
+        },
+        {
+          "attributeName": "resellerCtacEmail",
+          "attributeValue": "is_ecom_team_reignquotes@ingrammicro.com"
+        },
+        {
+          "attributeName": "ShiptoAddress",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "eushipctacnam",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "shipCtacPhone",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "shipCtacEmail",
+          "attributeValue": ""
+        }
+      ]
+    },
+    {
+      "customerLineNumber": "2.0",
+      "ingramPartNumber": "6LL702",
+      "globalSkuId": "A300-6LL702",
+      "acopTrackingNumber": "076799252",
+      "vendorPartNumber": "LIC-MS125-24-5Y",
+      "quantity": 1,
+      "unitPrice": 364.83,
+      "additionalAttributes": [
+        {
+          "attributeName": "enduserid",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "enduseracopid",
+          "attributeValue": "001364597"
+        },
+        {
+          "attributeName": "contactid",
+          "attributeValue": "51"
+        },
+        {
+          "attributeName": "quoteproductguid",
+          "attributeValue": "59f0c8ea-0c73-ee11-8dee-6045bdd8a43a"
+        },
+        {
+          "attributeName": "addresssequencenumber",
+          "attributeValue": ""
+        }
+      ],
+      "directShipConfigAttributes": [
+        {
+          "attributeName": "enduseracopid",
+          "attributeValue": "001364597"
+        },
+        {
+          "attributeName": "vendorpartnumber",
+          "attributeValue": "LIC-MS125-24-5Y"
+        },
+        {
+          "attributeName": "vendorlinenumber",
+          "attributeValue": "2.0"
+        },
+        {
+          "attributeName": "magickey",
+          "attributeValue": "Q11446811988-000"
+        },
+        {
+          "attributeName": "zerodollarflag",
+          "attributeValue": "false"
+        }
+      ],
+      "vmfAdditionalAttributes": [
+        {
+          "attributeName": "authbidnumber",
+          "attributeValue": "67971035"
+        },
+        {
+          "attributeName": "EndUserCompanyName",
+          "attributeValue": "INGRAM MICRO"
+        },
+        {
+          "attributeName": "EndUserComapnyAddress",
+          "attributeValue": "1759 WEHRLE DR"
+        },
+        {
+          "attributeName": "euCtacName",
+          "attributeValue": "ABC"
+        },
+        {
+          "attributeName": "euCtacPhone",
+          "attributeValue": "9999999999"
+        },
+        {
+          "attributeName": "euCtacEmail",
+          "attributeValue": "abc@abc.test"
+        },
+        {
+          "attributeName": "ResellerCompanyName",
+          "attributeValue": "INGRAM MICRO CAP TEST ACCOUNT"
+        },
+        {
+          "attributeName": "ResellerComapnyAddress",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "rslrg360CtacName",
+          "attributeValue": "qa reignquotes"
+        },
+        {
+          "attributeName": "rslrg360CtacNbr",
+          "attributeValue": "7166333600"
+        },
+        {
+          "attributeName": "resellerCtacEmail",
+          "attributeValue": "is_ecom_team_reignquotes@ingrammicro.com"
+        },
+        {
+          "attributeName": "ShiptoAddress",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "eushipctacnam",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "shipCtacPhone",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "shipCtacEmail",
+          "attributeValue": ""
+        }
+      ]
+    },
+    {
+      "customerLineNumber": "1.0",
+      "ingramPartNumber": "UK1776",
+      "globalSkuId": "A300-UK1776",
+      "acopTrackingNumber": "076799250",
+      "vendorPartNumber": "MA-SFP-1GB-TX",
+      "quantity": 1,
+      "unitPrice": 313.38,
+      "additionalAttributes": [
+        {
+          "attributeName": "enduserid",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "enduseracopid",
+          "attributeValue": "001364597"
+        },
+        {
+          "attributeName": "contactid",
+          "attributeValue": "51"
+        },
+        {
+          "attributeName": "quoteproductguid",
+          "attributeValue": "6df0c8ea-0c73-ee11-8dee-6045bdd8a43a"
+        },
+        {
+          "attributeName": "addresssequencenumber",
+          "attributeValue": ""
+        }
+      ],
+      "directShipConfigAttributes": [
+        {
+          "attributeName": "enduseracopid",
+          "attributeValue": "001364597"
+        },
+        {
+          "attributeName": "vendorpartnumber",
+          "attributeValue": "MA-SFP-1GB-TX"
+        },
+        {
+          "attributeName": "vendorlinenumber",
+          "attributeValue": "1.0"
+        },
+        {
+          "attributeName": "magickey",
+          "attributeValue": "Q11446811987-000"
+        },
+        {
+          "attributeName": "zerodollarflag",
+          "attributeValue": "false"
+        }
+      ],
+      "vmfAdditionalAttributes": [
+        {
+          "attributeName": "authbidnumber",
+          "attributeValue": "67971035"
+        },
+        {
+          "attributeName": "EndUserCompanyName",
+          "attributeValue": "INGRAM MICRO"
+        },
+        {
+          "attributeName": "EndUserComapnyAddress",
+          "attributeValue": "1759 WEHRLE DR"
+        },
+        {
+          "attributeName": "euCtacName",
+          "attributeValue": "ABC"
+        },
+        {
+          "attributeName": "euCtacPhone",
+          "attributeValue": "9999999999"
+        },
+        {
+          "attributeName": "euCtacEmail",
+          "attributeValue": "abc@abc.test"
+        },
+        {
+          "attributeName": "ResellerCompanyName",
+          "attributeValue": "INGRAM MICRO CAP TEST ACCOUNT"
+        },
+        {
+          "attributeName": "ResellerComapnyAddress",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "rslrg360CtacName",
+          "attributeValue": "qa reignquotes"
+        },
+        {
+          "attributeName": "rslrg360CtacNbr",
+          "attributeValue": "7166333600"
+        },
+        {
+          "attributeName": "resellerCtacEmail",
+          "attributeValue": "is_ecom_team_reignquotes@ingrammicro.com"
+        },
+        {
+          "attributeName": "ShiptoAddress",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "eushipctacnam",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "shipCtacPhone",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "shipCtacEmail",
+          "attributeValue": ""
+        }
+      ]
+    }
+  ],
+  "shipToInfo": {
+    "contact": "Kalpesh 68087019",
+    "companyName": "Ingram micro",
+    "addressLine1": "3351 Example st",
+    "addressLine2": "Suite 100",
+    "addressLine3": "",
+    "city": "Irvine",
+    "state": "CA",
+    "postalCode": "92602",
+    "countryCode": "US",
+    "email": "68087019@im.com"
+  },
+  "resellerInfo": {
+    "countryCode": "US",
+    "resellerId": "20222222"
+  },
+  "endUserInfo": {
+    "endUserId": "50715",
+    "companyName": "INGRAM MICRO",
+    "name1": "",
+    "name2": "",
+    "addressSequenceNumber": "2",
+    "contactId": "51",
+    "addressLine1": "1759 WEHRLE DR",
+    "addressLine2": "",
+    "addressLine3": "",
+    "contact": "ABC",
+    "name3": "",
+    "city": "WILLIAMSVILLE",
+    "state": "NY",
+    "postalCode": "142217033",
+    "addressLine4": "",
+    "countryCode": "US",
+    "phoneNumber": "9999999999",
+    "email": "abc@abc.test"
+  },
+  "shipmentDetails": {
+    "shipComplete": "False",
+    "signatureRequired": false
+  },
+  "additionalAttributes": [
+    {
+      "attributeName": "enableCommentsAsLines",
+      "attributeValue": "false"
+    },
+    {
+      "attributeName": "allowDuplicateCustomerOrderNumber",
+      "attributeValue": "true"
+    },
+    {
+      "attributeName": "entrymethod",
+      "attributeValue": "ACTO"
+    },
+    {
+      "attributeName": "commenttext",
+      "attributeValue": "BN-Order Comments"
+    },
+    {
+      "attributeName": "allowOrderOnCustomerHold",
+      "attributeValue": "false"
+    },
+    {
+      "attributeName": "continueonerror",
+      "attributeValue": "N"
+    },
+    {
+      "attributeName": "allowPartialOrder",
+      "attributeValue": "false"
+    },
+    {
+      "attributeName": "isconfigorder",
+      "attributeValue": "Y"
+    },
+    {
+      "attributeName": "orderactionswitch",
+      "attributeValue": "A"
+    },
+    {
+      "attributeName": "euponumber",
+      "attributeValue": "X4D67971035"
+    },
+    {
+      "attributeName": "isdirectshiporder",
+      "attributeValue": "true"
+    },
+    {
+      "attributeName": "resellerenduserid",
+      "attributeValue": "50715"
+    },
+    {
+      "attributeName": "imquotenumber",
+      "attributeValue": "QUO-17302351-K9M8N5"
+    },
+    {
+      "attributeName": "quoteid",
+      "attributeValue": "QUO-17302351-K9M8N5"
+    },
+    {
+      "attributeName": "quotenumber",
+      "attributeValue": "QUO-17302351-K9M8N5"
+    },
+    {
+      "attributeName": "quoteguid",
+      "attributeValue": "4be6e9ea-0c73-ee11-8dee-6045bda97faf"
+    }
+  ],
+  "billToAddressId": "000",
+  "vmfAdditionalAttributes": [
+    {
+      "attributeName": "dealid",
+      "attributeValue": "67971035"
+    },
+    {
+      "attributeName": "estimateid",
+      "attributeValue": "estimateid"
+    },
+    {
+      "attributeName": "EndUserCompanyName",
+      "attributeValue": "INGRAM MICRO"
+    },
+    {
+      "attributeName": "EndUserComapnyAddress",
+      "attributeValue": "1759 WEHRLE DR"
+    },
+    {
+      "attributeName": "euCtacName",
+      "attributeValue": "ABC"
+    },
+    {
+      "attributeName": "euCtacPhone",
+      "attributeValue": "9999999999"
+    },
+    {
+      "attributeName": "euCtacEmail",
+      "attributeValue": "abc@abc.test"
+    },
+    {
+      "attributeName": "ResellerCompanyName",
+      "attributeValue": "INGRAM MICRO CAP TEST ACCOUNT"
+    },
+    {
+      "attributeName": "ResellerComapnyAddress",
+      "attributeValue": ""
+    },
+    {
+      "attributeName": "rslrg360CtacName",
+      "attributeValue": "qa reignquotes"
+    },
+    {
+      "attributeName": "rslrg360CtacNbr",
+      "attributeValue": "7166333600"
+    },
+    {
+      "attributeName": "resellerCtacEmail",
+      "attributeValue": "is_ecom_team_reignquotes@ingrammicro.com"
+    },
+    {
+      "attributeName": "ShiptoAddress",
+      "attributeValue": ""
+    },
+    {
+      "attributeName": "eushipctacnam",
+      "attributeValue": ""
+    },
+    {
+      "attributeName": "shipCtacPhone",
+      "attributeValue": ""
+    },
+    {
+      "attributeName": "shipCtacEmail",
+      "attributeValue": ""
+    }
+  ]
+}

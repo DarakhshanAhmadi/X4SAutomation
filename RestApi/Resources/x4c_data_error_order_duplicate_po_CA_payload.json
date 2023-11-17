@@ -1,0 +1,367 @@
+{
+    "customerOrderNumber": "AUTOPO1^",
+    "purchaseOrderDate": null,
+    "endCustomerOrderNumber": null,
+    "billToAddressId": "111",
+    "specialBidNumber": null,
+    "notes": null,
+    "acceptBackOrder": null,
+    "terms": null,
+    "vendorOrderHold": null,
+    "currencyCode": null,
+    "allowPartialOrder": "false",
+    "carrierDescription": null,
+    "cloudAccountId": null,
+    "quoteNumber": null,
+    "resellerInfo": {
+        "resellerId": "40091170",
+        "addressLine2": "",
+        "addressLine3": "",
+        "city": "",
+        "companyName": "TEST ACCOUNT",
+        "contact": " ",
+        "addressLine1": "",
+        "phoneNumber": "905-755-5000",
+        "email": "is_ecom_team_skippers@ingrammicro.com",
+        "state": "",
+        "postalCode": "",
+        "countryCode": "CA"
+    },
+    "shipToInfo": {
+        "addressId": "000",
+        "addressLine1": "!!!DO_NOT SHIP ORDERS!!!",
+        "addressLine2": "NEW_HIRES_ONLY EL",
+        "addressLine3": "",
+        "contact": null,
+        "companyName": "TEST ACCOUNT",
+        "name1": "",
+        "postalCode": "L5R4A1",
+        "countryCode": "CA",
+        "phoneNumber": "",
+        "name2": "",
+        "addressLine4": "MISSISSAUGA           ON L5R4A1    CA",
+        "addressLine5": null,
+        "city": "MISSISSAUGA",
+        "state": "ON",
+        "email": "",
+        "district": null
+    },
+    "endUserInfo": {
+        "endUserId": null,
+        "endUserType": null,
+        "companyName": "Regression Company",
+        "name1": "Regression Contact",
+        "name2": "",
+        "addressSequenceNumber": "16247177",
+        "contactId": null,
+        "addressLine1": "AddressLine1",
+        "addressLine2": "",
+        "addressLine3": "",
+        "contact": "Regression Contact , Regression Contact , Regression Contact ",
+        "name3": "",
+        "city": "City",
+        "state": "NS",
+        "postalCode": "a1a1a1",
+        "segmentation": "C",
+        "addressLine4": null,
+        "houseNumber": null,
+        "countryCode": "CA",
+        "phoneNumber": "123456789",
+        "email": "regression@email.com",
+        "endUserAcopId": null,
+        "authorizationNumber": null
+    },
+    "creditCardDetails": null,
+    "vmf": [
+        {
+            "quoteNumber": null,
+            "vendAuthNumber": null,
+            "csnNumber": null,
+            "email": null,
+            "vendorNumber": "4521",
+            "orderHold": null,
+            "cigNumber": null,
+            "cupNumber": null,
+            "msaNumber": null,
+            "veud": {
+                "id": "13578410",
+                "agreementId": "",
+                "contactId": "15748672",
+                "addressId": "16247177",
+                "licenseId": "",
+                "conagrFlag": "N"
+            },
+            "vmfspecs": null
+        }
+    ],
+    "ssEndUserInfo": null,
+    "lines": [
+        {
+            "customerLineNumber": "001",
+            "lineType": null,
+            "lineNumber": null,
+            "globalSkuId": "A300-AK0390",
+            "ingramPartNumber": null,
+            "customerPartNumber": null,
+            "vendorPartNumber": "NH.QBCAA.006",
+            "planId": null,
+            "quantity": 1,
+            "specialBidNumber": null,
+            "notes": null,
+            "unitPrice": 0,
+            "endUserPoNumber": "DUMMY",
+            "endUserPrice": 0,
+            "carrierCode": null,
+            "specialPrice": 0,
+            "aucSelectionCost": 0,
+            "acopTrackingNumber": null,
+            "additionalAttributes": [
+                {
+                    "attributeName": "gsaflag",
+                    "attributeValue": "Y"
+                },
+                {
+                    "attributeName": "enduserid",
+                    "attributeValue": "1448"
+                },
+                {
+                    "attributeName": "addresssequencenumber",
+                    "attributeValue": "1"
+                },
+                {
+                    "attributeName": "contactid",
+                    "attributeValue": "1"
+                }
+            ],
+            "vmfAdditionalAttributes": [],
+            "directShipConfigAttributes": [],
+            "endUserInfo": null,
+            "warrantyInfo": null,
+            "vendorParams": null,
+            "prices": null,
+            "costs": null,
+            "applicableTo": null,
+            "decorativeData": [
+                {
+                    "isResellerOnly": false,
+                    "description": "SPP #S230031981-7  12/31/2023 CANADA COMP AN515-45-R69K-CA",
+                    "resellerPrice": 1237.1,
+                    "endCustomerPrice": 0,
+                    "unitOfMeasure": null,
+                    "planDescription": null,
+                    "lineType": null,
+                    "extendedMSRP": 0,
+                    "term": null,
+                    "tcv": null,
+                    "consumptionType": null,
+                    "startDate": null,
+                    "endDate": null,
+                    "billingFrequency": null,
+                    "billingPeriodMonths": null,
+                    "subscriptionType": null,
+                    "subscriptionPeriodType": null,
+                    "subscriptionPeriodDuration": null
+                }
+            ]
+        }
+    ],
+    "shipmentDetails": {
+        "carrierCode": null,
+        "freightAccountNumber": null,
+        "shipComplete": null,
+        "requestedDeliveryDate": null,
+        "signatureRequired": false,
+        "shippingInstructions": null,
+        "carrierService": null
+    },
+    "additionalAttributes": [
+        {
+            "attributeName": "delinotifemail",
+            "attributeValue": ""
+        },
+        {
+            "attributeName": "smsnumber",
+            "attributeValue": ""
+        },
+        {
+            "attributeName": "basketid",
+            "attributeValue": "b2ff037c-d8e1-4ebe-ae6b-edd4eefa8b3b"
+        },
+        {
+            "attributeName": "userid",
+            "attributeValue": "13348dcc-21e1-4423-954e-e95e8b114f00"
+        },
+        {
+            "attributeName": "salesorganization",
+            "attributeValue": "DEV505"
+        },
+        {
+            "attributeName": "distributionchannel",
+            "attributeValue": "10"
+        },
+        {
+            "attributeName": "division",
+            "attributeValue": "FT"
+        },
+        {
+            "attributeName": "ordertotalvalue",
+            "attributeValue": "1397.92"
+        },
+        {
+            "attributeName": "regioncode",
+            "attributeValue": "FT"
+        },
+        {
+            "attributeName": "continueonerror",
+            "attributeValue": "N"
+        },
+        {
+            "attributeName": "allowPartialOrder",
+            "attributeValue": "false"
+        },
+        {
+            "attributeName": "allowDuplicateCustomerOrderNumber",
+            "attributeValue": "true"
+        },
+        {
+            "attributeName": "commenttext",
+            "attributeValue": "BN-Order Comments"
+        },
+        {
+            "attributeName": "vlink",
+            "attributeValue": "True"
+        },
+        {
+            "attributeName": "entrymethod",
+            "attributeValue": "XWEB"
+        },
+        {
+            "attributeName": "operatorid",
+            "attributeValue": "HERM"
+        },
+        {
+            "attributeName": "capsbuyerid",
+            "attributeValue": "DEV505"
+        }
+    ],
+    "vmfAdditionalAttributes": [
+        {
+            "attributeName": "shipctacphone",
+            "attributeValue": "123456789"
+        },
+        {
+            "attributeName": "resellerctacemail",
+            "attributeValue": "IS_ECOM_TEAM_SKIPPERS@INGRAMMICRO.COM"
+        }
+    ],
+    "directShipConfigAttributes": [],
+    "prices": null,
+    "costs": null,
+    "decorativeData": {
+        "shipToAddress": {
+            "addressId": "000",
+            "addressLine1": "!!!DO_NOT SHIP ORDERS!!!",
+            "addressLine2": "NEW_HIRES_ONLY EL",
+            "addressLine3": "",
+            "contact": null,
+            "companyName": "TEST ACCOUNT",
+            "name1": "",
+            "postalCode": "L5R4A1",
+            "countryCode": "CA",
+            "phoneNumber": "",
+            "name2": "",
+            "addressLine4": "MISSISSAUGA           ON L5R4A1    CA",
+            "addressLine5": null,
+            "city": "MISSISSAUGA",
+            "state": "ON",
+            "email": "",
+            "district": null
+        },
+        "endUserInfo": {
+            "endUserId": null,
+            "endUserType": null,
+            "companyName": "Regression Company",
+            "name1": "Regression Contact",
+            "name2": "",
+            "addressSequenceNumber": "16247177",
+            "contactId": null,
+            "addressLine1": "AddressLine1",
+            "addressLine2": "",
+            "addressLine3": "",
+            "contact": "Regression Contact , Regression Contact , Regression Contact ",
+            "name3": "",
+            "city": "City",
+            "state": "NS",
+            "postalCode": "a1a1a1",
+            "segmentation": "C",
+            "addressLine4": null,
+            "houseNumber": null,
+            "countryCode": "CA",
+            "phoneNumber": "123456789",
+            "email": "regression@email.com",
+            "endUserAcopId": null,
+            "authorizationNumber": null
+        },
+        "billToAddress": {
+            "addressId": "111",
+            "addressLine1": "GE COMMERCIAL DISTRIBUTION FINANCE",
+            "addressLine2": "1290 CENTRAL PARKWAY WEST",
+            "addressLine3": "",
+            "contact": null,
+            "companyName": "TEST ACCOUNT",
+            "name1": "",
+            "postalCode": "L5C4R3",
+            "countryCode": "CA",
+            "phoneNumber": "",
+            "name2": "",
+            "addressLine4": "MISSISSAUGA           ON L5C4R3    CA",
+            "addressLine5": null,
+            "city": "MISSISSAUGA",
+            "state": "ON",
+            "email": "",
+            "district": null
+        },
+        "orderTotalSummary": {
+            "shippableSubTotal": 1237.1,
+            "totalTotal": 1397.92,
+            "shippableTotal": 1397.92,
+            "freightTotal": 0,
+            "orderTotal": 1397.92,
+            "taxTotal": 160.82,
+            "backorderedTotal": 0,
+            "basketTotal": 1237.1,
+            "subscriptionsTotal": 0,
+            "cloudOrderTotalSummary": null,
+            "freeShipTotal": 0,
+            "orderSubTotal": 0,
+            "exemptedTaxTotal": 0,
+            "feeTotal": 0,
+            "discountTotal": 0,
+            "rebateTotal": 0,
+            "corinoDiscount": 0,
+            "electronicOrderDiscount": 0,
+            "liftgateServiceFee": 0,
+            "insideDeliveryFee": 0,
+            "recycleFee": 0,
+            "minimumOrderFee": 0,
+            "fulfillmentFee": 0,
+            "ccFees": 0,
+            "feeSpeed": 0,
+            "promptPaymentDiscount": 0,
+            "mercadoPagoTransactionFee": 0,
+            "voucherDiscount": 0,
+            "convertedVoucherDiscount": 0,
+            "totalICMSTax": 0,
+            "totalICMSSTTax": 0,
+            "totalOtherTax": 0,
+            "sapAcopDiscountTotal": 0,
+            "totalFee": 0,
+            "resellerMargin": 0,
+            "totalEcoFee": 0
+        },
+        "paymentType": "Flooring",
+        "checkoutBasketWeight": null,
+        "dealId": null,
+        "endCustomerSmartAccount": null
+    }
+}
