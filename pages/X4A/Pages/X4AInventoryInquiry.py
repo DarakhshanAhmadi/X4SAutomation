@@ -36,6 +36,28 @@ class X4AInventoryInquiryPage(BasePage):
     DETAILS_PAGE_SKU = (By.XPATH, "//h2")
     INVENTORY_VISIBILITY_TEXT = (By.XPATH, "//div[@class='css-4sov5v-MuiStack-root']/span")
     INVENTORY_INQUIRY_LIST_PAGE_LINK = (By.XPATH, "//a[text()='Inventory Inquiry']")
+    INVENTORY_DETAILS_PAGE_HEADERS = (By.XPATH, "//div[@class='MuiBox-root css-1jbdlot']/div")
+    INVENTORY_DETAILS_PAGE_HEADER_VALUES = (By.XPATH, "//div[@class='MuiBox-root css-1jbdlot']")
+    FIRST_ROW_DESCRIPTION = (By.XPATH, "//div[@data-rowindex=0]/div[@data-field='shortdescription']")
+    FIRST_ROW_VPN = (By.XPATH, "//div[@data-rowindex=0]/div[@data-field='vpn']")
+    FIRST_ROW_VENDOR = (By.XPATH, "//div[@data-rowindex=0]/div[@data-field='vendor']")
+    FIRST_ROW_CLASS = (By.XPATH, "//div[@data-rowindex=0]/div[@data-field='class']")
+    FIRST_ROW_VENDOR_CODE = (By.XPATH, "//div[@data-rowindex=0]/div[@data-field='vendorCode']")
+    PRODUCT_DETAILS_EXPAND_ICON = (By.XPATH, "(//div[@id='panel1a-header'])[1]/div[2]/*[@data-testid='ExpandMoreIcon']")
+    ADDITIONAL_ATTRIBUTES_EXPAND_ICON = (By.XPATH, "(//div[@id='panel1a-header'])[2]/div[2]/*[@data-testid='ExpandMoreIcon']")
+    PRODUCT_DETAILS_SECTION_NAME = (By.XPATH, "(//p[@class='MuiTypography-root MuiTypography-body1 css-1otm1we-MuiTypography-root'])[1]")
+    PRODUCT_DETAILS_SECTIONS = (By.XPATH, "(//div[@class='MuiAccordionDetails-root css-1v80q3j-MuiAccordionDetails-root'])[1]/div/div[@class='css-sovzj7-MuiStack-root']/div[1]")
+    PRODUCT_DETAILS_CODE_HEADER = (By.XPATH, "(//div[@class='MuiAccordionDetails-root css-1v80q3j-MuiAccordionDetails-root'])[1]/div[@class='css-6ywy1y-MuiStack-root']/div[1]")
+    PRODUCT_DETAILS_CATEGORIES_HEADER = (By.XPATH, "(//div[@class='MuiAccordionDetails-root css-1v80q3j-MuiAccordionDetails-root'])[1]/div[3]/div[1]")
+    DESCRIPTION_VALUE = (By.XPATH,
+                         "((//div[@class='MuiAccordionDetails-root css-1v80q3j-MuiAccordionDetails-root'])[1]/div/div[@class='css-sovzj7-MuiStack-root']/div[2]/div[2])[1]")
+    VENDOR_DETAILS_SECTIONS = (By.XPATH,
+                               "((//div[@class='MuiAccordionDetails-root css-1v80q3j-MuiAccordionDetails-root'])[1]/div/div[@class='css-sovzj7-MuiStack-root']/div[2])[2]/div")
+    CODES_SECTIONS = (By.XPATH,
+                      "(//div[@class='MuiAccordionDetails-root css-1v80q3j-MuiAccordionDetails-root'])[1]/div[@class='css-6ywy1y-MuiStack-root']/div[2]/div")
+    CATEGORIES_SECTIONS = (By.XPATH,
+                           "(//div[@class='MuiAccordionDetails-root css-1v80q3j-MuiAccordionDetails-root'])[1]/div[@class='css-s8byg9-MuiStack-root']/div[2]/div")
+
 
     def go_to_inventory_inquiry(self):
         path = []
@@ -132,6 +154,7 @@ class X4AInventoryInquiryPage(BasePage):
         try:
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 700")
+            time.sleep(5)
             first_page_number, last_page_number = self.get_pagination_first_and_last_page()
             self.logger.info("Verifying reseller price in page %s", str(first_page_number))
             self.go_to_page(first_page_number)
@@ -357,4 +380,69 @@ class X4AInventoryInquiryPage(BasePage):
             assert title == "Inventory inquiry", 'Page title mismatched for inventory inquiry'
         except Exception as e:
             self.logger.error("Exception while going back to Inventory Inquiry list page from details page" + str(e))
+            raise e
+
+    def get_details_page_headers(self):
+        headers_dict = {}
+        try:
+            header_names = self.get_all_elements(self.INVENTORY_DETAILS_PAGE_HEADERS)
+            header_values = self.get_all_elements(self.INVENTORY_DETAILS_PAGE_HEADER_VALUES)
+            for i in range(len(header_names)):
+                headers_dict[(header_names[i].text).replace(':','')] = (header_values[i].text).split('\n')[-1]
+            return headers_dict
+        except Exception as e:
+            self.logger.error("Exception while fetching inventory details page headers" + str(e))
+            raise e
+
+    def collect_sku_data(self):
+        sku_data = {}
+        try:
+            sku_data['description'] = self.get_element_text(self.FIRST_ROW_DESCRIPTION)
+            sku_data['vpn'] = self.get_element_text(self.FIRST_ROW_VPN)
+            sku_data['vendor'] = self.get_element_text(self.FIRST_ROW_VENDOR)
+            sku_data['class'] = self.get_element_text(self.FIRST_ROW_CLASS)
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1100")
+            sku_data['vendor code'] = self.get_element_text(self.FIRST_ROW_VENDOR_CODE)
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 0")
+            return sku_data
+        except Exception as e:
+            self.logger.error("Exception while fetching sku data" + str(e))
+            raise e
+
+    def get_product_details(self):
+        product_details_sections_headers = []
+        description_section = {}
+        vendor_details_section = {}
+        codes_section = {}
+        categories_section = {}
+        try:
+            header = self.get_element_text(self.PRODUCT_DETAILS_SECTION_NAME)
+            assert header == 'Product Details', 'Product details headers mismatched'
+            self.logger.info("Getting section names under product details")
+            self.do_click_by_locator(self.PRODUCT_DETAILS_EXPAND_ICON)
+            section_names = self.get_all_elements(self.PRODUCT_DETAILS_SECTIONS)
+            for section in section_names:
+                product_details_sections_headers.append(section.text)
+            product_details_sections_headers.append(self.get_element_text(self.PRODUCT_DETAILS_CODE_HEADER))
+            product_details_sections_headers.append(self.get_element_text(self.PRODUCT_DETAILS_CATEGORIES_HEADER))
+            self.logger.info("Getting data under product details")
+            description_section['Description'] = self.get_element_text(self.DESCRIPTION_VALUE).split('\n')[0]
+            vendor_data = self.get_all_elements(self.VENDOR_DETAILS_SECTIONS)
+            for data in vendor_data:
+                details = (data.text).split(':\n')
+                vendor_details_section[details[0]] = details[1]
+            codes_data = self.get_all_elements(self.CODES_SECTIONS)
+            for data in codes_data:
+                details = (data.text).split(':\n')
+                codes_section[details[0]] = details[1]
+            categories_data = self.get_all_elements(self.CATEGORIES_SECTIONS)
+            for data in categories_data:
+                details = (data.text).split(':\n')
+                categories_section[details[0]] = details[1]
+            self.logger.info("Successfully fetched data under product details")
+            return product_details_sections_headers, description_section, vendor_details_section, codes_section, categories_section
+        except Exception as e:
+            self.logger.error("Exception while fetching product details data + str(e)")
             raise e
