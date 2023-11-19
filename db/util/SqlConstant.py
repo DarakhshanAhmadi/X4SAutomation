@@ -41,8 +41,8 @@ class SqlConstant:
     X4A_BULK_ORDER_SCENARIO_SQL_QUERY = "INSERT INTO x4a_bulk_order_data(feature_file_name, Scenario, Operator_ID, " \
                                         "Country_Code, Customer_Branch_and_Number, " \
                                         "Reseller_PO, Carrier_Code, Order_Type, Header_Comment_1, " \
-                                        "Header_Comment_2, Ingram_SKU, Qty)" \
-                                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                        "Header_Comment_2, Ingram_SKU, Qty, Vendor_Part_Number)" \
+                                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
     X4A_BULK_ORDER_DATA_BY_FEATURE_FILE_SQL_QUERY = "SELECT * from x4a_bulk_order_data where Scenario=?"
 
@@ -88,8 +88,8 @@ class SqlConstant:
     X4A_UPDATE_REMOVE_ORDER_LINE_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY = "Update x4a_input_order set order_line_data_errors_order_id = ? where feature_file_name= ?"
 
     X4A_INVENTORY_INSERT_SQL_QUERY = "INSERT INTO x4a_inventory(" \
-                                               "feature_file_name, under_performing_sku, under_performing_mfn_part_number, vendor_business_manager, vendor_name, country, actions, comment, aging_sku, aging_mfn_part_number)" \
-                                               "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                               "feature_file_name, under_performing_sku, under_performing_mfr_part_number, vendor_business_manager, vendor_name, country, actions, comment, aging_sku, aging_mfr_part_number, customer, edit_customer)" \
+                                               "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
     X4A_INVENTORY_GET_TEST_CASE_RECORD_SQL_QUERY = "SELECT * FROM x4a_inventory where feature_file_name=?"
 
