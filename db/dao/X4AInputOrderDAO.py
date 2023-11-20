@@ -45,7 +45,10 @@ class X4AInputOrderDAO(BaseTest):
                                 x4a_input_order.modify_billing_address_data_errors_order_id,
                                 x4a_input_order.order_line_data_errors_order_id,
                                 x4a_input_order.modify_order_line_data_errors_order_id,
-                                x4a_input_order.im360_data_errors_order_confirmation_id)
+                                x4a_input_order.im360_data_errors_order_confirmation_id,
+                                x4a_input_order.x4d_data_errors_order_confirmation_id,
+                                x4a_input_order.modify_shipping_address_data_errors_order_id,
+                                x4a_input_order.x4c_duplicate_po_data_errors_order_confirmation_id)
                                )
                 connection.commit()
         except Error as e:
@@ -467,3 +470,55 @@ class X4AInputOrderDAO(BaseTest):
         finally:
             sql_util.close_connection(connection)
         self.logger.info("Data errors resubmit order confirmation_id updated successfully into x4a_input_order table")
+
+    def save_x4d_confirmation_id_in_db(self, sql_util, feature_file_name, x4d_data_errors_order_confirmation_id):
+        try:
+            connection = sql_util.get_connection()
+            cursor = connection.cursor()
+            self.logger.info("Updating IM360 Data errors order confirmation_id into x4a_input_order table")
+            cursor.execute(SqlConstant.X4A_UPDATE_X4D_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY,
+                           [x4d_data_errors_order_confirmation_id, feature_file_name])
+            connection.commit()
+        except Error as e:
+            self.logger.error(
+                "Exception occurred while trying to update IM360 Data errors resubmit order confirmation_id into x4a_input_order table " + str(
+                    e))
+        finally:
+            sql_util.close_connection(connection)
+        self.logger.info("IM360 Data errors resubmit order confirmation_id updated successfully into x4a_input_order table")
+
+    def save_confirmation_id_for_shipping_address_details_in_db(self, sql_util, feature_file_name,
+                                                                modify_shipping_address_data_errors_order_id):
+        try:
+            connection = sql_util.get_connection()
+            cursor = connection.cursor()
+            self.logger.info("Updating modify Shipping Address data errors order id into x4a_input_order table")
+            cursor.execute(
+                SqlConstant.X4A_UPDATE_MODIFY_SHIPPING_ADDRESS_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY,
+                [modify_shipping_address_data_errors_order_id, feature_file_name])
+            connection.commit()
+        except Error as e:
+            self.logger.error(
+                "Exception occurred while trying to update modify Shipping Address data errors order id into x4a_input_order table " + str(
+                    e))
+        finally:
+            sql_util.close_connection(connection)
+        self.logger.info(
+            "Modify Shipping Address data errors order id into x4a_input_order table updated successfully into x4a_input_order table")
+
+    def save_x4c_confirmation_id_in_db(self, sql_util, feature_file_name, x4c_duplicate_po_data_errors_order_confirmation_id):
+        try:
+            connection = sql_util.get_connection()
+            cursor = connection.cursor()
+            self.logger.info("Updating Duplicate PO Data errors order confirmation_id into x4a_input_order table")
+            cursor.execute(SqlConstant.X4A_UPDATE_XC4_DUPLICATE_PO_CONFIRMATION_ID_BY_FEATURE_FILE_NAME_SQL_QUERY,
+                           [x4c_duplicate_po_data_errors_order_confirmation_id, feature_file_name])
+            connection.commit()
+        except Error as e:
+            self.logger.error(
+                "Exception occurred while trying to update Duplicate PO Data errors resubmit order confirmation_id into x4a_input_order table " + str(
+                    e))
+        finally:
+            sql_util.close_connection(connection)
+        self.logger.info("Duplicate PO Data errors resubmit order confirmation_id updated successfully into x4a_input_order table")
+

@@ -42,7 +42,10 @@ edit_order_lines String,
 modify_billing_address_data_errors_order_id String,
 order_line_data_errors_order_id Sting,
 modify_order_line_data_errors_order_id String,
-im360_data_errors_order_confirmation_id String
+im360_data_errors_order_confirmation_id String,
+x4d_data_errors_order_confirmation_id String,
+modify_shipping_address_data_errors_order_id String,
+x4c_duplicate_po_data_errors_order_confirmation_id String
 );
 
 CREATE TABLE IF NOT EXISTS x4a_user_data(
@@ -134,12 +137,14 @@ CREATE TABLE IF NOT EXISTS x4a_inventory(
 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 feature_file_name String NOT NULL,
 under_performing_sku TEXT,
-under_performing_mfn_part_number String,
+under_performing_mfr_part_number String,
 vendor_business_manager String,
 vendor_name String,
 country String,
 actions String,
 comment String,
 aging_sku TEXT,
-aging_mfn_part_number String
+aging_mfr_part_number String,
+customer String,
+edit_customer String
 );

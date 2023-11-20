@@ -249,7 +249,11 @@ class BasePage:
         actions = ActionChains(self.driver)
         for s in range(2):
             actions.send_keys_to_element(element, Keys.PAGE_DOWN).perform()
-        self.logger.info("Scrolled down")
+
+    def scroll_up(self, element):
+        actions = ActionChains(self.driver)
+        for s in range(2):
+            actions.send_keys_to_element(element, Keys.PAGE_UP).perform()
 
     def scroll_horizontally(self, element):
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
@@ -305,3 +309,9 @@ class BasePage:
         else:
             return False
 
+    def do_check_visibility_for_validation(self, by_locator):
+        try:
+            WebDriverWait(self.driver, self.TIMEOUT_LESSER).until(EC.visibility_of_element_located(by_locator))
+            return True
+        except:
+            return False
