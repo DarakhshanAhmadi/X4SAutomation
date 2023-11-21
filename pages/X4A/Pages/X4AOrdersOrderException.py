@@ -677,9 +677,7 @@ class X4AOrderExceptionPage(BasePage):
         try:
             self.do_click_by_locator(self.FRAUD_ORDERS_TAB)
             self.do_send_keys(self.FRAUD_SEARCH_BOX, confirmation_id)
-            actions = ActionChains(self.driver)
-            actions.send_keys(Keys.ENTER)
-            actions.perform()
+            self.do_press_enter()
             time.sleep(5)
             self.do_click_by_locator(self.FRAUD_FIRST_RECORD)
             return True
@@ -841,9 +839,7 @@ class X4AOrderExceptionPage(BasePage):
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
             for retry in range(3):
-                actions = ActionChains(self.driver)
-                actions.send_keys(Keys.ENTER)
-                actions.perform()
+                self.do_press_enter()
                 time.sleep(5)
                 if self.do_check_visibility(self.FRAUD_FIRST_RECORD):
                     break
@@ -3224,13 +3220,8 @@ class X4AOrderExceptionPage(BasePage):
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
             self.logger.info("Searched with confirmation_id as '" + confirmation_id + "'")
-            actions = ActionChains(self.driver)
-            actions.send_keys(Keys.ENTER)
-            actions.perform()
-            time.sleep(5)
-            actions = ActionChains(self.driver)
-            actions.send_keys(Keys.ENTER)
-            actions.perform()
+            self.do_press_enter()
+            time.sleep(3)
             confirmation_id_xpath = (By.XPATH,
                                      "//div[@class='MuiDataGrid-row'][@data-rowindex='0']/div[@data-field='orderConfirmationNumber']/div")
             ui_confirmation_id = self.get_element_text_for_filter(confirmation_id_xpath)
@@ -3245,13 +3236,7 @@ class X4AOrderExceptionPage(BasePage):
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, reject_reason)
             self.logger.info("Searched with reject_reason as '" + reject_reason + "'")
-            actions = ActionChains(self.driver)
-            actions.send_keys(Keys.ENTER)
-            actions.perform()
-            time.sleep(5)
-            actions = ActionChains(self.driver)
-            actions.send_keys(Keys.ENTER)
-            actions.perform()
+            self.do_press_enter()
             reject_reason_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex='0']/div[@data-field='firstRejectReason']")
             ui_reject_reason = self.get_element_text_for_filter(reject_reason_xpath)
             assert str(ui_reject_reason) == str(reject_reason), "Reject reason mismatched"
@@ -3265,13 +3250,7 @@ class X4AOrderExceptionPage(BasePage):
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, customer_name)
             self.logger.info("Searched with Customer Name as '" + customer_name + "'")
-            actions = ActionChains(self.driver)
-            actions.send_keys(Keys.ENTER)
-            actions.perform()
-            time.sleep(5)
-            actions = ActionChains(self.driver)
-            actions.send_keys(Keys.ENTER)
-            actions.perform()
+            self.do_press_enter()
             time.sleep(3)
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
@@ -3288,9 +3267,7 @@ class X4AOrderExceptionPage(BasePage):
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, "@#@#@$!@@3123")
             self.logger.info("Searched with invalid text as @#@#@$!@@3123")
-            actions = ActionChains(self.driver)
-            actions.send_keys(Keys.ENTER)
-            actions.perform()
+            self.do_press_enter()
             time.sleep(5)
             message = "No failed orders found."
             if self.do_check_visibility(self.NO_FAILED_ORDER_FOUND_MESSAGE):
@@ -3312,9 +3289,7 @@ class X4AOrderExceptionPage(BasePage):
             self.do_clear_textfield(self.DATA_ERRORS_SEARCH_BOX)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, "US")
             self.logger.info("Searched with 2 character as US")
-            actions = ActionChains(self.driver)
-            actions.send_keys(Keys.ENTER)
-            actions.perform()
+            self.do_press_enter()
             time.sleep(3)
             message = "Minimum 3 charcters are required"
             if self.do_check_visibility(self.MINIMUM_3_CHAR_REQUIRED_MESSAGE):
@@ -3390,9 +3365,7 @@ class X4AOrderExceptionPage(BasePage):
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
             self.do_clear_textfield(self.DATA_ERRORS_SEARCH_BOX)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, bcn)
-            actions = ActionChains(self.driver)
-            actions.send_keys(Keys.ENTER)
-            actions.perform()
+            self.do_press_enter()
             return True
         except Exception as e:
             self.logger.error(
@@ -3406,9 +3379,7 @@ class X4AOrderExceptionPage(BasePage):
             self.do_click_by_locator(self.SEARCH_BOX_CLOSE_ICON)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, reseller_po)
             self.logger.info("Searched with Reseller PO as '" + reseller_po + "'")
-            actions = ActionChains(self.driver)
-            actions.send_keys(Keys.ENTER)
-            actions.perform()
+            self.do_press_enter()
             reseller_po_xpath = (
                 By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-rowindex='0']/div[@data-field='poNumber']/div")
             ui_reseller_po = self.get_element_text_for_filter(reseller_po_xpath)
@@ -3424,9 +3395,7 @@ class X4AOrderExceptionPage(BasePage):
             self.do_click_by_locator(self.SEARCH_BOX_CLOSE_ICON)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, substring_of_reseller_po)
             self.logger.info("Searched with Substring of Reseller PO text as '" + substring_of_reseller_po + "'")
-            actions = ActionChains(self.driver)
-            actions.send_keys(Keys.ENTER)
-            actions.perform()
+            self.do_press_enter()
             substring_of_reseller_po_xpath = (
                 By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-rowindex='0']/div[@data-field='poNumber']/div")
             ui_substring_of_reseller_po = self.get_element_text_for_filter(substring_of_reseller_po_xpath)
