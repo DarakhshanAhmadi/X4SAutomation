@@ -45,6 +45,10 @@ class X4ASalesOrdersPage(BasePage):
     INVOICE_NUMBER = (By.XPATH, "//div[text()='invoicenumber']")
     COUNTRY_CODE = (By.XPATH, "//div[text()='countrycode']")
     TRACKING = (By.XPATH, "//div[text()='Tracking#']")
+    ESTIMATED_DELIVERY_DATE = (By.XPATH, "//div[text()='Estimated delivery date']")
+    INVOICE_DATE = (By.XPATH, "//div[text()='Invoice date']")
+    SHIPPED_DATE = (By.XPATH, "//div[text()='Shipped date']")
+    SPECIAL_BID_NUMBER = (By.XPATH, "//div[text()='Special bid number']")
     TYPE = (By.XPATH, "//div[text()='Type']")
     BCN = (By.XPATH, "//div[text()='BCN']")
     RESELLER_PO = (By.XPATH, "//div[text()='Reseller PO#']")
@@ -337,6 +341,48 @@ class X4ASalesOrdersPage(BasePage):
             return True
         except Exception as e:
             self.logger.error('Exception occurred while verifying Tracking column Sales Orders listing page ' + str(e))
+            return False
+
+    def is_est_delivery_date_clm_visible(self):
+        try:
+            if not self.do_check_visibility(self.ESTIMATED_DELIVERY_DATE):
+                return False
+            self.logger.info("Successfully verified the Estimated delivery date Column")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Estimated delivery date column Sales Orders listing page ' + str(e))
+            return False
+
+    def is_invoice_date_clm_visible(self):
+        try:
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft = 2000")
+            if not self.do_check_visibility(self.INVOICE_DATE):
+                return False
+            self.logger.info("Successfully verified the Invoice date Column")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Invoice date column Sales Orders listing page ' + str(e))
+            return False
+
+    def is_shipped_date_clm_visible(self):
+        try:
+            if not self.do_check_visibility(self.SHIPPED_DATE):
+                return False
+            self.logger.info("Successfully verified the Shipped date Column")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Shipped date column Sales Orders listing page ' + str(e))
+            return False
+
+    def is_spcl_bid_num_clm_visible(self):
+        try:
+            if not self.do_check_visibility(self.TRACKING):
+                return False
+            self.logger.info("Successfully verified the Special bid number Column")
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying Special bid number column Sales Orders listing page ' + str(e))
             return False
 
     def is_type_clum_visible(self):
