@@ -2300,7 +2300,6 @@ class ValidateOrderExceptionData:
             self.logger.exception(e)
             return False
 
-
     def do_correct_end_customer_po_and_resubmit_order_cancel_proceed_button(self, feature_file_name):
         x4a_order_exception = X4AOrderExceptionPage(self.driver)
         try:
@@ -2315,5 +2314,150 @@ class ValidateOrderExceptionData:
                                             + "_correct_end_customer_po_and_resubmit_order_cancel_proceed_button_successfully.png")
                 return True
         except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def search_with_confirmation_id_verify_search_result(self, feature_file_name, confirmation_id):
+        x4a_order_exception = X4AOrderExceptionPage(self.driver)
+        try:
+            if not x4a_order_exception.search_with_confirmation_id_verify_search_result(confirmation_id):
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_search_with_confirmation_id_verify_search_result_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Searched with confirmation id and Verified that data should get displayed in the list as per searched Confirmation ID")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_search_with_confirmation_id_verify_search_result_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def search_with_reject_reason_verify_search_result(self, feature_file_name, reject_reason):
+        x4a_order_exception = X4AOrderExceptionPage(self.driver)
+        try:
+            if not x4a_order_exception.search_with_reject_reason_verify_search_result(reject_reason):
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_search_with_reject_reason_verify_search_result_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Searched with Reject reason and Verified that data should get displayed in the list as per searched Reject reason")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_search_with_reject_reason_verify_search_result_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def search_with_customer_name_verify_search_result(self, feature_file_name, customer_name):
+        x4a_order_exception = X4AOrderExceptionPage(self.driver)
+        try:
+            if not x4a_order_exception.search_with_customer_name_verify_search_result(customer_name):
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_search_with_customer_name_verify_search_result_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Searched with Customer name and Verified that data should get displayed in the list as per searched Customer name")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_search_with_customer_name_verify_search_result_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def search_with_invalid_text_verify_no_failed_order_found_message(self, feature_file_name):
+        x4a_order_exception = X4AOrderExceptionPage(self.driver)
+        try:
+            if not x4a_order_exception.search_with_invalid_text_verify_no_failed_order_found_message():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_search_with_invalid_text_verify_no_failed_order_found_message_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Searched with invalid text and verified that No failed orders found message")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_search_with_invalid_text_verify_no_failed_order_found_message_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def search_with_two_char_verify_message(self, feature_file_name):
+        x4a_order_exception = X4AOrderExceptionPage(self.driver)
+        try:
+            if not x4a_order_exception.search_with_two_char_verify_message():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_search_with_two_char_verify_message_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Searched with 2 characters and Verified that Minimum 3 charcters are required message should get displayed")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_search_with_two_char_verify_message_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_validate_reseller_bcn(self, reseller_bcn, feature_file_name, screen_shot):
+        x4a_order_exception = X4AOrderExceptionPage(self.driver)
+        try:
+            if not x4a_order_exception.verify_filter_by_bcn_in_pages(reseller_bcn):
+                self.logger.error("Failed to validate Reseller BCN")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_bcn_error.png")
+                screen_shot[
+                    "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_validate_bcn_error.png"
+                return False
+            else:
+                self.logger.info("Successfully validate Reseller BCN successfully")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name + "_validate_bcn_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating Reseller BCN")
+            self.logger.exception(e)
+            return False
+
+    def search_with_reseller_po_verify_result(self, reseller_po, feature_file_name, screen_shot):
+        x4a_order_exception = X4AOrderExceptionPage(self.driver)
+        try:
+            if not x4a_order_exception.search_with_reseller_po_verify_result(reseller_po):
+                self.logger.error("Failed to validate Reseller PO")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_search_with_reseller_po_verify_result_error.png")
+                screen_shot[
+                    "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_search_with_reseller_po_verify_result_error.png"
+                return False
+            else:
+                self.logger.info("Successfully validate Reseller PO successfully")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name + "_search_with_reseller_po_verify_result_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating Reseller PO")
+            self.logger.exception(e)
+            return False
+
+    def search_with_substring_of_reseller_po_verify_result(self, substring_of_reseller_po, feature_file_name, screen_shot):
+        x4a_order_exception = X4AOrderExceptionPage(self.driver)
+        try:
+            if not x4a_order_exception.search_with_substring_of_reseller_po_verify_result(substring_of_reseller_po):
+                self.logger.error("Failed to validate Reseller PO")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_search_with_substring_of_reseller_po_verify_result_error.png")
+                screen_shot[
+                    "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_search_with_substring_of_reseller_po_verify_result_error.png"
+                return False
+            else:
+                self.logger.info("Successfully validate Reseller PO successfully")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name + "_search_with_substring_of_reseller_po_verify_result_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating Reseller PO")
             self.logger.exception(e)
             return False

@@ -58,7 +58,6 @@ class DataCreationViaApi:
         return confirmation_id
 
     def post_request_for_x4c_order_exception_create(self, po_number, country):
-        breakpoint()
         data_error_order_base_url = ApiBaseURLs.data_error_order_url
         path = ".\\RestApi\\Resources\\x4c_data_error_order_duplicate_po_" + country + "_payload.json"
         self.logger.info("post url: " + data_error_order_base_url)
