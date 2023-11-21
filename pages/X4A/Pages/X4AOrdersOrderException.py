@@ -2765,9 +2765,7 @@ class X4AOrderExceptionPage(BasePage):
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
             for i in range(3):
-                actions = ActionChains(self.driver)
-                actions.send_keys(Keys.ENTER)
-                actions.perform()
+                self.do_press_enter()
                 time.sleep(5)
                 if self.do_check_visibility(self.FRAUD_FIRST_RECORD):
                     channel = self.get_element_text(self.LISTING_PAGE_CHANNEL_NAME)
@@ -2792,9 +2790,7 @@ class X4AOrderExceptionPage(BasePage):
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
             for i in range(3):
-                actions = ActionChains(self.driver)
-                actions.send_keys(Keys.ENTER)
-                actions.perform()
+                self.do_press_enter()
                 time.sleep(2)
                 if self.do_check_visibility(self.FRAUD_FIRST_RECORD):
                     self.do_click_by_locator(self.FRAUD_FIRST_RECORD)
