@@ -7,6 +7,7 @@ from RestApi.Operations.data_creation_via_api import DataCreationViaApi
 from db.service.X4AInputOrderDbManagementService import X4AInputOrderDbManagementService
 from pages.X4A.Facade.PrepareObject import PrepareObject
 from pages.X4A.TestSteps.validateOrderExceptionData import ValidateOrderExceptionData
+from pages.X4A.TestSteps.validateSalesOrdersData import ValidateSalesOrdersData
 
 parse_config_json = ParseConfigFile()
 screen_shot = {"path": " "}
@@ -195,6 +196,12 @@ def test_verify_resubmiting_data_error_order_with_duplicate_po_for_ca():
 @scenario("features/hardware/order_exception_orders.feature",
           "Verify Resubmitting Data error order with duplicate case sensitive PO# for CA marketplace")
 def test_verify_resubmiting_data_error_order_with_duplicate_case_sensitive_po_for_ca():
+    pass
+
+
+@scenario("features/hardware/order_exception_orders.feature",
+          "Order Exception Search")
+def test_order_exception_search():
     pass
 
 
@@ -2084,3 +2091,151 @@ def correct_the_po_and_add_new_line_verify_resubmit_order_message_and_cancel_and
         logger.error(
             "Error while correcting the End Customer order# then Verify Resubmit Order message and Cancel and Proceed button %s",
             e)
+
+
+@when(parsers.parse(
+    'Search with confirmation id and Verify that data should get displayed in the list as per searched Confirmation ID'))
+def search_with_confirmation_id_and_verify_that_data_should_get_displayed_in_the_list_as_per_searched_confirmation_id(
+        init_driver):
+    feature_file_name = "order_exception_orders"
+    validate_order_exception_data = ValidateOrderExceptionData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        confirmation_id = input_order_data.get("data_errors_resubmit_order_confirmation_id")
+        if not validate_order_exception_data.search_with_confirmation_id_verify_search_result(
+                feature_file_name, confirmation_id):
+            raise Exception(
+                "Failed to Search with confirmation id and Verify that data should get displayed in the list as per searched Confirmation ID")
+    except Exception as e:
+        logger.error(
+            "Error while searching with confirmation id and Verify that data should get displayed in the list as per searched Confirmation ID %s",
+            e)
+        raise e
+
+
+@when(parsers.parse(
+    'Search with Reject reason and Verify that data should get displayed in the list as per searched Reject reason'))
+def search_with_reject_reason_and_verify_that_data_should_get_displayed_in_the_list_as_per_searched_reject_reason(
+        init_driver):
+    feature_file_name = "order_exception_orders"
+    validate_order_exception_data = ValidateOrderExceptionData(init_driver)
+    try:
+        reject_reason = "There is an invalid Character in the field"
+        if not validate_order_exception_data.search_with_reject_reason_verify_search_result(
+                feature_file_name, reject_reason):
+            raise Exception(
+                "Failed to Search with Reject reason and Verify that data should get displayed in the list as per searched Reject reason")
+    except Exception as e:
+        logger.error(
+            "Error while searching with Reject reason and Verify that data should get displayed in the list as per searched Reject reason %s",
+            e)
+        raise e
+
+
+@when(parsers.parse(
+    'Search with Customer name and Verify that data should get displayed in the list as per searched Customer name'))
+def search_with_customer_name_and_verify_that_data_should_get_displayed_in_the_list_as_per_searched_customer_name(
+        init_driver):
+    feature_file_name = "order_exception_orders"
+    validate_order_exception_data = ValidateOrderExceptionData(init_driver)
+    try:
+        customer_name = "INGRAM MICRO CAP TEST ACCOUNT"
+        if not validate_order_exception_data.search_with_customer_name_verify_search_result(
+                feature_file_name, customer_name):
+            raise Exception(
+                "Failed to Search with Customer name and Verify that data should get displayed in the list as per searched Customer name")
+    except Exception as e:
+        logger.error(
+            "Error while searching with Customer name and Verify that data should get displayed in the list as per searched Customer name %s",
+            e)
+        raise e
+
+
+@when(
+    parsers.parse('Search with some invalid text and Verify that No failed orders found message should get displayed'))
+def search_with_some_invalid_text_and_verify_that_no_failed_orders_found_message_should_get_displayed(init_driver):
+    feature_file_name = "order_exception_orders"
+    validate_order_exception_data = ValidateOrderExceptionData(init_driver)
+    try:
+        if not validate_order_exception_data.search_with_invalid_text_verify_no_failed_order_found_message(
+                feature_file_name):
+            raise Exception(
+                "Failed to search with some invalid text and Verify that No failed orders found message should get displayed")
+    except Exception as e:
+        logger.error(
+            "Error while searching with some invalid text and Verify that No failed orders found message should get displayed %s",
+            e)
+        raise e
+
+
+@when(parsers.parse(
+    'Search with 2 characters and Verify that Minimum 3 charcters are required message should get displayed'))
+def search_with_2_character_and_verify_that_minimum_3_chacters_are_required_message_should_get_displayed(init_driver):
+    feature_file_name = "order_exception_orders"
+    validate_order_exception_data = ValidateOrderExceptionData(init_driver)
+    try:
+        if not validate_order_exception_data.search_with_two_char_verify_message(
+                feature_file_name):
+            raise Exception(
+                "Failed to Search with 2 characters and Verify that Minimum 3 charcters are required message should get displayed")
+    except Exception as e:
+        logger.error(
+            "Error while Search with 2 characters and Verify that Minimum 3 charcters are required message should get displayed %s",
+            e)
+        raise e
+
+
+@when(parsers.parse(
+    'Search with BCN and Verify that data should get displayed in the list as per searched BCN'))
+def search_with_bcn_and_verify_that_data_should_get_displayed_in_the_list_as_per_searched_bcn(init_driver):
+    feature_file_name = "order_exception_orders"
+    validate_order_exception_data = ValidateOrderExceptionData(init_driver)
+    try:
+        bcn = "20222222"
+        if not validate_order_exception_data.do_validate_reseller_bcn(bcn, feature_file_name, screen_shot):
+            raise Exception(
+                "Failed to Search with BCN and Verify that data should get displayed in the list as per searched BCN")
+    except Exception as e:
+        logger.error(
+            "Error while Search with BCN and Verify that data should get displayed in the list as per searched BCN %s",
+            e)
+        raise e
+
+
+@when(parsers.parse(
+    'Searched with Reseller PO and Verify that data should get displayed in the list as per Reseller PO'))
+def search_with_reseller_po_and_verify_that_data_should_get_displayed_in_the_list_as_per_searched_reseller_po(
+        init_driver):
+    feature_file_name = "order_exception_orders"
+    validate_order_exception_data = ValidateOrderExceptionData(init_driver)
+    try:
+        reseller_po = "TESTPO^"
+        if not validate_order_exception_data.search_with_reseller_po_verify_result(reseller_po, feature_file_name,
+                                                                                   screen_shot):
+            raise Exception(
+                "Failed to Search with BCN and Verify that data should get displayed in the list as per searched BCN")
+    except Exception as e:
+        logger.error(
+            "Error while Search with BCN and Verify that data should get displayed in the list as per searched BCN %s",
+            e)
+        raise e
+
+
+@when(parsers.parse(
+    'Searched with substring of reseller po and Verify that data should get displayed in the list as per Reseller PO'))
+def search_with_reseller_po_and_verify_that_data_should_get_displayed_in_the_list_as_per_searched_reseller_po(
+        init_driver):
+    feature_file_name = "order_exception_orders"
+    validate_order_exception_data = ValidateOrderExceptionData(init_driver)
+    try:
+        substring_of_reseller_po = "TEST"
+        if not validate_order_exception_data.search_with_substring_of_reseller_po_verify_result(
+                substring_of_reseller_po, feature_file_name, screen_shot):
+            raise Exception(
+                "Failed to Searched with substring of reseller po and Verify that data should get displayed in the list as per Reseller PO")
+    except Exception as e:
+        logger.error(
+            "Error while Searched with substring of reseller po and Verify that data should get displayed in the list as per Reseller PO %s",
+            e)
+        raise e

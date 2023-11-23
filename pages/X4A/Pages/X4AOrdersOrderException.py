@@ -479,6 +479,12 @@ class X4AOrderExceptionPage(BasePage):
     NEW_ORDER_LINE_VALIDATE_BUTTON = (By.XPATH, "//button[text()='Validate']")
     NEW_ORDER_LINE_CONTINUE_BUTTON = (By.XPATH, "//button[text()='Continue']")
     ADD_NEW_LINE_ADD_BUTTON = (By.XPATH, "//button[text()='Add']")
+    MINIMUM_3_CHAR_REQUIRED_MESSAGE = (By.XPATH, "//*[@data-testid='SearchBar']/p")
+    ITEMS_PER_PAGE = (By.XPATH,
+                      "//div[@class='MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-d2iqo8-MuiSelect-select-MuiInputBase-input']")
+    SALES_ORDER_TABLE = (
+        By.XPATH, "//div[@class='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']")
+    SEARCH_BOX_CLOSE_ICON = (By.XPATH, "//*[@data-testid='CloseIcon']")
 
     def go_to_order_exception(self):
         try:
@@ -497,7 +503,6 @@ class X4AOrderExceptionPage(BasePage):
             for i in range(0, 2):
                 checkbox = (By.XPATH, "//div[@data-rowindex='" + str(i) + "']/div[@data-field='__check__']")
                 self.do_click_by_locator(checkbox)
-
             self.logger.info("Selected multiple record")
         except Exception as e:
             self.logger.error('Exception occurred while clicking on multiple record ' + str(e))
@@ -671,10 +676,8 @@ class X4AOrderExceptionPage(BasePage):
     def do_search_and_select_order(self, confirmation_id):
         try:
             self.do_click_by_locator(self.FRAUD_ORDERS_TAB)
-            self.do_click_by_locator(self.SEARCH_DROP_DOWN)
-            self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
             self.do_send_keys(self.FRAUD_SEARCH_BOX, confirmation_id)
-            self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+            self.do_press_enter()
             time.sleep(5)
             self.do_click_by_locator(self.FRAUD_FIRST_RECORD)
             return True
@@ -834,11 +837,9 @@ class X4AOrderExceptionPage(BasePage):
         try:
             time.sleep(5)
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
-            self.do_click_by_locator(self.SEARCH_DROP_DOWN)
-            self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
             for retry in range(3):
-                self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+                self.do_press_enter()
                 time.sleep(5)
                 if self.do_check_visibility(self.FRAUD_FIRST_RECORD):
                     break
@@ -959,8 +960,6 @@ class X4AOrderExceptionPage(BasePage):
         try:
             time.sleep(5)
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
-            self.do_click_by_locator(self.SEARCH_DROP_DOWN)
-            self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
             self.do_send_keys(self.FRAUD_SEARCH_BOX, confirmation_id)
             self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
             time.sleep(5)
@@ -2764,11 +2763,9 @@ class X4AOrderExceptionPage(BasePage):
         try:
             time.sleep(5)
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
-            self.do_click_by_locator(self.SEARCH_DROP_DOWN)
-            self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
             for i in range(3):
-                self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+                self.do_press_enter()
                 time.sleep(5)
                 if self.do_check_visibility(self.FRAUD_FIRST_RECORD):
                     channel = self.get_element_text(self.LISTING_PAGE_CHANNEL_NAME)
@@ -2791,11 +2788,9 @@ class X4AOrderExceptionPage(BasePage):
         try:
             time.sleep(5)
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
-            self.do_click_by_locator(self.SEARCH_DROP_DOWN)
-            self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
             for i in range(3):
-                self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+                self.do_press_enter()
                 time.sleep(2)
                 if self.do_check_visibility(self.FRAUD_FIRST_RECORD):
                     self.do_click_by_locator(self.FRAUD_FIRST_RECORD)
@@ -3135,7 +3130,7 @@ class X4AOrderExceptionPage(BasePage):
             self.do_click_by_locator(self.DATA_ERRORS_RESUBMIT_ORDER_BUTTON)
             self.do_click_by_locator(self.YES_RESUBMIT_ORDER_BUTTON)
 
-            resubmit_order_message_msg = 'Are you sure you want to resubmit order? Purchase order resubmitting, ' + reseller_po +  ' already exists in Impulse. Order will be resubmitted, cannot undo this action.'
+            resubmit_order_message_msg = 'Are you sure you want to resubmit order? Purchase order resubmitting, ' + reseller_po + ' already exists in Impulse. Order will be resubmitted, cannot undo this action.'
             header_msg = 'Purchase order ' + reseller_po + ' already exists'
 
             pop_up_header_message = self.get_element_text(self.RESUBMIT_ORDER_HEADER_MSG).replace("\n", " ")
@@ -3194,7 +3189,7 @@ class X4AOrderExceptionPage(BasePage):
             self.do_click_by_locator(self.DATA_ERRORS_RESUBMIT_ORDER_BUTTON)
             self.do_click_by_locator(self.YES_RESUBMIT_ORDER_BUTTON)
 
-            resubmit_order_message_msg = 'Are you sure you want to resubmit order? Purchase order resubmitting, ' + reseller_po +  ' already exists in Impulse. Order will be resubmitted, cannot undo this action.'
+            resubmit_order_message_msg = 'Are you sure you want to resubmit order? Purchase order resubmitting, ' + reseller_po + ' already exists in Impulse. Order will be resubmitted, cannot undo this action.'
             header_msg = 'Purchase order ' + reseller_po + ' already exists'
 
             pop_up_header_message = self.get_element_text(self.RESUBMIT_ORDER_HEADER_MSG).replace("\n", " ")
@@ -3215,3 +3210,197 @@ class X4AOrderExceptionPage(BasePage):
             return True
         except Exception as e:
             return False
+
+    def search_with_confirmation_id_verify_search_result(self, confirmation_id):
+        try:
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
+            self.logger.info("Searched with confirmation_id as '" + confirmation_id + "'")
+            self.do_press_enter()
+            time.sleep(3)
+            confirmation_id_xpath = (By.XPATH,
+                                     "//div[@class='MuiDataGrid-row'][@data-rowindex='0']/div[@data-field='orderConfirmationNumber']/div")
+            ui_confirmation_id = self.get_element_text_for_filter(confirmation_id_xpath)
+            assert str(ui_confirmation_id) == str(confirmation_id), "Confirmation ID mismatched"
+            return True
+        except Exception as e:
+            return False
+
+    def search_with_reject_reason_verify_search_result(self, reject_reason):
+        try:
+            self.do_click_by_locator(self.SEARCH_BOX_CLOSE_ICON)
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, reject_reason)
+            self.logger.info("Searched with reject_reason as '" + reject_reason + "'")
+            self.do_press_enter()
+            reject_reason_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex='0']/div[@data-field='firstRejectReason']")
+            ui_reject_reason = self.get_element_text_for_filter(reject_reason_xpath)
+            assert str(ui_reject_reason) == str(reject_reason), "Reject reason mismatched"
+            return True
+        except Exception as e:
+            return False
+
+    def search_with_customer_name_verify_search_result(self, customer_name):
+        try:
+            self.do_click_by_locator(self.SEARCH_BOX_CLOSE_ICON)
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, customer_name)
+            self.logger.info("Searched with Customer Name as '" + customer_name + "'")
+            self.do_press_enter()
+            time.sleep(3)
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
+            customer_name_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex='0']/div[@data-field='customerName']/div/div")
+            ui_customer_name = self.get_element_text_for_filter(customer_name_xpath)
+            assert str(ui_customer_name) == str(customer_name), "Customer Name mismatched"
+            return True
+        except Exception as e:
+            return False
+
+    def search_with_invalid_text_verify_no_failed_order_found_message(self):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, "@#@#@$!@@3123")
+            self.logger.info("Searched with invalid text as @#@#@$!@@3123")
+            self.do_press_enter()
+            time.sleep(5)
+            message = "No failed orders found."
+            if self.do_check_visibility(self.NO_FAILED_ORDER_FOUND_MESSAGE):
+                if message == (self.get_element_text(self.NO_FAILED_ORDER_FOUND_MESSAGE)):
+                    self.logger.info("Successfully verify No failed orders found. message")
+                    return True
+                else:
+                    self.logger.info("Failed to verify No failed orders found. message")
+                    return False
+            else:
+                self.logger.info("No failed orders found. message not visible")
+                return False
+        except Exception as e:
+            return False
+
+    def search_with_two_char_verify_message(self):
+        try:
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_clear_textfield(self.DATA_ERRORS_SEARCH_BOX)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, "US")
+            self.logger.info("Searched with 2 character as US")
+            self.do_press_enter()
+            time.sleep(3)
+            message = "Minimum 3 charcters are required"
+            if self.do_check_visibility(self.MINIMUM_3_CHAR_REQUIRED_MESSAGE):
+                if message == (self.get_element_text(self.MINIMUM_3_CHAR_REQUIRED_MESSAGE)):
+                    self.logger.info("Successfully verified Minimum 3 charcters are required message")
+                    return True
+                else:
+                    self.logger.info("Failed to verify Minimum 3 charcters are required message")
+                    return False
+            else:
+                self.logger.info("Minimum 3 charcters are required message not visible")
+                return False
+        except Exception as e:
+            return False
+
+    def verify_filter_by_bcn_in_pages(self, bcn):
+        try:
+            self.do_click_by_locator(self.SEARCH_BOX_CLOSE_ICON)
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("Verifying Order type in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.filter_by_bcn(bcn)
+            self.validate_bcn(bcn)
+            self.logger.info("Successfully verified BCN")
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred verifying BCN in table" + str(e))
+            return False
+
+    def validate_bcn(self, bcn):
+        try:
+            self.logger.info("Verifying the BCN in table")
+            max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
+            self.logger.info("Max items per page: " + max_rows)
+            for i in range(int(max_rows)):
+                if i > 0 and i == 6:
+                    table_element = "//div[@class='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']"
+                    table = self.driver.find_element(By.XPATH, table_element)
+                    self.scroll_down(table)
+                    time.sleep(2)
+                self.logger.info("Fetching BCN")
+                bcn_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex='" + str(
+                    i) + "']/div[@data-field='bcnAccountNumber']")
+                try:
+                    time.sleep(3)
+                    ui_bcn = self.get_element_text_for_filter(bcn_xpath)
+                    self.logger.info("Fetched ui bcn account :" + str(ui_bcn))
+                except:
+                    self.logger.info("There are only " + str(i) + " rows")
+                    break
+                assert str(ui_bcn) == str(bcn), "BCN mismatched"
+        except Exception as e:
+            self.logger.error("Exception occurred verifying BCN" + str(e))
+            raise e
+
+    def check_if_result_found(self):
+        try:
+            self.logger.info("Checking if result found for Sales order")
+            table_rows = self.get_all_elements_without_visibility(self.TABLE_ROWS)
+        except Exception as e:
+            if self.do_check_visibility(self.NO_FAILED_ORDER_FOUND_MESSAGE):
+                self.logger.error("No failed order found for the search or filter")
+                raise e
+            else:
+                self.logger.error("Exception while checking the Sales order search result")
+                raise e
+
+    def filter_by_bcn(self, bcn):
+        try:
+            self.driver.refresh()
+            time.sleep(2)
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_clear_textfield(self.DATA_ERRORS_SEARCH_BOX)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, bcn)
+            self.do_press_enter()
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while filtering by BCN' + str(e))
+            return False
+
+    def search_with_reseller_po_verify_result(self, reseller_po):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_click_by_locator(self.SEARCH_BOX_CLOSE_ICON)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, reseller_po)
+            self.logger.info("Searched with Reseller PO as '" + reseller_po + "'")
+            self.do_press_enter()
+            reseller_po_xpath = (
+                By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-rowindex='0']/div[@data-field='poNumber']/div")
+            ui_reseller_po = self.get_element_text_for_filter(reseller_po_xpath)
+            assert str(ui_reseller_po) == str(reseller_po), "Reseller PO mismatched"
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred verifying Reseller PO in table" + str(e))
+            return False
+
+    def search_with_substring_of_reseller_po_verify_result(self, substring_of_reseller_po):
+        try:
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_click_by_locator(self.SEARCH_BOX_CLOSE_ICON)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, substring_of_reseller_po)
+            self.logger.info("Searched with Substring of Reseller PO text as '" + substring_of_reseller_po + "'")
+            self.do_press_enter()
+            substring_of_reseller_po_xpath = (
+                By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-rowindex='0']/div[@data-field='poNumber']/div")
+            ui_substring_of_reseller_po = self.get_element_text_for_filter(substring_of_reseller_po_xpath)
+            if substring_of_reseller_po in ui_substring_of_reseller_po:
+                self.logger.info("Substring of Reseller Po matched with UI Reseller PO")
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error("Exception occurred verifying Substring Of Reseller PO in table" + str(e))
+            return False
+
