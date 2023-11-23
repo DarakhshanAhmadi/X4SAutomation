@@ -2374,7 +2374,7 @@ class X4ASalesOrdersPage(BasePage):
             shiptoid_updated = self.get_element_text(self.SHIP_TO_ID_FIElD)
             companyname_updated = self.get_element_text(self.SHIP_TO_INFO_COMPANY_NAME_FIElD)
             address_after_updated = self.get_element_text(self.SHIP_TO_INFO_ADDRESS_FIElD)
-            final_address_updated = address_after_updated.replace('\n', ' ')
+            final_address_updated = companyname_updated + " " + address_after_updated.replace('\n', ' ')
             shipto_phoneno_updated = self.get_element_text(self.SHIP_TO_INFO_PHONE_NO_FIElD)
             shipto_contact_updated = self.get_element_text(self.SHIP_TO_INFO_CONTACT_FIElD)
             shipto_email_updated = self.get_element_text(self.SHIP_TO_INFO_EMAIL_FIElD)
@@ -2398,9 +2398,8 @@ class X4ASalesOrdersPage(BasePage):
             return False
 
     def shipto_enduser_info_validation(self, ship_to_suffix, ship_to_name, ship_to_address, ship_to_phone,
-                                       ship_to_contact, ship_to_email, end_user_id, end_user_address, end_user_contact):
+                                       ship_to_contact, ship_to_email, end_user_id, end_user_address, end_user_contact, end_user_email, end_user_phone, end_user_name):
         try:
-            breakpoint()
             if shiptoid_updated != ship_to_suffix:
                 self.logger.warning(f'Ship to ID mismatched. UI:{shiptoid_updated} Expected:{ship_to_suffix}')
             if companyname_updated != ship_to_name:
@@ -2414,15 +2413,21 @@ class X4ASalesOrdersPage(BasePage):
             if shipto_email_updated != ship_to_email:
                 self.logger.warning(f'Ship to email mismatched. UI:{shipto_email_updated} Expected:{ship_to_email}')
 
-            if enduser_id_updated != enduser_id_updated:
-                self.logger.warning(f'EndUser ID mismatched. UI:{enduser_id_updated} Expected:{enduser_id_updated}')
+            if enduser_id_updated != end_user_id:
+                self.logger.warning(f'EndUser ID mismatched. UI:{enduser_id_updated} Expected:{end_user_id}')
+            if enduser_companyname_updated != end_user_name:
+                self.logger.warning(f'EndUser Company name mismatched. UI:{enduser_companyname_updated} Expected:{end_user_name}')
+            if enduser_phonenumber_updated != end_user_phone:
+                self.logger.warning(f'EndUser Phone number mismatched. UI:{enduser_phonenumber_updated} Expected:{end_user_phone}')
+            if enduser_email_updated != end_user_email:
+                self.logger.warning(f'EndUser Email mismatched. UI:{enduser_email_updated} Expected:{end_user_email}')
             if enduser_contact_updated != end_user_contact:
                 self.logger.warning(f'EndUser contact mismatched. UI:{enduser_contact_updated} Expected:{end_user_contact}')
             if enduser_final_address_updated != end_user_address:
                 self.logger.warning(f'EndUser address mismatched. UI:{enduser_final_address_updated} Expected:{end_user_address}')
             return True
         except Exception as e:
-            self.logger.error("Exception occurred while validating shipto and end user info update" + str(e))
+            self.logger.error("Exception occurred while validating ship to and end user info update" + str(e))
             return False
 
     def validate_acop_field(self):
@@ -2876,16 +2881,16 @@ class X4ASalesOrdersPage(BasePage):
                                                                     "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(
                                                                         index) + "]/div[@data-field='specialBidNumber']/input"),
                                                                    'value')
+
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1200")
+            time.sleep(2)
+
             order_line_data['unit_price'] = self.do_get_attribute((By.XPATH,
                                                                    "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(
                                                                        index) + "]/div[@data-field='unitPrice']/input"),
                                                                   'value')
 
-            element = "//*[@data-rowindex='0']//*[@role='cell' and @data-field='cost']"
-            cost = self.driver.find_element(By.XPATH, element)
-            self.scroll_horizontally(cost)
-
-            time.sleep(3)
             order_line_data['cost'] = self.get_element_text((By.XPATH,
                                                              "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(
                                                                  index) + "]/div[@data-field='cost']"))
@@ -2893,15 +2898,6 @@ class X4ASalesOrdersPage(BasePage):
                                                                "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(
                                                                    index) + "]/div[@data-field='margin']"))
 
-            element = "//*[@data-rowindex='0']//*[@role='cell' and @data-field='currencyCode']"
-            currency_code = self.driver.find_element(By.XPATH, element)
-            self.scroll_horizontally(currency_code)
-            # scroll till quantity back order
-            time.sleep(2)
-            self.driver.execute_script(
-                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
-
-            time.sleep(2)
             order_line_data['quantity'] = self.do_get_attribute((By.XPATH,
                                                                  "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(
                                                                      index) + "]/div[@data-field='quantityOrdered']/input"),

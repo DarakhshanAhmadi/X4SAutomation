@@ -540,7 +540,7 @@ class ValidateSalesOrdersData:
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
             bill_to = bill_to_address.split(",")
-            bill_to_address = " ".join(bill_to)
+            bill_to_address = bill_to_name + " " + " ".join(bill_to)
             if (x4a_sales_order.is_bill_to_id_field_visible(
                     bill_to_suffix) & x4a_sales_order.is_company_nm_bill_field_visible(bill_to_name) &
                     x4a_sales_order.is_address_bill_field_visible(
@@ -1211,12 +1211,12 @@ class ValidateSalesOrdersData:
 
     def updated_shipto_enduser_info_validate(self, ship_to_suffix, ship_to_name, ship_to_address, ship_to_phone,
                                              ship_to_contact, ship_to_email, end_user_id, end_user_address,
-                                             end_user_contact, feature_file_name, screen_shot):
+                                             end_user_contact, end_user_email, end_user_phone, end_user_name, feature_file_name, screen_shot):
         x4a_sales_order = X4ASalesOrdersPage(self.driver)
         try:
             if x4a_sales_order.shipto_enduser_info_validation(ship_to_suffix, ship_to_name, ship_to_address,
                                                               ship_to_phone, ship_to_contact, ship_to_email,
-                                                              end_user_id, end_user_address, end_user_contact):
+                                                              end_user_id, end_user_address, end_user_contact, end_user_email, end_user_phone, end_user_name):
                 self.logger.info(
                     "Successfully updated shipto enduser info details")
                 self.driver.save_screenshot(
@@ -1538,15 +1538,15 @@ class ValidateSalesOrdersData:
                 flag = False
 
             self.logger.info("Verifying order line IM part")
-            if ui_data['order_line_im_part'].split(":")[-1].strip() != api_data['im_part_number']:
+            if ui_data['order_line_im_part'].split(": ")[-1] != api_data['im_part_number']:
                 self.logger.error(
-                    f'Order line IM part mismatched\n UI: {ui_data["order_line_im_part"]}  API: {api_data["im_part_number"]}')
+                    f'Order line IM part mismatched\n UI: {ui_data["order_line_im_part"].split(": ")[-1]}  API: {api_data["im_part_number"]}')
                 flag = False
 
             self.logger.info("Verifying order line VPN")
-            if ui_data['order_line_vpn'].split(":")[-1].strip() != api_data['vpn']:
+            if ui_data['order_line_vpn'].split(": ")[-1] != str(api_data['vpn']):
                 self.logger.error(
-                    f'Order line VPN mismatched\n UI: {ui_data["order_line_vpn"]}  API: {api_data["vpn"]}')
+                    f'Order line VPN mismatched\n UI: {ui_data["order_line_vpn"].split(": ")[-1]}  API: {api_data["vpn"]}')
                 flag = False
 
             self.logger.info("Verifying order line Description")
@@ -1562,19 +1562,25 @@ class ValidateSalesOrdersData:
                 flag = False
 
             self.logger.info("Verifying order line extended price")
-            if ui_data['order_line_extended_price'] != str(api_data['extended_price']):
+            if ui_data['order_line_extended_price'] != str(api_data['unit_price'] * api_data['quantity']):
                 self.logger.error(
                     f'Order line extended price mismatched\n UI: {ui_data["order_line_extended_price"]}  API: {api_data["extended_price"]}')
                 flag = False
 
             self.logger.info("Verifying order line special bid")
-            if ui_data['order_line_spl_bid'] != api_data['special_bid_number']:
+            if ui_data['order_line_spl_bid'] != str(api_data['special_bid_number']):
                 self.logger.error(
                     f'Order line special bid mismatched\n UI: {ui_data["order_line_spl_bid"]}  API: {api_data["special_bid_number"]}')
                 flag = False
 
             self.logger.info("Verifying order line cost")
-            if ui_data['order_line_cost'].strip() != str(api_data['cost']).strip():
+            if ui_data['order_line_cost'] != str(api_data['cost']):
+                self.logger.error(
+                    f'Order line cost mismatched\n UI: {ui_data["order_line_cost"]}  API: {api_data["cost"]}')
+                flag = False
+
+            self.logger.info("Verifying order line Extended cost")
+            if float(ui_data['order_line_extended_cost']) != float(api_data['cost'] * api_data['quantity']):
                 self.logger.error(
                     f'Order line cost mismatched\n UI: {ui_data["order_line_cost"]}  API: {api_data["cost"]}')
                 flag = False
@@ -1601,7 +1607,7 @@ class ValidateSalesOrdersData:
             margin = str(
                 round(((float(api_data['unit_price']) - float(api_data['cost'])) / float(api_data['unit_price'])) * 100,
                       2))
-            if ui_data['order_line_margin'] != margin:
+            if float(ui_data['order_line_margin']) != float(margin):
                 self.logger.error(
                     f'Order line margin mismatched\n UI: {ui_data["order_line_margin"]}  Calculated: {margin}')
             return flag
