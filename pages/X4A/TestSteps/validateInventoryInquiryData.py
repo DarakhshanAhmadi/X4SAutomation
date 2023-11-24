@@ -13,6 +13,8 @@ class ValidateInventoryInquiryData:
     inventory_inquiry_table_headers = ['SKU#', 'Description', 'VPN#', 'UPC', 'Vendor', 'Status', 'Language', 'Class', 'Restricted code', 'Available Qty', 'MSRP', 'ACOP', 'Reseller price', 'Vendor message', 'Vendor code']
     inventory_details_page_headers = ['Country', 'Currency', 'Vendor code', 'Vendor part', 'Restricted', 'Substitute SKU']
     product_details_sections = ['Description', 'Vendor details', 'Codes', 'Product costs']
+    additional_inventory_details_sections = ['Categories', 'Genral information']
+    inventory_visibility_table_headers = ['Branch', 'Available', 'Commited', 'Future', 'On Order', 'In transit', 'On hold', 'On hand', 'Average cost', 'ETA', 'Warehouse location']
 
     def __init__(self, driver):
         self.driver = driver
@@ -343,16 +345,33 @@ class ValidateInventoryInquiryData:
             self.logger.exception(e)
             return False
 
-    def validate_product_details_fields(self, sku_data, feature_file_name, screen_shot):
+    def validate_product_details_fields(self, sku_data, feature_file_name, screen_shot, customer=None):
         x4a_inventory_inquiry = X4AInventoryInquiryPage(self.driver)
         try:
-            breakpoint()
-            product_details_sections_headers, description_section, vendor_details_section, codes_section, categories_section = x4a_inventory_inquiry.get_product_details()
-            assert len(self.product_details_sections) == len(
-                product_details_sections_headers), 'Number of section under product details mismatched'
+            product_details_sections_headers, description_section, vendor_details_section, codes_section, product_costs = x4a_inventory_inquiry.get_product_details()
+            assert len(self.product_details_sections) == len(product_details_sections_headers), 'Number of section under product details mismatched'
             for section in self.product_details_sections:
                 if section not in product_details_sections_headers:
                     raise Exception(f'{section} section is missing in product details tab')
+            if customer:
+                assert description_section["Description"] == sku_data['description'], "Product details Description mismatched"
+                assert vendor_details_section["Vendor"] == sku_data["vendor"], "Product details Vendor mismatched"
+                assert codes_section["Classification code"] == sku_data["class"], "Product details Classification code mismatched"
+                assert codes_section["Media code"] != "-", "Product details Media code is empty"
+                assert codes_section["CPU code"] != "-", "Product details CPU code is empty"
+                assert product_costs["Reseller price"] != "-", "Product details Reseller price is empty"
+                assert product_costs["IM cost"] != "-", "Product details IM cost is empty"
+                assert product_costs["IM retail price"] != "-", "Product details IM retail price is empty"
+                assert product_costs["Dealer price"] != "-", "Product details Dealer price is empty"
+                assert product_costs["Replacement price"] != "-", "Product details Replacement price is empty"
+            else:
+                assert description_section["Description"] == sku_data[
+                    'description'], "Product details Description mismatched"
+                assert vendor_details_section["Vendor"] == sku_data["vendor"], "Product details Vendor mismatched"
+                assert codes_section["Classification code"] == sku_data[
+                    "class"], "Product details Classification code mismatched"
+                assert codes_section["Media code"] != "-", "Product details Media code is empty"
+                assert codes_section["CPU code"] != "-", "Product details CPU code is empty"
             self.logger.info("Successfully validated product details fields")
             self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                                         + "product_details_fields_validated_successfully.png")
@@ -363,5 +382,51 @@ class ValidateInventoryInquiryData:
             screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
                                                             "product_details_fields_validation_error.png"
             self.logger.error("Error while validating product details fields")
+            self.logger.exception(e)
+            return False
+
+    def validate_additional_inventory_details_fields(self, feature_file_name, screen_shot, customer=None):
+        x4a_inventory_inquiry = X4AInventoryInquiryPage(self.driver)
+        try:
+            additional_inventory_details_sections_headers, categories_sections, general_information_sections = x4a_inventory_inquiry.get_additional_attributes_details()
+            assert len(self.additional_inventory_details_sections) == len(additional_inventory_details_sections_headers), 'Number of sections under additional inventory details mismatched'
+            for section in self.additional_inventory_details_sections:
+                if section not in additional_inventory_details_sections_headers:
+                    raise Exception(f'{section} section is missing in additional inventory details tab')
+            if customer:
+                assert categories_sections["CAT/SUB"] != "-", "Additional inventory details CAT/SUB is empty"
+            else:
+                assert categories_sections["CAT/SUB"] == "-", "Additional inventory details CAT/SUB is not empty"
+            self.logger.info("Successfully validated Additional inventory details")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "additional_inventory_details_validated_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "additional_inventory_details_validation_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                                            "additional_inventory_details_validation_error.png"
+            self.logger.error("Error while validating Additional inventory details")
+            self.logger.exception(e)
+            return False
+
+    def validate_inventory_visibility_fields(self, feature_file_name, screen_shot):
+        x4a_inventory_inquiry = X4AInventoryInquiryPage(self.driver)
+        try:
+            inventory_visibility_columns = x4a_inventory_inquiry.validate_inventory_visibility_table()
+            assert len(inventory_visibility_columns) == len(self.inventory_visibility_table_headers)
+            for column in self.inventory_inquiry_table_headers:
+                if column not in inventory_visibility_columns:
+                    raise Exception(f'{column} column is missing in inventory visibility')
+            self.logger.info("Successfully validated Inventory visibility")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "Inventory_visibility_validated_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "Inventory_visibility_validation_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                                            "Inventory_visibility_validation_error.png"
+            self.logger.error("Error while validating Inventory visibility")
             self.logger.exception(e)
             return False

@@ -12,6 +12,7 @@ parse_config_json = ParseConfigFile()
 screen_shot = {"path": " "}
 x4a_status_list = []
 x4a_inventory_list = []
+sku_data = {}
 db_file_path = ReadConfig.get_db_file_path()
 inventory_management_srv_obj = X4AInventoryDbManagementService()
 
@@ -238,6 +239,12 @@ def verify_customer_select_popup(init_driver):
     try:
         if not validate_inventory_inquiry.validate_inventory_visibility_data_not_present(feature_file_name, screen_shot):
             raise Exception("Failed to validate no inventory visibility data present in details page")
+        if not validate_inventory_inquiry.validate_inventory_details_headers(sku_data, feature_file_name, screen_shot):
+            raise Exception("Inventory details header validation failed")
+        if not validate_inventory_inquiry.validate_product_details_fields(sku_data, feature_file_name, screen_shot):
+            raise Exception("Product details fields validation failed")
+        if not validate_inventory_inquiry.validate_additional_inventory_details_fields(feature_file_name, screen_shot):
+            raise Exception("Additional inventory details validation failed")
     except Exception as e:
         logger.error("Not able to validate no inventory visibility data present in details page %s", e)
         raise e
@@ -250,6 +257,14 @@ def verify_customer_select_popup(init_driver):
     try:
         if not validate_inventory_inquiry.validate_inventory_visibility_data_present(feature_file_name, screen_shot):
             raise Exception("Failed to validate inventory visibility data present in details page")
+        if not validate_inventory_inquiry.validate_inventory_details_headers(sku_data, feature_file_name, screen_shot):
+            raise Exception("Inventory details header validation failed")
+        if not validate_inventory_inquiry.validate_product_details_fields(sku_data, feature_file_name, screen_shot, True):
+            raise Exception("Product details fields validation failed")
+        if not validate_inventory_inquiry.validate_additional_inventory_details_fields(feature_file_name, screen_shot, True):
+            raise Exception("Additional inventory details validation failed")
+        if not validate_inventory_inquiry.validate_inventory_visibility_fields(feature_file_name, screen_shot):
+            raise Exception("Inventory visibility validation failed")
     except Exception as e:
         logger.error("Not able to validate inventory visibility data present in details page %s", e)
         raise e
@@ -261,8 +276,11 @@ def search_and_go_to_details(init_driver):
     validate_inventory_inquiry = ValidateInventoryInquiryData(init_driver)
     try:
         sku = inventory_management_srv_obj.get_x4a_inventory_test_case_detail(db_file_path, feature_file_name).get("under_performing_sku")
-        if not validate_inventory_inquiry.search_and_go_to_sku_details(sku, feature_file_name, screen_shot):
+        status, sku_details = validate_inventory_inquiry.search_and_go_to_sku_details(sku, feature_file_name, screen_shot)
+        if not status:
             raise Exception("Failed to go to sku details page and validate data")
+        global sku_data
+        sku_data = sku_details
     except Exception as e:
         logger.error("Not able to go to sku details page and validate data %s", e)
         raise e
