@@ -415,7 +415,7 @@ class ValidateInventoryInquiryData:
         try:
             inventory_visibility_columns = x4a_inventory_inquiry.validate_inventory_visibility_table()
             assert len(inventory_visibility_columns) == len(self.inventory_visibility_table_headers)
-            for column in self.inventory_inquiry_table_headers:
+            for column in self.inventory_visibility_table_headers:
                 if column not in inventory_visibility_columns:
                     raise Exception(f'{column} column is missing in inventory visibility')
             self.logger.info("Successfully validated Inventory visibility")

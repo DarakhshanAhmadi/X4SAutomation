@@ -808,7 +808,7 @@ class X4AInventoryInquiryPage(BasePage):
                 eta_value_ascending.append(row.text)
             if len(rows) > 1:
                 for i in range(len(eta_value_ascending)-1):
-                    if datetime.strptime(eta_value_ascending[i], '%y-%m-%d') <= datetime.strptime(eta_value_ascending[i+1], '%y-%m-%d'):
+                    if datetime.strptime(eta_value_ascending[i], '%Y-%m-%d') <= datetime.strptime(eta_value_ascending[i+1], '%Y-%m-%d'):
                         continue
                     else:
                         self.logger.error(f'ETA is not in Ascending. Current value:{eta_value_ascending[i]} Next value:{eta_value_ascending[i + 1]}')
@@ -820,7 +820,7 @@ class X4AInventoryInquiryPage(BasePage):
                 eta_value_descending.append(row.text)
             if len(rows) > 1:
                 for i in range(len(eta_value_descending)-1):
-                    if datetime.strptime(eta_value_descending[i], '%y-%m-%d') >= datetime.strptime(eta_value_descending[i+1], '%y-%m-%d'):
+                    if datetime.strptime(eta_value_descending[i], '%Y-%m-%d') >= datetime.strptime(eta_value_descending[i+1], '%Y-%m-%d'):
                         continue
                     else:
                         self.logger.error(
