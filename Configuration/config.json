@@ -34,7 +34,12 @@
     "username": "Svc-CRMTest_QA30Global@ingrammicro.com",
     "enc_password": "6/SM2aH7cXFJFbKL9fbrHQ=="
   },
-  "dbLocation": {
+  "x4aSmtpCredentials": {
+    "smtp_server": "smtp.outlook.com",
+    "smtp_username": "shyam.tiwari@ingrammicro.com",
+    "enc_password": "+DhLkNw6wRlX/wohi9fV1g=="
+  },
+ "dbLocation": {
     "db_file_path": "D:\\Database\\xvs_lite_automation_db.sqlite3",
     "db_script_file_path": "db\\DbScript.sql"
   },

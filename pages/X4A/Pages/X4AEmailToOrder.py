@@ -2,6 +2,7 @@ import datetime
 import os
 import shutil
 import random
+from CommonUtilities.parse_config import ParseConfigFile
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -221,10 +222,10 @@ class X4AEmailToOrderPage(BasePage):
             return False
 
     def send_email_for_order(self):
-        smtp_server = 'smtp.outlook.com'
+        smtp_server = self.parse_config_json.get_data_from_config_json("x4aSmtpCredentials", "smtp_server", "config.json")
         smtp_port = 587
-        smtp_username = 'shyam.tiwari@ingrammicro.com'
-        smtp_password = 'Abc.def.ghi.8955'
+        smtp_username = self.parse_config_json.get_data_from_config_json("x4aSmtpCredentials", "smtp_username", "config.json")
+        smtp_password = self.parse_config_json.get_data_from_config_json("x4aSmtpCredentials", "enc_password", "config.json")
 
         from_email = 'shyam.tiwari@ingrammicro.com'
         to_email = 'TestXvantageETO@ingrammicro.com'
@@ -236,7 +237,6 @@ class X4AEmailToOrderPage(BasePage):
             msg['To'] = to_email
             msg['Subject'] = subject
             msg.attach(MIMEText(body))
-           
             ETO_input_file_name = parse_config_file.get_data_from_config_json("inputFile", "ETOInputFileName")
             ETO_input_file_path = '.\\TestData\\' + ETO_input_file_name
 
