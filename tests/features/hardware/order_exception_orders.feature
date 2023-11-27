@@ -1,17 +1,17 @@
-@data_errors_orders @regression @demo_regression
-Feature: Data Errors Orders
+@order_exception_orders @regression @demo_regression
+Feature: Order Exception Orders
 
 
   @login
   Scenario: Login to X4A portal
-    Given launch chrome browser and open the X4A url
-    Then provide user ID and Password to login
-    When the user traverse to Error Order menu
+    Given Launch chrome browser and open the X4A url
+    Then Provide user ID and Password to login
+    When The user traverse to Order Exception menu
 
   # EDT-9280/OMS-784
   @resubmit_order_popup
   Scenario: Verify resubmit order popup
-    Given the error order is created via api
+    Given The order exception is created via api
     When Search and Select the Data Errors Order
     Then Verify that Resubmit Order button should display
     And Update the correct Reseller PO
@@ -33,7 +33,7 @@ Feature: Data Errors Orders
   # EDT-9265
   @reference_detail_edit_popup
   Scenario: Verify Reference Details Edit popup content
-    Given the error order is created via api for Reference Details
+    Given The order exception is created via api for Reference Details
     When Search and Select the Data Errors Order for Reference Details
     Then Verify that Edit icon should display beside Reference Details title
     Then Verify contents of Edit Reference Details popup
@@ -69,7 +69,7 @@ Feature: Data Errors Orders
   # EDT-9271
   @shipping_notes_edit_popup
   Scenario: Verify Shipping Notes Edit popup content
-    Given the error order is created via api for Shipping notes
+    Given The order exception is created via api for Shipping notes
     When Search and Select the Data Errors Order for Shipping Notes
     Then Verify that Edit icon should display beside Shipping Notes
     And Verify contents of Edit Shipping Notes popup
@@ -140,7 +140,7 @@ Feature: Data Errors Orders
   # OMS-43
   @vmf_details_edit_popup
   Scenario: Verify VMF Details Edit popup content
-    Given the error order is created via api for VMF Details
+    Given The order exception is created via api for VMF Details
     When Search and Select the Data Errors Order for VMF Details
     Then Verify that Edit icon should display beside VMF Details
     And Verify contents of Edit VMF Details popup
@@ -157,7 +157,7 @@ Feature: Data Errors Orders
   # OMS-782
   @end_user_details_edit_popup
   Scenario: Verify End User Details Edit popup content
-    Given the error order is created via api for End User Details
+    Given The order exception is created via api for End User Details
     When Search and Select the Data Errors Order for End User Details
     Then Verify that Edit icon should display beside End User Details
     And Verify contents of Edit End User Details popup
@@ -182,7 +182,7 @@ Feature: Data Errors Orders
   # OMS-33
   @billing_address_edit_popup
   Scenario: Verify Billing Address Edit popup content
-    Given the error order is created via api for Billing Address
+    Given The order exception is created via api for Billing Address
     When Search and Select the Data Errors Order for Billing Address
     Then Verify contents of Edit Billing Address popup
     When Click on X icon on popup and Verify that Order Details page should display
@@ -199,7 +199,7 @@ Feature: Data Errors Orders
   # OMS-29
   @order_line_remove_icon
   Scenario: Verify that order resubmitted successfully after click on Mark for Cancel option
-    Given the error order is created via api for Order Line
+    Given The order exception is created via api for Order Line
     When Search and Select the Data Errors Order for Order Line
     Then Verify that remove icon should display for order line
     When Click on Mark for Cancel option and Verify line should grey out and should not allow further edit operations
@@ -217,7 +217,7 @@ Feature: Data Errors Orders
   # OMS-46
   @update_existing_order_line
   Scenario: Modify existing Order line
-    Given the error order is created via api for modify Order Line
+    Given The order exception is created via api for modify Order Line
     When Search and Select the Data Errors Order for modify Order Line
     Then Verify that Edit Icon should display for each lines
     When Click on edit icon and Verify that Update and Cancel Icon should display
@@ -237,7 +237,7 @@ Feature: Data Errors Orders
   # OMS-3073/OMS-3059
   @operator_id
   Scenario: Operator Id on Order Details Page
-    Given the error order is created via api
+    Given The order exception is created via api
     When Search and Select the Data Errors Order
     Then Verify that Operator ID should be display on the Order details page
     And Verify that Channel label should get displayed on Order details page
@@ -245,9 +245,87 @@ Feature: Data Errors Orders
   # OMS-3059
   @order_channel
   Scenario: Order Channel on Order Details Page
-    Given the error order is created via api using IM360 payload
+    Given The order exception is created via api using IM360 payload
     Then Verify that Order channel should match with the channel showing on list page
 
+#   OMS-3266
+  @Shipping_details
+  Scenario Outline: Shipping Details on Order Details Page
+    Given Create order exception Using X4D payload without <shipingdetails> via api
+    Then Verify that Shipping Details option section should display
+    Examples:
+      | shipingdetails |
+      | Yes            |
+      | No             |
+
+  # OMS-788
+  @shipping_address_edit_popup
+  Scenario: Verify Shipping Address Edit popup contents
+    Given The order exception is created via api for Shipping Address
+    When Search and Select the Data Errors Order for Shipping Address
+    Then Verify contents of Edit Shipping Address popup
+    When Click on X icon on shipping address popup and Verify that Order Details page should display
+    And Click on Cancel button on shipping address popup and Verify that Order Details page should display
+
+  # OMS-788
+  @search_shipping_address
+  Scenario: Verify Shipping address search
+    When Verify that all shipping address matching with search entered text should get displayed
+    Then Verify that Add New Shipping Address pop up contents
+    And Add the new shipping address and verify that Added data should display
+    When Click on X icon on Add new shipping address popup and Verify that entered data should not get saved
+    And Click on Cancel button on Add new shipping address popup and Verify that entered data should not get saved
+
+  # OMS-3557
+  @data_error_check_for_duplicate_po_for_us
+  Scenario Outline: Verify Resubmitting Data error order with duplicate PO# for US marketplace
+    Given Create Data Error Order for duplicate <po_number> PO via api for <country> markeplace
+    When Search and Select the Data Errors Order for Duplicate PO
+    And Correct the PO# and resubmit the order
+    Then Verify that Data Error should get removed form data error list
+    Given Create Data Error Order for duplicate <po_number> PO via api for <country> markeplace
+    When Search and Select the Data Errors Order for Duplicate PO
+    And Correct the PO# and Add new line then Verify Resubmit Order message and Cancel and Proceed button
+    And Click on Cancel Order button then popup should open to enter reject reason
+    And Click on Proceed button and resubmit the order
+    Then Verify that Data Error should get removed form data error list
+    Examples:
+      | po_number | country |
+      | POAUTO^   | US      |
+
+  # OMS-3557
+  @data_error_check_for_duplicate_po_for_ca
+  Scenario Outline: Verify Resubmitting Data error order with duplicate PO# for CA marketplace
+    Given Create Data Error Order for duplicate <po_number> PO via api for <country> markeplace
+    When Search and Select the Data Errors Order for Duplicate PO
+    And Correct the PO# and resubmit the order
+    Examples:
+      | po_number  | country |
+      | POAUTO^    | CA      |
+      | NEWPOAUTO^ | CA  `   |
+
+ # OMS-3557
+  @data_error_check_for_duplicate_case_sensitive_po_for_ca
+  Scenario Outline: Verify Resubmitting Data error order with duplicate case sensitive PO# for CA marketplace
+    Given Create Data Error Order for duplicate <po_number> PO via api for <country> markeplace
+    When Search and Select the Data Errors Order for Duplicate PO
+    And Correct the End Customer order# then Verify Resubmit Order message and Cancel and Proceed button
+    Examples:
+      | po_number | country |
+      | poauto    | CA      |
+
+  # OMS-2216
+  @order_exception_search
+  Scenario: Order Exception Search
+    Given The order exception is created via api
+    When Search with confirmation id and Verify that data should get displayed in the list as per searched Confirmation ID
+    When Search with Reject reason and Verify that data should get displayed in the list as per searched Reject reason
+    And Search with Customer name and Verify that data should get displayed in the list as per searched Customer name
+    And Search with some invalid text and Verify that No failed orders found message should get displayed
+    And Search with 2 characters and Verify that Minimum 3 charcters are required message should get displayed
+    And Search with BCN and Verify that data should get displayed in the list as per searched BCN
+    And Searched with Reseller PO and Verify that data should get displayed in the list as per Reseller PO
+    And Searched with substring of reseller po and Verify that data should get displayed in the list as per Reseller PO
 
   @logout
   Scenario: logout X4A

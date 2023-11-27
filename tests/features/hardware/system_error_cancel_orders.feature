@@ -1,11 +1,11 @@
-@cancel_orders @regression
-Feature: Cancel Orders
+@system_error_cancel_orders @regression
+Feature: System Error Cancel Orders
 
   @login
   Scenario: Login to X4A portal
-    Given launch chrome browser and open the X4A url
-    Then provide user ID and Password to login
-    When the user traverse to Error Order menu
+    Given Launch chrome browser and open the X4A url
+    Then Provide user ID and Password to login
+    When The user traverse to Order Exception menu
 
 #  EDT-9815/OMS-790
   @Verify_Cancel_order_button_for_more_than_one_record

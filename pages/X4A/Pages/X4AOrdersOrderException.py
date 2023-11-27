@@ -13,16 +13,15 @@ from datetime import date, timedelta
 from CommonUtilities.parse_json_common import common_json_ops
 
 
-class X4AErrorOrdersPage(BasePage):
+class X4AOrderExceptionPage(BasePage):
     parse_config_json = ParseConfigFile()
     screen_shot_path = ReadConfig.getScreenshotPath()
     common_json = common_json_ops()
 
-
     SALES_ICON = (By.XPATH, "//*[@data-testid='SalesIcon']")
     SALES_MENU = (By.XPATH, "//*[@data-testid='sales-MenuItem']")
-    ERROR_ORDER_OPTION = (By.XPATH, "//*[text()='Error Orders']")
-    ERROR_ORDER_TEXT = (By.XPATH, "//*[text()='Error orders ']")
+    ORDER_EXCEPTION_OPTION = (By.XPATH, "//*[text()='Order Exception']")
+    ORDER_EXCEPTION_TEXT = (By.XPATH, "//*[text()='Order Exception']")
     DATA_ERROR_OPTION = (By.XPATH, "//div[text()='Data errors']")
     SYSTEM_ERROR_OPTION = (By.XPATH, "//div[text()='System errors']")
     DISABLED_CANCEL_BUTTON = (By.XPATH, "//button[@disabled and text() = 'Cancel']")
@@ -57,7 +56,7 @@ class X4AErrorOrdersPage(BasePage):
     YES_REPROCESS_ORDER_BUTTON = (By.XPATH, "//*[@class='ModelTitle']/parent::div/div/button[2]")
     ORDER_DETAILS_PAGE = (By.XPATH, "//*[@aria-label='breadcrumb']/ol/li[5]/p")
     REPROCESS_ORDER_SUCCESS_MESSAGE = (By.XPATH, "//*[@class='MuiAlert-message css-acap47-MuiAlert-message']")
-    ERROR_ORDER_PAGE = (By.XPATH, "//*[text()='Error orders']")
+    ORDER_EXCEPTION_PAGE = (By.XPATH, "//*[text()='Order Exception']")
     DROP_DOWN = (By.XPATH, "//*[@data-testid='search-dropdown-SelectOption']")
     SEARCH_DROP_DOWN = (By.XPATH, "//div[@data-testid='SearchBar']//div[@data-testid='search-dropdown-SelectOption']")
     CONFRIMATION_ID_OPTION = (By.XPATH, "//*[@data-testid='confirmationId-MenuItem']")
@@ -77,7 +76,7 @@ class X4AErrorOrdersPage(BasePage):
     RESUBMIT_ORDER_TITLE = (By.XPATH, "//div[@class = 'ModelTitle']")
     RESUBMIT_ORDER_POPUP_MSG = (By.XPATH, "//div[text()='Resubmit Order']/parent::div/div[@class='modelBody']")
     RESUBMIT_ORDER_REVIEW_BUTTON = (By.XPATH, "//*[@class='ModelTitle']/parent::div/div/button[1]")
-    YES_RESUBMIT_ORDER_BUTTON = (By.XPATH, "//*[@class='ModelTitle']/parent::div/div/button[2]")
+    YES_RESUBMIT_ORDER_BUTTON = (By.XPATH, "//button[text()='Yes, resubmit order']")
     RESUBMITTED_ORDER_SUCCESS_MESSAGE = (By.XPATH, "//*[@class='MuiAlert-message css-acap47-MuiAlert-message']")
 
     """Edit Reference numbers popup"""
@@ -312,9 +311,11 @@ class X4AErrorOrdersPage(BasePage):
     ADD_NEW_END_USER_COMPANY_NAME_TEXTBOX = (
         By.XPATH, "//*[text()='Company Name']/following-sibling::div/input[@placeholder='Enter company name']")
     ADD_NEW_END_USER_CUSTOMER_TYPE_LABEL = (By.XPATH, "//*[text()='Customer type']")
-    ADD_NEW_END_USER_CUSTOMER_TYPE_DROPDOWN = (By.XPATH, "//*[text()='Customer type']/following-sibling::div/div[@id='customerType']")
+    ADD_NEW_END_USER_CUSTOMER_TYPE_DROPDOWN = (
+        By.XPATH, "//*[text()='Customer type']/following-sibling::div/div[@id='customerType']")
     ADD_NEW_END_USER_CUSTOMER_TYPE_LIST = (By.XPATH, "//div[@role='presentation']/div/ul[@role='listbox']/li")
-    ADD_NEW_END_USER_SELECT_COMMERCIAL_TYPE = (By.XPATH, "//div[@role='presentation']/div/ul[@role='listbox']/li[text()='COMMERCIAL']")
+    ADD_NEW_END_USER_SELECT_COMMERCIAL_TYPE = (
+        By.XPATH, "//div[@role='presentation']/div/ul[@role='listbox']/li[text()='COMMERCIAL']")
     ADD_NEW_END_USER_CONTACT_NAME_LABEL = (By.XPATH, "//*[text()='Contact Name']")
     ADD_NEW_END_USER_CONTACT_NAME_TEXTBOX = (
         By.XPATH, "//*[text()='Contact Name']/following-sibling::div/input[@placeholder='Enter contact name']")
@@ -408,14 +409,91 @@ class X4AErrorOrdersPage(BasePage):
     CHANNEL_LABEL = (By.XPATH, "//div[text()='Channel']")
     LISTING_PAGE_CHANNEL_NAME = (By.XPATH, "//*[@data-rowindex='0']//*[@role='cell' and @data-field='channel']")
     ORDER_DEATILS_PAGE_CHANNEL_NAME = (By.XPATH, "//*[text()='Channel']/parent::div")
-    def go_to_error_orders(self):
+
+    """Shipping Details"""
+
+    SHIPPING_DETAILS_SECTION = (By.XPATH, "//div[text()='Shipping Details']")
+    SHIPPING_DETAILS_CARRIER_CODE_LABEL = (By.XPATH, "//div[text()='Carrier code:']")
+    SHIPPING_DETAILS_FREIGHT_ACCOUNT_NUMBER_LABEL = (By.XPATH, "//div[text()='Freight account number:']")
+    SHIPPING_DETAILS_SHIPMENT_COMPLETE_LABEL = (By.XPATH, "//div[text()='Shipment complete:']")
+    SHIPPING_DETAILS_REQUESTED_DELIVER_YDATE_LABEL = (By.XPATH, "//div[text()='Requested delivery date:']")
+    SHIPPING_DETAILS_SIGNATURE_REQUIRED_LABEL = (By.XPATH, "//div[text()='Signature required:']")
+    SHIPPING_DETAILS_CARRIER_SERVICE_LABEL = (By.XPATH, "//div[text()='Carrier service:']")
+
+    """Shipping Address"""
+
+    SHIPPING_ADDRESS_EDIT_BUTTON = (
+        By.XPATH, "//*[text()='Shipping address']/parent::div/*[@data-testid='ModeEditOutlineOutlinedIcon']")
+    EDIT_SHIPPING_ADDRESS_POPUP_TITLE = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/h2")
+    EDIT_SHIPPING_ADDRESS_SEARCH_BOX = (By.XPATH, "//*[@placeholder='Search Company']")
+    EDIT_SHIPPING_ADDRESS_POPUP_CLOSE_ICON = (By.XPATH, "//*[@data-testid='CloseIcon']")
+    EDIT_SHIPPING_ADDRESS_POPUP_DISABLED_SAVE_BUTTON = (By.XPATH, "//*[text()='Save' and @disabled]")
+    EDIT_SHIPPING_ADDRESS_POPUP_CANCEL_BUTTON = (By.XPATH, "//button[text()='Cancel']")
+    SEARCHED_SHIPPING_ADDRESS_TITLE_LIST = (
+        By.XPATH, "//*[@aria-labelledby='Selected-card-group-label']/div/div/div/div/div[2]/h6")
+    ADD_NEW_SHIPPING_ADDRESS_BUTTON = (By.XPATH, "//*[text() ='Add new Shipping address']")
+    ADD_NEW_SHIPPING_ADDRESS_POPUP_TITLE = (By.XPATH, "//*[@data-testid='CloseOutlinedIcon']/parent::button/../p")
+    ADD_NEW_SHIPPING_ADDRESS_COMPANY_NAME_TEXTBOX = (
+        By.XPATH, "//*[text()='Company Name']/following-sibling::div/input[@placeholder='Enter company name']")
+    ADD_NEW_SHIPPING_ADDRESS_CONTACT_NAME = (
+        By.XPATH, "//*[text()='Contact Name ']/following-sibling::div/input[@placeholder='Enter contact name']")
+    ADD_NEW_SHIPPING_ADDRESS_EMAIL = (
+        By.XPATH, "//*[text()='Email']/following-sibling::div/input[@placeholder='Enter email']")
+    ADD_NEW_SHIPPING_ADDRESS_PHONE_NUMBER = (
+        By.XPATH, "//*[text()='Phone Number']/following-sibling::div/input[@placeholder='Enter phone number']")
+    ADD_NEW_SHIPPING_ADDRESS_LINE_1 = (
+        By.XPATH, "//*[text()='Address Line 1']/following-sibling::div/input[@placeholder='Enter adress line 1']")
+    ADD_NEW_SHIPPING_ADDRESS_LINE_2 = (
+        By.XPATH, "//*[text()='Address Line 2']/following-sibling::div/input[@placeholder='Enter adress line 2']")
+    ADD_NEW_SHIPPING_ADDRESS_CITY = (
+        By.XPATH, "//*[text()='City']/following-sibling::div/input[@placeholder='Enter city']")
+    ADD_NEW_SHIPPING_ADDRESS_STATE_DROPDOWN = (
+        By.XPATH, "//*[text()='State']/following-sibling::div/div[text()='Select state']")
+    ADD_NEW_SHIPPING_ADDRESS_COUNTRY_DROPDOWN = (By.XPATH, "//*[text()='Country']/following-sibling::div/div")
+    ADD_NEW_SHIPPING_ADDRESS_ZIP_CODE = (
+        By.XPATH, "//*[text()='Zip Code']/following-sibling::div/input[@placeholder='Enter zip code']")
+    ADD_NEW_SHIPPING_ADDRESS_ADD_ENABLED_BUTTON = (By.XPATH, "//button[text()='Add']")
+    ADD_NEW_SHIPPING_ADDRESS_CANCEL_BUTTON = (By.XPATH, "/html/body/div[3]/div[3]/div[3]/button[text()='Cancel']")
+    ADD_NEW_SHIPPING_ADDRESS_CLOSE_BUTTON = (
+        By.XPATH, "//*[text()='Add New Shipping Address']/parent::div/button/*[@data-testid='CloseOutlinedIcon']")
+    SHIPPING_ADDRESS_COMPANY_NAME = (By.XPATH, "//*[@class='shippingAddress']/div/div[2]/div[1]/strong")
+    SHIPPING_ADDRESS_CONTACT_NAME = (By.XPATH, "//*[@class='shippingAddress']/div/div[2]/div[2]/strong")
+    SHIPPING_ADDRESS_PHONE_NUMBER = (By.XPATH, "//*[@class='shippingAddress']/div/div[2]/div[3]")
+    SHIPPING_ADDRESS_LINE_1 = (By.XPATH, "//*[@class='shippingAddress']/div/div[2]/div[5]")
+    SHIPPING_ADDRESS_LINE_2 = (By.XPATH, "//*[@class='shippingAddress']/div/div[2]/div[6]")
+    RESUBMIT_ORDER_MSG = (By.XPATH, "//*[text()='Resubmit Order']/parent::div/following-sibling::div[2]")
+    RESUBMIT_ORDER_CANCEL_ORDER_BUTTON = (
+        By.XPATH, "//*[text()='Resubmit Order']/parent::div/following-sibling::div//*[text()='Cancel Order']")
+    RESUBMIT_ORDER_PROCEED_BUTTON = (
+        By.XPATH, "//*[text()='Resubmit Order']/parent::div/following-sibling::div//*[text()='Proceed']")
+    RESUBMIT_ORDER_HEADER_MSG = (By.XPATH, "//*[text()='Resubmit Order']/parent::div/following-sibling::div[1]/div/div")
+
+    """Add Order Line"""
+
+    ADD_ORDER_LINE_BUTTON = (
+        By.XPATH, "//*[@id='OrderDetails']/div/div[1]/div[1]/div[2]/button[text()='Add order line']")
+    NEW_ORDER_LINE_POPUP = (By.XPATH, "//*[text()='New order line']")
+    NEW_ORDER_LINE_IM_PART_NO_TEXTBOX = (By.XPATH, "//input[@placeholder='Add IMP']")
+    NEW_ORDER_LINE_QTY_TEXTBOX = (By.XPATH, "//input[@placeholder='Add Qty']")
+    NEW_ORDER_LINE_PRICE_TEXTBOX = (By.XPATH, "//input[@placeholder='Add price']")
+    NEW_ORDER_LINE_VALIDATE_BUTTON = (By.XPATH, "//button[text()='Validate']")
+    NEW_ORDER_LINE_CONTINUE_BUTTON = (By.XPATH, "//button[text()='Continue']")
+    ADD_NEW_LINE_ADD_BUTTON = (By.XPATH, "//button[text()='Add']")
+    MINIMUM_3_CHAR_REQUIRED_MESSAGE = (By.XPATH, "//*[@data-testid='SearchBar']/p")
+    ITEMS_PER_PAGE = (By.XPATH,
+                      "//div[@class='MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-d2iqo8-MuiSelect-select-MuiInputBase-input']")
+    SALES_ORDER_TABLE = (
+        By.XPATH, "//div[@class='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']")
+    SEARCH_BOX_CLOSE_ICON = (By.XPATH, "//*[@data-testid='CloseIcon']")
+
+    def go_to_order_exception(self):
         try:
             self.do_click_by_locator(self.SALES_MENU)
             self.logger.info("Clicked on Order in the menu")
-            self.do_double_click(self.ERROR_ORDER_OPTION)
-            self.logger.info("Clicked on Error Orders option")
+            self.do_double_click(self.ORDER_EXCEPTION_OPTION)
+            self.logger.info("Clicked on Order Exception option")
         except Exception as e:
-            self.logger.error('Exception occurred while clicking on Error orders ' + str(e))
+            self.logger.error('Exception occurred while clicking on Order Exception ' + str(e))
             raise e
 
     def select_multiple_record(self):
@@ -425,7 +503,6 @@ class X4AErrorOrdersPage(BasePage):
             for i in range(0, 2):
                 checkbox = (By.XPATH, "//div[@data-rowindex='" + str(i) + "']/div[@data-field='__check__']")
                 self.do_click_by_locator(checkbox)
-
             self.logger.info("Selected multiple record")
         except Exception as e:
             self.logger.error('Exception occurred while clicking on multiple record ' + str(e))
@@ -433,7 +510,7 @@ class X4AErrorOrdersPage(BasePage):
 
     def single_record_list(self):
         try:
-            self.go_to_error_orders()
+            self.go_to_order_exception()
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
             self.logger.info("Clicked on data error list")
             self.do_click_by_locator(self.SYSTEM_ERROR_OPTION)
@@ -495,7 +572,8 @@ class X4AErrorOrdersPage(BasePage):
 
     def do_verify_error_details_page(self):
         try:
-            assert 'Error orders' in self.get_element_text(self.ERROR_ORDER_TEXT), "Cancel Order Title not present"
+            assert 'Order Exception' in self.get_element_text(
+                self.ORDER_EXCEPTION_TEXT), "Cancel Order Title not present"
             self.logger.info("verified that cancel order popup is closed")
             self.do_click_by_locator(self.CANCEL_BUTTON)
         except Exception as e:
@@ -572,7 +650,7 @@ class X4AErrorOrdersPage(BasePage):
             assert cancel_order_message in self.get_element_text(
                 self.CANCEL_ORDER_SUCCESS_MESSAGE), "successfull Cancel Order message not present"
             self.logger.info("order cancelled successfully")
-            self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+            self.do_click_by_locator(self.ORDER_EXCEPTION_PAGE)
         except Exception as e:
             self.logger.error('Exception occurred while verifying cancel order success message ' + str(e))
             raise e
@@ -598,10 +676,8 @@ class X4AErrorOrdersPage(BasePage):
     def do_search_and_select_order(self, confirmation_id):
         try:
             self.do_click_by_locator(self.FRAUD_ORDERS_TAB)
-            self.do_click_by_locator(self.SEARCH_DROP_DOWN)
-            self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
             self.do_send_keys(self.FRAUD_SEARCH_BOX, confirmation_id)
-            self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+            self.do_press_enter()
             time.sleep(5)
             self.do_click_by_locator(self.FRAUD_FIRST_RECORD)
             return True
@@ -693,7 +769,7 @@ class X4AErrorOrdersPage(BasePage):
 
     def do_verify_order_in_list(self, confirmation_id):
         try:
-            self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+            self.do_click_by_locator(self.ORDER_EXCEPTION_PAGE)
             self.do_click_by_locator(self.FRAUD_ORDERS_TAB)
             self.do_click_by_locator(self.SEARCH_DROP_DOWN)
             self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
@@ -761,11 +837,9 @@ class X4AErrorOrdersPage(BasePage):
         try:
             time.sleep(5)
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
-            self.do_click_by_locator(self.SEARCH_DROP_DOWN)
-            self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
             for retry in range(3):
-                self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+                self.do_press_enter()
                 time.sleep(5)
                 if self.do_check_visibility(self.FRAUD_FIRST_RECORD):
                     break
@@ -873,10 +947,10 @@ class X4AErrorOrdersPage(BasePage):
             assert cancel_order_message in self.get_element_text(
                 self.RESUBMITTED_ORDER_SUCCESS_MESSAGE), "Successfully Resubmitted Order message not present"
             time.sleep(3)
-            self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+            self.do_click_by_locator(self.ORDER_EXCEPTION_PAGE)
             self.logger.info("Order reprocessed successfully")
             time.sleep(3)
-            self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+            self.do_click_by_locator(self.ORDER_EXCEPTION_PAGE)
             return True
         except Exception as e:
             self.logger.error('Exception occurred while verifying Resubmitted order success message ' + str(e))
@@ -886,8 +960,6 @@ class X4AErrorOrdersPage(BasePage):
         try:
             time.sleep(5)
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
-            self.do_click_by_locator(self.SEARCH_DROP_DOWN)
-            self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
             self.do_send_keys(self.FRAUD_SEARCH_BOX, confirmation_id)
             self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
             time.sleep(5)
@@ -1161,7 +1233,7 @@ class X4AErrorOrdersPage(BasePage):
             time.sleep(3)
             shipping_notes_data = self.get_element_text(self.SHIPPING_NOTES_TEXT_AREA)
             if data == shipping_notes_data:
-                self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+                self.do_click_by_locator(self.ORDER_EXCEPTION_PAGE)
                 self.logger.info("Successfully validate the updated shipping notes on Order Details page")
                 return True
             else:
@@ -1550,7 +1622,7 @@ class X4AErrorOrdersPage(BasePage):
                     reseller_contact_email != vmf_reseller_contact_email):
                 self.logger.info(
                     "Successfully verified that modified VMF shipcontactphone, shipcontactemail and resellercontactemail data is not updated after click on Cancel button")
-                self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+                self.do_click_by_locator(self.ORDER_EXCEPTION_PAGE)
                 return True
             else:
                 return False
@@ -1827,9 +1899,11 @@ class X4AErrorOrdersPage(BasePage):
     def verify_customer_type_option_list(self):
         try:
             self.do_click_by_locator(self.ADD_NEW_END_USER_CUSTOMER_TYPE_DROPDOWN)
-            customer_type_list = ['COMMERCIAL', 'LOCAL', 'FEDERAL', 'HIGHER EDUCATION', 'INTERNET SERVICE PROVIDER', 'K - 12', 'STATE', 'TELECOM', 'TEACHING HOSPITALS',
+            customer_type_list = ['COMMERCIAL', 'LOCAL', 'FEDERAL', 'HIGHER EDUCATION', 'INTERNET SERVICE PROVIDER',
+                                  'K - 12', 'STATE', 'TELECOM', 'TEACHING HOSPITALS',
                                   'DOCTOR’S OFFICES', 'PUBLIC HOSPITALS', 'NON-PROFIT', 'PRIVATE HOSPITALS']
-            customer_type_option_list = self.get_all_elements_without_visibility(self.ADD_NEW_END_USER_CUSTOMER_TYPE_LIST)
+            customer_type_option_list = self.get_all_elements_without_visibility(
+                self.ADD_NEW_END_USER_CUSTOMER_TYPE_LIST)
             option_list = []
             for element in customer_type_option_list:
                 self.logger.info(element.text)
@@ -1902,7 +1976,7 @@ class X4AErrorOrdersPage(BasePage):
                 "Successfully Verified that the end user ERP type is I and The billing & technical contact is the same as the primary contact checkbox is Checked and Disabled")
             self.do_click_by_locator(self.EDIT_END_USER_CANCEL_BUTTON)
             self.do_click_by_locator(self.END_USER_DETAILS_ClOSE_ICON_BUTTON)
-            self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+            self.do_click_by_locator(self.ORDER_EXCEPTION_PAGE)
             return True
         except Exception as e:
             return False
@@ -2001,7 +2075,7 @@ class X4AErrorOrdersPage(BasePage):
             if (selected_bill_addr_suffix == billing_address_suffix) & (
                     selected_billing_addr_name == billing_address_name) & (
                     selected_billing_address in billing_address) & (selected_address_phone in billing_address):
-                self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+                self.do_click_by_locator(self.ORDER_EXCEPTION_PAGE)
                 return True
             else:
                 return False
@@ -2079,7 +2153,7 @@ class X4AErrorOrdersPage(BasePage):
             self.do_click_by_locator(self.DATA_ERRORS_RESUBMIT_ORDER_BUTTON)
             self.do_click_by_locator(self.YES_RESUBMIT_ORDER_BUTTON)
             self.do_check_visibility(self.AT_LEAST_ONE_ORDER_LINE_REQUIRED_MESSAGE)
-            self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+            self.do_click_by_locator(self.ORDER_EXCEPTION_PAGE)
             return True
         except Exception as e:
             return False
@@ -2616,7 +2690,8 @@ class X4AErrorOrdersPage(BasePage):
                     "Verified that Quantity, Reseller price, End user price and End user po# fields not allowed non numberic contents")
                 return True
             else:
-                self.logger.error("Quantity, Reseller price, End user price and End user po# fields allowed non numberic contents")
+                self.logger.error(
+                    "Quantity, Reseller price, End user price and End user po# fields allowed non numberic contents")
                 return False
         except Exception as e:
             return False
@@ -2668,7 +2743,7 @@ class X4AErrorOrdersPage(BasePage):
             self.logger.info(f'Operator_id value: {operator_id_value}')
             if operator_id == operator_id_value:
                 self.logger.info("Successfully Verified Operator Id")
-                self.do_click_by_locator(self.ERROR_ORDER_PAGE)
+                self.do_click_by_locator(self.ORDER_EXCEPTION_PAGE)
                 return True
             else:
                 return False
@@ -2688,11 +2763,9 @@ class X4AErrorOrdersPage(BasePage):
         try:
             time.sleep(5)
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
-            self.do_click_by_locator(self.SEARCH_DROP_DOWN)
-            self.do_click_by_locator(self.CONFRIMATION_ID_OPTION)
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
             for i in range(3):
-                self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+                self.do_press_enter()
                 time.sleep(5)
                 if self.do_check_visibility(self.FRAUD_FIRST_RECORD):
                     channel = self.get_element_text(self.LISTING_PAGE_CHANNEL_NAME)
@@ -2700,7 +2773,8 @@ class X4AErrorOrdersPage(BasePage):
                     break
             self.do_click_by_locator(self.FRAUD_FIRST_RECORD)
             time.sleep(3)
-            order_details_channel_value = self.get_element_text(self.ORDER_DEATILS_PAGE_CHANNEL_NAME).replace("Channel:\n", "")
+            order_details_channel_value = self.get_element_text(self.ORDER_DEATILS_PAGE_CHANNEL_NAME).replace(
+                "Channel:\n", "")
             self.logger.info(f'Operator_id value: {order_details_channel_value}')
             if channel == order_details_channel_value:
                 self.logger.info("Successfully Verified Operator Id")
@@ -2709,3 +2783,624 @@ class X4AErrorOrdersPage(BasePage):
                 return False
         except Exception as e:
             return False
+
+    def do_verify_shipping_details(self, confirmation_id):
+        try:
+            time.sleep(5)
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
+            for i in range(3):
+                self.do_press_enter()
+                time.sleep(2)
+                if self.do_check_visibility(self.FRAUD_FIRST_RECORD):
+                    self.do_click_by_locator(self.FRAUD_FIRST_RECORD)
+                    self.logger.info(f'Successfully Clicked on {confirmation_id} order')
+                    break
+            self.do_click_by_locator(self.BILLING_SHIPPING_TAB)
+            self.do_check_visibility(self.SHIPPING_DETAILS_SECTION)
+            self.do_check_visibility(self.SHIPPING_DETAILS_CARRIER_CODE_LABEL)
+            self.do_check_visibility(self.SHIPPING_DETAILS_FREIGHT_ACCOUNT_NUMBER_LABEL)
+            self.do_check_visibility(self.SHIPPING_DETAILS_SHIPMENT_COMPLETE_LABEL)
+            self.do_check_visibility(self.SHIPPING_DETAILS_REQUESTED_DELIVER_YDATE_LABEL)
+            self.do_check_visibility(self.SHIPPING_DETAILS_SIGNATURE_REQUIRED_LABEL)
+            self.do_check_visibility(self.SHIPPING_DETAILS_CARRIER_SERVICE_LABEL)
+            self.logger.info("Successfully verified the Shipping Details Section Fields")
+            self.do_click_by_locator(self.ORDER_EXCEPTION_PAGE)
+            return True
+        except Exception as e:
+            return False
+
+    def verify_contents_of_edit_shipping_address(self):
+        try:
+            time.sleep(3)
+            self.do_click_by_locator(self.BILLING_SHIPPING_TAB)
+            self.do_click_by_locator(self.SHIPPING_ADDRESS_EDIT_BUTTON)
+            edit_shipping_address_title = 'Edit Shipping Address'
+
+            assert edit_shipping_address_title in self.get_element_text(
+                self.EDIT_SHIPPING_ADDRESS_POPUP_TITLE), "Edit Shipping Address Title not present"
+
+            self.do_check_visibility(self.EDIT_SHIPPING_ADDRESS_SEARCH_BOX)
+            self.do_check_visibility(self.EDIT_SHIPPING_ADDRESS_POPUP_CANCEL_BUTTON)
+            self.do_check_visibility(self.EDIT_SHIPPING_ADDRESS_POPUP_CLOSE_ICON)
+            self.do_check_visibility(self.EDIT_SHIPPING_ADDRESS_POPUP_DISABLED_SAVE_BUTTON)
+            self.logger.info(
+                "Successfully verified Edit Shipping Address Popup title, Search box, X icon, Cancel and Save Disabled button on popup")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_order_details_page_after_click_on_x_icon_shipping_addr_popup(self):
+        try:
+            self.do_click_by_locator(self.EDIT_SHIPPING_ADDRESS_POPUP_CLOSE_ICON)
+            self.do_check_visibility(self.ORDER_DETAILS_PAGE)
+            self.logger.info("Successfully verified Order Details Page")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_order_details_page_after_click_on_cancel_button_shipping_addr_popup(self):
+        try:
+            self.do_click_by_locator(self.SHIPPING_ADDRESS_EDIT_BUTTON)
+            self.do_click_by_locator(self.EDIT_SHIPPING_ADDRESS_POPUP_CANCEL_BUTTON)
+            self.do_check_visibility(self.ORDER_DETAILS_PAGE)
+            self.logger.info("Successfully verified Order Details Page")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_contents_of_add_new_shipping_address_popup(self):
+        try:
+            time.sleep(3)
+            self.do_click_by_locator(self.ADD_NEW_SHIPPING_ADDRESS_BUTTON)
+            add_new_shipping_address_title = 'Add New Shipping Address'
+
+            assert add_new_shipping_address_title in self.get_element_text(
+                self.ADD_NEW_SHIPPING_ADDRESS_POPUP_TITLE), "Add New Shipping Address Title not present"
+
+            self.do_check_visibility(self.ADD_NEW_SHIPPING_ADDRESS_COMPANY_NAME_TEXTBOX)
+            self.do_check_visibility(self.ADD_NEW_SHIPPING_ADDRESS_CONTACT_NAME)
+            self.do_check_visibility(self.ADD_NEW_SHIPPING_ADDRESS_EMAIL)
+            self.do_check_visibility(self.ADD_NEW_SHIPPING_ADDRESS_PHONE_NUMBER)
+            self.do_check_visibility(self.ADD_NEW_SHIPPING_ADDRESS_LINE_1)
+            self.do_check_visibility(self.ADD_NEW_SHIPPING_ADDRESS_LINE_2)
+            self.do_check_visibility(self.ADD_NEW_SHIPPING_ADDRESS_CITY)
+            self.do_check_visibility(self.ADD_NEW_SHIPPING_ADDRESS_STATE_DROPDOWN)
+            self.do_check_visibility(self.ADD_NEW_SHIPPING_ADDRESS_COUNTRY_DROPDOWN)
+            self.do_check_visibility(self.ADD_NEW_SHIPPING_ADDRESS_ZIP_CODE)
+            self.do_check_visibility(self.ADD_NEW_SHIPPING_ADDRESS_CANCEL_BUTTON)
+            self.do_check_visibility(self.ADD_NEW_SHIPPING_ADDRESS_ADD_ENABLED_BUTTON)
+
+            self.logger.info("Successfully verified the Add new Shipping address popup content")
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_all_shipping_addr_matching_with_entered_text(self):
+        try:
+            time.sleep(3)
+            self.do_click_by_locator(self.SHIPPING_ADDRESS_EDIT_BUTTON)
+            count = 0
+            search_text = "INGRAM"
+            self.do_clear_textfield(self.EDIT_SHIPPING_ADDRESS_SEARCH_BOX)
+            self.do_send_keys(self.EDIT_SHIPPING_ADDRESS_SEARCH_BOX, search_text)
+            actions = ActionChains(self.driver)
+            actions.send_keys(Keys.ENTER)
+            actions.perform()
+            shipping_title_list = self.get_all_elements(self.SEARCHED_SHIPPING_ADDRESS_TITLE_LIST)
+            for element in range(len(shipping_title_list)):
+                shipping_addr_title = shipping_title_list[element].text
+                if search_text in shipping_addr_title:
+                    self.logger.info(f'Searching Shiping address {shipping_addr_title} match with search text')
+                    count = count + 1
+                if count == len(shipping_title_list):
+                    self.logger.info("All the shipping addresses matched with search text")
+                    return True
+        except Exception as e:
+            return False
+
+    def do_verify_added_new_shipping_addr_data(self):
+        try:
+            company_name = "INGRAM MICRO " + ''.join(random.choices(string.ascii_uppercase, k=3))
+            self.logger.info("The randomly generated string is : " + str(company_name))  # print the random data
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_COMPANY_NAME_TEXTBOX, company_name)
+
+            contact_name = "LENDING CLUB CORPORATION " + ''.join(random.choices(string.ascii_uppercase, k=2))
+            self.logger.info("The randomly generated number is : " + str(contact_name))  # print the random data
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_CONTACT_NAME, contact_name)
+
+            modified_email = "test." + ''.join(random.choices(string.ascii_uppercase, k=5)) + "@ingrammicro.com"
+            self.logger.info("The randomly generated String is : " + str(modified_email))  # print the random data
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_EMAIL, modified_email)
+
+            phone_number = ''.join(random.choices(string.digits, k=10))
+            self.logger.info("The randomly generated number is : " + str(phone_number))  # print the random data
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_PHONE_NUMBER, phone_number)
+
+            address_line_1 = "3196 MILL RD"
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_LINE_1, address_line_1)
+
+            address_line_2 = "Wisconsin State Highways 29"
+
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_LINE_2, address_line_2)
+
+            city = "SANTA ANA"
+
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_CITY, city)
+
+            self.do_click_by_locator(self.ADD_NEW_SHIPPING_ADDRESS_STATE_DROPDOWN)
+            time.sleep(2)
+            self.do_click_by_locator(self.SELECT_STATE_CALIFORNIA)
+
+            # self.do_click_by_locator(self.ADD_NEW_SHIPPING_ADDRESS_COUNTRY_DROPDOWN)
+            # self.do_click_by_locator(self.SELECT_UNITED_STATE)
+
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_ZIP_CODE, "92233")
+
+            self.do_click_by_locator(self.ADD_NEW_SHIPPING_ADDRESS_ADD_ENABLED_BUTTON)
+
+            added_new_shipping_address_line_2 = address_line_2 + " " + city + " " + "CA"
+
+            shipping_address_company_name = self.get_element_text(self.SHIPPING_ADDRESS_COMPANY_NAME)
+            shipping_address_contact_name = self.get_element_text(self.SHIPPING_ADDRESS_CONTACT_NAME)
+            shipping_address_phone_number = self.get_element_text(self.SHIPPING_ADDRESS_PHONE_NUMBER)
+            shipping_address_line_1 = self.get_element_text(self.SHIPPING_ADDRESS_LINE_1)
+            shipping_address_line_2 = self.get_element_text(self.SHIPPING_ADDRESS_LINE_2)
+
+            if (company_name == shipping_address_company_name) & (
+                    contact_name == shipping_address_contact_name) & (
+                    phone_number == shipping_address_phone_number) & (address_line_1 == shipping_address_line_1) & (
+                    added_new_shipping_address_line_2 == shipping_address_line_2):
+                self.logger.info("Successfully Verified Added New shipping address display in order details page")
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def do_verify_data_not_save_after_click_on_x_icon_on_popup(self):
+        try:
+            time.sleep(3)
+            self.do_click_by_locator(self.SHIPPING_ADDRESS_EDIT_BUTTON)
+            self.do_click_by_locator(self.ADD_NEW_SHIPPING_ADDRESS_BUTTON)
+
+            company_name = "INGRAM MICRO " + ''.join(random.choices(string.ascii_uppercase, k=3))
+            self.logger.info("The randomly generated string is : " + str(company_name))  # print the random data
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_COMPANY_NAME_TEXTBOX, company_name)
+
+            contact_name = "LENDING CLUB CORPORATION " + ''.join(random.choices(string.ascii_uppercase, k=2))
+            self.logger.info("The randomly generated number is : " + str(contact_name))  # print the random data
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_CONTACT_NAME, contact_name)
+
+            modified_email = "test." + ''.join(random.choices(string.ascii_uppercase, k=5)) + "@ingrammicro.com"
+            self.logger.info("The randomly generated String is : " + str(modified_email))  # print the random data
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_EMAIL, modified_email)
+
+            phone_number = ''.join(random.choices(string.digits, k=10))
+            self.logger.info("The randomly generated number is : " + str(phone_number))  # print the random data
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_PHONE_NUMBER, phone_number)
+
+            address_line_1 = "3196 MILL RD"
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_LINE_1, address_line_1)
+
+            address_line_2 = "Wisconsin State Highways 29"
+
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_LINE_2, address_line_2)
+
+            city = "SANTA ANA"
+
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_CITY, city)
+
+            self.do_click_by_locator(self.ADD_NEW_SHIPPING_ADDRESS_STATE_DROPDOWN)
+            time.sleep(2)
+            self.do_click_by_locator(self.SELECT_STATE_CALIFORNIA)
+
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_ZIP_CODE, "92233")
+
+            self.do_click_by_locator(self.ADD_NEW_SHIPPING_ADDRESS_CLOSE_BUTTON)
+
+            visible = self.do_check_visibility(self.EDIT_BILLING_ADDRESS_POPUP_TITLE)
+            if visible:
+                self.logger.info(
+                    "Successfully verified Edit Shipping Address Pop Shown, newly Added Shipping address data not saved after click on X Icon")
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def do_verify_data_not_save_after_click_on_cancel_icon_on_popup(self):
+        try:
+            time.sleep(3)
+            self.do_click_by_locator(self.ADD_NEW_SHIPPING_ADDRESS_BUTTON)
+
+            company_name = "INGRAM MICRO " + ''.join(random.choices(string.ascii_uppercase, k=3))
+            self.logger.info("The randomly generated string is : " + str(company_name))  # print the random data
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_COMPANY_NAME_TEXTBOX, company_name)
+
+            contact_name = "LENDING CLUB CORPORATION " + ''.join(random.choices(string.ascii_uppercase, k=2))
+            self.logger.info("The randomly generated number is : " + str(contact_name))  # print the random data
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_CONTACT_NAME, contact_name)
+
+            modified_email = "test." + ''.join(random.choices(string.ascii_uppercase, k=5)) + "@ingrammicro.com"
+            self.logger.info("The randomly generated String is : " + str(modified_email))  # print the random data
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_EMAIL, modified_email)
+
+            phone_number = ''.join(random.choices(string.digits, k=10))
+            self.logger.info("The randomly generated number is : " + str(phone_number))  # print the random data
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_PHONE_NUMBER, phone_number)
+
+            address_line_1 = "3196 MILL RD"
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_LINE_1, address_line_1)
+
+            address_line_2 = "Wisconsin State Highways 29"
+
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_LINE_2, address_line_2)
+
+            city = "SANTA ANA"
+
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_CITY, city)
+
+            self.do_click_by_locator(self.ADD_NEW_SHIPPING_ADDRESS_STATE_DROPDOWN)
+            time.sleep(2)
+            self.do_click_by_locator(self.SELECT_STATE_CALIFORNIA)
+
+            self.do_send_keys(self.ADD_NEW_SHIPPING_ADDRESS_ZIP_CODE, "92233")
+
+            self.do_click_by_locator(self.ADD_NEW_SHIPPING_ADDRESS_CANCEL_BUTTON)
+
+            visible = self.do_check_visibility(self.EDIT_BILLING_ADDRESS_POPUP_TITLE)
+            if visible:
+                self.logger.info(
+                    "Successfully verified Edit Shipping Address Pop Shown, newly Added Shipping address data not saved after click on Cancel button")
+                self.do_click_by_locator(self.EDIT_SHIPPING_ADDRESS_POPUP_CANCEL_BUTTON)
+                self.do_click_by_locator(self.ORDER_EXCEPTION_PAGE)
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
+
+    def do_correct_PO_and_resubmit_order(self):
+        try:
+            self.do_click_by_locator(self.REFERENCE_DETAILS_EDIT_BUTTON)
+            reseller_po = self.do_get_attribute(self.RESELLER_PO_VALUE, "value")
+            special_symbols = ['!', '@', '$', '%', '^', '&', '*']
+            for x in range(len(special_symbols)):
+                symbol = str(special_symbols[x])
+                if symbol in reseller_po:
+                    reseller_po = reseller_po.replace(symbol, "")
+                    break
+            self.logger.info(reseller_po)
+            self.do_send_keys(self.RESELLER_PO_VALUE, reseller_po)
+            self.do_click_by_locator(self.DATA_ERROR_ORDER_UPDATE_BUTTON)
+            self.do_click_by_locator(self.DATA_ERRORS_RESUBMIT_ORDER_BUTTON)
+            self.do_click_by_locator(self.YES_RESUBMIT_ORDER_BUTTON)
+            order_resubmit_message = 'Order has been successfully resubmitted.'
+            assert order_resubmit_message in self.get_element_text(
+                self.RESUBMITTED_ORDER_SUCCESS_MESSAGE), "Successfully Resubmitted Order message not present"
+            time.sleep(3)
+            self.do_click_by_locator(self.ORDER_EXCEPTION_PAGE)
+            self.logger.info("Order reprocessed successfully")
+            time.sleep(3)
+            self.do_click_by_locator(self.ORDER_EXCEPTION_PAGE)
+            return True
+        except Exception as e:
+            return False
+
+    def do_correct_PO_add_new_line_and_resubmit_order_cancel_proceed_button(self):
+        try:
+            self.do_click_by_locator(self.REFERENCE_DETAILS_EDIT_BUTTON)
+            reseller_po = self.do_get_attribute(self.RESELLER_PO_VALUE, "value")
+            special_symbols = ['!', '@', '$', '%', '^', '&', '*']
+            for x in range(len(special_symbols)):
+                symbol = str(special_symbols[x])
+                if symbol in reseller_po:
+                    reseller_po = reseller_po.replace(symbol, "")
+                    break
+            self.logger.info(reseller_po)
+            self.do_send_keys(self.RESELLER_PO_VALUE, reseller_po)
+            self.do_click_by_locator(self.DATA_ERROR_ORDER_UPDATE_BUTTON)
+
+            self.logger.info("Adding new order line")
+            self.do_click_by_locator(self.ORDER_LINE_TAB)
+
+            self.do_click_by_locator(self.ADD_ORDER_LINE_BUTTON)
+            self.do_check_visibility(self.NEW_ORDER_LINE_POPUP)
+
+            self.do_click_by_locator(self.NEW_ORDER_LINE_IM_PART_NO_TEXTBOX)
+            self.do_send_keys(self.NEW_ORDER_LINE_IM_PART_NO_TEXTBOX, '6QM398')
+            self.logger.info("Successfully added IM Part# number")
+
+            self.do_click_by_locator(self.NEW_ORDER_LINE_QTY_TEXTBOX)
+            self.do_send_keys(self.NEW_ORDER_LINE_QTY_TEXTBOX, '3')
+            self.logger.info("Successfully added Qty")
+
+            self.do_click_by_locator(self.NEW_ORDER_LINE_PRICE_TEXTBOX)
+            self.do_send_keys(self.NEW_ORDER_LINE_PRICE_TEXTBOX, '121')
+            self.logger.info("Successfully added price")
+
+            self.do_click_by_locator(self.NEW_ORDER_LINE_VALIDATE_BUTTON)
+
+            time.sleep(5)
+            self.do_click_by_locator(self.ADD_NEW_LINE_ADD_BUTTON)
+
+            self.logger.info("Successfully added new order line")
+
+            self.do_click_by_locator(self.DATA_ERRORS_RESUBMIT_ORDER_BUTTON)
+            self.do_click_by_locator(self.YES_RESUBMIT_ORDER_BUTTON)
+
+            resubmit_order_message_msg = 'Are you sure you want to resubmit order? Purchase order resubmitting, ' + reseller_po + ' already exists in Impulse. Order will be resubmitted, cannot undo this action.'
+            header_msg = 'Purchase order ' + reseller_po + ' already exists'
+
+            pop_up_header_message = self.get_element_text(self.RESUBMIT_ORDER_HEADER_MSG).replace("\n", " ")
+            message = self.get_element_text(self.RESUBMIT_ORDER_MSG).replace("\n", " ")
+
+            assert resubmit_order_message_msg in message, "Resubmit order popup message not present"
+            assert header_msg in pop_up_header_message, "Resubmit order header message not present"
+
+            self.do_check_visibility(self.RESUBMIT_ORDER_CANCEL_ORDER_BUTTON)
+            self.do_check_visibility(self.RESUBMIT_ORDER_PROCEED_BUTTON)
+
+            return True
+        except Exception as e:
+            return False
+
+    def do_click_cancel_button_and_verify_reject_reason_open(self):
+        try:
+            self.do_click_by_locator(self.RESUBMIT_ORDER_CANCEL_ORDER_BUTTON)
+            self.do_click_by_locator(self.CANCEL_YES_BUTTON)
+            self.do_check_visibility(self.REASON_TEXTAERA)
+            self.logger.info("Successfully popup opened to enter reject reason.")
+            self.do_click_by_locator(self.BACK_BUTTON)
+            self.do_click_by_locator(self.CANCEL_NO_BUTTON)
+            return True
+        except Exception as e:
+            return False
+
+    def do_click_proceed_button_and_resubmit_the_order(self):
+        try:
+            self.do_click_by_locator(self.DATA_ERRORS_RESUBMIT_ORDER_BUTTON)
+            self.do_click_by_locator(self.YES_RESUBMIT_ORDER_BUTTON)
+            self.do_click_by_locator(self.RESUBMIT_ORDER_PROCEED_BUTTON)
+            order_resubmit_message = 'Order has been successfully resubmitted.'
+            assert order_resubmit_message in self.get_element_text(
+                self.RESUBMITTED_ORDER_SUCCESS_MESSAGE), "Successfully Resubmitted Order message not present"
+            time.sleep(3)
+            self.do_click_by_locator(self.ORDER_EXCEPTION_PAGE)
+            return True
+        except Exception as e:
+            return False
+
+    def do_correct_end_customer_po_and_resubmit_order_cancel_proceed_button(self):
+        try:
+            self.do_click_by_locator(self.REFERENCE_DETAILS_EDIT_BUTTON)
+            reseller_po = self.do_get_attribute(self.RESELLER_PO_VALUE, "value")
+            end_customer_order = self.do_get_attribute(self.END_CUSTOMER_ORDER_VALUE, "value")
+            special_symbols = ['!', '@', '$', '%', '^', '&', '*']
+            for x in range(len(special_symbols)):
+                symbol = str(special_symbols[x])
+                if symbol in end_customer_order:
+                    end_customer_order = end_customer_order.replace(symbol, "")
+            self.logger.info(end_customer_order)
+            self.do_send_keys(self.END_CUSTOMER_ORDER_VALUE, end_customer_order)
+            self.do_click_by_locator(self.DATA_ERROR_ORDER_UPDATE_BUTTON)
+
+            self.do_click_by_locator(self.DATA_ERRORS_RESUBMIT_ORDER_BUTTON)
+            self.do_click_by_locator(self.YES_RESUBMIT_ORDER_BUTTON)
+
+            resubmit_order_message_msg = 'Are you sure you want to resubmit order? Purchase order resubmitting, ' + reseller_po + ' already exists in Impulse. Order will be resubmitted, cannot undo this action.'
+            header_msg = 'Purchase order ' + reseller_po + ' already exists'
+
+            pop_up_header_message = self.get_element_text(self.RESUBMIT_ORDER_HEADER_MSG).replace("\n", " ")
+            message = self.get_element_text(self.RESUBMIT_ORDER_MSG).replace("\n", " ")
+
+            assert resubmit_order_message_msg in message, "Resubmit order popup message not present"
+            assert header_msg in pop_up_header_message, "Resubmit order header message not present"
+
+            self.do_check_visibility(self.RESUBMIT_ORDER_CANCEL_ORDER_BUTTON)
+            self.do_check_visibility(self.RESUBMIT_ORDER_PROCEED_BUTTON)
+            self.do_click_by_locator(self.RESUBMIT_ORDER_CANCEL_ORDER_BUTTON)
+            self.do_click_by_locator(self.CANCEL_YES_BUTTON)
+            self.do_check_visibility(self.REASON_TEXTAERA)
+            self.logger.info("Successfully popup opened to enter reject reason.")
+            self.do_click_by_locator(self.BACK_BUTTON)
+            self.do_click_by_locator(self.CANCEL_NO_BUTTON)
+            self.do_click_by_locator(self.ORDER_EXCEPTION_PAGE)
+            return True
+        except Exception as e:
+            return False
+
+    def search_with_confirmation_id_verify_search_result(self, confirmation_id):
+        try:
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, confirmation_id)
+            self.logger.info("Searched with confirmation_id as '" + confirmation_id + "'")
+            self.do_press_enter()
+            time.sleep(3)
+            confirmation_id_xpath = (By.XPATH,
+                                     "//div[@class='MuiDataGrid-row'][@data-rowindex='0']/div[@data-field='orderConfirmationNumber']/div")
+            ui_confirmation_id = self.get_element_text_for_filter(confirmation_id_xpath)
+            assert str(ui_confirmation_id) == str(confirmation_id), "Confirmation ID mismatched"
+            return True
+        except Exception as e:
+            return False
+
+    def search_with_reject_reason_verify_search_result(self, reject_reason):
+        try:
+            self.do_click_by_locator(self.SEARCH_BOX_CLOSE_ICON)
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, reject_reason)
+            self.logger.info("Searched with reject_reason as '" + reject_reason + "'")
+            self.do_press_enter()
+            reject_reason_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex='0']/div[@data-field='firstRejectReason']")
+            ui_reject_reason = self.get_element_text_for_filter(reject_reason_xpath)
+            assert str(ui_reject_reason) == str(reject_reason), "Reject reason mismatched"
+            return True
+        except Exception as e:
+            return False
+
+    def search_with_customer_name_verify_search_result(self, customer_name):
+        try:
+            self.do_click_by_locator(self.SEARCH_BOX_CLOSE_ICON)
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, customer_name)
+            self.logger.info("Searched with Customer Name as '" + customer_name + "'")
+            self.do_press_enter()
+            time.sleep(3)
+            self.driver.execute_script(
+                "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
+            customer_name_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex='0']/div[@data-field='customerName']/div/div")
+            ui_customer_name = self.get_element_text_for_filter(customer_name_xpath)
+            assert str(ui_customer_name) == str(customer_name), "Customer Name mismatched"
+            return True
+        except Exception as e:
+            return False
+
+    def search_with_invalid_text_verify_no_failed_order_found_message(self):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, "@#@#@$!@@3123")
+            self.logger.info("Searched with invalid text as @#@#@$!@@3123")
+            self.do_press_enter()
+            time.sleep(5)
+            message = "No failed orders found."
+            if self.do_check_visibility(self.NO_FAILED_ORDER_FOUND_MESSAGE):
+                if message == (self.get_element_text(self.NO_FAILED_ORDER_FOUND_MESSAGE)):
+                    self.logger.info("Successfully verify No failed orders found. message")
+                    return True
+                else:
+                    self.logger.info("Failed to verify No failed orders found. message")
+                    return False
+            else:
+                self.logger.info("No failed orders found. message not visible")
+                return False
+        except Exception as e:
+            return False
+
+    def search_with_two_char_verify_message(self):
+        try:
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_clear_textfield(self.DATA_ERRORS_SEARCH_BOX)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, "US")
+            self.logger.info("Searched with 2 character as US")
+            self.do_press_enter()
+            time.sleep(3)
+            message = "Minimum 3 charcters are required"
+            if self.do_check_visibility(self.MINIMUM_3_CHAR_REQUIRED_MESSAGE):
+                if message == (self.get_element_text(self.MINIMUM_3_CHAR_REQUIRED_MESSAGE)):
+                    self.logger.info("Successfully verified Minimum 3 charcters are required message")
+                    return True
+                else:
+                    self.logger.info("Failed to verify Minimum 3 charcters are required message")
+                    return False
+            else:
+                self.logger.info("Minimum 3 charcters are required message not visible")
+                return False
+        except Exception as e:
+            return False
+
+    def verify_filter_by_bcn_in_pages(self, bcn):
+        try:
+            self.do_click_by_locator(self.SEARCH_BOX_CLOSE_ICON)
+            self.check_if_result_found()
+            first_page_number, last_page_number = self.get_pagination_first_and_last_page()
+            self.logger.info("Verifying Order type in page %s", str(first_page_number))
+            self.go_to_page(first_page_number)
+            self.filter_by_bcn(bcn)
+            self.validate_bcn(bcn)
+            self.logger.info("Successfully verified BCN")
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred verifying BCN in table" + str(e))
+            return False
+
+    def validate_bcn(self, bcn):
+        try:
+            self.logger.info("Verifying the BCN in table")
+            max_rows = self.get_element_text(self.ITEMS_PER_PAGE)
+            self.logger.info("Max items per page: " + max_rows)
+            for i in range(int(max_rows)):
+                if i > 0 and i == 6:
+                    table_element = "//div[@class='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']"
+                    table = self.driver.find_element(By.XPATH, table_element)
+                    self.scroll_down(table)
+                    time.sleep(2)
+                self.logger.info("Fetching BCN")
+                bcn_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex='" + str(
+                    i) + "']/div[@data-field='bcnAccountNumber']")
+                try:
+                    time.sleep(3)
+                    ui_bcn = self.get_element_text_for_filter(bcn_xpath)
+                    self.logger.info("Fetched ui bcn account :" + str(ui_bcn))
+                except:
+                    self.logger.info("There are only " + str(i) + " rows")
+                    break
+                assert str(ui_bcn) == str(bcn), "BCN mismatched"
+        except Exception as e:
+            self.logger.error("Exception occurred verifying BCN" + str(e))
+            raise e
+
+    def check_if_result_found(self):
+        try:
+            self.logger.info("Checking if result found for Sales order")
+            table_rows = self.get_all_elements_without_visibility(self.TABLE_ROWS)
+        except Exception as e:
+            if self.do_check_visibility(self.NO_FAILED_ORDER_FOUND_MESSAGE):
+                self.logger.error("No failed order found for the search or filter")
+                raise e
+            else:
+                self.logger.error("Exception while checking the Sales order search result")
+                raise e
+
+    def filter_by_bcn(self, bcn):
+        try:
+            self.driver.refresh()
+            time.sleep(2)
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_clear_textfield(self.DATA_ERRORS_SEARCH_BOX)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, bcn)
+            self.do_press_enter()
+            return True
+        except Exception as e:
+            self.logger.error(
+                'Exception occurred while filtering by BCN' + str(e))
+            return False
+
+    def search_with_reseller_po_verify_result(self, reseller_po):
+        try:
+            self.driver.refresh()
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_click_by_locator(self.SEARCH_BOX_CLOSE_ICON)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, reseller_po)
+            self.logger.info("Searched with Reseller PO as '" + reseller_po + "'")
+            self.do_press_enter()
+            reseller_po_xpath = (
+                By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-rowindex='0']/div[@data-field='poNumber']/div")
+            ui_reseller_po = self.get_element_text_for_filter(reseller_po_xpath)
+            assert str(ui_reseller_po) == str(reseller_po), "Reseller PO mismatched"
+            return True
+        except Exception as e:
+            self.logger.error("Exception occurred verifying Reseller PO in table" + str(e))
+            return False
+
+    def search_with_substring_of_reseller_po_verify_result(self, substring_of_reseller_po):
+        try:
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_click_by_locator(self.SEARCH_BOX_CLOSE_ICON)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, substring_of_reseller_po)
+            self.logger.info("Searched with Substring of Reseller PO text as '" + substring_of_reseller_po + "'")
+            self.do_press_enter()
+            substring_of_reseller_po_xpath = (
+                By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-rowindex='0']/div[@data-field='poNumber']/div")
+            ui_substring_of_reseller_po = self.get_element_text_for_filter(substring_of_reseller_po_xpath)
+            if substring_of_reseller_po in ui_substring_of_reseller_po:
+                self.logger.info("Substring of Reseller Po matched with UI Reseller PO")
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error("Exception occurred verifying Substring Of Reseller PO in table" + str(e))
+            return False
+
