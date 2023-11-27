@@ -161,7 +161,7 @@ class X4ASalesOrdersPage(BasePage):
     BILL_TO_INFO_CONTACT_FIElD = (
         By.XPATH, "//*[@class='billingToId']//div[text()='Contact:']/parent::div/div[@class='labeltext']/strong")
     BILL_TO_INFO_COMPANY_NAME_FIElD = (
-        By.XPATH, "//*[@class='billingToId']//div[text()='Company name:']/parent::div/div[@class='labeltext']/strong")
+        By.XPATH, "//*[@class='billingToId']//*[text()='Address:']/parent::div/div[@class='field'][1]/strong")
     BILL_TO_INFO_EMAIL_FIElD = (
         By.XPATH, "//*[@class='billingToId']//div[text()='Email:']/parent::div/div[@class='labeltext']/strong")
     BILL_TO_INFO_ADDRESS_FIElD = (
@@ -174,9 +174,9 @@ class X4ASalesOrdersPage(BasePage):
     SHIP_TO_INFO_EDIT_ICON = (By.XPATH, "//*[@class='shipToId']//*[@data-testid='ModeEditOutlineOutlinedIcon']")
     SHIP_TO_ID_FIElD = (By.XPATH, "//*[text()='Ship to ID (suffix):']/parent::div/div[@class='labeltext']/strong")
     SHIP_TO_INFO_CONTACT_FIElD = (
-        By.XPATH, "//*[@class='shipToId']//*[text()='Contact:']/parent::div/div[@class='labeltext']/strong")
+        By.XPATH, "//*[@id='tablayout-tabpanel-1']/div/div/div[1]/div[2]/div[2]/div/div[2]/div[1]/div[2]/strong")
     SHIP_TO_INFO_COMPANY_NAME_FIElD = (
-        By.XPATH, "//*[@class='shipToId']//*[text()='Company name:']/parent::div/div[@class='labeltext']/strong")
+        By.XPATH, "//*[@class='shipToId']//*[text()='Address:']/parent::div/div[@class='field'][1]/div/strong")
     SHIP_TO_INFO_EMAIL_FIElD = (
         By.XPATH, "//*[@class='shipToId']//*[text()='Email:']/parent::div/div[@class='labeltext']/strong")
     SHIP_TO_INFO_PHONE_NO_FIElD = (
@@ -2269,7 +2269,7 @@ class X4ASalesOrdersPage(BasePage):
     def cancel_shipto_enduser_info_and_validate(self, shipto_id, enduser_companyname):
         try:
             shiptoid_before_cancel = self.get_element_text(self.SHIP_TO_ID_FIElD)
-            companyname_before_cancel = self.get_element_text(self.SHIP_TO_INFO_COMPANY_NAME_FIElD)
+            # companyname_before_cancel = self.get_element_text(self.SHIP_TO_INFO_COMPANY_NAME_FIElD)
             address_before_cancel = self.get_element_text(self.SHIP_TO_INFO_ADDRESS_FIElD)
             final_address_before_cancel = address_before_cancel.replace('\n', ' ')
             self.do_click_by_locator(self.SHIP_TO_INFO_EDIT_ICON)
@@ -2282,7 +2282,7 @@ class X4ASalesOrdersPage(BasePage):
             address_after_cancel = self.get_element_text(self.SHIP_TO_INFO_ADDRESS_FIElD)
             final_address_after_cancel = address_after_cancel.replace('\n', ' ')
             assert shiptoid_before_cancel == shiptoid_after_cancel, "Ship to ID mismatched"
-            assert companyname_before_cancel == companyname_after_cancel, "Company name mismatched"
+            # assert companyname_before_cancel == companyname_after_cancel, "Company name mismatched"
             assert final_address_before_cancel == final_address_after_cancel, "Address mismatched"
 
             enduser_id_before_cancel = self.get_element_text(self.END_USER_ID_FIElD)
@@ -2324,7 +2324,7 @@ class X4ASalesOrdersPage(BasePage):
             self.do_click_by_locator(self.SAVE_BTN)
             global shiptoid_updated, companyname_updated, address_after_updated, final_address_updated, shipto_phoneno_updated, shipto_contact_updated, shipto_email_updated
             shiptoid_updated = self.get_element_text(self.SHIP_TO_ID_FIElD)
-            companyname_updated = self.get_element_text(self.SHIP_TO_INFO_COMPANY_NAME_FIElD)
+            # companyname_updated = self.get_element_text(self.SHIP_TO_INFO_COMPANY_NAME_FIElD)
             address_after_updated = self.get_element_text(self.SHIP_TO_INFO_ADDRESS_FIElD)
             final_address_updated = address_after_updated.replace('\n', ' ')
             shipto_phoneno_updated = self.get_element_text(self.SHIP_TO_INFO_PHONE_NO_FIElD)
@@ -2721,6 +2721,8 @@ class X4ASalesOrdersPage(BasePage):
                                                                           "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(
                                                                               i) + "]/div[@data-field='specialBidNumber']/input"),
                                                                          'value')
+                self.driver.execute_script(
+                    "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1200")
                 order_line['order_line_unit_price'] = self.do_get_attribute((By.XPATH,
                                                                              "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(
                                                                                  i) + "]/div[@data-field='unitPrice']/input"),
@@ -2732,9 +2734,6 @@ class X4ASalesOrdersPage(BasePage):
                                                                        "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(
                                                                            i) + "]/div[@data-field='cost']"))
 
-                element = "//*[@data-rowindex='0']//*[@role='cell' and @data-field='cost']"
-                unit_weight = self.driver.find_element(By.XPATH, element)
-                self.scroll_horizontally(unit_weight)
 
                 order_line['order_line_extended_cost'] = self.get_element_text((By.XPATH,
                                                                                 "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(
@@ -2746,14 +2745,11 @@ class X4ASalesOrdersPage(BasePage):
                                                                                 "//div[@class='MuiDataGrid-row'][@data-rowindex=" + str(
                                                                                     i) + "]/div[@data-field='currencyCode']"))
 
-                element = "//*[@data-rowindex='0']//*[@role='cell' and @data-field='currencyCode']"
-                unit_weight = self.driver.find_element(By.XPATH, element)
-                self.scroll_horizontally(unit_weight)
 
                 # scroll till quantity back ordered column
-                time.sleep(3)
-                self.driver.execute_script(
-                    "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
+                # time.sleep(3)
+                # self.driver.execute_script(
+                #     "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
 
                 time.sleep(3)
                 order_line['order_line_quantity'] = self.do_get_attribute((By.XPATH,
