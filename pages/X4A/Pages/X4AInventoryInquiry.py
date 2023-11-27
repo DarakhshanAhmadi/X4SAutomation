@@ -34,7 +34,7 @@ class X4AInventoryInquiryPage(BasePage):
     ITEMS_PER_PAGE = (By.XPATH, "//div[@class='MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-d2iqo8-MuiSelect-select-MuiInputBase-input']")
     SKUS_IN_GRID = (By.XPATH, "//div[@class='MuiDataGrid-row']/div[@data-field='sku']/a")
     DETAILS_PAGE_SKU = (By.XPATH, "//h2")
-    INVENTORY_VISIBILITY_TEXT = (By.XPATH, "//div[@class='css-4sov5v-MuiStack-root']/span")
+    INVENTORY_VISIBILITY_TEXT = (By.XPATH, "//div[@class='css-4sov5v-MuiStack-root']/span[text()='Please Select a Customer']")
     INVENTORY_INQUIRY_LIST_PAGE_LINK = (By.XPATH, "//a[text()='Inventory Inquiry']")
     INVENTORY_DETAILS_PAGE_HEADERS = (By.XPATH, "//div[@class='MuiBox-root css-1jbdlot']/div")
     INVENTORY_DETAILS_PAGE_HEADER_VALUES = (By.XPATH, "//div[@class='MuiBox-root css-1jbdlot']")
@@ -95,7 +95,7 @@ class X4AInventoryInquiryPage(BasePage):
                 if e.text != '':
                     path.append(e.text)
             navigation_path = ' > '.join(path)
-            assert navigation_path == 'Home > Inventory > Inventory Inquiry', 'Navigation path mismatched for inventory inquiry'
+            assert navigation_path == 'Home > Inventory Inquiry', 'Navigation path mismatched for inventory inquiry'
             title = self.get_element_text(self.TITLE)
             assert title == "Inventory inquiry", 'Page title mismatched for inventory inquiry'
         except Exception as e:
@@ -286,6 +286,8 @@ class X4AInventoryInquiryPage(BasePage):
     def verify_customer_selection_popup_contents(self):
         try:
             self.do_click_by_locator(self.SELECT_CUSTOMER_BUTTON)
+            popup_text = self.get_element_text(self.CUSTOMER_SELECTION_POPUP_TEXT)
+            assert popup_text == 'To check inventory for a customer please start by typing the reseller customer name or BCN.', "Customer selection popup text mismatched"
             assert self.do_check_visibility(self.CUSTOMER_TEXTBOX) is True, "Customer popup textbox"
             assert self.do_check_visibility(self.POPUP_SELECT_BUTTON) is True, "Select button not found in popup"
             self.do_click_by_locator(self.POPUP_CLOSE_BUTTON)
@@ -519,7 +521,6 @@ class X4AInventoryInquiryPage(BasePage):
             self.sort_on_hand()
             self.sort_average_cost()
             self.sort_eta()
-            breakpoint()
             return columns
         except Exception as e:
             self.logger.error("Exception while validating inventory visibility + str(e)")
