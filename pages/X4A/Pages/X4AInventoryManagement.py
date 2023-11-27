@@ -69,6 +69,7 @@ class X4AInventoryManagementPage(BasePage):
 
     """ Top 100 Aging sku tab """
     TOP_100_AGING_SKU_TAB = (By.XPATH, "//div[@class='MuiTypography-root MuiTypography-h2 css-zac9d4-MuiTypography-root'][text()='Top 100 Aging SKU']")
+    ACTION_PLANNING_TABS = (By.XPATH, "//div[@class='MuiTabs-flexContainer css-1pyy021-MuiTabs-flexContainer']/button/div/div")
 
     def go_to_inventory_management_action_planning(self):
         try:
@@ -87,6 +88,17 @@ class X4AInventoryManagementPage(BasePage):
             self.scroll_down(page_element)
         except Exception as e:
             self.logger.error('Exception occurred while clicking on Top 100 underperforming sku tab' + str(e))
+            raise e
+
+    def get_tabs(self):
+        action_planning_tabs = []
+        try:
+            tabs = self.get_all_elements(self.ACTION_PLANNING_TABS)
+            for tab in tabs:
+                action_planning_tabs.append(tab.text)
+            return action_planning_tabs
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying order of tabs under Action planning' + str(e))
             raise e
 
     def get_table_headers(self, selected_country):
