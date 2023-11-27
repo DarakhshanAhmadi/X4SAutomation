@@ -315,3 +315,8 @@ class BasePage:
             return True
         except:
             return False
+
+    def do_press_enter(self):
+        actions = ActionChains(self.driver)
+        actions.send_keys(Keys.ENTER)
+        actions.perform()

@@ -314,6 +314,18 @@ Feature: Order Exception Orders
       | po_number | country |
       | poauto    | CA      |
 
+  # OMS-2216
+  @order_exception_search
+  Scenario: Order Exception Search
+    Given The order exception is created via api
+    When Search with confirmation id and Verify that data should get displayed in the list as per searched Confirmation ID
+    When Search with Reject reason and Verify that data should get displayed in the list as per searched Reject reason
+    And Search with Customer name and Verify that data should get displayed in the list as per searched Customer name
+    And Search with some invalid text and Verify that No failed orders found message should get displayed
+    And Search with 2 characters and Verify that Minimum 3 charcters are required message should get displayed
+    And Search with BCN and Verify that data should get displayed in the list as per searched BCN
+    And Searched with Reseller PO and Verify that data should get displayed in the list as per Reseller PO
+    And Searched with substring of reseller po and Verify that data should get displayed in the list as per Reseller PO
 
   @logout
   Scenario: logout X4A

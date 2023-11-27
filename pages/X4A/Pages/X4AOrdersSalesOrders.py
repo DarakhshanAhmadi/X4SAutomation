@@ -2268,7 +2268,6 @@ class X4ASalesOrdersPage(BasePage):
 
     def cancel_shipto_enduser_info_and_validate(self, shipto_id, enduser_companyname):
         try:
-            breakpoint()
             shiptoid_before_cancel = self.get_element_text(self.SHIP_TO_ID_FIElD)
             # companyname_before_cancel = self.get_element_text(self.SHIP_TO_INFO_COMPANY_NAME_FIElD)
             address_before_cancel = self.get_element_text(self.SHIP_TO_INFO_ADDRESS_FIElD)
