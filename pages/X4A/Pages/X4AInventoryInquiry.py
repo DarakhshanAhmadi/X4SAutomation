@@ -84,6 +84,7 @@ class X4AInventoryInquiryPage(BasePage):
     ETA_SORT = (By.XPATH, "//div[text()='ETA']")
     ETA_ROWS = (By.XPATH, "//div[@data-field='etaDate'][@role='cell']")
     WAREHOUSE_LOCATION_SORT = (By.XPATH, "//strong[text()='Warehouse location']")
+    ITEMS_PER_PAGE = (By.XPATH, "//div[@class='MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-d2iqo8-MuiSelect-select-MuiInputBase-input']")
 
     def go_to_inventory_inquiry(self):
         path = []
@@ -98,6 +99,8 @@ class X4AInventoryInquiryPage(BasePage):
             assert navigation_path == 'Home > Inventory Inquiry', 'Navigation path mismatched for inventory inquiry'
             title = self.get_element_text(self.TITLE)
             assert title == "Inventory inquiry", 'Page title mismatched for inventory inquiry'
+            rows_by_default = self.get_element_text(self.ITEMS_PER_PAGE)
+            assert int(rows_by_default) == 50, "Items per page is incorrect"
         except Exception as e:
             self.logger.error('Exception occurred while clicking on Inventory Inquiry' + str(e))
             raise e
