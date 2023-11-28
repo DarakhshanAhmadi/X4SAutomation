@@ -112,7 +112,7 @@ class X4ASalesOrdersPage(BasePage):
     CANCEL_ORDER_ALERT_CONFIRMATION = (By.XPATH, "//*[@id='alert-dialog-description']")
     CONFIRM_CANCEL_ORDER = (By.XPATH, "//*[text()='Yes, Cancel Order']")
     DEFER_CANCEL_ORDER = (By.XPATH, "//*[text()='No, Keep Order']")
-    SUCCESS_TOAST_NOTIFICATION = (By.XPATH, "//*[contains(@class, 'MuiAlert-message')]")
+    SUCCESS_TOAST_NOTIFICATION = (By.XPATH, "//*[contains(@class, 'MuiAlert-message')][text()='Cancelled! order was successfully cancelled.']")
 
     """Order Details page"""
 
@@ -2608,6 +2608,7 @@ class X4ASalesOrdersPage(BasePage):
     def order_status_validate(self, status):
         try:
             self.driver.refresh()
+            time.sleep(2)
             if self.get_element_text(self.ORDER_DETAILS_STATUS) == status:
                 self.logger.info("Order status is validated successfully")
                 return True
@@ -2916,3 +2917,13 @@ class X4ASalesOrdersPage(BasePage):
             self.logger.error(
                 'Exception occurred while clicking on edit cancel icon ' + str(e))
             raise e
+
+    def check_no_result_found(self):
+        try:
+            self.logger.info("Checking if result found for Sales order")
+            if not self.do_check_visibility_for_validation(self.NO_RESULT_TEXT):
+                raise Exception('Result for the search is present in order management screen')
+        except Exception as e:
+            self.logger.error("Exception while checking for no result found text for search")
+            raise e
+

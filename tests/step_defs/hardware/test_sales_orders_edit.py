@@ -135,7 +135,6 @@ def click_on_im_order_number(init_driver):
     feature_file_name = "sales_orders_edit"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
-        logger.info("click")
         if not validate_sales_orders.click_on_im_order_num(feature_file_name):
             raise Exception("Failed to click on searched IM order number")
     except Exception as e:
@@ -146,7 +145,7 @@ def click_on_im_order_number(init_driver):
 @when(parsers.parse('Click on Billing tab on Order Details page'))
 def click_on_billing_tab(init_driver):
     # init_driver.refresh()
-    feature_file_name = "sales_orders"
+    feature_file_name = "sales_orders_edit"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
         if not validate_sales_orders.click_on_billing_tab(feature_file_name):
@@ -433,6 +432,7 @@ def verify_order_status(init_driver, status):
             raise Exception("Failed to validate order status")
     except Exception as e:
         logger.error("Error while validating order status %s", e)
+        validate_sales_orders.validate_order_mgmt_click(feature_file_name)
         raise e
 
 
@@ -517,6 +517,7 @@ def verify_success_notification(init_driver):
             raise Exception("Failed to verify success toast notification")
     except Exception as e:
         logger.error("Error while verifying success toast notification %s", e)
+        validate_sales_orders.validate_order_mgmt_click(feature_file_name)
         raise e
 
 
@@ -779,3 +780,41 @@ def fields_under_end_user_info_section(init_driver):
         logger.error("Error while verify the fields under End user info section on Order Details page %s", e)
         raise e
 
+
+@then(parsers.parse('Validate the IM Order number is listed'))
+def validate_im_order_number(init_driver):
+    feature_file_name = "sales_order_edit"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        im_order_number = input_order_data.get("im_order_number")
+        if not validate_sales_orders.do_validate_im_order_number(im_order_number, feature_file_name, screen_shot):
+            raise Exception("Failed to Validate IM Order Number")
+    except Exception as e:
+        logger.error("Not able to Validate IM Order Number %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate the IM Order number is listed {order_id}'))
+def validate_im_order_number(init_driver, order_id):
+    feature_file_name = "sales_order_edit"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.do_validate_im_order_number(order_id, feature_file_name, screen_shot):
+            raise Exception("Failed to Validate IM Order Number")
+    except Exception as e:
+        logger.error("Not able to Validate IM Order Number %s", e)
+        raise e
+
+
+@then(parsers.parse('Check that the order is no more present in list'))
+def validate_im_order_number_not_present(init_driver):
+    feature_file_name = "sales_order_edit"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.check_no_result_found(feature_file_name, screen_shot):
+            raise Exception("Cancelled order is still present in the list")
+    except Exception as e:
+        logger.error("Not able to Validate that the order is not in list %s", e)
+        raise e

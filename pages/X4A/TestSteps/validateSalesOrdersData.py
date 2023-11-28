@@ -1727,3 +1727,20 @@ class ValidateSalesOrdersData:
             self.logger.error("Error while validating Payment term code")
             self.logger.exception(e)
             return False
+
+    def check_no_result_found(self, feature_file_name, screen_shot):
+        x4a_sales_order = X4ASalesOrdersPage(self.driver)
+        try:
+            x4a_sales_order.check_no_result_found()
+            self.logger.info("Successfully verified that order is not present in list")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "verified_order_not_present_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "order_not_present_verification_error.png")
+            screen_shot[
+                "path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "order_not_present_verification_error.png"
+            self.logger.error("Error while checking no result is found for search")
+            self.logger.exception(e)
+            return False
