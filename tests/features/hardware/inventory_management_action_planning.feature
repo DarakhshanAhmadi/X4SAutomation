@@ -10,7 +10,8 @@ Feature: Inventory Management Action Planning
     #OMS-52
   @verify_under_performing_sku_table_headers
   Scenario: Verify table columns under Top 100 Under performing SKU table
-    Given click on top 100 under performing sku
+    Given verify order of tabs
+    And click on top 100 under performing sku
     Then verify the columns in the table are correct
     And verify filter options are correct
 

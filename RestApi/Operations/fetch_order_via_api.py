@@ -67,13 +67,13 @@ class FetchOrderViaApi:
         order_status = self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "orderstatus")
         order_value = self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "ordertotalvalue")
         currency_code = self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "currencycode")
-        terms_code = self.extract_terms_code(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "extendedspecs"))
+        terms_code = self.extract_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "extendedspecs"), "termscode")
         ship_from_warehouse_id = self.extract_ship_from_details(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "lines"), "shipfromwarehouseid")
         warehouse_name = self.extract_ship_from_details(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "lines"), "warehousename")
         carrier_code = self.extract_ship_from_details(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "lines"), "carriercode")
         ship_to_suffix = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"), "suffix")
         ship_to_name = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"), "name")
-        ship_to_address = self.format_address(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"))
+        ship_to_address = ship_to_name + " " + self.format_address(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"))
         ship_to_phone = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"), "phonenumber")
         ship_to_contact = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"), "attention")
         ship_to_email = self.common_json.read_json_data(self.common_json.read_sub_section_json_data(json_data, "serviceresponse", "orderdetailresponse", "shiptoaddress"), "email")
@@ -113,7 +113,7 @@ class FetchOrderViaApi:
                 unit_weight = obj["unitweight"]
                 unit_price = obj["unitprice"]
                 extended_price = obj["extendedprice"]
-                cost = obj["adjustedcost"]
+                cost = self.extract_data(obj["productextendedspecs"], "unitcost")
                 quantity = obj["requestedquantity"]
                 quantity_confirmed = obj["confirmedquantity"]
                 quantity_backordered = obj["backorderquantity"]
@@ -122,18 +122,18 @@ class FetchOrderViaApi:
                 order_number = re.findall("^.{2}\-.{5}", im_order_number)[0]
                 sales_order_details_tbl_id = X4ASalesOrderDetailsDbManagementService().get_id_by_im_order_number(self.db_file_path, order_number)
                 sales_order_lines_obj = X4ASalesOrderLine(im_order_number, line_number, line_status, im_part_number, vpn, description, is_acop_applied, unit_weight,
-                                                          unit_price, extended_price, cost, quantity, quantity_confirmed, quantity_backordered, serial_numbers,
-                                                          special_bid_number, sales_order_details_tbl_id)
+                                                          unit_price, extended_price, cost, quantity, quantity_confirmed, quantity_backordered, special_bid_number, serial_numbers,
+                                                          sales_order_details_tbl_id)
                 sales_order_lines_list.append(sales_order_lines_obj)
         X4ASalesOrderLinesDbManagementService().save_sales_order_lines_data(self.db_file_path, sales_order_lines_list)
 
-    def extract_terms_code(self, list_data):
-        terms_code = ""
+    def extract_data(self, list_data, field):
+        data = ""
         for obj in list_data:
-            if obj["attributename"] == "termscode":
-                terms_code = obj["attributevalue"]
+            if obj["attributename"] == field:
+                data = obj["attributevalue"]
                 break
-        return terms_code
+        return data
 
     def extract_ship_from_details(self, list_data, variable_name):
         variable_data = ""

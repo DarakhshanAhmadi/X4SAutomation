@@ -17,6 +17,8 @@ class ValidateInventoryManagementData:
     top_100_sku_filter_options = ['SKU', 'MFR Part number', 'Vendor business manager', 'Vendor name']
     action_dropdown_options = ['CM - Pricing', 'CM - Cost Structure', 'DIO - RMA', 'DIO - Sell through', 'DIO - Customer forecast', 'DIO - Customer commitment (non-cancellable)', 'DIO - Customer commitment (cancellable)', 'DIO - Liquidate', 'DIO - Terminate', 'VM - Terminated - RMA', 'DF - Defective', 'Completed']
     top_100_aging_sku_table_headers = ['SKU', 'Actions', 'Vendor business manager', 'Vendor name', 'Vendor number', 'MFR Part number', 'Product description', 'Inventory value',  'Value on order', 'Actual 121', 'Actual 151', 'Actual 181', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5']
+    action_planning_tabs_order = ['Action Planning', 'SKU level details', 'Top 100 Underperforming (UP) SKU', 'Action Analysis - UP SKU', 'Vendor Analysis - UP SKU', 'Top 100 Aging SKU', 'Action Analysis - Aging SKU', 'Vendor Analysis - Aging SKU']
+
 
     def __init__(self, driver):
         self.driver = driver
@@ -526,5 +528,26 @@ class ValidateInventoryManagementData:
             screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
                               "action_popup_validation_error.png"
             self.logger.error("Error while validating action popup content")
+            self.logger.exception(e)
+            return False
+
+    def validate_action_planning_tabs_order(self, feature_file_name, screen_shot):
+        x4a_inventory_management = X4AInventoryManagementPage(self.driver)
+        try:
+            tabs_order = x4a_inventory_management.get_tabs()
+            for i in range(len(self.action_planning_tabs_order)):
+                if tabs_order[i] != self.action_planning_tabs_order[i]:
+                    self.logger.error(f'Action planning tabs order mismatched UI:{tabs_order[i]} Expected:{self.action_planning_tabs_order[i]}')
+                    raise Exception(f'Action planning tabs order mismatched')
+            self.logger.info("Successfully validated order of tabs under Action planning")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "order_of_tabs_validated_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "order_of_tabs_validation_error.png")
+            screen_shot["path"] = self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + \
+                                                            "order_of_tabs_validation_error.png"
+            self.logger.error("Error while validating order of tabs under Action planning")
             self.logger.exception(e)
             return False
