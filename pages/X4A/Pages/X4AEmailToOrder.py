@@ -67,9 +67,31 @@ class X4AEmailToOrderPage(BasePage):
     EMAIL_ORDER_HEADER_LIST = ["Account #", "Country", "Order status", "Customer name", "Customer PO", "Sales order #",
                                "Processed", "Additional Information"]
     USER_DROPDOWN = (By.XPATH, "//*[@data-testid='KeyboardArrowDownIcon']")
+    ETO_ERROR_TAB = (By.XPATH, "//*[text()='Email to order']")
+    ETO_ERROR_ORDER = (By.XPATH, "(//*[starts-with(@id, 'toolTip')])[1]")
+    REFERENCE_NO = (By.XPATH, "//*[text()='Reference numbers']")
+    CUSTOMER = (By.XPATH, "//*[text()='Customer']")
+    ADDITIONAL_INFO = (By.XPATH, "//*[text()='Additional Information']")
+    NOTES = (By.XPATH, "//*[text()='Notes']")
+    CUSTOMER_ORDER = (By.XPATH, "(//*[text()='Reference numbers']//parent::div//following-sibling::div//strong)[1]")
+    END_USER_ORDER = (By.XPATH, "(//*[text()='Reference numbers']//parent::div//following-sibling::div//strong)[2]")
+    SALES_ORDER = (By.XPATH, "(//*[text()='Reference numbers']//parent::div//following-sibling::div//strong)[3]")
+    CUSTOMER_NAME = (By.XPATH, "(//*[text()='Customer']//parent::div//following-sibling::div//strong)[1]")
+    CUSTOMER_ERP = (By.XPATH, "(//*[text()='Customer']//parent::div//following-sibling::div//strong)[2]")
+    ETO_ERROR_ORDER_STATUS = (By.XPATH, "(//*[text()='Customer']//parent::div//following-sibling::div//strong)[3]")
+    EMAIL_RECEIVED_TIME = (
+    By.XPATH, "(//*[text()='Additional Information']//parent::div//following-sibling::div//strong)[1]")
+    SENDER = (By.XPATH, "(//*[text()='Additional Information']//parent::div//following-sibling::div//strong)[2]")
+    REQUEST_DELIVERY_DATE = (
+    By.XPATH, "(//*[text()='Additional Information']//parent::div//following-sibling::div//strong)[3]")
+    BUYER = (By.XPATH, "(//*[text()='Additional Information']//parent::div//following-sibling::div//strong)[4]")
+    EMAIL_RESPONSE_TO = (
+    By.XPATH, "(//*[text()='Additional Information']//parent::div//following-sibling::div//strong)[5]")
+    EMAIL_RESPONSE_BCC = (
+    By.XPATH, "(//*[text()='Additional Information']//parent::div//following-sibling::div//strong)[6]")
+    ORDER_INFO = (By.XPATH, "(//*[text()='Notes']//parent::div//following-sibling::div//strong)[1]")
+    SPECIAL_INSTRUCTION = (By.XPATH, "(//*[text()='Notes']//parent::div//following-sibling::div//strong)[2]")
     LOGOUT = (By.XPATH, "//*[text()='LogOut']")
-
-
 
     def go_to_email_to_order(self):
         try:
@@ -94,7 +116,7 @@ class X4AEmailToOrderPage(BasePage):
             for i in range(1, 8):
                 HEADER_LIST = (By.XPATH, "//tr[@class='headerRow']/td[" + str(i) + "]")
                 assert self.EMAIL_ORDER_HEADER_LIST[i - 1] in self.get_element_text(HEADER_LIST), \
-                self.EMAIL_ORDER_HEADER_LIST[i - 1] + " not present"
+                    self.EMAIL_ORDER_HEADER_LIST[i - 1] + " not present"
             self.logger.info("verified that Email Orders page")
 
         except Exception as e:
@@ -146,10 +168,10 @@ class X4AEmailToOrderPage(BasePage):
             email_to_order_management_srv_obj = X4AEmailToOrderDataDbManagementService()
             db_file_path = ReadConfig.get_db_file_path()
             scenario_detail_list = email_to_order_management_srv_obj.get_scenario_details(db_file_path, '1')
-           
+
             self.do_click_by_locator(self.SEARCH_CUSTOMER_PO)
             self.do_send_keys(self.SEARCH_CUSTOMER_PO, scenario_detail_list[0][7])
-           
+
             self.do_click_by_locator(self.SEARCH_DROPDOWN_MENU)
             self.do_click_by_locator(self.SELECT_ORDER_STATUS)
             self.do_click_by_locator(self.SEARCH_ORDER_STATUS)
@@ -169,7 +191,7 @@ class X4AEmailToOrderPage(BasePage):
             email_to_order_management_srv_obj = X4AEmailToOrderDataDbManagementService()
             db_file_path = ReadConfig.get_db_file_path()
             scenario_detail_list = email_to_order_management_srv_obj.get_scenario_details(db_file_path, scenario_number)
-           
+
             self.do_click_by_locator(self.SEARCH_DROPDOWN_MENU)
             self.do_click_by_locator(self.SELECT_CUSTOMER_PO)
 
@@ -186,18 +208,22 @@ class X4AEmailToOrderPage(BasePage):
 
     def verify_ETO_order_status(self):
         try:
-           
+
             if 'Data Extracted' in self.get_element_text(self.ETO_ORDER_STATUS):
-                assert 'Run Part and Price Check' in self.get_element_text(self.ACTION_BUTTON), "Run Part and Price Check button not present"
+                assert 'Run Part and Price Check' in self.get_element_text(
+                    self.ACTION_BUTTON), "Run Part and Price Check button not present"
                 self.logger.info("checked Data Extracted")
             elif 'Part and Price Check' in self.get_element_text(self.ETO_ORDER_STATUS):
-                assert 'Resubmit order' in self.get_element_text(self.ACTION_BUTTON), "Resubmit order button not present"
+                assert 'Resubmit order' in self.get_element_text(
+                    self.ACTION_BUTTON), "Resubmit order button not present"
                 self.logger.info("checked Part and Price Check status")
             elif 'Order Loaded to ERP' in self.get_element_text(self.ETO_ORDER_STATUS):
-                assert 'Release Order EC Hold' in self.get_element_text(self.ACTION_BUTTON), "Release EC hold button not present"
+                assert 'Release Order EC Hold' in self.get_element_text(
+                    self.ACTION_BUTTON), "Release EC hold button not present"
                 self.logger.info("checked Order Released EC Hold status")
             elif 'Order Released EC Hold' in self.get_element_text(self.ETO_ORDER_STATUS):
-                assert 'Process Order Response' in self.get_element_text(self.ACTION_BUTTON), "Process Order Response button not present"
+                assert 'Process Order Response' in self.get_element_text(
+                    self.ACTION_BUTTON), "Process Order Response button not present"
                 self.logger.info("checked Order Released EC Hold status")
             elif 'Order Response Sent' in self.get_element_text(self.ETO_ORDER_STATUS):
                 self.logger.info("ETO Order status is completed")
@@ -205,11 +231,65 @@ class X4AEmailToOrderPage(BasePage):
             time.sleep(2)
             self.do_click_by_locator(self.BACK_SEARCH_BUTTON)
             self.do_click_by_locator(self.RESET_BUTTON)
-
-
         except Exception as e:
             self.logger.error('Exception occurred while verifying ETO order status ' + str(e))
             raise e
+
+    def click_on_eto_tab(self):
+        try:
+            self.do_click_by_locator(self.ETO_ERROR_TAB)
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on ETO error order tab ' + str(e))
+            return False
+
+    def click_on_eto_error_order(self):
+        try:
+            self.do_click_by_locator(self.ETO_ERROR_ORDER)
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on ETO error order ' + str(e))
+            return False
+
+    def validate_eto_error_order_details(self):
+        try:
+            if self.do_check_visibility(self.REFERENCE_NO) and self.do_check_visibility(
+                    self.CUSTOMER) and self.do_check_visibility(self.ADDITIONAL_INFO) and self.do_check_visibility(self.NOTES):
+                self.logger.info("The expected sections are displayed on order details page")
+                assert self.get_element_text(self.CUSTOMER_ORDER) == "-" or self.get_element_text(
+                    self.CUSTOMER_ORDER) != "", "Customer order assertion failed"
+                assert self.get_element_text(self.END_USER_ORDER) == "-" or self.get_element_text(
+                    self.END_USER_ORDER) != "", "End user order assertion failed"
+                assert self.get_element_text(self.SALES_ORDER) == "-" or self.get_element_text(
+                    self.SALES_ORDER) != "", "Sales order assertion failed"
+                assert self.get_element_text(self.CUSTOMER_NAME) == "-" or self.get_element_text(
+                    self.CUSTOMER_NAME) != "", "Customer name assertion failed"
+                assert self.get_element_text(self.CUSTOMER_ERP) == "-" or self.get_element_text(
+                    self.CUSTOMER_ERP) != "", "Customer ERP assertion failed"
+                assert self.get_element_text(self.ETO_ERROR_ORDER_STATUS) == "-" or self.get_element_text(
+                    self.ETO_ERROR_ORDER_STATUS) != "", "ETO error order status assertion failed"
+                assert self.get_element_text(self.EMAIL_RECEIVED_TIME) == "-" or self.get_element_text(
+                    self.EMAIL_RECEIVED_TIME) != "", "Email received time assertion failed"
+                assert self.get_element_text(self.SENDER) == "-" or self.get_element_text(
+                    self.SENDER) != "", "Sender assertion failed"
+                assert self.get_element_text(self.REQUEST_DELIVERY_DATE) == "-" or self.get_element_text(
+                    self.REQUEST_DELIVERY_DATE) != "", "Request delivery date assertion failed"
+                assert self.get_element_text(self.BUYER) == "-" or self.get_element_text(
+                    self.BUYER) != "", "Buyer assertion failed"
+                assert self.get_element_text(self.EMAIL_RESPONSE_TO) == "-" or self.get_element_text(
+                    self.EMAIL_RESPONSE_TO) != "", "Email response to assertion failed"
+                assert self.get_element_text(self.EMAIL_RESPONSE_BCC) == "-" or self.get_element_text(
+                    self.EMAIL_RESPONSE_BCC) != "", "Email response BCC assertion failed"
+                assert self.get_element_text(self.ORDER_INFO) == "-" or self.get_element_text(
+                    self.ORDER_INFO) != "", "Order information assertion failed"
+                assert self.get_element_text(self.SPECIAL_INSTRUCTION) == "-" or self.get_element_text(
+                    self.SPECIAL_INSTRUCTION) != "", "Special instruction assertion failed"
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying ETO error order details tab ' + str(e))
+            return False
 
     def logout_x4a(self):
         try:
@@ -242,7 +322,7 @@ class X4AEmailToOrderPage(BasePage):
 
             with open(ETO_input_file_path, 'rb') as f:
                 attachment = MIMEApplication(f.read(), _subtype='pdf')
-                attachment.add_header('Content-Disposition', 'attachment', filename= ETO_input_file_name)
+                attachment.add_header('Content-Disposition', 'attachment', filename=ETO_input_file_name)
                 msg.attach(attachment)
 
             with smtplib.SMTP(smtp_server, smtp_port) as smtp:
@@ -253,8 +333,6 @@ class X4AEmailToOrderPage(BasePage):
         except Exception as e:
             self.logger.error('Exception occurred while Sending Email for order ' + str(e))
             raise e
-
-
 
     # def search_file_name(self, file_name):
     #     self.go_to_email_to_order()
