@@ -8,7 +8,7 @@ Feature: Order Exception Orders
     Then Provide user ID and Password to login
     When The user traverse to Order Exception menu
 
-  # EDT-9280/OMS-784
+  # EDT-9280/OMS-784/3349
   @resubmit_order_popup
   Scenario: Verify resubmit order popup
     Given The order exception is created via api
@@ -90,7 +90,7 @@ Feature: Order Exception Orders
     When Click on Filter icon
     Then Verify filter panel options
 
-  # OMS-48
+  # OMS-48/OMS-3595
   @order_entry_method_and_country_options_list
   Scenario: Verify Order entry method and Country options list
     When Verify Order entry method options list
@@ -99,7 +99,7 @@ Feature: Order Exception Orders
     And Selected multiple order entry method options should get display in header
 
 
-  # OMS-48
+  # OMS-48/OMS-3595
   @country_and_order_entry_method_clear_all_value
   Scenario: Selected values get cleared from filter header
     When Click on Filter icon
@@ -107,7 +107,7 @@ Feature: Order Exception Orders
     And Click on Clear all button
     Then Selected values should get cleared from filter header and all data should get loaded in grid
 
-  # OMS-48
+  # OMS-48/OMS-3595
   @order_entry_method_and_country_options_list
   Scenario: Verify Data in grid should get updated as per selected filter
     When Click on Filter icon
@@ -154,27 +154,31 @@ Feature: Order Exception Orders
     And Verify that VMF entered data should not get saved after click on X icon
     And Verify that modified VMF data should not get updated on order details page after click on Cancel button
 
-  # OMS-782
+#   OMS-782/OMS-3065
   @end_user_details_edit_popup
   Scenario: Verify End User Details Edit popup content
     Given The order exception is created via api for End User Details
     When Search and Select the Data Errors Order for End User Details
     Then Verify that Edit icon should display beside End User Details
     And Verify contents of Edit End User Details popup
+    And Search with 2 characters in company search box and Verify that Minimum 3 charcters are required message should get displayed
 
-  # OMS-782
+  # OMS-782/OMS-3065
   @search_end_user
   Scenario: Searching End User
     Then Verify that all address matching with entered text should get displayed
+    And Select Company name and Verify that user able to select contact and city name
+    And Select Contact and Verify that user able to select company and city name
     And Select the end user with suffix and verify that Edit icon should display for user and Save button should get enabled
     And Verify contents of selected end user with suffix edit popup
     When Remove the data from Name, Phone Number, Email and Click on Add button then Validation required message should display
     Then Click on Save Button and Verify that selected end user information should get displayed on order details page
     And Modify Name, Phone Number, Email and Click on Add button then Verify that updated end user information should display on order details page
 
-  # OMS-782/OMS-3068
+  # OMS-782/OMS-3065
   @add_new_end_user_edit_popup
   Scenario: Verify Add New End User Edit popup content
+    When Search and Select the Data Errors Order for End User Details
     Then Verify contents of Edit Add New End User popup
     And Verify that Customer type options list
     And Verify that added new end user should display and user should able to select it and checkbox is disable
@@ -326,6 +330,7 @@ Feature: Order Exception Orders
     And Search with BCN and Verify that data should get displayed in the list as per searched BCN
     And Searched with Reseller PO and Verify that data should get displayed in the list as per Reseller PO
     And Searched with substring of reseller po and Verify that data should get displayed in the list as per Reseller PO
+    And Searched with vendor name and Verify that data should get displayed in the list as per vendor name
 
   @logout
   Scenario: logout X4A

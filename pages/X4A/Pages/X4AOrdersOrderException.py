@@ -128,7 +128,7 @@ class X4AOrderExceptionPage(BasePage):
     ORDER_ENTRY_METHOD_OPTION_LIST = (By.XPATH, "//*[@data-testid='orderEntryMethod-accordionData']/div/label/span[2]")
     ORDER_ENTRY_METHOD_OPTION_SEE_MORE_LESS_BUTTON = (By.XPATH, "//*[@data-testid='orderEntryMethod-SeeMoreLess']")
     COUNTRY_OPTION_SEE_MORE_LESS_BUTTON = (By.XPATH, "//*[@data-testid='country-SeeMoreLess']")
-    COUNTRY_OPTION_LIST = (By.XPATH, "//*[@data-testid='country-accordionData']/div/label/span")
+    COUNTRY_OPTION_LIST = (By.XPATH, "//*[@data-testid='country-accordionData']/div/label/span[2]")
     ORDER_ENTRY_METHOD_TEXTBOX = (By.XPATH, "//*[@placeholder='Search Order entry method']")
     SELECT_FIRST_COUNTRY = (By.XPATH, "//*[@data-testid='country-0-Label']/span")
     HEADER_CLEAR_ALL_BUTTON = (
@@ -248,10 +248,22 @@ class X4AOrderExceptionPage(BasePage):
     END_USER_DETAILS_CANCEL_BUTTON = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/../../div[3]/button[1]")
     END_USER_DETAILS_SAVE_BUTTON = (By.XPATH, "//*[@data-testid='CloseIcon']/parent::div/../../div[3]/button[2]")
     END_USER_DETAILS_ClOSE_ICON_BUTTON = (By.XPATH, "//*[@data-testid='CloseIcon']")
-    END_USER_SEARCH_BOX = (By.XPATH, "//*[@placeholder='Search Company']")
     ADD_NEW_END_USER_LINK = (By.XPATH, "//*[text()='Add New End User']/button")
+    END_USER_DETAILS_DROPDOWN_COMPANY_NAME = (
+        By.XPATH, "//*[@data-testid='search-dropdown-SelectOption']/div[text()='Company Name']")
+    END_USER_SEARCH_DROPDOWN = (By.XPATH, "//*[@data-testid='search-dropdown-SelectOption']")
+    DROPDOWN_COMAPNY_NAME_MENU = (By.XPATH, "//*[@data-testid='SearchTerm-MenuItem' and text()='Company Name']")
+    DROPDOWN_CONTACT_MENU = (By.XPATH, "//*[@data-testid='ContactName-MenuItem' and text()='Contact']")
+    END_USER_COMPANY_NAME_SEARCH_BOX = (By.XPATH, "//*[@placeholder='Search end user']")
     SEARCHED_END_USER_TITLE_LIST = (
         By.XPATH, "//*[@aria-labelledby='Selected-card-group-label']/div/div/div/div/div[2]/div/h3")
+    SEARCHED_END_USER_COMPANY_NAME_LIST = (
+        By.XPATH, "//*[@aria-labelledby='Selected-card-group-label']/div/div/div/div/div[2]/h6")
+    SELECT_CONTACT_NAME_DROP_DOWN = (By.XPATH, "/html/body/div[2]/div[3]/div/div[1]/div[2]/div[2]/div/div[@id='state']")
+    SELECT_COMPANY_NAME_DROP_DOWN = (By.XPATH, "/html/body/div[2]/div[3]/div/div[1]/div[2]/div[2]/div/div[@id='state']")
+    CONTACT_NAME_FIRST_MENU = (By.XPATH, "//*[@id='menu-contact']/div/ul/li[2]")
+    SELECT_CITY_DROP_DOWN = (By.XPATH, "//*[text()='Select City']")
+    CITY_NAME_FIRST_MENU = (By.XPATH, "//*[@id='menu-city']/div/ul/li[2]")
     SAVE_BUTTON_DISABLE = (By.XPATH,
                            "//button[@class='MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButtonBase-root Mui-disabled  css-1i25qo9-MuiButtonBase-root-MuiButton-root'']")
     SELECTED_END_USER_EDIT_BUTTON = (By.XPATH, "//*[@data-testid='EditOutlinedIcon']")
@@ -485,6 +497,8 @@ class X4AOrderExceptionPage(BasePage):
     SALES_ORDER_TABLE = (
         By.XPATH, "//div[@class='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']")
     SEARCH_BOX_CLOSE_ICON = (By.XPATH, "//*[@data-testid='CloseIcon']")
+    COUNTRY_LIST_TABLE = (
+        By.XPATH, "/html/body/div[2]/div[3]/div/div[1]/div[2]/div[3]/div/div/div[2]")
 
     def go_to_order_exception(self):
         try:
@@ -1296,14 +1310,22 @@ class X4AOrderExceptionPage(BasePage):
         try:
             self.do_click_by_locator(self.COUNTRY_DROPDOWN_BUTTON)
             self.do_click_by_locator(self.COUNTRY_OPTION_SEE_MORE_LESS_BUTTON)
-            country_options = ['Canada', 'France', 'Germany', 'India', 'Italy', 'Mexico', 'Spain', 'United Kingdom',
-                               'United States']
+            country_options = ['Argentina', 'Australia', 'Austria', 'Bangladesh', 'Belgium', 'Brazil', 'Canada',
+                               'Chile', 'China', 'Colombia',
+                               'Denmark', 'Finland', 'France', 'Germany', 'Hong Kong', 'Hungary', 'India', 'Indonesia',
+                               'Ireland', 'Italy',
+                               'Malaysia', 'Mexico', 'Miami-Exports', 'Netherlands', 'New Zealand', 'Paneuro', 'Peru',
+                               'Poland',
+                               'Portugal', 'Saudi Arabia', 'Singapore', 'Spain', 'Sri Lanka', 'Sweden', 'Switzerland',
+                               'Thailand',
+                               'Turkey', 'United Kingdom', 'Uruguay', 'USA']
             country_list = self.get_all_elements(self.COUNTRY_OPTION_LIST)
             country_options_list = []
             for element in country_list:
                 self.logger.info(element.text)
                 text = element.text
                 country_options_list.append(text)
+            country_options_list.pop(0)
             result = all(elem in country_options for elem in country_options_list)
             if result:
                 self.logger.info("Successfully verified Order entry method options list")
@@ -1397,6 +1419,8 @@ class X4AOrderExceptionPage(BasePage):
 
     def do_select_country(self, country):
         try:
+            self.driver.refresh()
+            time.sleep(3)
             self.do_click_by_locator(self.FILTER_ICON)
             self.do_click_by_locator(self.BITTOM_CLEAR_ALL_BUTTON)
             self.do_click_by_locator(self.FILTER_ICON)
@@ -1649,7 +1673,6 @@ class X4AOrderExceptionPage(BasePage):
             assert edit_end_user_details_title in self.get_element_text(
                 self.EDIT_END_USER_DETAILS_POPUP_TITLE), "Edit End User Details Title not present"
 
-            cancel = self.get_element_text(self.END_USER_DETAILS_CANCEL_BUTTON)
             assert edit_end_user_details_cancel_button in self.get_element_text(
                 self.END_USER_DETAILS_CANCEL_BUTTON), "End User CANCEL button is not present"
 
@@ -1657,44 +1680,103 @@ class X4AOrderExceptionPage(BasePage):
                 self.END_USER_DETAILS_SAVE_BUTTON), "End User SAVE button is not present"
 
             self.do_check_visibility(self.END_USER_DETAILS_ClOSE_ICON_BUTTON)
-            self.do_check_visibility(self.END_USER_SEARCH_BOX)
             self.do_check_visibility(self.ADD_NEW_END_USER_LINK)
+
+            self.do_check_visibility(self.END_USER_DETAILS_DROPDOWN_COMPANY_NAME)
+            self.logger.info("Successfully Verified by default in the dropdown company name display")
+
+            self.do_click_by_locator(self.END_USER_SEARCH_DROPDOWN)
+            self.logger.info("Clicked on End User Search dropdown")
+
+            self.do_check_visibility(self.DROPDOWN_COMAPNY_NAME_MENU)
+            self.do_check_visibility(self.DROPDOWN_CONTACT_MENU)
+
             self.logger.info(
                 "Successfully verified Edit END User Details Popup title, CANCEL, SAVE button, X icon, Search box, Add new end user link on popup")
             return True
         except Exception as e:
             return False
 
-    def do_verify_all_addr_matching_with_entered_text(self):
+    def search_with_two_char_in_company_search_box_verify_message(self):
+        try:
+            time.sleep(3)
+            self.do_click_by_locator(self.DROPDOWN_COMAPNY_NAME_MENU)
+
+            self.do_clear_textfield(self.END_USER_COMPANY_NAME_SEARCH_BOX)
+            self.do_send_keys(self.END_USER_COMPANY_NAME_SEARCH_BOX, "TE")
+            self.do_press_enter()
+            message = "Minimum 3 charcters are required"
+            if self.do_check_visibility(self.MINIMUM_3_CHAR_REQUIRED_MESSAGE):
+                if message == (self.get_element_text(self.MINIMUM_3_CHAR_REQUIRED_MESSAGE)):
+                    self.logger.info("Successfully verified Minimum 3 charcters are required message")
+                    return True
+                else:
+                    self.logger.info("Failed to verify Minimum 3 charcters are required message")
+                    return False
+            else:
+                self.logger.info("Minimum 3 charcters are required message not visible")
+                return False
+
+        except Exception as e:
+            return False
+
+    def do_verify_all_addr_matching_with_entered_company_name_text(self):
         try:
             time.sleep(3)
             count = 0
             search_text = "test"
-            self.do_clear_textfield(self.END_USER_SEARCH_BOX)
-            self.do_send_keys(self.END_USER_SEARCH_BOX, search_text)
-            actions = ActionChains(self.driver)
-            actions.send_keys(Keys.ENTER)
-            actions.perform()
+            self.do_clear_textfield(self.END_USER_COMPANY_NAME_SEARCH_BOX)
+            self.do_send_keys(self.END_USER_COMPANY_NAME_SEARCH_BOX, search_text)
+            self.do_press_enter()
             end_user_title_list = self.get_all_elements(self.SEARCHED_END_USER_TITLE_LIST)
             for element in range(len(end_user_title_list)):
                 end_user_title = end_user_title_list[element].text
                 print(end_user_title.lower())
                 title = end_user_title.lower()
                 if search_text in title:
-                    self.logger.info(f'Searching End User {title} match with search text')
+                    self.logger.info(f'Searching End User Company name {title} match with search text')
                     count = count + 1
                 if count == len(end_user_title_list):
                     return True
         except Exception as e:
             return False
 
+    def do_verify_all_addr_matching_with_entered_contact_text(self):
+        try:
+            time.sleep(3)
+            count = 0
+            self.do_click_by_locator(self.END_USER_SEARCH_DROPDOWN)
+            self.logger.info("Clicked on End User Search dropdown")
+
+            self.do_click_by_locator(self.DROPDOWN_CONTACT_MENU)
+
+            search_text = "X4A TEST"
+            self.do_clear_textfield(self.END_USER_COMPANY_NAME_SEARCH_BOX)
+            self.do_send_keys(self.END_USER_COMPANY_NAME_SEARCH_BOX, search_text)
+            self.do_press_enter()
+            end_user_company_name_list = self.get_all_elements(self.SEARCHED_END_USER_COMPANY_NAME_LIST)
+            for element in range(len(end_user_company_name_list)):
+                end_user_title = end_user_company_name_list[element].text
+                print(end_user_title.lower())
+                title = end_user_title.lower()
+                if search_text in title:
+                    self.logger.info(f'Searching End User contact {title} match with search text')
+                    count = count + 1
+                if count == len(end_user_company_name_list):
+                    return True
+        except Exception as e:
+            return False
+
     def do_verify_edit_button_and_save_button_enable(self, end_user_with_suffix):
         try:
-            self.do_clear_textfield(self.END_USER_SEARCH_BOX)
-            self.do_send_keys(self.END_USER_SEARCH_BOX, end_user_with_suffix)
-            actions = ActionChains(self.driver)
-            actions.send_keys(Keys.ENTER)
-            actions.perform()
+            self.do_click_by_locator(self.END_USER_SEARCH_DROPDOWN)
+            self.logger.info("Clicked on End User Search dropdown")
+
+            self.do_click_by_locator(self.DROPDOWN_COMAPNY_NAME_MENU)
+            self.do_clear_textfield(self.END_USER_COMPANY_NAME_SEARCH_BOX)
+            self.do_send_keys(self.END_USER_COMPANY_NAME_SEARCH_BOX, end_user_with_suffix)
+            self.do_press_enter()
+
             time.sleep(5)
             element = "/html/body/div[2]/div[3]/div/div[2]/div/div/div/div/div/div/div[1]/span/input"
             search_end_user_with_suffix = self.driver.find_element(By.XPATH, element)
@@ -1793,12 +1875,15 @@ class X4AOrderExceptionPage(BasePage):
     def do_verify_modified_end_user_info_on_order_details_page(self, end_user):
         try:
             self.do_click_by_locator(self.END_USER_DETAILS_EDIT_BUTTON)
-            self.do_clear_textfield(self.END_USER_SEARCH_BOX)
-            self.do_send_keys(self.END_USER_SEARCH_BOX, end_user)
-            actions = ActionChains(self.driver)
-            actions.send_keys(Keys.ENTER)
-            actions.perform()
+            self.do_click_by_locator(self.END_USER_SEARCH_DROPDOWN)
+            self.logger.info("Clicked on End User Search dropdown")
+
+            self.do_click_by_locator(self.DROPDOWN_COMAPNY_NAME_MENU)
+            self.do_clear_textfield(self.END_USER_COMPANY_NAME_SEARCH_BOX)
+            self.do_send_keys(self.END_USER_COMPANY_NAME_SEARCH_BOX, end_user)
+            self.do_press_enter()
             time.sleep(5)
+
             element = "/html/body/div[2]/div[3]/div/div[2]/div/div/div/div/div/div/div[1]/span/input"
             search_end_user = self.driver.find_element(By.XPATH, element)
             search_end_user.click()
@@ -1961,10 +2046,8 @@ class X4AOrderExceptionPage(BasePage):
             assert successful_msg in self.get_element_text(
                 self.USER_ADDED_SUCCESSFUL_MESSAGE), "User has been added successfully! message not present"
 
-            self.do_send_keys(self.END_USER_SEARCH_BOX, company_name)
-            actions = ActionChains(self.driver)
-            actions.send_keys(Keys.ENTER)
-            actions.perform()
+            self.do_send_keys(self.END_USER_COMPANY_NAME_SEARCH_BOX, company_name)
+            self.do_press_enter()
             time.sleep(5)
             element = "/html/body/div[2]/div[3]/div/div[2]/div/div/div/div/div/div/div[1]/span/input"
             search_end_user = self.driver.find_element(By.XPATH, element)
@@ -3233,7 +3316,8 @@ class X4AOrderExceptionPage(BasePage):
             self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, reject_reason)
             self.logger.info("Searched with reject_reason as '" + reject_reason + "'")
             self.do_press_enter()
-            reject_reason_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex='0']/div[@data-field='firstRejectReason']")
+            reject_reason_xpath = (
+                By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex='0']/div[@data-field='firstRejectReason']")
             ui_reject_reason = self.get_element_text_for_filter(reject_reason_xpath)
             assert str(ui_reject_reason) == str(reject_reason), "Reject reason mismatched"
             return True
@@ -3250,7 +3334,8 @@ class X4AOrderExceptionPage(BasePage):
             time.sleep(3)
             self.driver.execute_script(
                 "document.querySelector(\"div[class$='MuiDataGrid-virtualScroller css-1pans1z-MuiDataGrid-virtualScroller']\").scrollLeft= 1800")
-            customer_name_xpath = (By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex='0']/div[@data-field='customerName']/div/div")
+            customer_name_xpath = (
+                By.XPATH, "//div[@class='MuiDataGrid-row'][@data-rowindex='0']/div[@data-field='customerName']/div/div")
             ui_customer_name = self.get_element_text_for_filter(customer_name_xpath)
             assert str(ui_customer_name) == str(customer_name), "Customer Name mismatched"
             return True
@@ -3404,3 +3489,75 @@ class X4AOrderExceptionPage(BasePage):
             self.logger.error("Exception occurred verifying Substring Of Reseller PO in table" + str(e))
             return False
 
+    def do_verify_user_able_to_select_contact_and_city_name(self):
+        try:
+            self.do_click_by_locator(self.END_USER_SEARCH_DROPDOWN)
+            self.logger.info("Clicked on End User Search dropdown")
+
+            self.do_click_by_locator(self.DROPDOWN_COMAPNY_NAME_MENU)
+            search_text = "test"
+            self.do_clear_textfield(self.END_USER_COMPANY_NAME_SEARCH_BOX)
+            self.do_send_keys(self.END_USER_COMPANY_NAME_SEARCH_BOX, search_text)
+            self.do_press_enter()
+            time.sleep(3)
+            self.do_click_by_locator(self.SELECT_CONTACT_NAME_DROP_DOWN)
+            self.logger.info("Clicked on Contact name dropdown")
+
+            contact = self.get_element_text(self.CONTACT_NAME_FIRST_MENU)
+            self.do_click_by_locator(self.CONTACT_NAME_FIRST_MENU)
+
+            self.do_click_by_locator(self.SELECT_CITY_DROP_DOWN)
+            self.logger.info("Clicked on City dropdown")
+
+            city = self.get_element_text(self.CITY_NAME_FIRST_MENU)
+            self.do_click_by_locator(self.CITY_NAME_FIRST_MENU)
+
+            return True
+        except Exception as e:
+            return False
+
+    def do_verify_user_able_to_select_company_and_city_name(self):
+        try:
+            self.do_click_by_locator(self.END_USER_SEARCH_DROPDOWN)
+            self.logger.info("Clicked on End User Search dropdown")
+
+            self.do_click_by_locator(self.DROPDOWN_CONTACT_MENU)
+            search_text = "X4A Test"
+            self.do_clear_textfield(self.END_USER_COMPANY_NAME_SEARCH_BOX)
+            self.do_send_keys(self.END_USER_COMPANY_NAME_SEARCH_BOX, search_text)
+            self.do_press_enter()
+            time.sleep(3)
+            self.do_click_by_locator(self.SELECT_COMPANY_NAME_DROP_DOWN)
+            self.logger.info("Clicked on Company name dropdown")
+
+            company_name = self.get_element_text(self.CONTACT_NAME_FIRST_MENU)
+            self.do_click_by_locator(self.CONTACT_NAME_FIRST_MENU)
+
+            self.do_click_by_locator(self.SELECT_CITY_DROP_DOWN)
+            self.logger.info("Clicked on City dropdown")
+
+            city = self.get_element_text(self.CITY_NAME_FIRST_MENU)
+            self.do_click_by_locator(self.CITY_NAME_FIRST_MENU)
+
+            return True
+        except Exception as e:
+            return False
+
+    def search_with_vendor_name_verify_result(self, vendor_name):
+        try:
+            self.do_click_by_locator(self.DATA_ERROR_OPTION)
+            self.do_click_by_locator(self.SEARCH_BOX_CLOSE_ICON)
+            self.do_send_keys(self.DATA_ERRORS_SEARCH_BOX, vendor_name)
+            self.logger.info("Searched with Vendor Name text as '" + vendor_name + "'")
+            self.do_press_enter()
+            vendor_name_xpath = (
+                By.XPATH, "//div[@class='MuiDataGrid-row'] [@data-rowindex='0']/div[@data-field='vendorNames']/div")
+            ui_vendor_name = self.get_element_text_for_filter(vendor_name_xpath)
+            if vendor_name in ui_vendor_name:
+                self.logger.info("Vendor Name matched with UI Vendor name")
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error("Exception occurred verifying Vendor Name in table" + str(e))
+            return False

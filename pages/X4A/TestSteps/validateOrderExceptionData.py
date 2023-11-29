@@ -1362,19 +1362,38 @@ class ValidateOrderExceptionData:
             self.logger.exception(e)
             return False
 
+    def search_with_two_char_in_company_search_box_verify_message(self, feature_file_name):
+        x4a_order_exception = X4AOrderExceptionPage(self.driver)
+        try:
+            if not x4a_order_exception.search_with_two_char_in_company_search_box_verify_message():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_search_with_two_char_in_company_search_box_verify_message_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Searched with 2 characters in company search box and Verified that Minimum 3 charcters are required message should get displayed")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_search_with_two_char_in_company_search_box_verify_message_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
     def do_verify_all_addr_matching_with_entered_text(self, feature_file_name):
         x4a_order_exception = X4AOrderExceptionPage(self.driver)
         try:
-            if not x4a_order_exception.do_verify_all_addr_matching_with_entered_text():
-                self.logger.error("Failed to Verify all address matching with enterd text should get displayed")
-                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
-                                            + "_verify_all_addr_matching_with_entered_text_failed.png")
-                return False
-            else:
-                self.logger.info("Successfully verified all address matching with enterd text should get displayed")
+            if x4a_order_exception.do_verify_all_addr_matching_with_entered_company_name_text() & x4a_order_exception.do_verify_all_addr_matching_with_entered_contact_text():
+                self.logger.info(
+                    "Successfully verified all address of company name and contact  matching with enterd text should get displayed")
                 self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
                                             + "_verify_all_addr_matching_with_entered_text_successfully.png")
                 return True
+            else:
+                self.logger.error(
+                    "Failed to Verify all address of company name and contact matching with entered text should get displayed")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_all_addr_matching_with_entered_text_failed.png")
+                return False
         except Exception as e:
             self.logger.exception(e)
             return False
@@ -2442,7 +2461,8 @@ class ValidateOrderExceptionData:
             self.logger.exception(e)
             return False
 
-    def search_with_substring_of_reseller_po_verify_result(self, substring_of_reseller_po, feature_file_name, screen_shot):
+    def search_with_substring_of_reseller_po_verify_result(self, substring_of_reseller_po, feature_file_name,
+                                                           screen_shot):
         x4a_order_exception = X4AOrderExceptionPage(self.driver)
         try:
             if not x4a_order_exception.search_with_substring_of_reseller_po_verify_result(substring_of_reseller_po):
@@ -2459,5 +2479,57 @@ class ValidateOrderExceptionData:
                 return True
         except Exception as e:
             self.logger.error("Error while validating Reseller PO")
+            self.logger.exception(e)
+            return False
+
+    def do_verify_user_able_to_select_contact_and_city_name(self, feature_file_name):
+        x4a_order_exception = X4AOrderExceptionPage(self.driver)
+        try:
+            if not x4a_order_exception.do_verify_user_able_to_select_contact_and_city_name():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_user_able_to_select_contact_and_city_name_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Selected company name and Verified that user able to select contact and city name")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_user_able_to_select_contact_and_city_name_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def do_verify_user_able_to_select_company_and_city_name(self, feature_file_name):
+        x4a_order_exception = X4AOrderExceptionPage(self.driver)
+        try:
+            if not x4a_order_exception.do_verify_user_able_to_select_company_and_city_name():
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name
+                                            + "_verify_user_able_to_select_company_and_city_name_failed.png")
+                return False
+            else:
+                self.logger.info(
+                    "Successfully Selected Contact and Verified that user able to select company and city name")
+                self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                            + "_verify_user_able_to_select_company_and_city_name_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.exception(e)
+            return False
+
+    def search_with_vendor_name_verify_result(self, vendor_name, feature_file_name):
+        x4a_order_exception = X4AOrderExceptionPage(self.driver)
+        try:
+            if not x4a_order_exception.search_with_vendor_name_verify_result(vendor_name):
+                self.logger.error("Failed to validate Vendor name")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\error\\" + feature_file_name + "_search_with_vendor_name_verify_result_error.png")
+                return False
+            else:
+                self.logger.info("Successfully validate Vendor name successfully")
+                self.driver.save_screenshot(
+                    self.screen_shot_path + "\\X4A\\success\\" + feature_file_name + "_search_with_vendor_name_verify_result_successfully.png")
+                return True
+        except Exception as e:
+            self.logger.error("Error while validating Vendor Name")
             self.logger.exception(e)
             return False

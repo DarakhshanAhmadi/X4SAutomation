@@ -796,7 +796,7 @@ def verify_select_any_option_from_country_dropdown_list(init_driver):
     feature_file_name = "order_exception_orders"
     validate_order_exception_data = ValidateOrderExceptionData(init_driver)
     try:
-        country = "United States"
+        country = "Canada"
         if not validate_order_exception_data.do_select_country(feature_file_name, country):
             raise Exception(
                 "Failed to Select any option from Country dropdown list")
@@ -811,7 +811,7 @@ def data_in_grid_should_get_updated_as_per_filter(init_driver):
     feature_file_name = "order_exception_orders"
     validate_order_exception_data = ValidateOrderExceptionData(init_driver)
     try:
-        country = "US"
+        country = "CA"
         if not validate_order_exception_data.do_verify_update_data_grid_as_per_country_filter(feature_file_name,
                                                                                               country):
             raise Exception(
@@ -1035,6 +1035,23 @@ def verify_contents_of_edit_end_user_details_popup(init_driver):
         logger.error("Error while verifying contents of Edit End User Details popup %s", e)
 
 
+@then(parsers.parse(
+    'Search with 2 characters in company search box and Verify that Minimum 3 charcters are required message should get displayed'))
+def search_with_2_characters_in_company_search_box_and_verify_that_minimum_3_charcters_are_required_message_should_get_displayed(
+        init_driver):
+    feature_file_name = "order_exception_orders"
+    validate_order_exception_data = ValidateOrderExceptionData(init_driver)
+    try:
+        if not validate_order_exception_data.search_with_two_char_in_company_search_box_verify_message(
+                feature_file_name):
+            raise Exception(
+                "Failed to Search with 2 characters in company search box and Verify that Minimum 3 charcters are required message should get displayed")
+    except Exception as e:
+        logger.error(
+            "Error while Search with 2 characters in company search box and Verify that Minimum 3 charcters are required message should get displayed %s",
+            e)
+
+
 @then(parsers.parse('Verify that all address matching with entered text should get displayed'))
 def verify_that_all_address_matching_with_entered_text_displayed(init_driver):
     feature_file_name = "order_exception_orders"
@@ -1052,7 +1069,7 @@ def select_the_any_end_user_with_suffix_verify_edit_button_display_and_save_butt
     feature_file_name = "order_exception_orders"
     validate_order_exception_data = ValidateOrderExceptionData(init_driver)
     try:
-        end_user_with_suffix = 'EVREST_DS010'
+        end_user_with_suffix = 'BPTest'
         if not validate_order_exception_data.do_verify_edit_button_and_save_button_enable(feature_file_name,
                                                                                           end_user_with_suffix):
             raise Exception(
@@ -1097,7 +1114,7 @@ def modify_name_phone_number_email_verify_that_updated_end_user_information_shou
     feature_file_name = "order_exception_orders"
     validate_order_exception_data = ValidateOrderExceptionData(init_driver)
     try:
-        end_user = 'EVREST_DS010'
+        end_user = 'BPTest'
         if not validate_order_exception_data.do_verify_modified_end_user_info_on_order_details_page(feature_file_name,
                                                                                                     end_user):
             raise Exception(
@@ -2237,5 +2254,46 @@ def search_with_reseller_po_and_verify_that_data_should_get_displayed_in_the_lis
     except Exception as e:
         logger.error(
             "Error while Searched with substring of reseller po and Verify that data should get displayed in the list as per Reseller PO %s",
+            e)
+        raise e
+
+
+@then(parsers.parse('Select Company name and Verify that user able to select contact and city name'))
+def select_company_name_and_verify_that_user_able_to_select_contact_and_city_name(init_driver):
+    feature_file_name = "order_exception_orders"
+    validate_order_exception_data = ValidateOrderExceptionData(init_driver)
+    try:
+        if not validate_order_exception_data.do_verify_user_able_to_select_contact_and_city_name(feature_file_name):
+            raise Exception("Failed to Select company name and Verify that user able to select contact and city name")
+    except Exception as e:
+        logger.error("Error while Select company name and Verify that user able to select contact and city name %s", e)
+
+
+@then(parsers.parse('Select Contact and Verify that user able to select company and city name'))
+def select_contact_and_verify_that_user_able_to_select_company_and_city_name(init_driver):
+    feature_file_name = "order_exception_orders"
+    validate_order_exception_data = ValidateOrderExceptionData(init_driver)
+    try:
+        if not validate_order_exception_data.do_verify_user_able_to_select_company_and_city_name(feature_file_name):
+            raise Exception("Failed to Select Contact and Verify that user able to select company and city name")
+    except Exception as e:
+        logger.error("Error while Select Contact and Verify that user able to select company and city name %s", e)
+
+
+@when(parsers.parse(
+    'Searched with vendor name and Verify that data should get displayed in the list as per vendor name'))
+def search_with_reseller_po_and_verify_that_data_should_get_displayed_in_the_list_as_per_searched_reseller_po(
+        init_driver):
+    feature_file_name = "order_exception_orders"
+    validate_order_exception_data = ValidateOrderExceptionData(init_driver)
+    try:
+        vendor_name = "FORTINET"
+        if not validate_order_exception_data.search_with_vendor_name_verify_result(
+                vendor_name, feature_file_name):
+            raise Exception(
+                "Failed to Searched with vendor name and Verify that data should get displayed in the list as per vendor name")
+    except Exception as e:
+        logger.error(
+            "Error while Searching with vendor name and Verify that data should get displayed in the list as per vendor name %s",
             e)
         raise e
