@@ -332,6 +332,13 @@ Feature: Order Exception Orders
     And Searched with substring of reseller po and Verify that data should get displayed in the list as per Reseller PO
     And Searched with vendor name and Verify that data should get displayed in the list as per vendor name
 
+  # OMS-3225
+  @x4d_order_creation
+  Scenario: X4D Order status is Processed
+    Given Create order exception Using X4D payload via api
+    Then Verify that X4D Order Confirmation Id contains US-I format
+    And Verify that X4D Order status is Processed
+
   @logout
   Scenario: logout X4A
     Given logout the X4A url

@@ -205,6 +205,11 @@ def test_order_exception_search():
     pass
 
 
+@scenario("features/hardware/order_exception_orders.feature", "X4D Order status is Processed")
+def test_x4d_order_status_processed():
+    pass
+
+
 @scenario("features/hardware/order_exception_orders.feature", "logout X4A")
 def test_logout_x4a():
     pass
@@ -2297,3 +2302,61 @@ def search_with_reseller_po_and_verify_that_data_should_get_displayed_in_the_lis
             "Error while Searching with vendor name and Verify that data should get displayed in the list as per vendor name %s",
             e)
         raise e
+
+
+@given(parsers.parse('Create order exception Using X4D payload via api'))
+def create_order_using_x4d_payload(init_driver):
+    feature_file_name = "order_exception_orders"
+    data_create_obj = DataCreationViaApi(init_driver)
+    order_management_srv_obj = X4AInputOrderDbManagementService()
+    try:
+        confirmation_id = data_create_obj.post_create_request_for_x4d_order_exception()
+        logger.info(f'X4D Confirmation ID: {confirmation_id}')
+        if not len(confirmation_id) == 0:
+            order_management_srv_obj.save_x4d_confirmation_id_in_db(db_file_path, feature_file_name, confirmation_id)
+        else:
+            raise Exception('Confirmation Id is empty')
+    except Exception as e:
+        logger.error("Not able create the Order Exception order %s", e)
+        raise e
+
+
+@then(parsers.parse('Verify that X4D Order Confirmation Id contains US-I format'))
+def Verify_that_order_confirmation_id_contains_us_i_format(init_driver):
+    feature_file_name = "order_exception_orders"
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        confirmation_id = input_order_data.get("x4d_data_errors_order_confirmation_id")
+        breakpoint()
+        format = "US-I"
+        if str(format) in str(confirmation_id):
+            logger.info("Sucessfully Verified X4D Order Confirmation Id contains US-I format")
+        else:
+            raise Exception(
+                "Failed to Verify that X4D Order Confirmation Id contains US-I format")
+    except Exception as e:
+        logger.error(
+            "Error while Verify that X4D Order Confirmation Id contains US-I format %s",
+            e)
+
+
+@then(parsers.parse('Verify that X4D Order status is Processed'))
+def Verify_that_order_status_is_processed(init_driver):
+    feature_file_name = "order_exception_orders"
+    data_create_obj = DataCreationViaApi(init_driver)
+    try:
+        breakpoint()
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        confirmation_id = input_order_data.get("x4d_data_errors_order_confirmation_id")
+        order_status = data_create_obj.get_request_for_x4d_order_exception_order_info(confirmation_id)
+        logger.info(f'Order Status: {order_status}')
+        if order_status == "Processed":
+            logger.info("Successfully Verified that X4D Order status is Processed")
+        else:
+            raise Exception('Failed to Verify that X4D Order status is Processed')
+    except Exception as e:
+        logger.error(
+            "Error while Verify that Order status is Processed %s",
+            e)
