@@ -37,7 +37,11 @@
   "x4aSmtpCredentials": {
     "smtp_server": "smtp.outlook.com",
     "smtp_username": "<provide username>",
-    "enc_password": "<provide password>"
+    "enc_password": "<provide password>",
+    "from_email": "<provide email>",
+    "to_email": "TestXvantageETO@ingrammicro.com",
+    "subject": "SHI PDF",
+    "body": "This is a test PO from shyam"
   },
  "dbLocation": {
     "db_file_path": "D:\\Database\\xvs_lite_automation_db.sqlite3",

@@ -226,11 +226,11 @@ class X4AEmailToOrderPage(BasePage):
         smtp_port = 587
         smtp_username = self.parse_config_json.get_data_from_config_json("x4aSmtpCredentials", "smtp_username", "config.json")
         smtp_password = self.parse_config_json.get_data_from_config_json("x4aSmtpCredentials", "enc_password", "config.json")
+        from_email = self.parse_config_json.get_data_from_config_json("x4aSmtpCredentials", "from_email", "config.json")
+        to_email = self.parse_config_json.get_data_from_config_json("x4aSmtpCredentials", "to_email", "config.json")
+        subject = self.parse_config_json.get_data_from_config_json("x4aSmtpCredentials", "subject", "config.json")
+        body = self.parse_config_json.get_data_from_config_json("x4aSmtpCredentials", "body", "config.json")
 
-        from_email = 'shyam.tiwari@ingrammicro.com'
-        to_email = 'TestXvantageETO@ingrammicro.com'
-        subject = 'SHI PDF'
-        body = 'This is a test PO from shyam'
         try:
             msg = MIMEMultipart()
             msg['From'] = from_email
