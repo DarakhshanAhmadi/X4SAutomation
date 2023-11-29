@@ -5,7 +5,7 @@ Feature: Sales Orders Edit
   Scenario: Login to X4A portal
     Given launch chrome browser and open the X4A url
     Then provide user ID and Password to login
-    #And the user traverse to Sales Order menu
+    And the user traverse to Sales Order menu
 
   # EDT-10681 # EDT-10685 # EDT-10683 # EDT-106
   @validate_updated_order_details
@@ -30,20 +30,25 @@ Feature: Sales Orders Edit
     Then Validate end user po and reseller po updated
     When Click on Billing tab on Order Details page
     Then Validate ship to and end user info updated
+    Then Validate fields under Ship from info section
+    Then Validate fields under Bill to info section
+    Then Validate fields under Ship to info section
+    Then Validate fields under End user info section
     When Click on Order lines tab on Order Details page
     Then Validate ACOP field is present and has valid value
     Then Validate order line changes are updated
+    Then Validate fields under Order lines tab
     When Click on Additional attributes tab on Order Details page
     Then Verify that title on the header of the order details page contains Ingram order number and Order Status
     Then Validate payment terms code
     Then Click on order management link
     Examples:
-    | order_id    | order_date | order_status      | entry_channel | order_type |
-    | 20-VNRHK-11 | 2023-11-07 | Order Hold(IM)    | VIA LU62      | Direct     |
-    | 20-VNRLV-11 | 2023-11-07 | Order Hold(IM)    | TELESALES     | Stock      |
-    | 20-VNRLP-11 | 2023-11-07 | Order Hold(IM)    | TELESALES     | Stock      |
-    | 20-VNRLB-11 | 2023-11-07 | Order Hold(IM)    | TELESALES     | Stock      |
-    | 20-VNRL9-11 | 2023-11-07 | Order Hold(IM)    | 20-VNRL9-11   | Direct     |
+    | order_id    | order_date | order_status         | entry_channel | order_type |
+#    | 20-VNW5G-11 | 2023-11-21 | Customer Hold(IM)    | X4C           | Stock      |
+#    |  20-VNVWH-11| 2023-11-20 | Order Hold(IM)       | X4C           | Stock      |
+    | 20-VNZCQ-11 | 2023-11-22 | Order Hold(IM)       | X4C           | Stock      |
+#    | 20-VNRLB-11 | 2023-11-07 | Order Hold(IM)    | TELESALES     | Stock      |
+#    | 20-VNRL9-11 | 2023-11-07 | Order Hold(IM)    | 20-VNRL9-11   | Direct     |
 
   # EDT-10977
   @unmark_for_cancel_order_line
@@ -56,9 +61,9 @@ Feature: Sales Orders Edit
 
   # EDT-10730
   @void_entire_order
-  Scenario: Verify customer hold cancel order
-    When search a order with specific IM Order number
-    Then Validate the IM Order number is listed
+  Scenario Outline: Verify customer hold cancel order
+    When search a order with specific IM Order number <order_id>
+    Then Validate the IM Order number is listed <order_id>
     When Click on searched IM order number
     When Verify order status is "Customer Hold(IM)"
     Then Validate cancel order button is displayed
@@ -67,6 +72,13 @@ Feature: Sales Orders Edit
     Then Cancel the order
     Then Verify success toast notification is displayed
     When Verify order status is "VOIDED"
+    Then Click on order management link
+    When search a order with specific IM Order number <order_id>
+    Then Check that the order is no more present in list
+    Examples:
+    | order_id    | entry_channel | order_type |
+    | 20-RPKK7-11 | X4C           | Stock      |
+    | 20-RPKK6-11 | X4C           | Stock      |
 
   # EDT-10971
   @cancel_single_line_item

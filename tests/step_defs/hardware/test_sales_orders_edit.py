@@ -135,7 +135,6 @@ def click_on_im_order_number(init_driver):
     feature_file_name = "sales_orders_edit"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
-        logger.info("click")
         if not validate_sales_orders.click_on_im_order_num(feature_file_name):
             raise Exception("Failed to click on searched IM order number")
     except Exception as e:
@@ -146,7 +145,7 @@ def click_on_im_order_number(init_driver):
 @when(parsers.parse('Click on Billing tab on Order Details page'))
 def click_on_billing_tab(init_driver):
     # init_driver.refresh()
-    feature_file_name = "sales_orders"
+    feature_file_name = "sales_orders_edit"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
         if not validate_sales_orders.click_on_billing_tab(feature_file_name):
@@ -215,10 +214,10 @@ def validate_end_user_po_and_reseller_po_updated(init_driver):
     feature_file_name = "sales_orders_edit"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
-        order_number = re.findall("^.{2}\-.{5}", init_driver.im_order_number)[0]
-        sales_order_details = sales_order_details_srv_obj.get_order_details(db_file_path, order_number)
-        end_user_po = sales_order_details.get("end_user_po")
-        reseller_po = sales_order_details.get("reseller_po")
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        end_user_po = input_order_data.get("end_user_po")
+        reseller_po = input_order_data.get("reseller_po")
         if not validate_sales_orders.verify_end_user_po_and_reseller_po_updated(end_user_po, reseller_po,
                                                                                 feature_file_name, screen_shot):
             raise Exception("Failed to verify end user po and reseller po updated")
@@ -311,11 +310,11 @@ def order_line_changed_updated(init_driver):
     feature_file_name = "sales_orders_edit"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
-        order_number = re.findall("^.{2}\-.{5}", init_driver.im_order_number)[0]
-        sales_order_details = sales_order_details_srv_obj.get_order_details(db_file_path, order_number)
-        special_bid = sales_order_details.get("special_bid")
-        unit_price = sales_order_details.get("unit_price")
-        quantity = sales_order_details.get("quantity")
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        special_bid = input_order_data.get('edit_order_lines').split(",")[0]
+        unit_price = input_order_data.get('edit_order_lines').split(",")[1]
+        quantity = input_order_data.get('edit_order_lines').split(",")[2]
         if not validate_sales_orders.validate_order_line_changed_updated(special_bid, unit_price, quantity,
                                                                          feature_file_name, screen_shot):
             raise Exception("Failed to validate order line changes")
@@ -332,7 +331,7 @@ def validate_cancel_ship_to_end_user_info_details(init_driver):
         input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
             db_file_path, feature_file_name)
         shipto_id = input_order_data.get('ship_to_info').split(",")[0]
-        enduser_companyname = input_order_data.get('end_user_info').split(",")[2]
+        enduser_companyname = input_order_data.get('end_user_info').split(",")[1]
         if not validate_sales_orders.cancel_shipto_enduser_info_and_validate_data(shipto_id, enduser_companyname,
                                                                                   feature_file_name, screen_shot):
             raise Exception("Failed to cancel ship to and end user info details")
@@ -349,7 +348,7 @@ def update_ship_to_end_user_info(init_driver):
         input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
             db_file_path, feature_file_name)
         shipto_id = input_order_data.get('ship_to_info').split(",")[0]
-        enduser_companyname = input_order_data.get('end_user_info').split(",")[2]
+        enduser_companyname = input_order_data.get('end_user_info').split(",")[1]
         if not validate_sales_orders.update_shipto_enduser_info(shipto_id, enduser_companyname, feature_file_name,
                                                                 screen_shot):
             raise Exception("Failed to update ship to and end user info details")
@@ -363,21 +362,24 @@ def validate_ship_to_end_user_info_updated(init_driver):
     feature_file_name = "sales_orders_edit"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
-        order_number = re.findall("^.{2}\-.{5}", init_driver.im_order_number)[0]
-        sales_order_details = sales_order_details_srv_obj.get_order_details(db_file_path, order_number)
-        ship_to_suffix = sales_order_details.get("ship_to_suffix")
-        ship_to_name = sales_order_details.get("ship_to_name")
-        ship_to_address = sales_order_details.get("ship_to_address")
-        ship_to_phone = sales_order_details.get("ship_to_phone")
-        ship_to_contact = sales_order_details.get("ship_to_contact")
-        ship_to_email = sales_order_details.get("ship_to_email")
-        end_user_id = sales_order_details.get("end_user_id")
-        end_user_address = sales_order_details.get("end_user_address")
-        end_user_contact = sales_order_details.get("end_user_contact")
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        ship_to_suffix = input_order_data.get('ship_to_info').split(',')[0]
+        ship_to_name = input_order_data.get('ship_to_info').split(',')[1]
+        ship_to_address = ship_to_name + " " + input_order_data.get('ship_to_info').split(',')[2]
+        ship_to_phone = input_order_data.get('ship_to_info').split(',')[4]
+        ship_to_contact = input_order_data.get('ship_to_info').split(',')[3]
+        ship_to_email = input_order_data.get('ship_to_info').split(',')[5]
+        end_user_id = input_order_data.get('end_user_info').split(',')[0]
+        end_user_name = input_order_data.get('end_user_info').split(',')[1]
+        end_user_address = input_order_data.get('end_user_info').split(',')[2]
+        end_user_contact = input_order_data.get('end_user_info').split(',')[3]
+        end_user_email = input_order_data.get('end_user_info').split(',')[5]
+        end_user_phone = input_order_data.get('end_user_info').split(',')[4]
         if not validate_sales_orders.updated_shipto_enduser_info_validate(ship_to_suffix, ship_to_name, ship_to_address,
                                                                           ship_to_phone, ship_to_contact, ship_to_email,
                                                                           end_user_id, end_user_address,
-                                                                          end_user_contact,
+                                                                          end_user_contact, end_user_email, end_user_phone, end_user_name,
                                                                           feature_file_name, screen_shot):
             raise Exception("Failed to update ship to and end user info details")
     except Exception as e:
@@ -430,6 +432,7 @@ def verify_order_status(init_driver, status):
             raise Exception("Failed to validate order status")
     except Exception as e:
         logger.error("Error while validating order status %s", e)
+        validate_sales_orders.validate_order_mgmt_click(feature_file_name)
         raise e
 
 
@@ -514,6 +517,7 @@ def verify_success_notification(init_driver):
             raise Exception("Failed to verify success toast notification")
     except Exception as e:
         logger.error("Error while verifying success toast notification %s", e)
+        validate_sales_orders.validate_order_mgmt_click(feature_file_name)
         raise e
 
 
@@ -585,7 +589,7 @@ def fetch_order_details(init_driver, order_id, order_type, order_date, entry_cha
 
 @then(parsers.parse('Validate header data contains Order value and Order type'))
 def header_data_contain_order_value_order_type(init_driver):
-    feature_file_name = "sales_order_details"
+    feature_file_name = "sales_order_edit"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
         order_number = re.findall("^.{2}\-.{5}", init_driver.im_order_number)[0]
@@ -603,7 +607,7 @@ def header_data_contain_order_value_order_type(init_driver):
 
 @when(parsers.parse('Click on Additional attributes tab on Order Details page'))
 def click_on_order_lines_tab(init_driver):
-    feature_file_name = "sales_order_details"
+    feature_file_name = "sales_order_edit"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
         if not validate_sales_orders.click_on_additional_attr_tab(feature_file_name):
@@ -615,14 +619,13 @@ def click_on_order_lines_tab(init_driver):
 
 @then(parsers.parse('Validate fields under reference number section'))
 def fields_under_reference_number_section(init_driver):
-    feature_file_name = "sales_order_details"
+    feature_file_name = "sales_order_edit"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
         order_number = re.findall("^.{2}\-.{5}", init_driver.im_order_number)[0]
         sales_order_details = sales_order_details_srv_obj.get_order_details(db_file_path, order_number)
         reseller_po = sales_order_details.get("reseller_po")
         end_user_po = sales_order_details.get("end_user_po")
-
         if not validate_sales_orders.validate_fields_under_reference_no(feature_file_name, screen_shot,
                                                                        reseller_po, end_user_po):
             raise Exception("Failed to verify the fields under Reference number section on Order Details page")
@@ -633,7 +636,7 @@ def fields_under_reference_number_section(init_driver):
 
 @then(parsers.parse('Validate carrier code'))
 def validate_carrier_code(init_driver):
-    feature_file_name = "sales_order_details"
+    feature_file_name = "sales_order_edit"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
         order_number = re.findall("^.{2}\-.{5}", init_driver.im_order_number)[0]
@@ -648,7 +651,7 @@ def validate_carrier_code(init_driver):
 
 @then(parsers.parse('Validate fields under Order lines tab'))
 def fields_under_order_lines_tab(init_driver):
-    feature_file_name = "sales_order_details"
+    feature_file_name = "sales_order_edit"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
         order_number = re.findall("^.{2}\-.{5}", init_driver.im_order_number)[0]
@@ -666,7 +669,7 @@ def fields_under_order_lines_tab(init_driver):
 @then(parsers.parse(
     'Verify that title on the header of the order details page contains Ingram order number and Order Status'))
 def title_ingram_order_number_and_order_status(init_driver):
-    feature_file_name = "sales_order_details"
+    feature_file_name = "sales_order_edit"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
         order_number = re.findall("^.{2}\-.{5}", init_driver.im_order_number)[0]
@@ -686,7 +689,7 @@ def title_ingram_order_number_and_order_status(init_driver):
 
 @then(parsers.parse('Validate payment terms code'))
 def validate_payment_terms(init_driver):
-    feature_file_name = "sales_order_details"
+    feature_file_name = "sales_order_edit"
     validate_sales_orders = ValidateSalesOrdersData(init_driver)
     try:
         order_number = re.findall("^.{2}\-.{5}", init_driver.im_order_number)[0]
@@ -696,4 +699,122 @@ def validate_payment_terms(init_driver):
             raise Exception("Failed to Validate payment terms code")
     except Exception as e:
         logger.error("Not able to Validate payment terms code %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate fields under Ship from info section'))
+def fields_under_ship_from_info_section(init_driver):
+    feature_file_name = "sales_order_edit"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        order_number = re.findall("^.{2}\-.{5}", init_driver.im_order_number)[0]
+        sales_order_details = sales_order_details_srv_obj.get_order_details(db_file_path, order_number)
+        warehouse_id = sales_order_details.get("ship_from_warehouse_id")
+        warehouse_name = sales_order_details.get("warehouse_name")
+        if not validate_sales_orders.validate_fields_under_ship_from_info(feature_file_name, screen_shot,
+                                                                            warehouse_id, warehouse_name):
+            raise Exception("Failed to verify fields under Ship from info section on Order Details page")
+    except Exception as e:
+        logger.error("Error while verify the fields under Ship from info section on Order Details page %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate fields under Bill to info section'))
+def fields_under_bill_to_info_section(init_driver):
+    feature_file_name = "sales_order_edit"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        order_number = re.findall("^.{2}\-.{5}", init_driver.im_order_number)[0]
+        sales_order_details = sales_order_details_srv_obj.get_order_details(db_file_path, order_number)
+        bill_to_suffix = sales_order_details.get("bill_to_suffix")
+        bill_to_name = sales_order_details.get("bill_to_name")
+        bill_to_address = sales_order_details.get("bill_to_address")
+        bill_to_phone = sales_order_details.get("bill_to_phone")
+        bill_to_contact = sales_order_details.get("bill_to_contact")
+        bill_to_email = sales_order_details.get("bill_to_email")
+        if not validate_sales_orders.validate_fields_under_bill_to_info(feature_file_name, screen_shot,
+                                                                       bill_to_suffix, bill_to_name, bill_to_address,
+                                                                        bill_to_phone, bill_to_contact, bill_to_email):
+            raise Exception("Failed to verify fields under Bill to info section on Order Details page")
+    except Exception as e:
+        logger.error("Error while verify the fields under Bill to info section on Order Details page %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate fields under Ship to info section'))
+def fields_under_ship_to_info_section(init_driver):
+    feature_file_name = "sales_order_edit"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        order_number = re.findall("^.{2}\-.{5}", init_driver.im_order_number)[0]
+        sales_order_details = sales_order_details_srv_obj.get_order_details(db_file_path, order_number)
+        ship_to_suffix = sales_order_details.get("ship_to_suffix")
+        ship_to_name = sales_order_details.get("ship_to_name")
+        ship_to_address = sales_order_details.get("ship_to_address")
+        ship_to_phone = sales_order_details.get("ship_to_phone")
+        ship_to_contact = sales_order_details.get("ship_to_contact")
+        ship_to_email = sales_order_details.get("ship_to_email")
+        if not validate_sales_orders.validate_fields_under_ship_to_info(feature_file_name, screen_shot,
+                                                                       ship_to_suffix, ship_to_name, ship_to_address,
+                                                                        ship_to_phone, ship_to_contact, ship_to_email):
+            raise Exception("Failed to verify fields under Ship to info section on Order Details page")
+    except Exception as e:
+        logger.error("Error while verify the fields under Ship to info section on Order Details page %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate fields under End user info section'))
+def fields_under_end_user_info_section(init_driver):
+    feature_file_name = "sales_order_edit"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        order_number = re.findall("^.{2}\-.{5}", init_driver.im_order_number)[0]
+        sales_order_details = sales_order_details_srv_obj.get_order_details(db_file_path, order_number)
+        end_user_id = sales_order_details.get("end_user_id")
+        end_user_address = sales_order_details.get("end_user_address")
+        end_user_contact = sales_order_details.get("end_user_contact")
+        if not validate_sales_orders.validate_fields_under_end_user_info(feature_file_name, screen_shot,
+                                                                        end_user_id, end_user_address, end_user_contact):
+            raise Exception("Failed to verify fields under End user info section on Order Details page")
+    except Exception as e:
+        logger.error("Error while verify the fields under End user info section on Order Details page %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate the IM Order number is listed'))
+def validate_im_order_number(init_driver):
+    feature_file_name = "sales_order_edit"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
+            db_file_path, feature_file_name)
+        im_order_number = input_order_data.get("im_order_number")
+        if not validate_sales_orders.do_validate_im_order_number(im_order_number, feature_file_name, screen_shot):
+            raise Exception("Failed to Validate IM Order Number")
+    except Exception as e:
+        logger.error("Not able to Validate IM Order Number %s", e)
+        raise e
+
+
+@then(parsers.parse('Validate the IM Order number is listed {order_id}'))
+def validate_im_order_number(init_driver, order_id):
+    feature_file_name = "sales_order_edit"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.do_validate_im_order_number(order_id, feature_file_name, screen_shot):
+            raise Exception("Failed to Validate IM Order Number")
+    except Exception as e:
+        logger.error("Not able to Validate IM Order Number %s", e)
+        raise e
+
+
+@then(parsers.parse('Check that the order is no more present in list'))
+def validate_im_order_number_not_present(init_driver):
+    feature_file_name = "sales_order_edit"
+    validate_sales_orders = ValidateSalesOrdersData(init_driver)
+    try:
+        if not validate_sales_orders.check_no_result_found(feature_file_name, screen_shot):
+            raise Exception("Cancelled order is still present in the list")
+    except Exception as e:
+        logger.error("Not able to Validate that the order is not in list %s", e)
         raise e
