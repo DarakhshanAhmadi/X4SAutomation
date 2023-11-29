@@ -111,6 +111,18 @@ def click_on_inventory_inquiry_menu(init_driver):
         raise e
 
 
+@given(parsers.parse('verify order of tabs'))
+def verify_order_of_tabs(init_driver):
+    feature_file_name = "inventory_management_action_planning"
+    validate_inventory_management = ValidateInventoryManagementData(init_driver)
+    try:
+        if not validate_inventory_management.validate_action_planning_tabs_order(feature_file_name, screen_shot):
+            raise Exception('Failed to validate order of tabs under Action planning')
+    except Exception as e:
+        logger.error("Not able to verify order of tabs under Action planning %s", e)
+        raise e
+
+
 @given(parsers.parse('click on top 100 under performing sku'))
 def click_in_top_100_underperforming_sku(init_driver):
     feature_file_name = "inventory_management_action_planning"
