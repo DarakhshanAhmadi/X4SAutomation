@@ -310,6 +310,7 @@ class X4AOrderExceptionPage(BasePage):
     ADDITIONAL_INFO_EDIT_BUTTON = (
         By.XPATH, "//*[text()='Additional info']/parent::div/*[@data-testid='ModeEditOutlineOutlinedIcon']")
     ADD_BUTTON = (By.XPATH, "//button[text()='Add']")
+    EDIT_END_USER_SAVE_BUTTON =  (By.XPATH, "/html/body/div[2]/div[3]/div/div[4]/button[2]")
     EDIT_END_USER_CONTACT_NAME_REQUIRED_MESSAGE = (By.XPATH, "//*[text()='Name']/following-sibling::span")
     EDIT_END_USER_PHONE_NUMBER_REQUIRED_MESSAGE = (By.XPATH, "//*[text()='Phone Number']/following-sibling::span")
     EDIT_END_USER_EMAIL_REQUIRED_MESSAGE = (By.XPATH, "//*[text()='Email']/following-sibling::span")
@@ -975,7 +976,7 @@ class X4AOrderExceptionPage(BasePage):
             time.sleep(5)
             self.do_click_by_locator(self.DATA_ERROR_OPTION)
             self.do_send_keys(self.FRAUD_SEARCH_BOX, confirmation_id)
-            self.do_click_by_locator(self.SEARCH_BOX_SEARCH_ICON)
+            self.do_press_enter()
             time.sleep(5)
             self.do_check_visibility(self.ORDER_NOT_FOUND)
             self.logger.info("Successfully verified that resubmitted Order should not be there in list")
@@ -1750,7 +1751,7 @@ class X4AOrderExceptionPage(BasePage):
 
             self.do_click_by_locator(self.DROPDOWN_CONTACT_MENU)
 
-            search_text = "X4A TEST"
+            search_text = "INGRAM"
             self.do_clear_textfield(self.END_USER_COMPANY_NAME_SEARCH_BOX)
             self.do_send_keys(self.END_USER_COMPANY_NAME_SEARCH_BOX, search_text)
             self.do_press_enter()
@@ -1883,7 +1884,6 @@ class X4AOrderExceptionPage(BasePage):
             self.do_send_keys(self.END_USER_COMPANY_NAME_SEARCH_BOX, end_user)
             self.do_press_enter()
             time.sleep(5)
-
             element = "/html/body/div[2]/div[3]/div/div[2]/div/div/div/div/div/div/div[1]/span/input"
             search_end_user = self.driver.find_element(By.XPATH, element)
             search_end_user.click()
@@ -1907,7 +1907,7 @@ class X4AOrderExceptionPage(BasePage):
 
             self.do_click_by_locator(self.ADD_BUTTON)
 
-            self.do_click_by_locator(self.SAVE_BUTTON_ENABLE)
+            self.do_click_by_locator(self.EDIT_END_USER_SAVE_BUTTON)
 
             end_user_contact = self.get_element_text(self.END_USER_CONTACT_NAME)
             end_user_email = self.get_element_text(self.END_USER_EMAIL)
@@ -1925,6 +1925,7 @@ class X4AOrderExceptionPage(BasePage):
 
     def verify_contents_of_edit_add_new_end_user(self):
         try:
+            time.sleep(2)
             self.do_click_by_locator(self.END_USER_DETAILS_EDIT_BUTTON)
             self.do_click_by_locator(self.ADD_NEW_END_USER_LINK)
             edit_add_new_end_user_title = 'Add New End User'
@@ -3522,7 +3523,7 @@ class X4AOrderExceptionPage(BasePage):
             self.logger.info("Clicked on End User Search dropdown")
 
             self.do_click_by_locator(self.DROPDOWN_CONTACT_MENU)
-            search_text = "X4A Test"
+            search_text = "INGRAM"
             self.do_clear_textfield(self.END_USER_COMPANY_NAME_SEARCH_BOX)
             self.do_send_keys(self.END_USER_COMPANY_NAME_SEARCH_BOX, search_text)
             self.do_press_enter()

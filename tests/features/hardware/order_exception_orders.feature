@@ -154,7 +154,7 @@ Feature: Order Exception Orders
     And Verify that VMF entered data should not get saved after click on X icon
     And Verify that modified VMF data should not get updated on order details page after click on Cancel button
 
-#   OMS-782/OMS-3065
+  # OMS-782/OMS-3065
   @end_user_details_edit_popup
   Scenario: Verify End User Details Edit popup content
     Given The order exception is created via api for End User Details
@@ -178,7 +178,6 @@ Feature: Order Exception Orders
   # OMS-782/OMS-3065
   @add_new_end_user_edit_popup
   Scenario: Verify Add New End User Edit popup content
-    When Search and Select the Data Errors Order for End User Details
     Then Verify contents of Edit Add New End User popup
     And Verify that Customer type options list
     And Verify that added new end user should display and user should able to select it and checkbox is disable
@@ -252,7 +251,7 @@ Feature: Order Exception Orders
     Given The order exception is created via api using IM360 payload
     Then Verify that Order channel should match with the channel showing on list page
 
-#   OMS-3266
+  # OMS-3266
   @Shipping_details
   Scenario Outline: Shipping Details on Order Details Page
     Given Create order exception Using X4D payload without <shipingdetails> via api
@@ -306,7 +305,7 @@ Feature: Order Exception Orders
     Examples:
       | po_number  | country |
       | POAUTO^    | CA      |
-      | NEWPOAUTO^ | CA  `   |
+      | NEWPOAUTO^ | CA      |
 
  # OMS-3557
   @data_error_check_for_duplicate_case_sensitive_po_for_ca
