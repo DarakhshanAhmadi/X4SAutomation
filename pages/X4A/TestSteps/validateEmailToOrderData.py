@@ -232,6 +232,33 @@ class ValidateEmailToOrderData:
             self.logger.error("Error while clicking on ETO error order %s" + str(e))
             return False
 
+    def verify_shipping_tab_click(self, feature_file_name):
+        x4a_email_to_order = X4AEmailToOrderPage(self.driver)
+        try:
+            x4a_email_to_order.click_on_shipping_tab()
+            self.logger.info("Successfully clicked on shipping tab")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_ETO_shipping_tab_click_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_ETO_shipping_tab_click_error.png")
+            self.logger.error("Error while clicking on shipping tab %s" + str(e))
+            return False
+
+    def validate_ship_to_end_user_info(self, feature_file_name):
+        x4a_email_to_order = X4AEmailToOrderPage(self.driver)
+        try:
+            x4a_email_to_order.ship_to_end_user_info_validate()
+            self.logger.info("Successfully verified shipping tab details")
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\success\\" + feature_file_name
+                                        + "_ETO_shipping_tab_details_verified_successfully.png")
+            return True
+        except Exception as e:
+            self.driver.save_screenshot(self.screen_shot_path + "\\X4A\\error\\" + feature_file_name +
+                                        "_ETO_shipping_tab_details_verified_error.png")
+            self.logger.error("Error while verifying shipping tab details %s" + str(e))
+            return False
 
     def logout_x4a_url(self, feature_file_name):
         x4a_email_to_order = X4AEmailToOrderPage(self.driver)

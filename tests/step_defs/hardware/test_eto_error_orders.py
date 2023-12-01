@@ -28,6 +28,11 @@ def test_validate_eto_error_order_details():
     pass
 
 
+@scenario("features/hardware/eto_error_orders.feature", "Validate ETO error order shipping details")
+def test_validate_eto_error_order_shipping_details():
+    pass
+
+
 @scenario("features/hardware/eto_error_orders.feature", "logout X4A")
 def test_logout_x4a():
     pass
@@ -118,6 +123,30 @@ def verify_eto_error_order_details(init_driver):
         logger.info("Verified eto error order details successfully.")
     except Exception as e:
         logger.error("Not able to verify eto error order details %s" + str(e))
+        raise e
+
+
+@then(parsers.parse('Click on shipping tab'))
+def click_on_shipping_tab(init_driver):
+    feature_file_name = "eto_error_orders"
+    email_to_order_steps = ValidateEmailToOrderData(init_driver)
+    try:
+        email_to_order_steps.verify_shipping_tab_click(feature_file_name)
+        logger.info("Clicked on shipping tab successfully.")
+    except Exception as e:
+        logger.error("Not able to click on shipping tab %s" + str(e))
+        raise e
+
+
+@then(parsers.parse('Verify ship to and end user info'))
+def verify_ship_to_end_user_info(init_driver):
+    feature_file_name = "eto_error_orders"
+    email_to_order_steps = ValidateEmailToOrderData(init_driver)
+    try:
+        email_to_order_steps.validate_ship_to_end_user_info(feature_file_name)
+        logger.info("Verified ship to and end user info successfully.")
+    except Exception as e:
+        logger.error("Not able to verify ship to and end user info %s" + str(e))
         raise e
 
 
