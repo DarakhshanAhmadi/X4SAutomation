@@ -7,7 +7,6 @@ from RestApi.Operations.data_creation_via_api import DataCreationViaApi
 from db.service.X4AInputOrderDbManagementService import X4AInputOrderDbManagementService
 from pages.X4A.Facade.PrepareObject import PrepareObject
 from pages.X4A.TestSteps.validateOrderExceptionData import ValidateOrderExceptionData
-from pages.X4A.TestSteps.validateSalesOrdersData import ValidateSalesOrdersData
 
 parse_config_json = ParseConfigFile()
 screen_shot = {"path": " "}
@@ -1004,6 +1003,7 @@ def create_order_for_end_user_details(init_driver):
 
 @when(parsers.parse('Search and Select the Data Errors Order for End User Details'))
 def search_select_data_errors_order_record_for_end_user_details(init_driver):
+    init_driver.refresh()
     feature_file_name = "order_exception_orders"
     create_order_steps = ValidateOrderExceptionData(init_driver)
     try:
@@ -1074,7 +1074,7 @@ def select_the_any_end_user_with_suffix_verify_edit_button_display_and_save_butt
     feature_file_name = "order_exception_orders"
     validate_order_exception_data = ValidateOrderExceptionData(init_driver)
     try:
-        end_user_with_suffix = 'BPTest'
+        end_user_with_suffix = 'Evrest_Test1'
         if not validate_order_exception_data.do_verify_edit_button_and_save_button_enable(feature_file_name,
                                                                                           end_user_with_suffix):
             raise Exception(
@@ -1119,7 +1119,7 @@ def modify_name_phone_number_email_verify_that_updated_end_user_information_shou
     feature_file_name = "order_exception_orders"
     validate_order_exception_data = ValidateOrderExceptionData(init_driver)
     try:
-        end_user = 'BPTest'
+        end_user = 'Evrest_Test1'
         if not validate_order_exception_data.do_verify_modified_end_user_info_on_order_details_page(feature_file_name,
                                                                                                     end_user):
             raise Exception(
@@ -2328,7 +2328,6 @@ def Verify_that_order_confirmation_id_contains_us_i_format(init_driver):
         input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
             db_file_path, feature_file_name)
         confirmation_id = input_order_data.get("x4d_data_errors_order_confirmation_id")
-        breakpoint()
         format = "US-I"
         if str(format) in str(confirmation_id):
             logger.info("Sucessfully Verified X4D Order Confirmation Id contains US-I format")
@@ -2346,7 +2345,6 @@ def Verify_that_order_status_is_processed(init_driver):
     feature_file_name = "order_exception_orders"
     data_create_obj = DataCreationViaApi(init_driver)
     try:
-        breakpoint()
         input_order_data = order_management_srv_obj.get_x4a_input_test_case_order_detail(
             db_file_path, feature_file_name)
         confirmation_id = input_order_data.get("x4d_data_errors_order_confirmation_id")
