@@ -91,6 +91,23 @@ class X4AEmailToOrderPage(BasePage):
     By.XPATH, "(//*[text()='Additional Information']//parent::div//following-sibling::div//strong)[6]")
     ORDER_INFO = (By.XPATH, "(//*[text()='Notes']//parent::div//following-sibling::div//strong)[1]")
     SPECIAL_INSTRUCTION = (By.XPATH, "(//*[text()='Notes']//parent::div//following-sibling::div//strong)[2]")
+    SHIPPING_TAB = (By.XPATH, "//*[text()='Shipping']")
+    SHIP_TO_INFO = (By.XPATH, "//*[text()='Ship to info']")
+    SHIP_TO_INFO_EDIT_ICON = (By.XPATH, "(//*[@data-testid='ModeEditOutlineOutlinedIcon'])[1]")
+    SHIP_TO_ID = (By.XPATH, "//*[text()='Ship to ID(suffix):']//strong")
+    SHIP_TO_COMPANY_NAME = (By.XPATH, "(//*[text()='Company name:'])[1]//strong")
+    SHIP_TO_ADDRESS = (By.XPATH, "((//*[text()='Address:'])[1]//strong)[1]")
+    SHIP_TO_CONTACT = (By.XPATH, "(//*[text()='Contact:'])[1]//strong")
+    SHIP_TO_PHONE_NO = (By.XPATH, "(//*[text()='Phone number:'])[1]//strong")
+    SHIP_TO_EMAIL = (By.XPATH, "(//*[text()='Email:'])[1]//strong")
+    END_USER_INFO = (By.XPATH, "//*[text()='End User info']")
+    END_USER_INFO_EDIT_ICON = (By.XPATH, "(//*[@data-testid='ModeEditOutlineOutlinedIcon'])[2]")
+    END_USER_ID = (By.XPATH, "//*[text()='End User ID(suffix):']//strong")
+    END_USER_COMPANY_NAME = (By.XPATH, "(//*[text()='Company name:'])[2]//strong")
+    END_USER_ADDRESS = (By.XPATH, "((//*[text()='Address:'])[2]//strong)[1]")
+    END_USER_CONTACT = (By.XPATH, "(//*[text()='Contact:'])[2]//strong")
+    END_USER_PHONE_NO = (By.XPATH, "(//*[text()='Phone number:'])[2]//strong")
+    END_USER_EMAIL = (By.XPATH, "(//*[text()='Email:'])[2]//strong")
     LOGOUT = (By.XPATH, "//*[text()='LogOut']")
 
     def go_to_email_to_order(self):
@@ -289,6 +306,50 @@ class X4AEmailToOrderPage(BasePage):
                 return False
         except Exception as e:
             self.logger.error('Exception occurred while verifying ETO error order details tab ' + str(e))
+            return False
+
+    def click_on_shipping_tab(self):
+        try:
+            self.do_click_by_locator(self.SHIPPING_TAB)
+            return True
+        except Exception as e:
+            self.logger.error('Exception occurred while clicking on shipping tab ' + str(e))
+            return False
+
+    def ship_to_end_user_info_validate(self):
+        try:
+            if self.do_check_visibility(self.SHIP_TO_INFO) and self.do_check_visibility(
+                    self.SHIP_TO_INFO_EDIT_ICON) and self.do_check_visibility(self.END_USER_INFO) and self.do_check_visibility(self.END_USER_INFO_EDIT_ICON):
+                self.logger.info("The ship to and end user info is displayed on Shipping tab")
+                assert self.get_element_text(self.SHIP_TO_ID) == "-" or self.get_element_text(
+                    self.SHIP_TO_ID) != "", "Ship to ID assertion failed"
+                assert self.get_element_text(self.SHIP_TO_COMPANY_NAME) == "-" or self.get_element_text(
+                    self.SHIP_TO_COMPANY_NAME) != "", "Ship to company name assertion failed"
+                assert self.get_element_text(self.SHIP_TO_ADDRESS) == "-" or self.get_element_text(
+                    self.SHIP_TO_ADDRESS) != "", "Ship to address assertion failed"
+                assert self.get_element_text(self.SHIP_TO_CONTACT) == "-" or self.get_element_text(
+                    self.SHIP_TO_CONTACT) != "", "Ship to contact assertion failed"
+                assert self.get_element_text(self.SHIP_TO_PHONE_NO) == "-" or self.get_element_text(
+                    self.SHIP_TO_PHONE_NO) != "", "Ship to phone number assertion failed"
+                assert self.get_element_text(self.SHIP_TO_EMAIL) == "-" or self.get_element_text(
+                    self.SHIP_TO_EMAIL) != "", "Ship to email assertion failed"
+                assert self.get_element_text(self.END_USER_ID) == "-" or self.get_element_text(
+                    self.END_USER_ID) != "", "End user ID assertion failed"
+                assert self.get_element_text(self.END_USER_COMPANY_NAME) == "-" or self.get_element_text(
+                    self.END_USER_COMPANY_NAME) != "", "End user company name assertion failed"
+                assert self.get_element_text(self.END_USER_ADDRESS) == "-" or self.get_element_text(
+                    self.END_USER_ADDRESS) != "", "End user address assertion failed"
+                assert self.get_element_text(self.END_USER_CONTACT) == "-" or self.get_element_text(
+                    self.END_USER_CONTACT) != "", "End user contact assertion failed"
+                assert self.get_element_text(self.END_USER_PHONE_NO) == "-" or self.get_element_text(
+                    self.END_USER_PHONE_NO) != "", "End user phone number assertion failed"
+                assert self.get_element_text(self.END_USER_EMAIL) == "-" or self.get_element_text(
+                    self.END_USER_EMAIL) != "", "End user email assertion failed"
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.error('Exception occurred while verifying ETO error order shipping tab details ' + str(e))
             return False
 
     def logout_x4a(self):
